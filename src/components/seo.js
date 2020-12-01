@@ -14,7 +14,7 @@ function SEO() {
 
   return (
     <Helmet
-      htmlAttributes={`en`}
+      htmlAttributes={{ lang: `en` }}
       title={`NornScreener`}
       titleTemplate={`%s | NornScreener`}
       meta={[
