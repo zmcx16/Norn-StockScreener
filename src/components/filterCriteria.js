@@ -24,14 +24,47 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
     return {}
   }
 
-  // variables
-  const valueStartRef = useRef('')
+  // gen node
+  const genTextField = (id, label, inputRef, defaultValue) => {
+    // add key to force re-render component
+    return <TextField id={id} key={shortid.generate()} className={filterCriteriaStyle.valueText} label={label} variant="outlined" defaultValue={defaultValue} size="small" inputRef={inputRef} onChange={(e) => {
+      console.log(e.target.value)
+    }} />
+  }
+
+  // set arg value
+  const valueFromRef = useRef('')
+  const [valueFrom, setValueFrom] = useState(genTextField("FilterCriteria-value-from", "From", valueFromRef, ''))
   const valueEndRef = useRef('')
+  const [valueEnd, setValueEnd] = useState(genTextField("FilterCriteria-value-end", "End", valueEndRef, ''))
+
 
   // arg select
-  const { name, display_name, args_items, default_index} = dataTemplate
+  const { name, display_name, args_items, default_index } = dataTemplate
   const [arg, setArg] = useState(default_index)
   const argSelectChange = (event) => {
+
+    const index = event.target.value
+    const val = args_items[index]
+    if (val.includes('<')) {
+      let t_arr = val.split('<')
+      console.log(t_arr)
+      setValueFrom(genTextField("FilterCriteria-value-from", "From", valueFromRef, ''))
+      setValueEnd(genTextField("FilterCriteria-value-end", "End", valueEndRef, t_arr[1]))
+    }
+    else if (val.includes('>')) {
+      let t_arr = val.split('>')
+      console.log(t_arr)
+      setValueFrom(genTextField("FilterCriteria-value-from", "From", valueFromRef, t_arr[1]))
+      setValueEnd(genTextField("FilterCriteria-value-end", "End", valueEndRef, ''))
+    }
+    else {
+      let t_arr = val.split('-')
+      console.log(t_arr)
+      setValueFrom(genTextField("FilterCriteria-value-from", "From", valueFromRef, t_arr[0]))
+      setValueEnd(genTextField("FilterCriteria-value-end", "End", valueEndRef, t_arr[1]))
+    }
+
     setArg(event.target.value)
   };
 
@@ -46,7 +79,7 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
             value={arg}
             displayEmpty
             onChange={argSelectChange}
-            label="Arg"
+            label={name}
           >
             {
               args_items.map((value, index) => {
@@ -57,15 +90,11 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
         </FormControl>
         <div></div>
         <form noValidate autoComplete="off">
-          <TextField id="FilterCriteria-value-start" className={filterCriteriaStyle.valueText} label="From" variant="outlined" size="small" inputRef={valueStartRef} onClick={()=>{
-            console.log(valueStartRef.current.value)
-          }}/>
+          {valueFrom}
         </form>
         <div>-</div>
         <form noValidate autoComplete="off">
-          <TextField id="FilterCriteria-value-end" className={filterCriteriaStyle.valueText} label="End" variant="outlined" size="small" inputRef={valueEndRef} onClick={() => {
-            console.log(valueEndRef.current.value)
-          }} />
+          {valueEnd}
         </form>
       </div>
     </>
