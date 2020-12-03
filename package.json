@@ -16,13 +16,14 @@
     "gatsby-plugin-sharp": "^2.4.3",
     "gatsby-source-filesystem": "^2.1.46",
     "gatsby-transformer-sharp": "^2.3.13",
-    "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-device-detect": "^1.11.14",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
-    "react-spring": "^9.0.0-beta.34"
+    "react-spring": "^9.0.0-beta.34",
+    "sass": "^1.29.0",
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
     "gh-pages": "^2.2.0",

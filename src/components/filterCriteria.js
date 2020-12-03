@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback, createRef } from "react"
-import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import TextField from '@material-ui/core/TextField'
+import shortid from "shortid"
 
 import filterCriteriaStyle from "./filterCriteria.module.scss"
 
@@ -7,27 +11,15 @@ import filterCriteriaStyle from "./filterCriteria.module.scss"
 // data sample
 {
   "name": "P/B",
-  "name_display": "P/B",
+  "display_name": "Price-Book Ratio",
   "args_items": ["< 0", "0 - 0.5", "0.5 - 1.0", "1.0 - 1.5", "1.5 - 2.0", "2.0 - 3.0", "> 3.0"],
   "default_index": 2
 }
 */
 
-const FCArg = () => {
-  return (
-    <>
-      <div>105</div>
-    </>
-  )
-}
-
 const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
 
   // filterCriteriaRef API
-  filterCriteriaRef.current.setValue = (value) => {
-    
-  }
-
   filterCriteriaRef.current.getValue = () => {
     return {}
   }
@@ -36,44 +28,34 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
   const valueStartRef = useRef('')
   const valueEndRef = useRef('')
 
-  const [argNodes, setArgNodes] = useState([])
-  useEffect(() => {
-    // componentDidMount is here!
-    // componentDidUpdate is here!
-    var argNodesTemp = []
-
-    for (let i = 0; i < dataTemplate.args_items.length; i++) {
-      /*
-      scoresRef.current[i] = createRef()
-      scoresRef.current[i].current = isMobile ? parseInt(questions[i].initScore / 2) : questions[i].initScore
-
-      questionNodeTemp.push(<AtQuestion
-        key={i}
-        langFont={langFont}
-        config={{
-          size: isMobile ? 6 : 11,
-          minScore: isMobile ? parseInt(questions[i].minScore / 2) : questions[i].minScore,
-          questionID: questions[i].questionID,
-          headerStartID: questions[i].headerStartID,
-          headerEndID: questions[i].headerEndID
-        }} axisBadgeImage={axisBadgeImage} scoreRef={scoresRef.current[i]}
-      />)
-      */
-
-      argNodesTemp.push(<FCArg key={i}/>);
-    }
-
-    setArgNodes(argNodesTemp)
-
-    return () => {
-      // componentWillUnmount is here!
-    }
-  }, [])
+  // arg select
+  const { name, display_name, args_items, default_index} = dataTemplate
+  const [arg, setArg] = useState(default_index)
+  const argSelectChange = (event) => {
+    setArg(event.target.value)
+  };
 
   return (
     <>
       <div className={filterCriteriaStyle.argNodes}>
-        {argNodes}
+        <span className={filterCriteriaStyle.display_name}>{display_name}</span>
+        <FormControl size="small" variant="outlined" className={filterCriteriaStyle.argNodesSelect}>
+          <InputLabel htmlFor="arg-select">{name}</InputLabel>
+          <Select
+            native
+            value={arg}
+            displayEmpty
+            onChange={argSelectChange}
+            label="Arg"
+          >
+            {
+              args_items.map((value, index) => {
+                return <option key={shortid.generate()} index={index} value={index}>{value}</option>
+              })
+            }
+          </Select>
+        </FormControl>
+        <div></div>
         <form noValidate autoComplete="off">
           <TextField id="FilterCriteria-value-start" className={filterCriteriaStyle.valueText} label="From" variant="outlined" size="small" inputRef={valueStartRef} onClick={()=>{
             console.log(valueStartRef.current.value)
