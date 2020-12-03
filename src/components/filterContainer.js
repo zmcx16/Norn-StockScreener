@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback, createRef } from "reac
 
 import FilterCriteria from "./filterCriteria"
 
-import commonStyle from "./common.module.scss"
 import filterContainerStyle from "./filterContainer.module.scss"
 
 const FilterContainer = () => {
@@ -14,11 +13,15 @@ const FilterContainer = () => {
     default_index: 2
   }
 
-  const filterCriteriaRef = useRef()
+  // API Definition
+  const filterCriteriaRef = useRef({
+    setValue: null,
+    getValue: null
+  })
 
   return (
     <>
-      <div className={filterContainerStyle.container + ' ' + commonStyle.defaultFont}>
+      <div className={filterContainerStyle.container}>
         <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={dataTemplate} />
       </div>
     </>

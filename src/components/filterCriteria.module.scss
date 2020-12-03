@@ -1,3 +1,11 @@
 .argNodes{
   padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 50px) 100px 20px 100px;
+  justify-items: center;
+  align-items: center;
+}
+
+.valueText{
+  width: 100px;
 }

@@ -2,7 +2,7 @@ import React from "react"
 import { StylesProvider } from "@material-ui/core/styles"
 
 import Layout from "../components/layout"
-import FilterContainer from "../components/filterContainer"
+import App from "../components/app"
 import SEO from "../components/seo"
 
 
@@ -12,7 +12,7 @@ const IndexPage = () => {
     <StylesProvider injectFirst>
       <SEO />
       <Layout >
-        <FilterContainer />
+        <App />
       </Layout>
     </StylesProvider>
   )

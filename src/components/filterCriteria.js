@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, createRef } from "react"
+import TextField from '@material-ui/core/TextField';
 
 import filterCriteriaStyle from "./filterCriteria.module.scss"
 
@@ -15,12 +16,25 @@ import filterCriteriaStyle from "./filterCriteria.module.scss"
 const FCArg = () => {
   return (
     <>
-      111
+      <div>105</div>
     </>
   )
 }
 
 const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
+
+  // filterCriteriaRef API
+  filterCriteriaRef.current.setValue = (value) => {
+    
+  }
+
+  filterCriteriaRef.current.getValue = () => {
+    return {}
+  }
+
+  // variables
+  const valueStartRef = useRef('')
+  const valueEndRef = useRef('')
 
   const [argNodes, setArgNodes] = useState([])
   useEffect(() => {
@@ -60,6 +74,17 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
     <>
       <div className={filterCriteriaStyle.argNodes}>
         {argNodes}
+        <form noValidate autoComplete="off">
+          <TextField id="FilterCriteria-value-start" className={filterCriteriaStyle.valueText} label="From" variant="outlined" size="small" inputRef={valueStartRef} onClick={()=>{
+            console.log(valueStartRef.current.value)
+          }}/>
+        </form>
+        <div>-</div>
+        <form noValidate autoComplete="off">
+          <TextField id="FilterCriteria-value-end" className={filterCriteriaStyle.valueText} label="End" variant="outlined" size="small" inputRef={valueEndRef} onClick={() => {
+            console.log(valueEndRef.current.value)
+          }} />
+        </form>
       </div>
     </>
   )
