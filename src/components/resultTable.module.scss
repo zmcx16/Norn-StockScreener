@@ -1,0 +1,26 @@
+.container {
+  padding: 10px 0;
+  height: 400px;
+  width: 100%;
+}
+
+.risk{
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  align-items: center;
+}
+
+.bombImg{
+  top: -5px;
+}
+
+.links{
+  display: grid;
+  grid-template-columns: 50px 50px;
+  align-items: center;
+  gap: 5px;
+}
+
+.linkIcon{
+  top: 0px;
+}

@@ -39,7 +39,7 @@ const FilterContainer = () => {
   return (
     <>
       <div className={filterContainerStyle.container}>
-        <Grid container spacing={1}>
+        <Grid container spacing={1} justify="center">
           <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={dataTemplate} />
           <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={dataTemplate} />
           <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={dataTemplate} />
