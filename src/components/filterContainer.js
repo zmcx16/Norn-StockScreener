@@ -1,9 +1,26 @@
-import React, { useState, useEffect, useRef, useCallback, createRef } from "react"
-import Grid from '@material-ui/core/Grid';
+import React, { useState, useEffect, useRef, useCallback, createRef } from 'react'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import SearchIcon from '@material-ui/icons/Search';
+import { blue, red, green } from '@material-ui/core/colors'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
-import FilterCriteria from "./filterCriteria"
+import FilterCriteria from './filterCriteria'
 
-import filterContainerStyle from "./filterContainer.module.scss"
+import filterContainerStyle from './filterContainer.module.scss'
+
+const customTheme = createMuiTheme({
+  palette: {
+    primary: blue,
+    secondary: red,
+    import: { 
+      backgroundColor: '#43a047', color: '#fff'
+    },
+    export: { 
+      backgroundColor: '#00a152', color: '#fff'
+    }
+  },
+})
 
 const FilterContainer = () => {
   
@@ -28,6 +45,17 @@ const FilterContainer = () => {
           <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={dataTemplate} />
           <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={dataTemplate} />
           <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={dataTemplate} />
+          <MuiThemeProvider theme={customTheme}>
+            <div className={filterContainerStyle.cmdPanel}>  
+              <div></div>
+              <Button variant="contained" style={customTheme.palette.import}>Import</Button>
+              <Button variant="contained" style={customTheme.palette.export}>Export</Button>
+              <div></div>
+              <MuiThemeProvider theme={createMuiTheme({ palette: { primary: blue, secondary: red } })}>
+                <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />}>Query Now</Button>
+              </MuiThemeProvider>
+            </div>
+           </MuiThemeProvider>
         </Grid>
       </div>
     </>

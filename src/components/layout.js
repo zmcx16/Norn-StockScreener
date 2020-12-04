@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import layoutStyle from "./layout.module.scss"
+import layoutStyle from './layout.module.scss'
 
 const Layout = ({ children} ) => {
   

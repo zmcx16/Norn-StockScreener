@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback, createRef } from "react"
+import React, { useState, useEffect, useRef, useCallback, createRef } from 'react'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import shortid from "shortid"
+
+import {isFloat} from '../common/utils'
 
 import filterCriteriaStyle from "./filterCriteria.module.scss"
 
@@ -25,18 +27,28 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
   }
 
   // gen node
-  const genTextField = (id, label, inputRef, defaultValue) => {
+  const genFromEndTextField = (inputFromRef, inputEndRef, FromValue, EndValue) => {
+
     // add key to force re-render component
-    return <TextField id={id} key={shortid.generate()} className={filterCriteriaStyle.valueText} label={label} variant="outlined" defaultValue={defaultValue} size="small" inputRef={inputRef} onChange={(e) => {
-      console.log(e.target.value)
-    }} />
+    return <>
+      <form noValidate autoComplete="off">
+        <TextField id="FilterCriteria-value-from" key={shortid.generate()} className={filterCriteriaStyle.valueText} label="From" variant="outlined" defaultValue={FromValue} size="small" inputRef={inputFromRef} onChange={(e) => {
+          console.log(e.target.value)
+        }} />
+      </form>
+      <div>-</div>
+      <form noValidate autoComplete="off">
+        <TextField id="FilterCriteria-value-end" key={shortid.generate()} className={filterCriteriaStyle.valueText} label="End" variant="outlined" defaultValue={EndValue} size="small" inputRef={inputEndRef} onChange={(e) => {
+          console.log(e.target.value)
+        }} />
+      </form>
+    </>
   }
 
   // set arg value
-  const valueFromRef = useRef('')
-  const [valueFrom, setValueFrom] = useState(genTextField("FilterCriteria-value-from", "From", valueFromRef, ''))
-  const valueEndRef = useRef('')
-  const [valueEnd, setValueEnd] = useState(genTextField("FilterCriteria-value-end", "End", valueEndRef, ''))
+  const valueFromRef = useRef({ value: '' })
+  const valueEndRef = useRef({ value: '' })
+  const [valueFromEnd, setValueFromEnd] = useState(genFromEndTextField(valueFromRef, valueEndRef, '', ''))
 
 
   // arg select
@@ -48,21 +60,15 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
     const val = args_items[index]
     if (val.includes('<')) {
       let t_arr = val.split('<')
-      console.log(t_arr)
-      setValueFrom(genTextField("FilterCriteria-value-from", "From", valueFromRef, ''))
-      setValueEnd(genTextField("FilterCriteria-value-end", "End", valueEndRef, t_arr[1]))
+      setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, '', t_arr[1]))
     }
     else if (val.includes('>')) {
       let t_arr = val.split('>')
-      console.log(t_arr)
-      setValueFrom(genTextField("FilterCriteria-value-from", "From", valueFromRef, t_arr[1]))
-      setValueEnd(genTextField("FilterCriteria-value-end", "End", valueEndRef, ''))
+      setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, t_arr[1], ''))
     }
     else {
       let t_arr = val.split('-')
-      console.log(t_arr)
-      setValueFrom(genTextField("FilterCriteria-value-from", "From", valueFromRef, t_arr[0]))
-      setValueEnd(genTextField("FilterCriteria-value-end", "End", valueEndRef, t_arr[1]))
+      setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, t_arr[0], t_arr[1]))
     }
 
     setArg(event.target.value)
@@ -89,13 +95,7 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
           </Select>
         </FormControl>
         <div></div>
-        <form noValidate autoComplete="off">
-          {valueFrom}
-        </form>
-        <div>-</div>
-        <form noValidate autoComplete="off">
-          {valueEnd}
-        </form>
+        {valueFromEnd}
       </div>
     </>
   )

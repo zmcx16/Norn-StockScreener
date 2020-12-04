@@ -3,3 +3,16 @@
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
 }
+
+.cmdPanel{
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 0px 1fr 1fr 25px auto;
+  justify-items: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.queryBtn{
+
+}
