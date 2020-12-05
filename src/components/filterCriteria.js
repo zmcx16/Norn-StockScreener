@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import shortid from "shortid"
 
-import {isFloat} from '../common/utils'
+import { getFromEndVal } from '../common/utils'
 
 import filterCriteriaStyle from "./filterCriteria.module.scss"
 
@@ -50,29 +50,25 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
   const valueEndRef = useRef({ value: '' })
   const [valueFromEnd, setValueFromEnd] = useState(genFromEndTextField(valueFromRef, valueEndRef, '', ''))
 
-
   // arg select
   const { name, display_name, args_items, default_index } = dataTemplate
   const [arg, setArg] = useState(default_index)
-  const argSelectChange = (event) => {
 
-    const index = event.target.value
-    const val = args_items[index]
-    if (val.includes('<')) {
-      let t_arr = val.split('<')
-      setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, '', t_arr[1]))
-    }
-    else if (val.includes('>')) {
-      let t_arr = val.split('>')
-      setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, t_arr[1], ''))
-    }
-    else {
-      let t_arr = val.split('-')
-      setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, t_arr[0], t_arr[1]))
-    }
+  const renderValueFromEnd = (index) => {
+    const fromEnd = getFromEndVal(args_items[index])
+    setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, fromEnd[0], fromEnd[1]))
+    setArg(index)
+  }
 
-    setArg(event.target.value)
-  };
+
+  useEffect(() => {
+    // componentDidMount is here!
+    // componentDidUpdate is here!
+    renderValueFromEnd(default_index)
+    return () => {
+      // componentWillUnmount is here!
+    }
+  }, [])
 
   return (
     <>
@@ -84,7 +80,9 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
             native
             value={arg}
             displayEmpty
-            onChange={argSelectChange}
+            onChange={(event) => {
+              renderValueFromEnd(event.target.value)
+            }}
             label={name}
           >
             {

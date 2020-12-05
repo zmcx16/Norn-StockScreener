@@ -1,0 +1,32 @@
+.container{
+  border: 1px solid forestgreen;
+  border-radius: 10px;
+  padding: 10px 5px;
+  margin: 5px 0px;
+}
+
+.argNodes{
+  padding: 5px;
+  display: grid;
+  grid-template-columns: 170px 90px 5px 60px 5px 60px;
+  justify-items: left;
+  align-items: center;
+  gap: 5px;
+}
+
+.display_name{
+  text-align: center;
+  font-size: 18px;
+}
+
+.argNodesSelect{
+  width: 100%;
+}
+
+.valueText{
+  width: 100%;
+}
+
+.tacticLabel{
+  margin: 2px 7px;
+}

@@ -7,12 +7,7 @@
 .cmdPanel{
   padding: 10px;
   display: grid;
-  grid-template-columns: 0px 1fr 1fr 25px auto;
-  justify-items: center;
+  grid-template-columns: 0px 100px 30px 100px 1fr auto;
+  justify-items: left;
   align-items: center;
-  gap: 20px;
-}
-
-.queryBtn{
-
 }
