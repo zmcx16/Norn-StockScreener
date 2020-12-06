@@ -72,12 +72,12 @@ const ResultTable = () => {
 
   const tableHeaderTemplate = [
     { field: 'symbol', headerName: 'Symbol', width: 110, mobileShow: true },
-    { field: 'sector', headerName: 'Sector', width: 180, mobileShow: false },
-    { field: 'industry', headerName: 'Industry', width: 280, mobileShow: false },
-    { field: 'marketCap', headerName: 'Market Cap', width: 140, mobileShow: false },
-    { field: 'PE', headerName: 'P/E', width: 96, mobileShow: true },
-    { field: 'PB', headerName: 'P/B', width: 96, mobileShow: true },
-    { field: 'price', headerName: '	Price', width: 96, mobileShow: true },
+    { field: 'sector', headerName: 'Sector', width: 155, mobileShow: false },
+    { field: 'industry', headerName: 'Industry', width: 255, mobileShow: false },
+    { field: 'marketCap', headerName: 'Market Cap', width: 130, mobileShow: false },
+    { field: 'PE', headerName: 'P/E', width: 80, mobileShow: true },
+    { field: 'PB', headerName: 'P/B', width: 80, mobileShow: true },
+    { field: 'price', headerName: '	Price', width: 90, mobileShow: true },
     { field: 'change', headerName: 'Change', width: 110, mobileShow: true },
     { field: 'volume', headerName: 'Volume', width: 110, mobileShow: true },
     {
