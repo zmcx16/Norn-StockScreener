@@ -11,16 +11,16 @@
 }
 
 .bombImg{
-  top: -5px;
+  top: 5px;
 }
 
 .links{
   display: grid;
-  grid-template-columns: 50px 50px;
+  grid-template-columns: 32px 32px;
   align-items: center;
-  gap: 5px;
+  gap: 20px;
 }
 
 .linkIcon{
-  top: 0px;
+  top: 10px;
 }

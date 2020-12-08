@@ -22,7 +22,7 @@ import filterCriteriaStyle from "./filterCriteria.module.scss"
 const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
 
   // filterCriteriaRef API
-  filterCriteriaRef.current.getValue = () => {
+  filterCriteriaRef.getValue = () => {
     return {}
   }
 

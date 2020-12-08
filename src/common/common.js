@@ -131,6 +131,9 @@ export const NMDataTemplate = {
   default_index: 3
 }
 
+export const FinvizUrl = "https://finviz.com/"
+export const YahooFinanceEnUrl = "https://finance.yahoo.com/"
+export const YahooFinanceZhUrl = "https://hk.finance.yahoo.com/"
 export const NMUrl = "https://norn-minehunter.zmcx16.moe/"
 export const NMNote = `
 Do you want to know the stocks which you hold are Treasure or Bomb?\n
@@ -139,10 +142,67 @@ Norn-Minehunter can help you to scan the stock financial & technical data to ins
 `
 export const FCDataTemplate = [
   {
+    name: "Market Cap",
+    display_name: "Market Cap",
+    tooltip: "market capitalization",
+    args_items: ["Any (> $50 mln)", "$50 mln - $300 mln", "$300 mln - $2 bln", "$2 bln - $10 bln", "$10 bln - $200 bln", "> $300 mln", "> $2 bln", "> $10 bln", "> $200 bln", "< $300 mln", "< $2 bln", "< $10 bln", "< $200 bln"],
+    default_index: 5
+  },
+  {
+    name: "Dividend %",
+    display_name: "Dividend (%)",
+    tooltip: "Dividend yield (annual)",
+    args_items: ["Any", "0%", "> 1%", "> 2%", "> 3%", "> 4%", "> 5%", "> 6%", "> 7%", "> 8%", "> 9%", "> 10%"],
+    default_index: 6
+  },
+  {
+    name: "P/E",
+    display_name: "P/E Ratio",
+    tooltip: "Price to Earnings (ttm)",
+    args_items: ["Any", "< 5", "< 10", "< 15", "< 20", "< 25", "< 30", "< 40", "< 50", "> 5", "> 10", "> 15", "> 20", "> 25", "> 30", "> 40", "> 50"],
+    default_index: 3
+  },
+  {
+    name: "Forward P/E",
+    display_name: "Forward P/E",
+    tooltip: "Forward Price to Earnings (next fiscal year)",
+    args_items: ["Any", "< 5", "< 10", "< 15", "< 20", "< 25", "< 30", "< 40", "< 50", "> 5", "> 10", "> 15", "> 20", "> 25", "> 30", "> 40", "> 50"],
+    default_index: 3
+  },
+  {
+    name: "PEG",
+    display_name: "PEG Ratio",
+    tooltip: "Price to Earnings to Growth",
+    args_items: ["Any", "< 1", "< 2", "< 3", "> 1", "> 2", "> 3"],
+    default_index: 1
+  },
+  {
+    name: "P/S",
+    display_name: "P/S Ratio",
+    tooltip: "Price to Sales (ttm)",
+    args_items: ["Any", "< 1", "< 2", "< 3", "< 4", "< 5", "> 1", "> 2", "> 3", "> 4", "> 5"],
+    default_index: 1
+  },
+  {
     name: "P/B",
-    display_name: "Price-Book Ratio",
-    args_items: ["Any", "< 0", "0 - 0.5", "0.5 - 1.0", "1.0 - 1.5", "1.5 - 2.0", "2.0 - 3.0", "> 3.0"],
-    default_index: 2
+    display_name: "P/B Ratio",
+    tooltip: "Price to Book (mrq)",
+    args_items: ["Any", "< 1", "< 2", "< 3", "< 4", "< 5", "> 1", "> 2", "> 3", "> 4", "> 5"],
+    default_index: 1
+  },
+  {
+    name: "P/C",
+    display_name: "P/C Ratio",
+    tooltip: "Price to Cash per share (mrq)",
+    args_items: ["Any", "< 1", "< 2", "< 3", "< 4", "< 5", "> 1", "> 2", "> 3", "> 4", "> 5"],
+    default_index: 3
+  },
+  {
+    name: "P/FCF",
+    display_name: "P/FCF",
+    tooltip: "Price to Free Cash Flow (ttm)",
+    args_items: ["Any", "< 5", "< 10", "< 15", "< 20", "< 25", "< 30", "< 40", "< 50", "> 5", "> 10", "> 15", "> 20", "> 25", "> 30", "> 40", "> 50"],
+    default_index: 3
   },
 ]
 

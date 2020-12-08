@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search';
 import { blue, red } from '@material-ui/core/colors'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import shortid from "shortid"
 
 import {FCDataTemplate} from '../common/common'
 import FilterCriteria from './filterCriteria'
@@ -27,9 +28,7 @@ const customTheme = createMuiTheme({
 const FilterContainer = () => {
 
   // API Definition
-  const filterCriteriaRef = useRef({
-    getValue: null
-  })
+  const filterCriteriaListRef = useRef(Array(FCDataTemplate.length).fill({}))
 
   const nornMinehunterRef = useRef({
     getValue: null
@@ -39,11 +38,11 @@ const FilterContainer = () => {
     <>
       <div className={filterContainerStyle.container}>
         <Grid container spacing={1}>
-          <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={FCDataTemplate[0]} />
-          <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={FCDataTemplate[0]} />
-          <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={FCDataTemplate[0]} />
-          <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={FCDataTemplate[0]} />
-          <FilterCriteria filterCriteriaRef={filterCriteriaRef} dataTemplate={FCDataTemplate[0]} />
+          {
+            FCDataTemplate.map((value, index) => {
+              return <FilterCriteria key={shortid.generate()} filterCriteriaRef={filterCriteriaListRef.current[index]} dataTemplate={value} />
+            })
+          }
         </Grid>
         <NornMinehunter nornMinehunterRef={nornMinehunterRef}/>
         <MuiThemeProvider theme={customTheme}>
