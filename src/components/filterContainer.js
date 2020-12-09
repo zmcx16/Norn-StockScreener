@@ -28,7 +28,13 @@ const customTheme = createMuiTheme({
 const FilterContainer = () => {
 
   // API Definition
-  const filterCriteriaListRef = useRef(Array(FCDataTemplate.length).fill({}))
+  const filterCriteriaListRef = useRef([])
+  FCDataTemplate.forEach((value, index) => {
+    filterCriteriaListRef.current[index] = createRef()
+    filterCriteriaListRef.current[index].current = {
+      getValue: null
+    }
+  })
 
   const nornMinehunterRef = useRef({
     getValue: null
@@ -53,7 +59,13 @@ const FilterContainer = () => {
             <Button variant="contained" style={customTheme.palette.export}>Export</Button>
             <div></div>
             <MuiThemeProvider theme={createMuiTheme({ palette: { primary: blue, secondary: red } })}>
-              <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />}>Query Now</Button>
+            <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={()=>{
+
+                FCDataTemplate.forEach((value, index) => {
+                  console.log(filterCriteriaListRef.current[index].current.getValue())
+              })
+
+            }}>Query Now</Button>
             </MuiThemeProvider>
           </div>
         </MuiThemeProvider>
