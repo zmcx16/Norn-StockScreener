@@ -20,7 +20,11 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
 
   // nornMinehunterRef API
   nornMinehunterRef.current.getValue = () => {
-    return {}
+    return { 
+      tactics: tactic,
+      from: valueFromRef.current.value, 
+      end: valueEndRef.current.value 
+    }
   }
 
   // gen node

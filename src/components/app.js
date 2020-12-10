@@ -8,11 +8,15 @@ import appStyle from './app.module.scss'
 
 const App = () => {
   
+  const ResultTableRef = useRef({
+    setTable: null
+  })
+
   return (
     <>
       <div className={commonStyle.defaultFont}>
-        <FilterContainer  />
-        <ResultTable />
+        <FilterContainer ResultTableRef={ResultTableRef}/>
+        <ResultTable ResultTableRef={ResultTableRef}/>
       </div>
     </>
   )
