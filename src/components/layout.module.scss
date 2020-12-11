@@ -5,3 +5,12 @@ body{
 .container {
   margin: 10px;
 }
+
+.darkmodetoggle{
+  position: absolute;
+  right: 20px;
+  top: 110px;
+  padding: 0px 0px 0px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

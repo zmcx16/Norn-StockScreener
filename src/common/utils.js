@@ -16,9 +16,18 @@ export const getFromEndVal = (input) =>{
     let t_arr = val.split('>')
     return [convertIfNecessary(t_arr[1]), '']
   }
-  else {
+  else if (val.includes('-')){
     let t_arr = val.split('-')
     return [convertIfNecessary(t_arr[0]), convertIfNecessary(t_arr[1])]
+  }
+  else{ // hoc
+    if(val == '0%'){
+      return ['', '0']
+    }
+    else{
+      console.error('val is invalid: ' + val)
+      return ['', '']
+    }
   }
 }
 

@@ -5,7 +5,8 @@ import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import Avatar from '@material-ui/core/Avatar'
 import Chip from '@material-ui/core/Chip'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
+import Link from '@material-ui/core/Link'
 import Tooltip from '@material-ui/core/Tooltip'
 import shortid from "shortid"
 
@@ -102,9 +103,9 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
     <div className={nornMinehunterStyle.container}>
       <div className={nornMinehunterStyle.argNodes}>
         <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{NMNote}</span>} >
-          <a href={NMUrl} target="_blank" rel="noreferrer noopener">
+          <Link href={NMUrl} target="_blank" rel="noreferrer noopener">
             <span className={nornMinehunterStyle.display_name + ' ' + commonStyle.comicFont}>{display_name}</span>
-          </a>
+          </Link>
         </Tooltip>
         <FormControl size="small" variant="outlined" className={nornMinehunterStyle.argNodesSelect}>
           <InputLabel htmlFor="arg-select">Avg Score</InputLabel>
@@ -130,7 +131,6 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
       <div>
         {NMDataTemplate.tactics.map((value, index) => {
           return (
-            //<MuiThemeProvider key={value.type} theme={createMuiTheme({ palette: { primary: blue} })}> //deno main & avatar color
             <Chip key={value.type}
               avatar={
                 <Avatar
@@ -145,7 +145,6 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
                 tactic_t[value.type] = !tactic_t[value.type]
                 setTactic(tactic_t)
               }} />
-            //</MuiThemeProvider>
           )
         })}
       </div>

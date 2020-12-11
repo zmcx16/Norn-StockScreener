@@ -5,7 +5,6 @@ import Layout from "../components/layout"
 import App from "../components/app"
 import SEO from "../components/seo"
 
-
 const IndexPage = () => {
 
   return (

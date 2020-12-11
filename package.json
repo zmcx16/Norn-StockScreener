@@ -26,7 +26,8 @@
     "react-helmet": "^6.1.0",
     "react-spring": "^9.0.0-beta.34",
     "sass": "^1.29.0",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "use-http": "^1.0.16"
   },
   "devDependencies": {
     "gh-pages": "^2.2.0",
