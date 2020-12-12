@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link'
 import Tooltip from '@material-ui/core/Tooltip'
 import shortid from "shortid"
 
-import { NMDataTemplate, NMNote, NMUrl } from '../common/common'
+import { NMDataTemplate, NMNote, NMUrl } from '../common/nm'
 import { getFromEndVal } from '../common/utils'
 
 import commonStyle from './common.module.scss'

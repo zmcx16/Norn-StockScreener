@@ -4,6 +4,7 @@ import { ThemeProvider } from "@material-ui/core/styles"
 import { CssBaseline, createMuiTheme } from "@material-ui/core"
 
 import Header from './header'
+import Footer from './footer'
 
 import layoutStyle from './layout.module.scss'
 
@@ -15,9 +16,10 @@ const Layout = ({ children} ) => {
     <ThemeProvider theme={createMuiTheme({ palette: { type: isDarkMode ? 'dark' : 'light' } })}>
       <CssBaseline />
       <div className={layoutStyle.container}>
-        <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>
+        <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
         <main>{children}</main>
       </div>
+      <Footer/>
     </ThemeProvider>
   )
 }
