@@ -28,6 +28,17 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
     }
   }
 
+  nornMinehunterRef.current.setValue = (NMSetting) => {
+
+    setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, NMSetting.from, NMSetting.end))
+
+    let tactic_t = { ...tactic }
+    Object.entries(NMSetting.tactics).forEach(([key, value]) => {
+      tactic_t[key] = value
+    })
+    setTactic(tactic_t)
+  }
+
   // gen node
   const genFromEndTextField = (inputFromRef, inputEndRef, FromValue, EndValue) => {
 

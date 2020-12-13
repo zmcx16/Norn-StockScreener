@@ -43,7 +43,22 @@ const useModalStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-}));
+}))
+
+const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef)=>{
+
+  let queryData = { data: { baseArg: [], NornMinehunter: {} } }
+
+  // get basic arg
+  FCDataTemplate.forEach((value, index) => {
+    queryData.data.baseArg.push(filterCriteriaListRef.current[index].current.getValue())
+  })
+
+  // get norn-minehunter args
+  queryData.data.NornMinehunter = nornMinehunterRef.current.getValue()
+
+  return queryData
+}
 
 // split from FilterContainer to prevent rerender FilterContainer
 const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, nornMinehunterRef, modalWindowRef}) => {
@@ -55,16 +70,7 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
 
       loadingAnimeRef.current.setLoading(true)
 
-      let queryData = { data: { baseArg: [], NornMinehunter: {} } }
-
-      // get basic arg
-      FCDataTemplate.forEach((value, index) => {
-        queryData.data.baseArg.push(filterCriteriaListRef.current[index].current.getValue())
-      })
-
-      // get norn-minehunter args
-      queryData.data.NornMinehunter = nornMinehunterRef.current.getValue()
-
+      let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef)
       console.log(queryData)
       //setQueryBody({ grr: 'ddd' })
 
@@ -159,6 +165,45 @@ const FilterContainer = ({ ResultTableRef }) => {
   })
 
 
+  const importSetting = (e) => {
+    console.log(e.target.files)
+    Object.entries(e.target.files).forEach(([key, value]) => {
+      var reader = new FileReader();
+      reader.onload = (function (theFile) {
+        return function (e) {
+          let data = JSON.parse(e.target.result)
+
+          nornMinehunterRef.current.setValue(data['data']['NornMinehunter'])
+          
+          data['data']['baseArg'].forEach((input_v, input_i) => {
+            FCDataTemplate.forEach((template_v, template_i) => {
+              let name = filterCriteriaListRef.current[template_i].current.getValue()['name']
+              if (name === input_v['name']){
+                filterCriteriaListRef.current[template_i].current.setValue(input_v)
+                return
+              }
+            })
+          })
+        }
+      })(value)
+
+      reader.readAsBinaryString(value)
+      e.target.value = ''
+    })
+  }
+
+  const exportSetting = (e) => {
+
+    let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef)
+
+    var aTag = document.createElement('a');
+    var blob = new Blob([JSON.stringify(queryData)]);
+    aTag.download = 'Norn-StockScreener_setting.json';
+    aTag.href = URL.createObjectURL(blob);
+    aTag.click();
+    URL.revokeObjectURL(blob);
+  }
+
   return (
     <>
       <div className={filterContainerStyle.container}>
@@ -173,9 +218,15 @@ const FilterContainer = ({ ResultTableRef }) => {
         <MuiThemeProvider theme={customTheme}>
           <div className={filterContainerStyle.cmdPanel}>
             <div></div>
-            <Button variant="contained" style={customTheme.palette.import}>Import</Button>
+            <Button variant="contained" component="label" style={customTheme.palette.import}>Import
+              <input
+                type="file"
+                hidden
+                onChange={importSetting}
+              />
+            </Button>
             <div></div>
-            <Button variant="contained" style={customTheme.palette.export}>Export</Button>
+            <Button variant="contained" style={customTheme.palette.export} onClick={exportSetting}>Export</Button>
             <div></div>
             <MuiThemeProvider theme={createMuiTheme({ palette: { primary: blue, secondary: red } })}>
               <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {

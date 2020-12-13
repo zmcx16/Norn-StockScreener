@@ -29,6 +29,11 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
     //console.log(valueEndRef)
     return { name: name, from: valueFromRef.current.value, end: valueEndRef.current.value}
   }
+
+  filterCriteriaRef.current.setValue = (value) => {
+    setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, value.from, value.end))
+    renderNodeColor(value.from, value.end)
+  }
   
 
   // gen node
