@@ -61,7 +61,7 @@ const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef)=>{
 }
 
 // split from FilterContainer to prevent rerender FilterContainer
-const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, nornMinehunterRef, modalWindowRef}) => {
+const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, nornMinehunterRef, ResultTableRef, modalWindowRef}) => {
   
   const { post, response } = useFetch('https://localhost:44305')
 
@@ -72,7 +72,6 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
 
       let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef)
       console.log(queryData)
-      //setQueryBody({ grr: 'ddd' })
 
       /*
       ResultTableRef.current.setTable([
@@ -80,16 +79,47 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
       ])
       */
 
-      const resp_data = await post('/api/task/do-scan', queryData.data)
+      const resp_data = await post('/api/task/do-norn-screen', queryData.data)
       if (response.ok) {
         console.log(resp_data)
+
+        if (resp_data['ret'] === 0){
+
+          let output = resp_data['data'].map((value, index)=>{
+            return { 
+              id: index, 
+              symbol: value['symbol'], 
+              sector: value['sector'] in StockSectorDict ? StockSectorDict[value['sector'].toString()] : StockSectorDict["-1"],
+              industry: value['sector'] in StockIndustryDict ? StockIndustryDict[value['industry'].toString()] : StockIndustryDict["-1"],
+              marketCap: value['marketCap'],
+              PE: value['PE'],
+              PB: value['PB'],
+              price: value['price'],
+              change: value['change'],
+              volume: value['volume'],
+              risk: value['risk'],
+              tactics: nornMinehunterRef.current.getEnableTacticStrings(),
+            }
+          })
+
+          ResultTableRef.current.setTable(output)
+
+        }else{
+          modalWindowRef.current.popModalWindow(
+            <>
+              <h2>Get Search Result Failed, ret={resp_data['ret']}</h2>
+            </>
+          )
+        }
+
       } else {
-        modalWindowRef.current.popModalWindow(        
+        modalWindowRef.current.popModalWindow(
           <>
             <h2>Get Search Result Failed.</h2>
           </>
         )
       }
+
       loadingAnimeRef.current.setLoading(false)
 
     }
@@ -174,7 +204,7 @@ const FilterContainer = ({ ResultTableRef }) => {
           let data = JSON.parse(e.target.result)
 
           nornMinehunterRef.current.setValue(data['data']['NornMinehunter'])
-          
+
           data['data']['baseArg'].forEach((input_v, input_i) => {
             FCDataTemplate.forEach((template_v, template_i) => {
               let name = filterCriteriaListRef.current[template_i].current.getValue()['name']
@@ -238,7 +268,7 @@ const FilterContainer = ({ ResultTableRef }) => {
       </div>
       <LoadingAnime loadingAnimeRef={loadingAnimeRef}/>
       <ModalWindow modalWindowRef={modalWindowRef} />
-      <QueryStocks queryStocksRef={queryStocksRef} loadingAnimeRef={loadingAnimeRef} filterCriteriaListRef={filterCriteriaListRef} nornMinehunterRef={nornMinehunterRef} modalWindowRef={modalWindowRef}/>
+      <QueryStocks queryStocksRef={queryStocksRef} loadingAnimeRef={loadingAnimeRef} filterCriteriaListRef={filterCriteriaListRef} ResultTableRef={ResultTableRef} nornMinehunterRef={nornMinehunterRef} modalWindowRef={modalWindowRef}/>
     </>
   )
 }

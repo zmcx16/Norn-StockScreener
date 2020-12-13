@@ -5,7 +5,8 @@ import { DataGrid, GridOverlay } from '@material-ui/data-grid'
 import { isMobile } from 'react-device-detect'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl, NMUrl } from '../common/common'
+import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../common/common'
+import { NMUrl } from '../common/nm'
 
 import resultTableStyle from './resultTable.module.scss'
 
@@ -150,11 +151,16 @@ const ResultTable = ({ResultTableRef}) => {
   // ResultTableRef API
   ResultTableRef.current = {
     setTable: (data)=>{
-      setTableData(data)
+      setTableData(renderTable(data))
     }
   }
 
-  const [tableData, setTableData] = useState([])
+  const renderTable = (data)=>{
+    // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
+    // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
+    // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
+    return <DataGrid rows={data} columns={tableHeader} scrollbarSize={17} pageSize={20} components={{noRowsOverlay: NoDataInTable,}} disableSelectionOnClick />
+  }
 
   const tableHeaderTemplate = [
     { field: 'symbol', headerName: 'Symbol', width: 110, mobileShow: true },
@@ -221,11 +227,11 @@ const ResultTable = ({ResultTableRef}) => {
     return accumulator
   }, [])
 
+  const [tableData, setTableData] = useState(renderTable([]))
+
   return (
     <div className={resultTableStyle.container}>
-      <DataGrid rows={tableData} columns={tableHeader} pageSize={20} components={{
-        noRowsOverlay: NoDataInTable,
-      }} disableSelectionOnClick/>
+      {tableData}
     </div>
   )
 }

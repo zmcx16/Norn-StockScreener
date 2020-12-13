@@ -39,6 +39,16 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
     setTactic(tactic_t)
   }
 
+  nornMinehunterRef.current.getEnableTacticStrings = () => {
+    let enableList=[]
+    Object.entries(tactic).forEach(([key, value]) => {
+      if (value){
+        enableList.push(key)
+      }
+    })
+    return enableList.join(",")
+  }
+
   // gen node
   const genFromEndTextField = (inputFromRef, inputEndRef, FromValue, EndValue) => {
 

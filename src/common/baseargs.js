@@ -10,7 +10,7 @@ export const FCDataTemplate = [
     name: "Dividend %",
     display_name: "Dividend (%)",
     tooltip: "Dividend yield (annual)",
-    args_items: ["Any", "0%", "> 1%", "> 2%", "> 3%", "> 4%", "> 5%", "> 6%", "> 7%", "> 8%", "> 9%", "> 10%"],
+    args_items: ["Any", "> 0%", "> 1%", "> 2%", "> 3%", "> 4%", "> 5%", "> 6%", "> 7%", "> 8%", "> 9%", "> 10%"],
     //default_index: 6
     default_index: 0
   },
