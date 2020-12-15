@@ -1,8 +1,9 @@
 {
-  "name": "NornScreener",
+  "name": "norn-screener",
   "description": "NornScreener",
   "version": "1.0.0",
   "author": "zmcx16 <zmcx16@gmail.com>",
+  "homepage": "https://github.com/zmcx16/Norn-StockScreener",
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@material-ui/data-grid": "^4.0.0-alpha.11",
@@ -24,19 +25,18 @@
     "react-device-detect": "^1.14.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
-    "react-spring": "^9.0.0-beta.34",
     "sass": "^1.29.0",
     "shortid": "^2.2.16",
     "use-http": "^1.0.16"
   },
   "devDependencies": {
-    "gh-pages": "^2.2.0",
     "prettier": "^1.19.1"
   },
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
