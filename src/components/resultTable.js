@@ -92,7 +92,7 @@ const ResultTable = ({ResultTableRef}) => {
       bomb1: file(relativePath: { eq: "bomb1.png" }){
         childImageSharp {
           fixed(width: 42) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }
@@ -100,7 +100,7 @@ const ResultTable = ({ResultTableRef}) => {
       bomb2: file(relativePath: { eq: "bomb2.png" }){
         childImageSharp {
           fixed(width: 42) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }
@@ -108,7 +108,7 @@ const ResultTable = ({ResultTableRef}) => {
       bomb3: file(relativePath: { eq: "bomb3.png" }){
         childImageSharp {
           fixed(width: 42) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }
@@ -116,7 +116,7 @@ const ResultTable = ({ResultTableRef}) => {
       bomb4: file(relativePath: { eq: "bomb4.png" }){
         childImageSharp {
           fixed(width: 42) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }
@@ -124,7 +124,7 @@ const ResultTable = ({ResultTableRef}) => {
       bomb5: file(relativePath: { eq: "bomb5.png" }){
         childImageSharp {
           fixed(width: 42) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }
@@ -132,7 +132,7 @@ const ResultTable = ({ResultTableRef}) => {
       finviz: file(relativePath: { eq: "finviz-favicon.png" }){
         childImageSharp {
           fixed(width: 32) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }
@@ -140,7 +140,7 @@ const ResultTable = ({ResultTableRef}) => {
       yahoo: file(relativePath: { eq: "yahoo-favicon.png" }){
         childImageSharp {
           fixed(width: 32) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }      

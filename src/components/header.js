@@ -27,7 +27,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
       images: file(relativePath: { eq: "norn-icon.png" }){
         childImageSharp {
           fixed(width: 75) {
-            ...GatsbyImageSharpFixed
+            ...GatsbyImageSharpFixed_noBase64
           }
         }  
       }
