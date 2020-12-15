@@ -26,8 +26,8 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
     query {
       images: file(relativePath: { eq: "norn-icon.png" }){
         childImageSharp {
-          fluid {
-            ...GatsbyImageSharpFluid
+          fixed(width: 75) {
+            ...GatsbyImageSharpFixed
           }
         }  
       }
@@ -37,7 +37,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
   return (
     <div className={headerStyle.container}>
       <div className={headerStyle.kanbanBlock}>
-        <Img fluid={imageData.images.childImageSharp.fluid} fadeIn={false} className={headerStyle.kanbanimg}/>
+        <Img fixed={imageData.images.childImageSharp.fixed} fadeIn={false} className={headerStyle.kanbanimg}/>
         <div></div>
         <div className={headerStyle.kanbanTextBlock}>
           <Tooltip arrow classes={{ tooltip: tooltipStyle.noMaxWidth }} title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>{kanbanNote}</span>} >
