@@ -43,14 +43,12 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
     return <>
       <form noValidate autoComplete="off">
         <TextField key={shortid.generate()} className={filterCriteriaStyle.valueText} label="From" variant="outlined" defaultValue={FromValue} size="small" inputRef={inputFromRef} onChange={(e) => {
-          //console.log(e.target.value)
           renderNodeColor(inputFromRef.current.value, inputEndRef.current.value)
         }} />
       </form>
       <div>-</div>
       <form noValidate autoComplete="off">
         <TextField key={shortid.generate()} className={filterCriteriaStyle.valueText} label="End" variant="outlined" defaultValue={EndValue} size="small" inputRef={inputEndRef} onChange={(e) => {
-          //console.log(e.target.value)
           renderNodeColor(inputFromRef.current.value, inputEndRef.current.value)
         }} />
       </form>

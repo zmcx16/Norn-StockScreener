@@ -63,7 +63,9 @@ const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef)=>{
 // split from FilterContainer to prevent rerender FilterContainer
 const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, nornMinehunterRef, ResultTableRef, modalWindowRef}) => {
   
-  const { post, response } = useFetch('https://localhost:44305')
+  //const { post, response } = useFetch('https://localhost:44305')
+  //const { post, response } = useFetch('http://localhost:7071')
+  const { post, response } = useFetch('https://zmcx16nornstockscreener.azurewebsites.net')
 
   queryStocksRef.current = {
     doQuery: async () => {
@@ -71,17 +73,12 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
       loadingAnimeRef.current.setLoading(true)
 
       let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef)
-      console.log(queryData)
+      //console.log(queryData)
 
-      /*
-      ResultTableRef.current.setTable([
-        { id: 1, symbol: 'KBAL', sector: StockSectorDict[0], industry: StockIndustryDict[0], marketCap: '419.72M', PE: 12.01, PB: 1.59, price: 11.69, change: '2.11%', volume: '179,751', risk: 33, tactics: 'BenjaminGraham_v1,HarryBurnIII_v1' }
-      ])
-      */
-
-      const resp_data = await post('/api/task/do-norn-screen', queryData.data)
+      //const resp_data = await post('/api/task/do-norn-screen', queryData.data)
+      const resp_data = await post('/api/NornStockScreenerFunction?api=do-norn-screen', queryData)
       if (response.ok) {
-        console.log(resp_data)
+        //console.log(resp_data)
 
         if (resp_data['ret'] === 0){
 
@@ -91,13 +88,13 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
               symbol: value['symbol'], 
               sector: value['sector'] in StockSectorDict ? StockSectorDict[value['sector'].toString()] : StockSectorDict["-1"],
               industry: value['sector'] in StockIndustryDict ? StockIndustryDict[value['industry'].toString()] : StockIndustryDict["-1"],
-              marketCap: value['marketCap'],
-              PE: value['PE'],
-              PB: value['PB'],
-              price: value['price'],
-              change: value['change'],
-              volume: value['volume'],
-              risk: value['risk'],
+              marketCap: value['marketCap'] === '-' ? 'NaN' : value['marketCap'],
+              PE: value['PE'] === '-' ? 'NaN' : value['PE'],
+              PB: value['PB'] === '-' ? 'NaN' : value['PB'],
+              price: value['price'] === '-' ? 'NaN' : value['price'],
+              change: value['change'] === '-' ? 'NaN' : value['change'],
+              volume: value['volume'] === '-' ? 'NaN' : value['volume'],
+              risk: value['risk'] === -1 ? 'NaN' : value['risk'],
               tactics: nornMinehunterRef.current.getEnableTacticStrings(),
             }
           })
@@ -196,7 +193,7 @@ const FilterContainer = ({ ResultTableRef }) => {
 
 
   const importSetting = (e) => {
-    console.log(e.target.files)
+    //console.log(e.target.files)
     Object.entries(e.target.files).forEach(([key, value]) => {
       var reader = new FileReader();
       reader.onload = (function (theFile) {

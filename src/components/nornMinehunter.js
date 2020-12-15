@@ -55,15 +55,11 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
     // add key to force re-render component
     return <>
       <form noValidate autoComplete="off">
-        <TextField id="nornMinehunter-value-from" key={shortid.generate()} className={nornMinehunterStyle.valueText} label="From" variant="outlined" defaultValue={FromValue} size="small" inputRef={inputFromRef} onChange={(e) => {
-          console.log(e.target.value)
-        }} />
+        <TextField id="nornMinehunter-value-from" key={shortid.generate()} className={nornMinehunterStyle.valueText} label="From" variant="outlined" defaultValue={FromValue} size="small" inputRef={inputFromRef}/>
       </form>
       <div>-</div>
       <form noValidate autoComplete="off">
-        <TextField id="nornMinehunter-value-end" key={shortid.generate()} className={nornMinehunterStyle.valueText} label="End" variant="outlined" defaultValue={EndValue} size="small" inputRef={inputEndRef} onChange={(e) => {
-          console.log(e.target.value)
-        }} />
+        <TextField id="nornMinehunter-value-end" key={shortid.generate()} className={nornMinehunterStyle.valueText} label="End" variant="outlined" defaultValue={EndValue} size="small" inputRef={inputEndRef}/>
       </form>
     </>
   }

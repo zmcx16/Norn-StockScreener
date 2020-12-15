@@ -4,7 +4,7 @@ export const FCDataTemplate = [
     display_name: "Market Cap",
     tooltip: "market capitalization",
     args_items: ["Any (> $50 mln)", "$50 mln - $300 mln", "$300 mln - $2 bln", "$2 bln - $10 bln", "$10 bln - $200 bln", "> $300 mln", "> $2 bln", "> $10 bln", "> $200 bln", "< $300 mln", "< $2 bln", "< $10 bln", "< $200 bln"],
-    default_index: 5
+    default_index: 6
   },
   {
     name: "Dividend %",
@@ -27,14 +27,16 @@ export const FCDataTemplate = [
     display_name: "ROE",
     tooltip: "Return on Equity (ttm)",
     args_items: ["Any", "> 5%", "> 10%", "> 15%", "> 20%", "> 25%", "> 30%", "< -5%", "< -10%", "< -15%", "< -20%", "< -25%", "< -30%"],
-    default_index: 3
+    //default_index: 3
+    default_index: 0
   },
   {
     name: "ROI",
     display_name: "ROI",
     tooltip: "Return on Investment (ttm)",
     args_items: ["Any", "> 5%", "> 10%", "> 15%", "> 20%", "> 25%", "> 30%", "< -5%", "< -10%", "< -15%", "< -20%", "< -25%", "< -30%"],
-    default_index: 2
+    //default_index: 2
+    default_index: 0
   },
   {
     name: "P/E",
@@ -307,7 +309,7 @@ export const FCDataTemplate = [
     display_name: "Beta",
     tooltip: "Beta",
     args_items: ["Any", "< 0.5", "< 1", "< 1.5", "< 2", "< 3", "< 4", "< 5", "> 0.5", "> 1", "> 1.5", "> 2", "> 3", "> 4", "> 5"],
-    default_index: 2
+    default_index: 4
   },
   {
     name: "ATR",

@@ -5,6 +5,7 @@ import { DataGrid, GridOverlay } from '@material-ui/data-grid'
 import { isMobile } from 'react-device-detect'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { convertKMBT } from '../common/utils'
 import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../common/common'
 import { NMUrl } from '../common/nm'
 
@@ -166,7 +167,15 @@ const ResultTable = ({ResultTableRef}) => {
     { field: 'symbol', headerName: 'Symbol', width: 110, mobileShow: true },
     { field: 'sector', headerName: 'Sector', width: 155, mobileShow: false },
     { field: 'industry', headerName: 'Industry', width: 255, mobileShow: false },
-    { field: 'marketCap', headerName: 'Market Cap', width: 130, mobileShow: false },
+    {
+      field: 'marketCap',
+      headerName: 'Market Cap',
+      width: 130,
+      renderCell: (params) => (
+        <span>{convertKMBT(params.getValue('marketCap'), 2)}</span>
+      ),
+      mobileShow: false
+    },
     { field: 'PE', headerName: 'P/E', width: 80, mobileShow: true },
     { field: 'PB', headerName: 'P/B', width: 80, mobileShow: true },
     { field: 'price', headerName: '	Price', width: 90, mobileShow: true },
@@ -175,11 +184,19 @@ const ResultTable = ({ResultTableRef}) => {
       headerName: 'Change',
       width: 110,
       renderCell: (params) => (
-        <span style={{ color: Math.sign(parseFloat(params.getValue('change'))) === 1 ? 'green' : Math.sign(parseFloat(params.getValue('change'))) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.getValue('change'))) === 1 ? '+' : ''}{params.getValue('change')}</span>
+        <span style={{ fontWeight: 700, color: Math.sign(parseFloat(params.getValue('change'))) === 1 ? 'green' : Math.sign(parseFloat(params.getValue('change'))) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.getValue('change'))) === 1 ? '+' : ''}{(params.getValue('change') * 100).toFixed(2) + "%"}</span>
       ),
       mobileShow: true
     },
-    { field: 'volume', headerName: 'Volume', width: 110, mobileShow: true },
+    {
+      field: 'volume',
+      headerName: 'Volume',
+      width: 110,
+      renderCell: (params) => (
+        <span>{convertKMBT(params.getValue('volume'), 2)}</span>
+      ),
+      mobileShow: false
+    },
     { field: 'tactics', hide: true, mobileShow: true },
     {
       field: 'risk',
