@@ -4,7 +4,6 @@ import FilterContainer from './filterContainer'
 import ResultTable from './resultTable'
 
 import commonStyle from './common.module.scss'
-import appStyle from './app.module.scss'
 
 const App = () => {
   
