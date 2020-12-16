@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, createRef } from 'react'
+import React, { useState } from 'react'
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
 import { DataGrid, GridOverlay } from '@material-ui/data-grid'

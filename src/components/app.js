@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, createRef } from "react"
+import React, { useRef } from "react"
 
 import FilterContainer from './filterContainer'
 import ResultTable from './resultTable'
