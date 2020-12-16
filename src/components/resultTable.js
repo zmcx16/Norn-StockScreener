@@ -10,6 +10,7 @@ import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../common/commo
 import { NMUrl } from '../common/nm'
 
 import resultTableStyle from './resultTable.module.scss'
+import './resultTable.css'
 
 const useNoDataStyles = makeStyles((theme) => ({
   root: {
