@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import { useStaticQuery, graphql } from 'gatsby'
+import Img from 'gatsby-image'
 import { DataGrid, GridOverlay } from '@material-ui/data-grid'
 import { isMobile } from 'react-device-detect'
 import { makeStyles } from '@material-ui/core/styles'

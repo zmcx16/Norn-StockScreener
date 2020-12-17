@@ -4,12 +4,12 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
-import shortid from "shortid"
+import shortid from 'shortid'
 
 import { argSetValueBackgroundColor } from '../common/common'
 import { getFromEndVal } from '../common/utils'
 
-import filterCriteriaStyle from "./filterCriteria.module.scss"
+import filterCriteriaStyle from './filterCriteria.module.scss'
 
 /*
 // data sample
@@ -25,8 +25,6 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
 
   // filterCriteriaRef API
   filterCriteriaRef.current.getValue = () => {
-    //console.log(valueFromRef)
-    //console.log(valueEndRef)
     return { name: name, from: valueFromRef.current.value, end: valueEndRef.current.value}
   }
 

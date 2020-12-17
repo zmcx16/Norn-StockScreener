@@ -6,6 +6,9 @@ export const NornStockScreenerUrl = "https://github.com/zmcx16/Norn-StockScreene
 export const zmcx16ProjectUrl = "https://project.zmcx16.moe"
 export const zmcx16BlogUrl = "https://blog.zmcx16.moe"
 
+export const NSSServerUrl = "https://zmcx16nornstockscreener.azurewebsites.net"
+export const NSSDoQueryAPI = "/api/NornStockScreenerFunction?api=do-norn-screen"
+
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
 export const kanbanNote = 

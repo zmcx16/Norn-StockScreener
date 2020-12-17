@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, createRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -8,13 +8,13 @@ import Chip from '@material-ui/core/Chip'
 import { createMuiTheme } from '@material-ui/core/styles'
 import Link from '@material-ui/core/Link'
 import Tooltip from '@material-ui/core/Tooltip'
-import shortid from "shortid"
+import shortid from 'shortid'
 
 import { NMDataTemplate, NMNote, NMUrl } from '../common/nm'
 import { getFromEndVal } from '../common/utils'
 
 import commonStyle from './common.module.scss'
-import nornMinehunterStyle from "./nornMinehunter.module.scss"
+import nornMinehunterStyle from './nornMinehunter.module.scss'
 
 
 const NornMinehunter = ({ nornMinehunterRef }) => {
@@ -156,7 +156,6 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
               }
               label={value.type} 
               style={tactic[value.type] ? { ...tacticsTheme.palette[value.type].main, ...{ margin: '3px 5px' } } : { ...tacticsTheme.palette.default.main, ...{ margin: '3px 5px' }}}
-              //color={tactic[value.type] ? "primary" : "default"}
               onClick={() => {
                 let tactic_t = { ...tactic }
                 tactic_t[value.type] = !tactic_t[value.type]

@@ -1,7 +1,7 @@
 import React, { useState} from 'react'
 import PropTypes from 'prop-types'
-import { ThemeProvider } from "@material-ui/core/styles"
-import { CssBaseline, createMuiTheme } from "@material-ui/core"
+import { ThemeProvider } from '@material-ui/core/styles'
+import { CssBaseline, createMuiTheme } from '@material-ui/core'
 
 import Header from './header'
 import Footer from './footer'

@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import Link from '@material-ui/core/Link'
 
 import { NornStockScreenerUrl, zmcx16ProjectUrl, zmcx16BlogUrl } from '../common/common'

@@ -2,7 +2,7 @@ import React, { useState, useRef, createRef } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { blue } from '@material-ui/core/colors'
 import Button from '@material-ui/core/Button'
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@material-ui/icons/Search'
 import Modal from '@material-ui/core/Modal'
 import Fade from '@material-ui/core/Fade'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -12,6 +12,7 @@ import useFetch from 'use-http'
 
 import { StockSectorDict, StockIndustryDict} from '../common/stockdef'
 import { FCDataTemplate } from '../common/baseargs'
+import { NSSServerUrl, NSSDoQueryAPI } from '../common/common'
 import FilterCriteria from './filterCriteria'
 import NornMinehunter from './nornMinehunter'
 import LoadingAnime from './loadingAnime'
@@ -61,9 +62,8 @@ const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef)=>{
 // split from FilterContainer to prevent rerender FilterContainer
 const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, nornMinehunterRef, ResultTableRef, modalWindowRef}) => {
   
-  //const { post, response } = useFetch('https://localhost:44305')
   //const { post, response } = useFetch('http://localhost:7071')
-  const { post, response } = useFetch('https://zmcx16nornstockscreener.azurewebsites.net')
+  const { post, response } = useFetch(NSSServerUrl)
 
   queryStocksRef.current = {
     doQuery: async () => {
@@ -73,8 +73,7 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
       let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef)
       //console.log(queryData)
 
-      //const resp_data = await post('/api/task/do-norn-screen', queryData.data)
-      const resp_data = await post('/api/NornStockScreenerFunction?api=do-norn-screen', queryData)
+      const resp_data = await post(NSSDoQueryAPI, queryData)
       if (response.ok) {
         //console.log(resp_data)
 
@@ -191,7 +190,6 @@ const FilterContainer = ({ ResultTableRef }) => {
 
 
   const importSetting = (e) => {
-    //console.log(e.target.files)
     Object.entries(e.target.files).forEach(([key, value]) => {
       var reader = new FileReader();
       reader.onload = (function (theFile) {
