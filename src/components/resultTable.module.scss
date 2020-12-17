@@ -4,23 +4,23 @@
   width: 100%;
 }
 
-.risk{
+.risk {
   display: grid;
   grid-template-columns: 50px 1fr;
   align-items: center;
 }
 
-.bombImg{
+.bombImg {
   top: 5px;
 }
 
-.links{
+.links {
   display: grid;
   grid-template-columns: 32px 32px;
   align-items: center;
   gap: 20px;
 }
 
-.linkIcon{
+.linkIcon {
   top: 10px;
 }
