@@ -1,4 +1,6 @@
 # Norn-StockScreener
+[![Build Status](https://zmcx16.visualstudio.com/stock-minehunter-server/_apis/build/status/zmcx16.stock-minehunter-server?branchName=master)](https://zmcx16.visualstudio.com/stock-minehunter-server/_build/latest?definitionId=4&branchName=master)
+
 Norn-StockScreener is an US stock screener. You can use it to scan and filter instruments based on market cap, dividend yield, ROE... base argument to get your target stocks, it also support some popular investment master's stock tactics to find valuable stocks. 
 
 # Base Argument Filter
