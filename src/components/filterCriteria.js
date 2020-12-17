@@ -4,6 +4,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import Tooltip from '@material-ui/core/Tooltip'
+import { isMobile } from 'react-device-detect'
 import shortid from 'shortid'
 
 import { argSetValueBackgroundColor } from '../common/common'
@@ -93,10 +94,14 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
 
   return (
     <>
-      <div className={filterCriteriaStyle.argNodes} style={{ background: argNodesColor}}>
-        <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{tooltip}</span>} >
-          <span className={filterCriteriaStyle.display_name}>{display_name}</span>
-        </Tooltip>
+      <div className={isMobile ? filterCriteriaStyle.argNodesMobile : filterCriteriaStyle.argNodes} style={{ background: argNodesColor}}>
+        {isMobile ? 
+          <></>
+          : 
+          <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{tooltip}</span>} >
+            <span className={filterCriteriaStyle.display_name}>{display_name}</span>
+          </Tooltip>
+        }
         <FormControl size="small" variant="outlined" className={filterCriteriaStyle.argNodesSelect}>
           <InputLabel htmlFor="arg-select">{name}</InputLabel>
           <Select

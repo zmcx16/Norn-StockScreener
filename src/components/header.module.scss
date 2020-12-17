@@ -3,11 +3,21 @@
   padding-bottom: 5px;
 }
 
-.kanbanBlock {
+@mixin kanbanBlockTemplate {
   display: grid;
-  grid-template-columns: 75px 5px auto 150px;
   justify-items: left;
   align-items: start;
+}
+
+
+.kanbanBlock {
+  @include kanbanBlockTemplate;
+  grid-template-columns: 75px 5px auto 160px;
+}
+
+.kanbanBlockMobile {
+  @include kanbanBlockTemplate;
+  grid-template-columns: 75px 5px 1fr 90px;
 }
 
 .kanbanimg {

@@ -5,13 +5,28 @@
   margin: 5px 0px;
 }
 
-.argNodes {
+
+@mixin argNodesTemplate {
   padding: 5px;
   display: grid;
-  grid-template-columns: 170px 90px 5px 60px 5px 60px;
   justify-items: left;
   align-items: center;
   gap: 5px;
+}
+
+.argNodes {
+  @include argNodesTemplate;
+  grid-template-columns: 170px 90px 5px 60px 5px 60px;
+}
+
+.argNodesMobile {
+  @include argNodesTemplate;
+  grid-template-columns: 100px 5px 60px 5px 60px;
+}
+
+.titleMobile {
+  display: block;
+  padding: 0 0 10px 5px;
 }
 
 .display_name {

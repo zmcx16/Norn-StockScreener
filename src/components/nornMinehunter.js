@@ -8,6 +8,7 @@ import Chip from '@material-ui/core/Chip'
 import { createMuiTheme } from '@material-ui/core/styles'
 import Link from '@material-ui/core/Link'
 import Tooltip from '@material-ui/core/Tooltip'
+import { isMobile } from 'react-device-detect'
 import shortid from 'shortid'
 
 import { NMDataTemplate, NMNote, NMUrl } from '../common/nm'
@@ -118,12 +119,22 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
 
   return (
     <div className={nornMinehunterStyle.container}>
-      <div className={nornMinehunterStyle.argNodes}>
+      {isMobile ? 
         <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{NMNote}</span>} >
-          <Link href={NMUrl} target="_blank" rel="noreferrer noopener">
+          <Link className={nornMinehunterStyle.titleMobile} href={NMUrl} target="_blank" rel="noreferrer noopener">
             <span className={nornMinehunterStyle.display_name + ' ' + commonStyle.comicFont}>{display_name}</span>
           </Link>
-        </Tooltip>
+        </Tooltip> 
+        :<></>
+      }
+      <div className={isMobile ? nornMinehunterStyle.argNodesMobile : nornMinehunterStyle.argNodes}>
+        {isMobile ? <></> :
+          <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{NMNote}</span>} >
+            <Link href={NMUrl} target="_blank" rel="noreferrer noopener">
+              <span className={nornMinehunterStyle.display_name + ' ' + commonStyle.comicFont}>{display_name}</span>
+            </Link>
+          </Tooltip>
+        }
         <FormControl size="small" variant="outlined" className={nornMinehunterStyle.argNodesSelect}>
           <InputLabel htmlFor="arg-select">Avg Score</InputLabel>
           <Select

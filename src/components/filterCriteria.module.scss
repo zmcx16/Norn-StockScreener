@@ -1,10 +1,19 @@
-.argNodes {
+@mixin argNodesTemplate {
   padding: 10px;
   display: grid;
-  grid-template-columns: 120px 120px 10px 80px 5px 80px;
   justify-items: left;
   align-items: center;
   gap: 5px;
+}
+
+.argNodes {
+  @include argNodesTemplate;
+  grid-template-columns: 120px 120px 10px 80px 5px 80px;
+}
+
+.argNodesMobile {
+  @include argNodesTemplate;
+  grid-template-columns: 120px 10px 80px 5px 80px;
 }
 
 .display_name {
