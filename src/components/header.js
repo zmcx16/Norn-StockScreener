@@ -5,7 +5,6 @@ import Img from 'gatsby-image'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
-import { isMobile } from 'react-device-detect'
 
 import { IOSSwitch } from './iOSSwitch'
 import { kanbanNote, kanbanText } from '../common/common'
@@ -44,22 +43,16 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
 
   return (
     <div className={headerStyle.container}>
-      <div className={isMobile ? headerStyle.kanbanBlockMobile : headerStyle.kanbanBlock}>
+      <div className={headerStyle.kanbanBlock}>
         <Img fixed={imageData.images.childImageSharp.fixed} fadeIn={false} className={headerStyle.kanbanimg}/>
         <div></div>
         <div className={headerStyle.kanbanTextBlock}>
           <Tooltip arrow classes={{ tooltip: tooltipStyle.noMaxWidth }} title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>{kanbanNote}</span>} >
-            <Typography style={{ fontSize: '22px', paddingTop: isMobile ? '5px' : '0px' }} className={commonStyle.comicFont}>{isMobile ? 'Norn-Screener' : 'Norn-StockScreener'}</Typography>
+            <Typography style={{ fontSize: '21px', paddingTop: '5px' }} className={commonStyle.comicFont}>{'Norn-StockScreener'}</Typography>
           </Tooltip>
-          {<Typography style={{ fontSize: isMobile ? '15px' : '', position: isMobile ? 'absolute' : 'relative', paddingTop: '10px' }} >{kanbanText}</Typography>}
+          {<Typography style={{ position: 'absolute', paddingTop: '15px' }} >{kanbanText}</Typography>}
         </div>
-        {isMobile ? 
-          <div className={headerStyle.darkmodetoggle} style={{ background: isDarkMode ? 'black' : 'azure', paddingRight: '10px' }} onClick={
-            () => { setIsDarkMode(!isDarkMode) }
-          }>
-            {toggleNode}
-          </div>
-          :
+        {
           <FormControlLabel
             className={headerStyle.darkmodetoggle} style={{ background: isDarkMode ? 'black' : 'azure' }}
             control={

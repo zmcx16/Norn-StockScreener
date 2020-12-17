@@ -7,7 +7,6 @@ import Modal from '@material-ui/core/Modal'
 import Fade from '@material-ui/core/Fade'
 import Backdrop from '@material-ui/core/Backdrop'
 import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles'
-import { isMobile } from 'react-device-detect'
 import shortid from "shortid"
 import useFetch from 'use-http'
 
@@ -255,7 +254,7 @@ const FilterContainer = ({ ResultTableRef }) => {
             <MuiThemeProvider theme={createMuiTheme({ palette: { primary: blue } })}>
               <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
                 queryStocksRef.current.doQuery()
-              }}>{isMobile ? 'Query' : 'Query Now'}</Button>
+              }}>Query Now</Button>
             </MuiThemeProvider>
           </div>
         </MuiThemeProvider>
