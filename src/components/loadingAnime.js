@@ -4,7 +4,7 @@ import loadingAnimeStyle from './loadingAnime.module.scss'
 
 const LoadingAnime = ({loadingAnimeRef}) => {
   
-  const [loadingState, setLoadingState] = useState(false)
+  const [loadingState, setLoadingState] = useState(true)
 
   // LoadingAnime API
   loadingAnimeRef.current = {

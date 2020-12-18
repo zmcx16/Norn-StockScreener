@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from 'react'
+import React, { useState, useRef, useEffect, createRef } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { blue } from '@material-ui/core/colors'
 import Button from '@material-ui/core/Button'
@@ -7,6 +7,7 @@ import Modal from '@material-ui/core/Modal'
 import Fade from '@material-ui/core/Fade'
 import Backdrop from '@material-ui/core/Backdrop'
 import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles'
+import { isMobile } from 'react-device-detect'
 import shortid from "shortid"
 import useFetch from 'use-http'
 
@@ -227,6 +228,17 @@ const FilterContainer = ({ ResultTableRef }) => {
     URL.revokeObjectURL(blob);
   }
 
+
+  useEffect(() => {
+    // componentDidMount is here!
+    // componentDidUpdate is here!
+    loadingAnimeRef.current.setLoading(false)
+
+    return () => {
+      // componentWillUnmount is here!
+    }
+  }, [])
+
   return (
     <>
       <div className={filterContainerStyle.container}>
@@ -254,7 +266,7 @@ const FilterContainer = ({ ResultTableRef }) => {
             <MuiThemeProvider theme={createMuiTheme({ palette: { primary: blue } })}>
               <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
                 queryStocksRef.current.doQuery()
-              }}>Query Now</Button>
+              }}>{isMobile ? 'Query' : 'Query Now'}</Button>
             </MuiThemeProvider>
           </div>
         </MuiThemeProvider>

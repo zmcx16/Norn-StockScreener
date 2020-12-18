@@ -8,13 +8,9 @@
 
 .argNodes {
   @include argNodesTemplate;
-  grid-template-columns: 120px 120px 10px 80px 5px 80px;
+  grid-template-columns: minmax(0px, 120px) 120px 10px 80px 5px 80px;
 }
 
-.argNodesMobile {
-  @include argNodesTemplate;
-  grid-template-columns: 120px 10px 80px 5px 80px;
-}
 
 .display_name {
   text-align: center;
