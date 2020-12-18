@@ -17,6 +17,7 @@
 
 .kanbanBlockMobile {
   @include kanbanBlockTemplate;
+  
   grid-template-columns: 75px 5px 1fr 90px;
 }
 
@@ -25,7 +26,7 @@
 }
 
 .darkmodetoggle {
-  padding: 0px 0px 0px 10px;
+  padding: 0 0 0 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
