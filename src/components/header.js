@@ -40,7 +40,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
     // componentDidUpdate is here!
     setVisible('visible')
     isMobile ? setToggleMobileDisplay() : setToggleDisplay()
-    
+    isMobile ? setKanbanBlock(headerStyle.kanbanBlockMobile) : setKanbanBlock(headerStyle.kanbanBlock)
     return () => {
       // componentWillUnmount is here!
     }
@@ -56,11 +56,12 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
   const [visible, setVisible] = useState('hidden')
   const [toggleDisplay, setToggleDisplay] = useState('none')
   const [toggleMobileDisplay, setToggleMobileDisplay] = useState('none')
+  const [kanbanBlockClass, setKanbanBlock] = useState(headerStyle.kanbanBlock)
 
   return (
     <>
       <div className={headerStyle.container} style={{ visibility: visible }}>
-        <div className={headerStyle.kanbanBlock}>
+        <div className={kanbanBlockClass}>
           <Img fixed={imageData.images.childImageSharp.fixed} fadeIn={false} className={headerStyle.kanbanimg} />
           <div></div>
           <div className={headerStyle.kanbanTextBlock}>

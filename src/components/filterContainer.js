@@ -16,7 +16,6 @@ import { FCDataTemplate } from '../common/baseargs'
 import { NSSServerUrl, NSSDoQueryAPI } from '../common/common'
 import FilterCriteria from './filterCriteria'
 import NornMinehunter from './nornMinehunter'
-import LoadingAnime from './loadingAnime'
 
 import filterContainerStyle from './filterContainer.module.scss'
 
@@ -161,7 +160,7 @@ const ModalWindow = ({ modalWindowRef }) => {
   )
 }
 
-const FilterContainer = ({ ResultTableRef }) => {
+const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
 
   // API Definition
   const filterCriteriaListRef = useRef([])
@@ -174,11 +173,6 @@ const FilterContainer = ({ ResultTableRef }) => {
 
   const nornMinehunterRef = useRef({
     getValue: null
-  })
-
-  const loadingAnimeRef = useRef({
-    getLoading: null,
-    setLoading: null
   })
 
   const queryStocksRef = useRef({
@@ -271,7 +265,6 @@ const FilterContainer = ({ ResultTableRef }) => {
           </div>
         </MuiThemeProvider>
       </div>
-      <LoadingAnime loadingAnimeRef={loadingAnimeRef}/>
       <ModalWindow modalWindowRef={modalWindowRef} />
       <QueryStocks queryStocksRef={queryStocksRef} loadingAnimeRef={loadingAnimeRef} filterCriteriaListRef={filterCriteriaListRef} ResultTableRef={ResultTableRef} nornMinehunterRef={nornMinehunterRef} modalWindowRef={modalWindowRef}/>
     </>

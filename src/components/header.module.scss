@@ -12,7 +12,12 @@
 
 .kanbanBlock {
   @include kanbanBlockTemplate;
-  grid-template-columns: 75px 5px minmax(180px, auto) minmax(90px, 160px);
+  grid-template-columns: 75px 5px auto 160px;
+}
+
+.kanbanBlockMobile {
+  @include kanbanBlockTemplate;
+  grid-template-columns: 75px 5px 1fr 90px;
 }
 
 .kanbanimg {
