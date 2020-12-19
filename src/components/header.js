@@ -41,6 +41,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
     setVisible('visible')
     isMobile ? setToggleMobileDisplay() : setToggleDisplay()
     isMobile ? setKanbanBlock(headerStyle.kanbanBlockMobile) : setKanbanBlock(headerStyle.kanbanBlock)
+    isMobile ? setHeaderText('Norn-Screener') : setHeaderText('Norn-StockScreener')
     return () => {
       // componentWillUnmount is here!
     }
@@ -57,6 +58,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
   const [toggleDisplay, setToggleDisplay] = useState('none')
   const [toggleMobileDisplay, setToggleMobileDisplay] = useState('none')
   const [kanbanBlockClass, setKanbanBlock] = useState(headerStyle.kanbanBlock)
+  const [headerText, setHeaderText] = useState('')
 
   return (
     <>
@@ -66,7 +68,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
           <div></div>
           <div className={headerStyle.kanbanTextBlock}>
             <Tooltip arrow classes={{ tooltip: tooltipStyle.noMaxWidth }} title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>{kanbanNote}</span>} >
-              <Typography style={{ fontSize: '22px', paddingTop: '5px' }} className={commonStyle.comicFont}>{ 'Norn-Screener' }</Typography>
+              <Typography style={{ fontSize: '22px', paddingTop: '5px' }} className={commonStyle.comicFont}>{headerText}</Typography>
             </Tooltip>
             {<Typography style={{ fontSize:'15px', position: 'absolute', paddingTop: '10px' }} >{kanbanText}</Typography>}
           </div>

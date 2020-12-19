@@ -14,21 +14,24 @@
   gap: 5px;
 }
 
+.argNodesMobile {
+  @include argNodesTemplate;
+  
+  grid-template-columns: 120px 10px 80px 5px 80px;
+}
+
 .argNodes {
   @include argNodesTemplate;
   
-  grid-template-columns: 100px 5px 60px 5px 60px;
-}
-
-.titleMobile {
-  display: block;
-  padding: 0 0 10px 5px;
+  grid-template-columns: 160px 120px 10px 80px 5px 80px;
 }
 
 .display_name {
   text-align: center;
   font-size: 18px;
   width: 170px;
+  white-space: nowrap;
+  line-height: 40px;
 }
 
 .argNodesSelect {

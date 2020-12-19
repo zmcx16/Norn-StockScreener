@@ -111,22 +111,27 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
     // componentDidMount is here!
     // componentDidUpdate is here!
     renderValueFromEnd(default_index)
+    isMobile ? setArgNodesStyle(nornMinehunterStyle.argNodesMobile) : setArgNodesStyle(nornMinehunterStyle.argNodes)
+    if(isMobile){
+      setTitleEmptyNode(<><div></div><div></div><div></div><div></div></>)
+    }
     return () => {
       // componentWillUnmount is here!
     }
   }, [])
 
+  const [argNodesStyle, setArgNodesStyle] = useState()
+  const [titleEmptyNode, setTitleEmptyNode] = useState(<></>)
 
   return (
     <div className={nornMinehunterStyle.container}>
-      { 
+      <div className={argNodesStyle}>
         <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{NMNote}</span>} >
-          <Link className={nornMinehunterStyle.titleMobile} href={NMUrl} target="_blank" rel="noreferrer noopener">
+          <Link href={NMUrl} target="_blank" rel="noreferrer noopener">
             <span className={nornMinehunterStyle.display_name + ' ' + commonStyle.comicFont}>{display_name}</span>
           </Link>
-        </Tooltip> 
-      }
-      <div className={nornMinehunterStyle.argNodes}>
+        </Tooltip>
+        {titleEmptyNode}
         <FormControl size="small" variant="outlined" className={nornMinehunterStyle.argNodesSelect}>
           <InputLabel htmlFor="arg-select">Avg Score</InputLabel>
           <Select
