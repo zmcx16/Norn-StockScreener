@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import { DataGrid, GridOverlay } from '@material-ui/data-grid'
@@ -154,6 +154,9 @@ const ResultTable = ({ResultTableRef}) => {
   ResultTableRef.current = {
     setTable: (data)=>{
       setTableData(renderTable(data))
+      containerRef.current.scrollIntoView({
+        behavior: "smooth",
+      })
     }
   }
 
@@ -246,9 +249,10 @@ const ResultTable = ({ResultTableRef}) => {
   }, [])
 
   const [tableData, setTableData] = useState(renderTable([]))
+  const containerRef = useRef()
 
   return (
-    <div className={resultTableStyle.container}>
+    <div className={resultTableStyle.container} ref={containerRef}>
       {tableData}
     </div>
   )

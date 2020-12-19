@@ -98,24 +98,15 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
 
           ResultTableRef.current.setTable(output)
 
-        }else{
-          modalWindowRef.current.popModalWindow(
-            <>
-              <h2>Get Search Result Failed, ret={resp_data['ret']}</h2>
-            </>
-          )
+        }else {
+          modalWindowRef.current.popModalWindow(<h2>Get Search Result Failed, ret={resp_data['ret']}</h2>)
         }
 
-      } else {
-        modalWindowRef.current.popModalWindow(
-          <>
-            <h2>Get Search Result Failed.</h2>
-          </>
-        )
+      }else {
+        modalWindowRef.current.popModalWindow(<h2>Get Search Result Failed.</h2>)
       }
 
       loadingAnimeRef.current.setLoading(false)
-
     }
   }
 
