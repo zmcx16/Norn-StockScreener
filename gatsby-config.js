@@ -1,8 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `NornScreener`,
-    description: `NornScreener`,
+    title: `Norn-StockScreener`,
+    description: `scan and filter instruments based on market cap, dividend yield, ROE and popular investment master's stock tactics to find valuable stocks.`,
     author: `@zmcx16`,
+    siteUrl: `https://norn-stockscreener.zmcx16.moe`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -19,18 +20,23 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `Norn-StockScreener`,
+        short_name: `Norn-Screener`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/norn-icon.png`, // This path is relative to the root of the site.
+        icon_options: {
+          // For all the options available,
+          // please see the section "Additional Resources" below.
+          purpose: `any maskable`,
+        },
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    `gatsby-plugin-offline`,
     `gatsby-plugin-sass`,
     {
       resolve: `gatsby-plugin-google-analytics`,
