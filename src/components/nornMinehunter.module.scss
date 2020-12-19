@@ -17,7 +17,7 @@
 .argNodesMobile {
   @include argNodesTemplate;
   
-  grid-template-columns: 120px 10px 80px 5px 80px;
+  grid-template-columns: 100px 5px 60px 5px 60px;
 }
 
 .argNodes {
