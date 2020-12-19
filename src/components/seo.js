@@ -12,19 +12,21 @@ import Helmet from 'react-helmet'
 
 function SEO() {
 
+  const descrption = `scan and filter instruments based on market cap, dividend yield, ROE and popular investment master's stock tactics to find valuable stocks.`
+
   return (
     <Helmet
       htmlAttributes={{ lang: `en` }}
-      title={`NornScreener`}
-      titleTemplate={`%s | NornScreener`}
+      title={`Norn-StockScreener`}
+      titleTemplate={`%s | Norn-StockScreener`}
       meta={[
         {
           name: `description`,
-          content: `NornScreener`,
+          content: `Norn-StockScreener`,
         },
         {
           property: `og:title`,
-          content: `NornScreener`,
+          content: `Norn-StockScreener`,
         },
         {
           property: `og:image`,
@@ -32,7 +34,7 @@ function SEO() {
         },
         {
           property: `og:description`,
-          content: `NornScreener`,
+          content: descrption,
         },
         {
           property: `og:type`,
@@ -52,7 +54,7 @@ function SEO() {
         },
         {
           name: `twitter:description`,
-          content: `NornScreener`,
+          content: descrption,
         },
       ]}
       link={[
