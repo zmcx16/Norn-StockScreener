@@ -4,6 +4,14 @@
 
 Norn-StockScreener is an US stock screener. You can use it to scan and filter instruments based on market cap, dividend yield, ROE... base argument to get your target stocks, it also support some popular investment master's stock tactics to find valuable stocks. 
 
+https://norn-stockscreener.zmcx16.moe/
+
+# Demo
+
+![image](https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo.png)
+
+![image](https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-dark.png)
+
 # Base Argument Filter
   * Market Cap
   * Dividend %
@@ -72,8 +80,6 @@ Norn-StockScreener is an US stock screener. You can use it to scan and filter in
   * Yahoo Finance (https://finance.yahoo.com)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
-# Demo
-TBD
 
 # License
 This project is licensed under the terms of the MIT license.

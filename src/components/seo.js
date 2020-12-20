@@ -13,13 +13,14 @@ import Helmet from 'react-helmet'
 function SEO() {
 
   const title = `Norn-StockScreener`
+  const mobileTitle = `Norn-Screener`
   const descrption = `scan and filter instruments based on market cap, dividend yield, ROE and popular investment master's stock tactics to find valuable stocks.`
 
   return (
     <Helmet
       htmlAttributes={{ lang: `en` }}
       title={title}
-      titleTemplate={`%s | ${title}`}
+      titleTemplate={`${title} | ${mobileTitle}`}
       meta={[
         {
           name: `description`,
@@ -31,7 +32,7 @@ function SEO() {
         },
         {
           property: `og:image`,
-          content: `https://i.imgur.com/iQz1ujc.jpg`,
+          content: `https://i.imgur.com/J4usf4S.png`,
         },
         {
           property: `og:description`,
