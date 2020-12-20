@@ -12,6 +12,8 @@ https://norn-stockscreener.zmcx16.moe/
 
 ![image](https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-dark.png)
 
+![image](https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-mobile.png)
+
 # Base Argument Filter
   * Market Cap
   * Dividend %
