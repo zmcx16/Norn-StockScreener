@@ -21,11 +21,12 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Norn-StockScreener`,
+        description: `Filter, shortlist stock from the market.`,
         short_name: `Norn-Screener`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
-        display: `minimal-ui`,
+        background_color: `#1a3664`,
+        theme_color: `#1a3664`,
+        display: `standalone`,
         icon: `src/images/norn-icon.png`, // This path is relative to the root of the site.
         icon_options: {
           // For all the options available,
