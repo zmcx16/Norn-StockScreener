@@ -3,6 +3,7 @@ export const YahooFinanceEnUrl = "https://finance.yahoo.com/"
 export const YahooFinanceZhUrl = "https://hk.finance.yahoo.com/"
 
 export const NornStockScreenerUrl = "https://github.com/zmcx16/Norn-StockScreener"
+export const NornStockScreenerMobileUrl = "https://play.google.com/store/apps/details?id=moe.zmcx16.norn_stockscreener"
 export const zmcx16ProjectUrl = "https://project.zmcx16.moe"
 export const zmcx16BlogUrl = "https://blog.zmcx16.moe"
 
