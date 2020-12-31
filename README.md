@@ -1,6 +1,7 @@
 # Norn-StockScreener
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1555e97f268e47e6a298a6253ff1ed8f)](https://app.codacy.com/gh/zmcx16/Norn-StockScreener?utm_source=github.com&utm_medium=referral&utm_content=zmcx16/Norn-StockScreener&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://zmcx16.visualstudio.com/stock-minehunter-server/_apis/build/status/zmcx16.stock-minehunter-server?branchName=master)](https://zmcx16.visualstudio.com/stock-minehunter-server/_build/latest?definitionId=4&branchName=master)
+![Build Badge](https://github.com/zmcx16/zmcx16.github.io/workflows/DataStatus/badge.svg)
 
 Norn-StockScreener is an US stock screener. You can use it to scan and filter instruments based on market cap, dividend yield, ROE... base argument to get your target stocks, it also support some popular investment master's stock tactics to find valuable stocks. 
 
