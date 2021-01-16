@@ -7,8 +7,8 @@ export const NornStockScreenerMobileUrl = "https://play.google.com/store/apps/de
 export const zmcx16ProjectUrl = "https://project.zmcx16.moe"
 export const zmcx16BlogUrl = "https://blog.zmcx16.moe"
 
-export const NSSServerUrl = "https://zmcx16.moe"
-export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
+export const NSSServerUrl = "https://localhost:44305"
+export const NSSDoQueryAPI = "/api/task/do-norn-screen"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 

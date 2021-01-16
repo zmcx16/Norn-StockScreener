@@ -130,6 +130,46 @@ const ResultTable = ({ResultTableRef}) => {
         }  
       }
 
+      bomb1_2: file(relativePath: { eq: "bomb1-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb2_2: file(relativePath: { eq: "bomb2-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb3_2: file(relativePath: { eq: "bomb3-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb4_2: file(relativePath: { eq: "bomb4-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb5_2: file(relativePath: { eq: "bomb5-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
       finviz: file(relativePath: { eq: "finviz-favicon.png" }){
         childImageSharp {
           fixed(width: 32) {
@@ -203,6 +243,25 @@ const ResultTable = ({ResultTableRef}) => {
     },
     { field: 'tactics', hide: true, mobileShow: true },
     {
+      field: 'beneish_score',
+      headerName: 'Beneish Model',
+      width: 130,
+      renderCell: (params) => (
+        <div className={resultTableStyle.risk}>
+          <a>
+            <Img className={resultTableStyle.bombImg} fixed={
+              isNaN(params.value) ? data.bomb3_2.childImageSharp.fixed :
+                params.value < -2.22 ? data.bomb2_2.childImageSharp.fixed :
+                  params.value < -1.78 ? data.bomb3_2.childImageSharp.fixed :
+                    data.bomb4_2.childImageSharp.fixed
+            } fadeIn={false} />
+          </a>
+          <span style={{ fontSize: 18 }}>({params.value === "NaN" ? params.value : params.value.toFixed(2)})</span>
+        </div>
+      ), 
+      mobileShow: false
+    },
+    {
       field: 'risk',
       headerName: 'Risk',
       width: 130,
@@ -218,7 +277,7 @@ const ResultTable = ({ResultTableRef}) => {
                         data.bomb5.childImageSharp.fixed
             } fadeIn={false} />
           </a>
-          <span style={{ fontSize: 18 }}>({params.value}%)</span>
+          <span style={{ fontSize: 18 }}>({params.value === "NaN" ? params.value : params.value + "%"})</span>
         </div>
       ), 
       mobileShow: true

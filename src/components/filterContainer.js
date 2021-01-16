@@ -12,7 +12,7 @@ import shortid from "shortid"
 import useFetch from 'use-http'
 
 import { StockSectorDict, StockIndustryDict} from '../common/stockdef'
-import { FCDataTemplate } from '../common/baseargs'
+import { FCDataTemplate } from '../common/argsList'
 import { NSSServerUrl, NSSDoQueryAPI } from '../common/common'
 import FilterCriteria from './filterCriteria'
 import NornMinehunter from './nornMinehunter'
@@ -46,11 +46,16 @@ const useModalStyles = makeStyles((theme) => ({
 
 const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef)=>{
 
-  let queryData = { data: { baseArg: [], NornMinehunter: {} } }
+  let queryData = { data: { baseArg: [], advArg: [], NornMinehunter: {} } }
 
   // get basic arg
   FCDataTemplate.forEach((value, index) => {
-    queryData.data.baseArg.push(filterCriteriaListRef.current[index].current.getValue())
+    let argVal = filterCriteriaListRef.current[index].current.getValue()
+    if (argVal.type === 0){
+      queryData.data.baseArg.push(argVal)
+    } else if (argVal.type === 1) {
+      queryData.data.advArg.push(argVal)
+    }
   })
 
   // get norn-minehunter args
@@ -75,7 +80,7 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
 
       const resp_data = await post(NSSDoQueryAPI, queryData)
       if (response.ok) {
-        //console.log(resp_data)
+        console.log(resp_data)
 
         if (resp_data['ret'] === 0){
 
@@ -91,6 +96,7 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
               price: value['price'] === '-' ? 'NaN' : value['price'],
               change: value['change'] === '-' ? 'NaN' : value['change'],
               volume: value['volume'] === '-' ? 'NaN' : value['volume'],
+              beneish_score: value['beneish_score'] < -10000000 ? 'NaN' : value['beneish_score'],
               risk: value['risk'] === -1 ? 'NaN' : value['risk'],
               tactics: nornMinehunterRef.current.getEnableTacticStrings(),
             }
@@ -184,15 +190,21 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
 
           nornMinehunterRef.current.setValue(data['data']['NornMinehunter'])
 
-          data['data']['baseArg'].forEach((input_v, input_i) => {
-            FCDataTemplate.forEach((template_v, template_i) => {
-              let name = filterCriteriaListRef.current[template_i].current.getValue()['name']
-              if (name === input_v['name']){
-                filterCriteriaListRef.current[template_i].current.setValue(input_v)
-                return
-              }
-            })
+          let argType = ['baseArg', 'advArg']
+          argType.forEach((v, i) => {
+            if(data['data'][v]){
+              data['data'][v].forEach((input_v, input_i) => {
+                FCDataTemplate.forEach((template_v, template_i) => {
+                  let name = filterCriteriaListRef.current[template_i].current.getValue()['name']
+                  if (name === input_v['name']) {
+                    filterCriteriaListRef.current[template_i].current.setValue(input_v)
+                    return
+                  }
+                })
+              })
+            }
           })
+          
         }
       })(value)
 

@@ -17,6 +17,7 @@ import filterCriteriaStyle from './filterCriteria.module.scss'
 {
   "name": "P/B",
   "display_name": "Price-Book Ratio",
+  "type": 1,
   "args_items": ["< 0", "0 - 0.5", "0.5 - 1.0", "1.0 - 1.5", "1.5 - 2.0", "2.0 - 3.0", "> 3.0"],
   "default_index": 2
 }
@@ -26,7 +27,7 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
 
   // filterCriteriaRef API
   filterCriteriaRef.current.getValue = () => {
-    return { name: name, from: valueFromRef.current.value, end: valueEndRef.current.value}
+    return { name: name, type: type, from: valueFromRef.current.value, end: valueEndRef.current.value}
   }
 
   filterCriteriaRef.current.setValue = (value) => {
@@ -70,7 +71,7 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
   const [valueFromEnd, setValueFromEnd] = useState(genFromEndTextField(valueFromRef, valueEndRef, '', ''))
 
   // arg select
-  const { name, display_name, tooltip, args_items, default_index } = dataTemplate
+  const { name, display_name, type, tooltip, args_items, default_index } = dataTemplate
   const [arg, setArg] = useState(default_index)
 
   const renderValueFromEnd = (index) => {

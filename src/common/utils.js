@@ -24,12 +24,12 @@ export const getFromEndVal = (input) =>{
     let t_arr = val.split('>')
     return [convertFromSelect2Input(t_arr[1]), '']
   }
-  else if (val.includes('-')){
-    let t_arr = val.split('-')
+  else if (val.includes(' ~ ')){
+    let t_arr = val.split(' ~ ')
     return [convertFromSelect2Input(t_arr[0]), convertFromSelect2Input(t_arr[1])]
   }
   else{ // hoc
-    if(val == '0%'){
+    if(val === '0%'){
       return ['', '0']
     }
     else{
