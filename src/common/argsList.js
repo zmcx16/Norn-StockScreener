@@ -98,6 +98,22 @@ export const FCDataTemplate = [
     default_index: 0
   },
   {
+    name: "EPS last 1Q",
+    display_name: "EPS last 1Q",
+    type: 1,
+    tooltip: "Last quarter EPS",
+    args_items: ["Any", "> 0", "< 0"],
+    default_index: 0
+  },
+  {
+    name: "EPS last 2Q",
+    display_name: "EPS last 2Q",
+    type: 1,
+    tooltip: "The quarter EPS before last quarter",
+    args_items: ["Any", "> 0", "< 0"],
+    default_index: 0
+  },
+  {
     name: "Sales past 5Y",
     display_name: "Sales past 5Y",
     type: 0,
