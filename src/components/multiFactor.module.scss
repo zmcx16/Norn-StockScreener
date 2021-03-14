@@ -1,0 +1,25 @@
+.container {
+  border: 1px solid forestgreen;
+  border-radius: 10px;
+  padding: 10px 5px;
+  margin: 10px 0;
+}
+
+.displayName {
+  text-align: center;
+  font-size: 18px;
+  width: 170px;
+  white-space: nowrap;
+  line-height: 40px;
+}
+
+.valueText {
+  width: 140px;
+}
+
+.weightBlock {
+  padding: 10px;
+  gap: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}

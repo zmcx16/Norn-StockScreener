@@ -282,6 +282,15 @@ const ResultTable = ({ResultTableRef}) => {
       ), 
       mobileShow: true
     },
+    { 
+      field: 'multiFactor', 
+      headerName: 'Mulit-Factor', 
+      width: 110, 
+      renderCell: (params) => (
+        <span style={{ fontSize: 18 }}>{params.value === "NaN" ? params.value : params.value.toFixed(2)}</span>
+      ),
+      mobileShow: true 
+    },
     {
       field: 'links',
       headerName: 'Links',

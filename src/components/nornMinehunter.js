@@ -128,7 +128,7 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
       <div className={argNodesStyle}>
         <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{NMNote}</span>} >
           <Link href={NMUrl} target="_blank" rel="noreferrer noopener">
-            <span className={nornMinehunterStyle.display_name + ' ' + commonStyle.comicFont}>{display_name}</span>
+            <span className={nornMinehunterStyle.displayName + ' ' + commonStyle.comicFont}>{display_name}</span>
           </Link>
         </Tooltip>
         {titleEmptyNode}

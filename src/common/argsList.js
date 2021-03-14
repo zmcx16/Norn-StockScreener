@@ -1,4 +1,4 @@
-// type = 0: baseArgs, type = 1: advArgs
+// type = 0: baseArgs, type = 1: advArgs, type = 2: NornMinehunter
 export const FCDataTemplate = [
   {
     name: "Market Cap",
@@ -408,5 +408,5 @@ export const FCDataTemplate = [
     tooltip: "Use financial ratios and eight variables to identify whether a company has manipulated its earnings",
     args_items: ["Any", "< -2.22", "< -1.78", "> -2.22", "> -1.78", "-2.22 ~ -1.78"],
     default_index: 0
-  },
+  }
 ]
