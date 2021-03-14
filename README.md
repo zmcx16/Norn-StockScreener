@@ -64,6 +64,9 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * SMA50
   * SMA200
 
+# Advanced Argument Filter
+  * Beneish Model
+  
 # Investment Master's Tactics
   * Benjamin Graham strategy
   * Harry Burn III strategy
@@ -80,6 +83,17 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Warren E. Buffett strategy
   * zmcx16 strategy
 
+# Multi-Factor Intersectional Model
+##### Value factor
+  * Earnings / Price
+  * Book / Price
+  * Sales / Price
+  
+##### Growth factor
+  * ROE
+  * ROA
+  * ROI
+  
 # Financial Data Source
   * Finviz (https://finviz.com)
   * Yahoo Finance (https://finance.yahoo.com)
