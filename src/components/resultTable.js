@@ -285,7 +285,7 @@ const ResultTable = ({ResultTableRef}) => {
     { 
       field: 'multiFactor', 
       headerName: 'Mulit-Factor', 
-      width: 110, 
+      width: 130, 
       renderCell: (params) => (
         <span style={{ fontSize: 18 }}>{params.value === "NaN" ? params.value : params.value.toFixed(2)}</span>
       ),
