@@ -16,6 +16,11 @@ export const MFDataTemplate = {
       val: "1.0"
     },
     {
+      name: "FCF/P_w",
+      display_name: "FCF/P weight",
+      val: "0.5"
+    },
+    {
       name: "ROA_w",
       display_name: "ROA weight",
       val: "1.0"
@@ -29,7 +34,12 @@ export const MFDataTemplate = {
       name: "ROI_w",
       display_name: "ROI weight",
       val: "1.0"
-    }      
+    },
+    {
+      name: "DIV_w",
+      display_name: "Dividend % weight",
+      val: "0.5"
+    }       
   ]      
 }
 
