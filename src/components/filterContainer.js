@@ -17,6 +17,7 @@ import { NSSServerUrl, NSSDoQueryAPI } from '../common/common'
 import FilterCriteria from './filterCriteria'
 import NornMinehunter from './nornMinehunter'
 import MultiFactor from './multiFactor'
+import FilterSectorsIndustries from './filterSectorsIndustries'
 
 import filterContainerStyle from './filterContainer.module.scss'
 
@@ -171,6 +172,10 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
     }
   })
 
+  const filterSectorsIndustriesRef = useRef({
+    getValue: null
+  })
+
   const nornMinehunterRef = useRef({
     getValue: null
   })
@@ -254,6 +259,7 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
             })
           }
         </Grid>
+        <FilterSectorsIndustries filterSectorsIndustriesRef={filterSectorsIndustriesRef} />
         <NornMinehunter nornMinehunterRef={nornMinehunterRef}/>
         <MultiFactor multiFactorRef={multiFactorRef} />
         <MuiThemeProvider theme={customTheme}>
