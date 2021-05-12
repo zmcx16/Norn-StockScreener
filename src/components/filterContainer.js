@@ -46,9 +46,9 @@ const useModalStyles = makeStyles((theme) => ({
   },
 }))
 
-const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef, multiFactorRef)=>{
+const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef, multiFactorRef, filterSectorsIndustriesRef)=>{
 
-  let queryData = { data: { baseArg: [], advArg: [], NornMinehunter: {}, Factor_Intersectional_v1: {} } }
+  let queryData = { data: { baseArg: [], advArg: [], NornMinehunter: {}, Factor_Intersectional_v1: {}, sector_industries: {} } }
 
   // get basic arg
   FCDataTemplate.forEach((value, index) => {
@@ -60,15 +60,15 @@ const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef, multiFactor
     }
   })
 
-  // get norn-minehunter args
   queryData.data.NornMinehunter = nornMinehunterRef.current.getValue()
   queryData.data.Factor_Intersectional_v1 = multiFactorRef.current.getValue()
+  queryData.data.sector_industries = filterSectorsIndustriesRef.current.getValue()
 
   return queryData
 }
 
 // split from FilterContainer to prevent rerender FilterContainer
-const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, nornMinehunterRef, multiFactorRef, ResultTableRef, modalWindowRef}) => {
+const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, nornMinehunterRef, multiFactorRef, filterSectorsIndustriesRef, ResultTableRef, modalWindowRef}) => {
   
   //const { post, response } = useFetch('https://localhost:44305')
   const { post, response } = useFetch(NSSServerUrl)
@@ -78,8 +78,8 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
 
       loadingAnimeRef.current.setLoading(true)
 
-      let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef, multiFactorRef)
-      //console.log(queryData)
+      let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef, multiFactorRef, filterSectorsIndustriesRef)
+      console.log(queryData)
 
       const resp_data = await post(NSSDoQueryAPI, queryData)
       if (response.ok) {
@@ -202,6 +202,7 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
 
           nornMinehunterRef.current.setValue(data['data']['NornMinehunter'])
           multiFactorRef.current.setValue(data['data']['Factor_Intersectional_v1'])
+          filterSectorsIndustriesRef.current.setValue(data['data']['sector_industries'])
 
           let argType = ['baseArg', 'advArg']
           argType.forEach((v, i) => {
@@ -228,7 +229,7 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
 
   const exportSetting = (e) => {
 
-    let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef, multiFactorRef)
+    let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef, multiFactorRef, filterSectorsIndustriesRef)
 
     var aTag = document.createElement('a');
     var blob = new Blob([JSON.stringify(queryData)]);
@@ -284,7 +285,7 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
         </MuiThemeProvider>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />
-      <QueryStocks queryStocksRef={queryStocksRef} loadingAnimeRef={loadingAnimeRef} filterCriteriaListRef={filterCriteriaListRef} ResultTableRef={ResultTableRef} nornMinehunterRef={nornMinehunterRef} multiFactorRef={multiFactorRef} modalWindowRef={modalWindowRef}/>
+      <QueryStocks queryStocksRef={queryStocksRef} loadingAnimeRef={loadingAnimeRef} filterCriteriaListRef={filterCriteriaListRef} ResultTableRef={ResultTableRef} nornMinehunterRef={nornMinehunterRef} multiFactorRef={multiFactorRef} filterSectorsIndustriesRef={filterSectorsIndustriesRef} modalWindowRef={modalWindowRef}/>
     </>
   )
 }

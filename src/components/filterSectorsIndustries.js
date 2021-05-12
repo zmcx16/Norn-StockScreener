@@ -1,59 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import TextField from '@material-ui/core/TextField'
-import Avatar from '@material-ui/core/Avatar'
+import React, { useState, useRef, createRef } from 'react'
 import Chip from '@material-ui/core/Chip'
 import { createMuiTheme } from '@material-ui/core/styles'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 import Link from '@material-ui/core/Link'
-import Tooltip from '@material-ui/core/Tooltip'
-import { isMobile } from 'react-device-detect'
 import shortid from 'shortid'
 import { StockSectorDict, StockIndustryDict } from '../common/stockdef'
+import { FinvizUrl} from '../common/common'
 
-import commonStyle from './common.module.scss'
 import filterSectorsIndustriesStyle from './filterSectorsIndustries.module.scss'
 
 
-const FilterSectorsIndustries = ({ filterSectorsIndustriesRef }) => {
+const ChipObj = ({chipObjRef, text}) => {
 
-  // filterSectorsIndustriesRef API
-  filterSectorsIndustriesRef.current.getValue = () => {
-    return {
-      sectors: sectors,
-      industries: industries
-    }
+  chipObjRef.current.getValue = () => {
+    return value
   }
 
-  filterSectorsIndustriesRef.current.setValue = (FSISetting) => {
-
-    let sectors_t = { ...sectors }
-    Object.entries(FSISetting.sectors).forEach(([key, value]) => {
-      sectors_t[key] = value
-    })
-    setSectors(sectors_t)
-
-    let industries_t = { ...industries }
-    Object.entries(FSISetting.industries).forEach(([key, value]) => {
-      industries_t[key] = value
-    })
-    setIndustries(industries_t)
+  chipObjRef.current.setValue = (value) => {
+    setValue(value)
   }
 
-  const [sectors, setSectors] = useState(Object.keys(StockSectorDict).reduce((accumulator, currentKey) => {
-    if (currentKey != "-1") { // Nan don't care
-      accumulator[currentKey] = false
-    }
-    return accumulator
-  }, {}))
-
-  const [industries, setIndustries] = useState(Object.keys(StockIndustryDict).reduce((accumulator, currentKey) => {
-    if (currentKey != "-1") { // Nan don't care
-      accumulator[currentKey] = false
-    }
-    return accumulator
-  }, {}))
+  const [value, setValue] = useState(false)
 
   // chip color
   let chipColor = {
@@ -62,7 +31,7 @@ const FilterSectorsIndustries = ({ filterSectorsIndustriesRef }) => {
       {
         main: { backgroundColor: '#e0e0e0', color: 'rgba(0, 0, 0, 0.87)' }
       },
-      activate: 
+      activate:
       {
         main: { backgroundColor: '#ff5722', color: '#fff' }
       }
@@ -71,35 +40,118 @@ const FilterSectorsIndustries = ({ filterSectorsIndustriesRef }) => {
 
   const chipTheme = createMuiTheme(chipColor)
 
-  /*
-  useEffect(() => {
-    // componentDidMount is here!
-    // componentDidUpdate is here!
-    return () => {
-      // componentWillUnmount is here!
+  return <Chip
+    label={text}
+    style={value ? { ...chipTheme.palette.activate.main, ...{ margin: '3px 5px' } } : { ...chipTheme.palette.default.main, ...{ margin: '3px 5px' } }}
+    onClick={() => {
+      setValue(!value)
+    }} 
+  />
+}
+
+const FilterSectorsIndustries = ({ filterSectorsIndustriesRef }) => {
+
+  // filterSectorsIndustriesRef API
+  filterSectorsIndustriesRef.current.getValue = () => {
+    return {
+      sectors: Object.keys(filterSectorsRef.current).reduce((accumulator, currentKey) => {
+        if (filterSectorsRef.current[currentKey].current.getValue())
+          accumulator[currentKey] = true
+        return accumulator
+      }, {}),
+      industries: Object.keys(filterIndustriesRef.current).reduce((accumulator, currentKey) => {
+        if (filterIndustriesRef.current[currentKey].current.getValue())
+          accumulator[currentKey] = true
+        return accumulator
+      }, {})
     }
-  }, [])
-  */
+  }
+
+  filterSectorsIndustriesRef.current.setValue = (FSISetting) => {
+
+    Object.entries(filterSectorsRef.current).forEach(([key, value]) => {
+      if (key in FSISetting.sectors)
+        filterSectorsRef.current[key].current.setValue(true)
+      else
+        filterSectorsRef.current[key].current.setValue(false)
+    })
+
+    Object.entries(filterIndustriesRef.current).forEach(([key, value]) => {
+      if (key in FSISetting.industries)
+        filterIndustriesRef.current[key].current.setValue(true)
+      else
+        filterIndustriesRef.current[key].current.setValue(false)
+    })
+  }
+
+  const filterSectorsRef = useRef({})
+  Object.entries(StockSectorDict).forEach(([key, value]) => {
+    if (key != "-1") {
+      filterSectorsRef.current[key] = createRef()
+      filterSectorsRef.current[key].current = {
+        getValue: null
+      }
+    }
+  })
+
+  const filterIndustriesRef = useRef({})
+  Object.entries(StockIndustryDict).forEach(([key, value]) => {
+    if (key != "-1") {
+      filterIndustriesRef.current[key] = createRef()
+      filterIndustriesRef.current[key].current = {
+        getValue: null
+      }
+    }
+  })
+
+  const renderShowHideCheckbox = (id, labeltext, link, linkText)=> {
+    return <FormControlLabel
+      control={
+        <Checkbox
+          onChange={(event) => {
+            // useState will re-render too many item and drop state, update real dom element css style directly.
+            document.getElementById(id).style.display = event.target.checked ? 'block' : 'none'
+          }}
+          name={labeltext}
+          color="secondary"
+        />
+      }
+      label={
+        <div>
+          <span>{labeltext}&nbsp;</span>
+          <Link href={link} target="_blank" rel="noreferrer noopener" underline='none'>
+            <span>({linkText})</span>
+          </Link>
+        </div>
+      }
+    />
+  }
+
+  const renderSIContainer = (dataRef, defDict) => {
+    var dataList = Object.keys(dataRef.current).map(function (key) {
+      return [key, defDict[key]]
+    })
+    dataList.sort(function (first, second) {
+      var orderBool = first[1] > second[1]
+      return orderBool ? 1 : -1
+    })
+
+    return dataList.map((data) => {
+      return <ChipObj chipObjRef={dataRef.current[data[0]]} text={data[1]} key={shortid.generate()} />
+    })
+  }
 
   return (
     <div className={filterSectorsIndustriesStyle.container}>
-      <div>
-        {Object.keys(StockSectorDict).map((key, index) => {
-          if (key == "-1") { // remove Nan
-            return
-          }
-
-          return (
-            <Chip key={'sector_' + key}
-              label={StockSectorDict[key]}
-              style={sectors[key] ? { ...chipTheme.palette.activate.main, ...{ margin: '3px 5px' } } : { ...chipTheme.palette.default.main, ...{ margin: '3px 5px' } }}
-              onClick={() => {
-                let sectors_t = { ...sectors }
-                sectors_t[key] = !sectors_t[key]
-                setSectors(sectors_t)
-              }} />
-          )
-        })}
+      <FormGroup row>
+        {renderShowHideCheckbox('sectorContainer', 'Filter Sectors', FinvizUrl + 'groups.ashx?g=sector&v=152&o=-perf1w&c=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26', 'Index')}
+        {renderShowHideCheckbox('industryContainer', 'Filter Industries', FinvizUrl + 'groups.ashx?g=industry&v=152&o=-perf1w&c=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26', 'Index')}
+      </FormGroup>
+      <div id={'sectorContainer'} className={filterSectorsIndustriesStyle.SectorIndustryContainer}>
+        {renderSIContainer(filterSectorsRef, StockSectorDict)}
+      </div>
+      <div id={'industryContainer'} className={filterSectorsIndustriesStyle.SectorIndustryContainer}>
+        {renderSIContainer(filterIndustriesRef, StockIndustryDict)}
       </div>
     </div>
   )

@@ -1,8 +1,15 @@
 .container {
-  padding: 10px 5px;
   margin: 10px 0;
 }
 
 .chipLabel {
   margin: 2px 7px;
+}
+
+.SectorIndustryContainer {
+  border: 1px solid forestgreen;
+  border-radius: 10px;
+  padding: 10px 5px;
+  margin: 10px 0;
+  display: none;
 }
