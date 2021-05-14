@@ -13,7 +13,13 @@ const Layout = ({ children} ) => {
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   return (
-    <ThemeProvider theme={createMuiTheme({ palette: { type: isDarkMode ? 'dark' : 'light' } })}>
+    <ThemeProvider theme={createMuiTheme({ 
+      palette: { 
+        type: isDarkMode ? 'dark' : 'light',
+        background: {
+          default: isDarkMode ? '#303030' : '#fcfafa',
+        }
+      }})}>
       <CssBaseline />
       <div className={layoutStyle.container}>
         <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
