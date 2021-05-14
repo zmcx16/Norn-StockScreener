@@ -66,6 +66,8 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
 
 # Advanced Argument Filter
   * Beneish Model
+  * Sectors
+  * Industries
   
 # Investment Master's Tactics
   * Benjamin Graham strategy
@@ -98,7 +100,7 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Dividend (%)
   * Insider ownership, Insider transcations
   * Institution ownership, Institution transcations
-  
+
 # Financial Data Source
   * Finviz (https://finviz.com)
   * Yahoo Finance (https://finance.yahoo.com)
