@@ -68,6 +68,6 @@ export const MFNote = `
 Ranked the stocks by multiple factors simulatneously: \n
 Value factor:  Earnings / Price, Book / Price, Sales / Price\n
 Growth factor: ROE, ROA, ROI\n
-Other factor:  Dividend (%), Insider ownership, Insider ownership,\n
+Other factor:  Dividend (%), Insider ownership, Insider transcations,\n
                Institution ownership, Institution transcations\n
 `
