@@ -56,14 +56,14 @@ const FilterSectorsIndustries = ({ filterSectorsIndustriesRef }) => {
     return {
       sectors: Object.keys(filterSectorsRef.current).reduce((accumulator, currentKey) => {
         if (filterSectorsRef.current[currentKey].current.getValue())
-          accumulator[currentKey] = true
+          accumulator.push(currentKey)
         return accumulator
-      }, {}),
+      }, []),
       industries: Object.keys(filterIndustriesRef.current).reduce((accumulator, currentKey) => {
         if (filterIndustriesRef.current[currentKey].current.getValue())
-          accumulator[currentKey] = true
+          accumulator.push(currentKey)
         return accumulator
-      }, {})
+      }, [])
     }
   }
 
