@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useRef, createRef } from 'react'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
-import Avatar from '@material-ui/core/Avatar'
-import Chip from '@material-ui/core/Chip'
-import { createMuiTheme } from '@material-ui/core/styles'
 import Link from '@material-ui/core/Link'
 import Tooltip from '@material-ui/core/Tooltip'
-import { isMobile } from 'react-device-detect'
 import shortid from 'shortid'
 
 import { MFDataTemplate, MFNote, MFUrl } from '../common/mf'
-import { getFromEndVal } from '../common/utils'
 
 import commonStyle from './common.module.scss'
 import multiFactorStyle from './multiFactor.module.scss'

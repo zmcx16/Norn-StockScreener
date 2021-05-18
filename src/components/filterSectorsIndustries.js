@@ -86,7 +86,7 @@ const FilterSectorsIndustries = ({ filterSectorsIndustriesRef }) => {
 
   const filterSectorsRef = useRef({})
   Object.entries(StockSectorDict).forEach(([key, value]) => {
-    if (key != "-1") {
+    if (key !== "-1") {
       filterSectorsRef.current[key] = createRef()
       filterSectorsRef.current[key].current = {
         getValue: null
@@ -96,7 +96,7 @@ const FilterSectorsIndustries = ({ filterSectorsIndustriesRef }) => {
 
   const filterIndustriesRef = useRef({})
   Object.entries(StockIndustryDict).forEach(([key, value]) => {
-    if (key != "-1") {
+    if (key !== "-1") {
       filterIndustriesRef.current[key] = createRef()
       filterIndustriesRef.current[key].current = {
         getValue: null
