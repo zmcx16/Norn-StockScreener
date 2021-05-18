@@ -59,7 +59,12 @@ export const MFDataTemplate = {
       name: "InstTrans_w",
       display_name: "Inst Trans weight",
       val: "0.2"
-    }    
+    },
+    {
+      name: "TgtPrice_w",
+      display_name: "Target Price weight",
+      val: "0.5"
+    }      
   ]      
 }
 
@@ -70,4 +75,5 @@ Value factor:  Earnings / Price, Book / Price, Sales / Price\n
 Growth factor: ROE, ROA, ROI\n
 Other factor:  Dividend (%), Insider ownership, Insider transcations,\n
                Institution ownership, Institution transcations\n
+               Difference Target Price and Current Price\n
 `
