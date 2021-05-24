@@ -26,7 +26,7 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Install Python dependencies
       run: |
-        python -m pip install -r ./.github/script/requirements.txt
+        python -m pip install -r ./.github/data_status-script/requirements.txt
     - name: test db data if too old
       run: |-
-        python ./.github/script/run_test.py
+        python ./.github/data_status-script/run_test.py
