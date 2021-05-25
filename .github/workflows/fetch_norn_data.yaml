@@ -47,5 +47,5 @@ jobs:
         git diff ./norn-data
         git config --global user.email "zmcx16@gmail.com"
         git config --global user.name "norn"
-        git diff ./norn-data --quiet || (git add ./norn-data/\* && git commit -m "updated website & norn-data")
+        git diff ./norn-data || (git add ./norn-data/\* && git commit -m "updated website & norn-data")
         git push
