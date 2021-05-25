@@ -39,6 +39,8 @@ jobs:
         python ./ci-folder/fetch_norn_data.py
     - name: Add norn-data and push it
       run: |-
+        git config --global user.email "zmcx16@gmail.com"
+        git config --global user.name "norn"
         git add ./norn-data/\*
         git commit -m "updated website & norn-data"
         git push
