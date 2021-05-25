@@ -19,7 +19,7 @@ def send_request(url):
 def update_get_market(norn_data_folder_path, config):
 
     base_url = os.environ.get("MARKET_URL", "")
-    
+
     for industry in config['markets']:
         try:
             print('update industry market: ' + industry)
@@ -34,7 +34,7 @@ def update_get_market(norn_data_folder_path, config):
                                   'src': item['src'], 'data': item['data']}
 
                         with open(norn_data_folder_path / 'market-industry' / 'market' / (item['id'] + '.json'), 'w', encoding='utf-8') as f:
-                            f.write(str(output))
+                            f.write(json.dumps(output, separators=(',', ':')))
 
                 else:
                     print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
@@ -60,7 +60,7 @@ def get_market_industry():
                 output = {'update_time': str(datetime.now()), 'data': resp["data"]}
                 with open(norn_data_folder_path / 'market-industry' / 'indusrty-table.json', 'w',
                           encoding='utf-8') as f_it:
-                    f_it.write(str(output))
+                    f_it.write(json.dumps(output, separators=(',', ':')))
 
             else:
                 print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
