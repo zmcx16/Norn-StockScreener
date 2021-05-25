@@ -2,7 +2,6 @@ import os
 import pathlib
 import json
 import requests
-from dateutil import parser
 from datetime import datetime
 
 def send_request(url):
