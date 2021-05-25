@@ -1,4 +1,5 @@
 import os
+import sys
 import pathlib
 import json
 import requests
@@ -64,11 +65,14 @@ def get_market_industry():
 
             else:
                 print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
+                sys.exit(1)
         else:
             print('send_request failed: {ret}'.format(ret=ret))
+            sys.exit(1)
 
     except Exception as exc:
         print('Generated an exception: %s' % exc)
+        sys.exit(1)
 
     print('get_market_industry done')
 
