@@ -29,7 +29,4 @@ jobs:
         python -m pip install -r ./.github/data_status/requirements.txt
     - name: test db data if too old
       run: |-
-        python ./.github/data_status/test-db-data-up-to-date.py
-    - name: fetch norn-data
-      run: |-
-        python ./.github/data_status/test-db-data-up-to-date.py
+        python ./.github/data_status/test_db_data_up_to_date.py
