@@ -79,7 +79,7 @@ def get_market_industry():
 if __name__ == "__main__":
     root = pathlib.Path(__file__).parent.resolve()
     norn_data_folder_path = root / ".." / "norn-data"
-    config_path = norn_data_folder_path / "market-industry" / "config.json"
+    config_path = root / ".github" / "fetch_norn_data" / "config.json"
     config = {}
     with open(config_path, 'r', encoding='utf-8') as f:
         config = json.loads(f.read())

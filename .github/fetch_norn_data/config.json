@@ -1,0 +1,16 @@
+{
+   "markets":{
+      "Steel":[
+         {
+            "symbol":"hrn00",
+            "api": "investing/future/hrn00",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"steel",
+            "api": "investing/index/steel?countryCode=XX",
+            "src":"marketwatch"
+         }
+      ]
+   }
+}
