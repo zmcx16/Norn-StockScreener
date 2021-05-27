@@ -87,7 +87,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
     // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
     // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
-    return <DataGrid rows={data} columns={tableHeader} scrollbarSize={17} autoPageSize components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
+    return <DataGrid rows={data} columns={tableCol} scrollbarSize={17} autoPageSize components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
   }
 
   const colorPercentField = (field, headerName, width, mobileShow)=>{
@@ -96,13 +96,15 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       headerName: headerName,
       width: width,
       renderCell: (params) => (
-        <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.getValue(field))) === 1 ? 'green' : Math.sign(parseFloat(params.getValue(field))) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.getValue(field))) === 1 ? '+' : ''}{(params.getValue(field) * 100).toFixed(2) + "%"}</span>
+        params.value === -Number.MAX_VALUE || params.value === 'NaN' ? 
+          <span>-</span> : 
+          <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
       ),
       mobileShow: mobileShow
     }
   }
 
-  const tableHeaderTemplate = [
+  const tableColTemplate = [
     { field: 'Industry', headerName: 'Industry', width: 250, mobileShow: true },
     colorPercentField('Change', 'Change', 110, true),
     {
@@ -110,7 +112,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       headerName: 'Float Short',
       width: 110,
       renderCell: (params) => (
-        <span>{(params.getValue('FloatShort') * 100).toFixed(2) + "%"}</span>
+        <span>{(params.value * 100).toFixed(2) + "%"}</span>
       ),
       mobileShow: true
     },
@@ -119,7 +121,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       headerName: 'Recom',
       width: 80,
       renderCell: (params) => (
-        <span style={{ fontWeight: 500, color: params.getValue('Recom') < 2 ? 'green' : params.getValue('Recom') > 3 ? 'red' : '' }}>{params.getValue('Recom')}</span>
+        <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
       ),
       mobileShow: true
     },
@@ -129,9 +131,17 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     colorPercentField('PerfHalf', 'Perf Half', 110, true),
     colorPercentField('PerfYear', 'Perf Year', 110, true),
     colorPercentField('PerfYTD', 'Perf YTD', 110, true),
+    { field: 'MKSymbol', headerName: 'Symbol', width: 110, mobileShow: true },
+    { field: 'MKSource', headerName: 'Source', width: 110, mobileShow: true },
+    colorPercentField('MKPerfWeek', 'Perf Week', 110, true),
+    colorPercentField('MKPerfMonth', 'Perf Month', 110, true),
+    colorPercentField('MKPerfQuart', 'Perf Quart', 110, true),
+    colorPercentField('MKPerfHalf', 'Perf Half', 110, true),
+    colorPercentField('MKPerfYear', 'Perf Year', 110, true),
+    colorPercentField('MKPerfYTD', 'Perf YTD', 110, true),
   ]
 
-  const tableHeader = tableHeaderTemplate.reduce((accumulator, currentValue) => {
+  const tableCol = tableColTemplate.reduce((accumulator, currentValue) => {
     if (!isMobile || currentValue.mobileShow) {
       accumulator.push(currentValue)
     }
@@ -140,26 +150,58 @@ const IndustryTable = ({ loadingAnimeRef }) => {
 
   const { get, response } = useFetch()
 
+  const genRowData = (src) => {
+    let output = []
+    src.forEach((value, index) => {
+      let baseData = {
+        id: output.length,
+        Industry: value['Industry'],
+        Change: value['Change'],
+        FloatShort: value['Float Short'],
+        Recom: value['Recom'],
+        PerfWeek: value['Perf Week'],
+        PerfMonth: value['Perf Month'],
+        PerfQuart: value['Perf Quart'],
+        PerfHalf: value['Perf Half'],
+        PerfYear: value['Perf Year'],
+        PerfYTD: value['Perf YTD'],
+        MKSymbol: '-',
+        MKSource: '-',
+        MKPerfWeek: -Number.MAX_VALUE,
+        MKPerfMonth: -Number.MAX_VALUE,
+        MKPerfQuart: -Number.MAX_VALUE,
+        MKPerfHalf: -Number.MAX_VALUE,
+        MKPerfYear: -Number.MAX_VALUE,
+        MKPerfYTD: -Number.MAX_VALUE,
+      }
+
+      if (value['Market'].length === 0) {
+        output.push(baseData)
+      }
+      else {
+        value['Market'].forEach((mkVal, mkIndex) => {
+          let data = Object.assign({}, baseData)
+          data.id = output.length
+          data.MKSymbol = mkVal['symbol']
+          data.MKSource = mkVal['src']
+          data.MKPerfWeek = mkVal['Perf Week']
+          data.MKPerfMonth = mkVal['Perf Month']
+          data.MKPerfQuart = mkVal['Perf Quart']
+          data.MKPerfHalf = mkVal['Perf Half']
+          data.MKPerfYear = mkVal['Perf Year']
+          data.MKPerfYTD = mkVal['Perf YTD']
+          output.push(data)
+        })
+      }
+    })
+    return output
+  }
+
   const getIndustryTable = async () =>{
     const resp_data = await get('/norn-data/market-industry/indusrty-table.json')
     if (response.ok) {
       console.log(resp_data)
-      let output = resp_data['data'].map((value, index) => {
-        return {
-          id: index,
-          Industry: value['Industry'],
-          Change: value['Change'],
-          FloatShort: value['Float Short'],
-          Recom: value['Recom'],
-          PerfWeek: value['Perf Week'],
-          PerfMonth: value['Perf Month'],
-          PerfQuart: value['Perf Quart'],
-          PerfHalf: value['Perf Half'],
-          PerfYear: value['Perf Year'],
-          PerfYTD: value['Perf YTD'],
-        }
-      })
-
+      let output = genRowData(resp_data['data'])
       setTableData(renderTable(output))
     }
     else{

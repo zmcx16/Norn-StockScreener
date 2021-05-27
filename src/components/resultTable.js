@@ -216,7 +216,7 @@ const ResultTable = ({ResultTableRef}) => {
       headerName: 'Market Cap',
       width: 130,
       renderCell: (params) => (
-        <span>{convertKMBT(params.getValue('marketCap'), 2)}</span>
+        <span>{convertKMBT(params.value, 2)}</span>
       ),
       mobileShow: false
     },
@@ -228,7 +228,7 @@ const ResultTable = ({ResultTableRef}) => {
       headerName: 'Change',
       width: 110,
       renderCell: (params) => (
-        <span style={{ fontWeight: 700, color: Math.sign(parseFloat(params.getValue('change'))) === 1 ? 'green' : Math.sign(parseFloat(params.getValue('change'))) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.getValue('change'))) === 1 ? '+' : ''}{(params.getValue('change') * 100).toFixed(2) + "%"}</span>
+        <span style={{ fontWeight: 700, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
       ),
       mobileShow: true
     },
@@ -237,7 +237,7 @@ const ResultTable = ({ResultTableRef}) => {
       headerName: 'Volume',
       width: 110,
       renderCell: (params) => (
-        <span>{convertKMBT(params.getValue('volume'), 2)}</span>
+        <span>{convertKMBT(params.value, 2)}</span>
       ),
       mobileShow: false
     },
@@ -256,7 +256,7 @@ const ResultTable = ({ResultTableRef}) => {
                     data.bomb4_2.childImageSharp.fixed
             } fadeIn={false} />
           </a>
-          <span style={{ fontSize: 18 }}>({params.value === "NaN" ? params.value : params.value.toFixed(2)})</span>
+          <span style={{ fontSize: 18 }}>({(params.value === "NaN" || params.value === -Number.MAX_VALUE) ? params.value : params.value.toFixed(2)})</span>
         </div>
       ), 
       mobileShow: false
@@ -269,7 +269,7 @@ const ResultTable = ({ResultTableRef}) => {
         <div className={resultTableStyle.risk}>
           <a href={NMUrl + '?api=get-def-scan&tactics=' + params.getValue('tactics') + '&symbol=' + params.getValue('symbol')} target="_blank" rel="noreferrer noopener">
             <Img className={resultTableStyle.bombImg} fixed={
-              isNaN(params.value) ? data.bomb3.childImageSharp.fixed :
+              (isNaN(params.value) || params.value === -Number.MAX_VALUE) ? data.bomb3.childImageSharp.fixed :
                 params.value < 100 * (1 / 5.0) ? data.bomb1.childImageSharp.fixed :
                   params.value < 100 * (2 / 5.0) ? data.bomb2.childImageSharp.fixed :
                     params.value < 100 * (3 / 5.0) ? data.bomb3.childImageSharp.fixed :
@@ -277,7 +277,7 @@ const ResultTable = ({ResultTableRef}) => {
                         data.bomb5.childImageSharp.fixed
             } fadeIn={false} />
           </a>
-          <span style={{ fontSize: 18 }}>({params.value === "NaN" ? params.value : params.value + "%"})</span>
+          <span style={{ fontSize: 18 }}>({(params.value === "NaN" || params.value === -Number.MAX_VALUE) ? "NaN"  : params.value + "%"})</span>
         </div>
       ), 
       mobileShow: true
@@ -287,7 +287,7 @@ const ResultTable = ({ResultTableRef}) => {
       headerName: 'Mulit-Factor', 
       width: 130, 
       renderCell: (params) => (
-        <span style={{ fontSize: 18 }}>{params.value === "NaN" ? params.value : params.value.toFixed(2)}</span>
+        <span style={{ fontSize: 18 }}>{(params.value === "NaN" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
       mobileShow: true 
     },
