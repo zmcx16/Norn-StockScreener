@@ -96,7 +96,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       headerName: headerName,
       width: width,
       renderCell: (params) => (
-        params.value === -Number.MAX_VALUE || params.value === 'NaN' ? 
+        params.value === -Number.MAX_VALUE || params.value === "Infinity" || params.value === 'NaN' ? 
           <span>-</span> : 
           <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
       ),
@@ -132,7 +132,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     colorPercentField('PerfYear', 'Perf Year', 110, true),
     colorPercentField('PerfYTD', 'Perf YTD', 110, true),
     { field: 'MKSymbol', headerName: 'Symbol', width: 110, mobileShow: true },
-    { field: 'MKSource', headerName: 'Source', width: 110, mobileShow: true },
+    { field: 'MKSource', headerName: 'Source', width: 130, mobileShow: true },
     colorPercentField('MKPerfWeek', 'Perf Week', 110, true),
     colorPercentField('MKPerfMonth', 'Perf Month', 110, true),
     colorPercentField('MKPerfQuart', 'Perf Quart', 110, true),
