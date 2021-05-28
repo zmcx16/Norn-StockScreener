@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import PlaceIcon from '@material-ui/icons/Place'
+import IconButton from '@material-ui/core/IconButton'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -8,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { isMobile } from 'react-device-detect'
 
 import { IOSSwitch } from './iOSSwitch'
-import { kanbanNote, kanbanText } from '../common/common'
+import { kanbanNote, kanbanText, pageRouterTable } from '../common/common'
 
 import commonStyle from './common.module.scss'
 import headerStyle from './header.module.scss'
@@ -20,6 +24,9 @@ const useStylesTooltip = makeStyles((theme) => ({
 }))
 
 const Header = ({ isDarkMode, setIsDarkMode }) => {
+
+  const [pageRouterMenu, setPageRouterMenu] = useState(null)
+  const openPageRouterMenu = Boolean(pageRouterMenu)
 
   const tooltipStyle = useStylesTooltip()
 
@@ -71,6 +78,36 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
               <Typography style={{ fontSize: '22px', paddingTop: '5px' }} className={commonStyle.comicFont}>{headerText}</Typography>
             </Tooltip>
             {<Typography style={{ fontSize:'15px', position: 'absolute', paddingTop: '10px' }} >{kanbanText}</Typography>}
+          </div>
+          <div>
+            <IconButton
+              size="small"
+              aria-haspopup="true"
+              onClick={(event) => {
+                setPageRouterMenu(event.currentTarget)
+              }}
+            >
+              <PlaceIcon color="primary" style={{ fontSize: 40 }} />
+            </IconButton>
+            <Menu
+              id="page-router-menu"
+              anchorEl={pageRouterMenu}
+              keepMounted
+              open={openPageRouterMenu}
+              onClose={() => {
+                setPageRouterMenu(null)
+              }}
+            >
+              {pageRouterTable.map((option) => (
+                <MenuItem key={option.text} selected={option.path === new URL(window.location.href).pathname} onClick={() => {
+                  setPageRouterMenu(null)
+                  let url = new URL(window.location.href)
+                  window.location = url.protocol + "//" + url.hostname + option.path
+                }}>
+                  {option.text}
+                </MenuItem>
+              ))}
+            </Menu>
           </div>
           <div className={headerStyle.darkmodetoggle} style={{ background: isDarkMode ? 'black' : 'azure', paddingRight: '10px', display: toggleMobileDisplay }} onClick={
             () => { setIsDarkMode(!isDarkMode) }

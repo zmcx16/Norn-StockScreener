@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { DataGrid, GridOverlay } from '@material-ui/data-grid'
 import { isMobile } from 'react-device-detect'
 import { makeStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import BarChartSharpIcon from '@material-ui/icons/BarChartSharp'
 import useFetch from 'use-http'
 
 import industryTableStyle from './industryTable.module.scss'
@@ -132,13 +134,42 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     colorPercentField('PerfYear', 'Perf Year', 110, true),
     colorPercentField('PerfYTD', 'Perf YTD', 110, true),
     { field: 'MKSymbol', headerName: 'Symbol', width: 110, mobileShow: true },
-    { field: 'MKSource', headerName: 'Source', width: 130, mobileShow: true },
+    { field: 'MKDataUrl', hide: true, mobileShow: true },
+    {
+      field: 'MKSource',
+      headerName: 'Source',
+      width: 130,
+      renderCell: (params) => (
+        params.getValue('MKDataUrl') === '-' ?
+          <span>-</span> : 
+          <a href={params.getValue('MKDataUrl')} target="_blank" rel="noreferrer noopener">
+          <span style={{ cursor: 'pointer'}}>{params.value}</span>
+        </a>
+      ),
+      mobileShow: true
+    },
     colorPercentField('MKPerfWeek', 'Perf Week', 110, true),
     colorPercentField('MKPerfMonth', 'Perf Month', 110, true),
     colorPercentField('MKPerfQuart', 'Perf Quart', 110, true),
     colorPercentField('MKPerfHalf', 'Perf Half', 110, true),
     colorPercentField('MKPerfYear', 'Perf Year', 110, true),
     colorPercentField('MKPerfYTD', 'Perf YTD', 110, true),
+    {
+      field: 'Graph',
+      headerName: 'Graph',
+      width: 100,
+      renderCell: (params) => (
+        <IconButton
+          size="small"
+          aria-haspopup="true"
+          onClick={(event) => {
+          }}
+        >
+          <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
+        </IconButton>
+      ),
+      mobileShow: true
+    },
   ]
 
   const tableCol = tableColTemplate.reduce((accumulator, currentValue) => {
@@ -173,6 +204,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
         MKPerfHalf: -Number.MAX_VALUE,
         MKPerfYear: -Number.MAX_VALUE,
         MKPerfYTD: -Number.MAX_VALUE,
+        MKDataUrl: '-',
       }
 
       if (value['Market'].length === 0) {
@@ -190,6 +222,8 @@ const IndustryTable = ({ loadingAnimeRef }) => {
           data.MKPerfHalf = mkVal['Perf Half']
           data.MKPerfYear = mkVal['Perf Year']
           data.MKPerfYTD = mkVal['Perf YTD']
+          data.MKPerfYTD = mkVal['Perf YTD']
+          data.MKDataUrl = mkVal['dataUrl']
           output.push(data)
         })
       }

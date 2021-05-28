@@ -12,6 +12,11 @@ export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
+export const pageRouterTable = [
+  { text: 'Stock-Screener', path: '/'},
+  { text: 'Industry-Market', path: '/industry/' }
+]
+
 export const kanbanNote = 
 `There is something in this world which no one has ever seen.
 It is soft and sweet.
