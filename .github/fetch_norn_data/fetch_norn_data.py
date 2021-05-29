@@ -25,7 +25,7 @@ def update_get_market(norn_data_folder_path, config):
     for industry in config['markets']:
         try:
             print('update industry market: ' + industry)
-            query_url = base_url + '&api=update-get-market&industry='+industry
+            query_url = base_url + requests.utils.quote('&api=update-get-market&industry='+ industry)
             ret, content = send_request(query_url)
             if ret == 0:
                 resp = json.loads(content)
