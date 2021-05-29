@@ -46,5 +46,6 @@ jobs:
       run: |-
         git config --global user.email "zmcx16@gmail.com"
         git config --global user.name "norn"
+        git reset --soft HEAD~1
         git diff --quiet ./norn-data || (git add ./norn-data/\* && git commit -m "updated website & norn-data")
         git push
