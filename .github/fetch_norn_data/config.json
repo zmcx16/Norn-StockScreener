@@ -2,13 +2,202 @@
    "markets":{
       "Steel":[
          {
-            "symbol":"hrn00",
+            "symbol":"HRN00",
             "api": "investing/future/hrn00",
             "src":"marketwatch"
          },
          {
-            "symbol":"steel",
+            "symbol":"STEEL",
             "api": "investing/index/steel?countryCode=XX",
+            "src":"marketwatch"
+         }
+      ],
+      "Biotechnology":[
+         {
+            "symbol":"NBI",
+            "api": "investing/index/nbi",
+            "src":"marketwatch"
+         }
+      ],
+      "Banks - Regional":[
+         {
+            "symbol":"BKX",
+            "api": "investing/index/bkx",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"TMUBMUSD10Y",
+            "api": "investing/bond/tmubmusd10y?countrycode=bx",
+            "src":"marketwatch"
+         }
+      ],
+      "Asset Management":[
+         {
+            "symbol":"DJUSAG",
+            "api": "investing/index/djusag?countrycode=xx",
+            "src":"marketwatch"
+         }
+      ],
+      "Oil & Gas E&P":[
+         {
+            "symbol":"DWCOGS",
+            "api": "investing/index/dwcogs",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"CL.1",
+            "api": "investing/future/cl.1",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"SPGSNG",
+            "api": "investing/index/spgsng?countrycode=xx",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"NG00",
+            "api": "investing/future/ng00",
+            "src":"marketwatch"
+         }
+      ],
+      "Oil & Gas Midstream":[
+         {
+            "symbol":"DWCOGS",
+            "api": "investing/index/dwcogs",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"CL.1",
+            "api": "investing/future/cl.1",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"SPGSNG",
+            "api": "investing/index/spgsng?countrycode=xx",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"NG00",
+            "api": "investing/future/ng00",
+            "src":"marketwatch"
+         }
+      ],
+      "Oil & Gas Equipment & Services":[
+         {
+            "symbol":"DWCOGS",
+            "api": "investing/index/dwcogs",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"CL.1",
+            "api": "investing/future/cl.1",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"SPGSNG",
+            "api": "investing/index/spgsng?countrycode=xx",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"NG00",
+            "api": "investing/future/ng00",
+            "src":"marketwatch"
+         }
+      ],
+      "Oil & Gas Refining & Marketing":[
+         {
+            "symbol":"DWCOGS",
+            "api": "investing/index/dwcogs",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"CL.1",
+            "api": "investing/future/cl.1",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"SPGSNG",
+            "api": "investing/index/spgsng?countrycode=xx",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"NG00",
+            "api": "investing/future/ng00",
+            "src":"marketwatch"
+         }
+      ],
+      "Oil & Gas Integrated":[
+         {
+            "symbol":"DWCOGS",
+            "api": "investing/index/dwcogs",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"CL.1",
+            "api": "investing/future/cl.1",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"SPGSNG",
+            "api": "investing/index/spgsng?countrycode=xx",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"NG00",
+            "api": "investing/future/ng00",
+            "src":"marketwatch"
+         }
+      ],
+      "Oil & Gas Drilling":[
+         {
+            "symbol":"DWCOGS",
+            "api": "investing/index/dwcogs",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"CL.1",
+            "api": "investing/future/cl.1",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"SPGSNG",
+            "api": "investing/index/spgsng?countrycode=xx",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"NG00",
+            "api": "investing/future/ng00",
+            "src":"marketwatch"
+         }
+      ],
+      "Gold":[
+         {
+            "symbol":"GC00",
+            "api": "investing/future/gold",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"DJCIGC",
+            "api": "investing/index/djcigc?countrycode=xx",
+            "src":"marketwatch"
+         }
+      ],
+      "Silver":[
+         {
+            "symbol":"SI00",
+            "api": "investing/future/silver",
+            "src":"marketwatch"
+         },
+         {
+            "symbol":"DJCISI",
+            "api": "investing/index/djcisi?countrycode=xx",
+            "src":"marketwatch"
+         }
+      ],
+      "Marine Shipping":[
+         {
+            "symbol":"DJUSMT",
+            "api": "investing/index/djusmt?countrycode=xx",
             "src":"marketwatch"
          }
       ]
