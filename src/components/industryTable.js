@@ -89,10 +89,10 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
     // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
     // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
-    return <DataGrid rows={data} columns={tableCol} scrollbarSize={17} autoPageSize components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
+    return <DataGrid rows={data} columns={tableCol} scrollbarSize={17} pageSize={50} components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
   }
 
-  const colorPercentField = (field, headerName, width, mobileShow)=>{
+  const colorPercentField = (field, headerName, width, colShow)=>{
     return {
       field: field,
       headerName: headerName,
@@ -102,13 +102,34 @@ const IndustryTable = ({ loadingAnimeRef }) => {
           <span>-</span> : 
           <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
       ),
-      mobileShow: mobileShow
+      colShow: colShow
     }
   }
 
+  const [showColList, setShowColList] = useState({
+    'Industry': true,
+    'Change': true,
+    'Recom': true,
+    'PerfWeek': true,
+    'PerfMonth': true,
+    'PerfQuart': true,
+    'PerfHalf': true,
+    'PerfYear': true,
+    'PerfYTD': true,
+    'MKSymbol': true,
+    'MKSource': true,
+    'MKPerfWeek': true,
+    'MKPerfMonth': true,
+    'MKPerfQuart': true,
+    'MKPerfHalf': true,
+    'MKPerfYear': true,
+    'MKPerfYTD': true,
+    'Graph': false,
+  })
+
   const tableColTemplate = [
-    { field: 'Industry', headerName: 'Industry', width: 250, mobileShow: true },
-    colorPercentField('Change', 'Change', 110, true),
+    { field: 'Industry', headerName: 'Industry', width: 250, colShow: showColList['Industry'] },
+    colorPercentField('Change', 'Change', 110, showColList['Change']),
     {
       field: 'FloatShort',
       headerName: 'Float Short',
@@ -116,7 +137,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       renderCell: (params) => (
         <span>{(params.value * 100).toFixed(2) + "%"}</span>
       ),
-      mobileShow: true
+      colShow: showColList['FloatShort']
     },
     {
       field: 'Recom',
@@ -125,16 +146,16 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       renderCell: (params) => (
         <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
       ),
-      mobileShow: true
+      colShow: showColList['Recom']
     },
-    colorPercentField('PerfWeek', 'Perf Week', 110, true),
-    colorPercentField('PerfMonth', 'Perf Month', 110, true),
-    colorPercentField('PerfQuart', 'Perf Quart', 110, true),
-    colorPercentField('PerfHalf', 'Perf Half', 110, true),
-    colorPercentField('PerfYear', 'Perf Year', 110, true),
-    colorPercentField('PerfYTD', 'Perf YTD', 110, true),
-    { field: 'MKSymbol', headerName: 'Symbol', width: 110, mobileShow: true },
-    { field: 'MKDataUrl', hide: true, mobileShow: true },
+    colorPercentField('PerfWeek', 'Perf Week', 110, showColList['PerfWeek']),
+    colorPercentField('PerfMonth', 'Perf Month', 110, showColList['PerfMonth']),
+    colorPercentField('PerfQuart', 'Perf Quart', 110, showColList['PerfQuart']),
+    colorPercentField('PerfHalf', 'Perf Half', 110, showColList['PerfHalf']),
+    colorPercentField('PerfYear', 'Perf Year', 110, showColList['PerfYear']),
+    colorPercentField('PerfYTD', 'Perf YTD', 110, showColList['PerfYTD']),
+    { field: 'MKSymbol', headerName: 'Symbol', width: 110, colShow: showColList['MKSymbol'] },
+    { field: 'MKDataUrl', hide: true, colShow: true },
     {
       field: 'MKSource',
       headerName: 'Source',
@@ -146,14 +167,14 @@ const IndustryTable = ({ loadingAnimeRef }) => {
           <span style={{ cursor: 'pointer'}}>{params.value}</span>
         </a>
       ),
-      mobileShow: true
+      colShow: showColList['MKSource']
     },
-    colorPercentField('MKPerfWeek', 'Perf Week', 110, true),
-    colorPercentField('MKPerfMonth', 'Perf Month', 110, true),
-    colorPercentField('MKPerfQuart', 'Perf Quart', 110, true),
-    colorPercentField('MKPerfHalf', 'Perf Half', 110, true),
-    colorPercentField('MKPerfYear', 'Perf Year', 110, true),
-    colorPercentField('MKPerfYTD', 'Perf YTD', 110, true),
+    colorPercentField('MKPerfWeek', 'Perf Week', 110, showColList['MKPerfWeek']),
+    colorPercentField('MKPerfMonth', 'Perf Month', 110, showColList['MKPerfMonth']),
+    colorPercentField('MKPerfQuart', 'Perf Quart', 110, showColList['MKPerfQuart']),
+    colorPercentField('MKPerfHalf', 'Perf Half', 110, showColList['MKPerfHalf']),
+    colorPercentField('MKPerfYear', 'Perf Year', 110, showColList['MKPerfYear']),
+    colorPercentField('MKPerfYTD', 'Perf YTD', 110, showColList['MKPerfYTD']),
     {
       field: 'Graph',
       headerName: 'Graph',
@@ -168,12 +189,12 @@ const IndustryTable = ({ loadingAnimeRef }) => {
           <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
         </IconButton>
       ),
-      mobileShow: true
+      colShow: showColList['Graph']
     },
   ]
 
   const tableCol = tableColTemplate.reduce((accumulator, currentValue) => {
-    if (!isMobile || currentValue.mobileShow) {
+    if (currentValue.colShow) {
       accumulator.push(currentValue)
     }
     return accumulator
