@@ -4,6 +4,7 @@ import base64
 import pathlib
 import json
 import requests
+from urllib.parse import urlencode
 from datetime import datetime
 
 
@@ -21,11 +22,18 @@ def send_request(url):
 def update_get_market(norn_data_folder_path, config):
 
     base_url = os.environ.get("MARKET_URL", "")
+    token = os.environ.get("MARKET_TOKEN", "")
 
     for industry in config['markets']:
         try:
             print('update industry market: ' + industry)
-            query_url = base_url + requests.utils.quote('&api=update-get-market&industry='+ industry)
+            param = {
+                'code': token,
+                'api': 'update-get-market',
+                'industry': industry
+            }
+            encoded_args = urlencode(param)
+            query_url = base_url + '?' + encoded_args
             ret, content = send_request(query_url)
             if ret == 0:
                 resp = json.loads(content)
@@ -53,7 +61,14 @@ def update_get_market(norn_data_folder_path, config):
 def get_market_industry():
 
     base_url = os.environ.get("MARKET_URL", "")
-    query_url = base_url + '&api=get-market-industry'
+    token = os.environ.get("MARKET_TOKEN", "")
+
+    param = {
+        'code': token,
+        'api': 'get-market-industry'
+    }
+    encoded_args = urlencode(param)
+    query_url = base_url + '?' + encoded_args
 
     try:
         ret, content = send_request(query_url)
