@@ -1,3 +1,11 @@
+export function getUrl() {
+  let href = 'https://norn-stockscreener.zmcx16.moe/'
+  if (typeof window !== 'undefined') {
+    href = window.location.href
+  }
+  return href
+}
+
 export const isFloat = (n) => {
   return Number(n) === n && n % 1 !== 0
 }

@@ -13,6 +13,7 @@ import { isMobile } from 'react-device-detect'
 
 import { IOSSwitch } from './iOSSwitch'
 import { kanbanNote, kanbanText, pageRouterTable } from '../common/common'
+import { getUrl } from '../common/utils'
 
 import commonStyle from './common.module.scss'
 import headerStyle from './header.module.scss'
@@ -99,9 +100,9 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
               }}
             >
               {pageRouterTable.map((option) => (
-                <MenuItem key={option.text} selected={option.path === new URL(window.location.href).pathname} onClick={() => {
+                <MenuItem key={option.text} selected={option.path === new URL(getUrl()).pathname} onClick={() => {
                   setPageRouterMenu(null)
-                  let url = new URL(window.location.href)
+                  let url = new URL(getUrl())
                   window.location = url.protocol + "//" + url.hostname + option.path
                 }}>
                   {option.text}
