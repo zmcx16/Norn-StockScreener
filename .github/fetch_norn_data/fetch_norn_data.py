@@ -79,6 +79,11 @@ def get_market_industry():
 if __name__ == "__main__":
     root = pathlib.Path(__file__).parent.resolve()
     norn_data_folder_path = root / ".." / "norn-data"
+    
+    market_folder_path = norn_data_folder_path / 'market-industry' / 'market'
+    if not os.path.exists(market_folder_path):
+        os.makedirs(market_folder_path)
+
     config_path = root / "config.json"
     config = {}
     with open(config_path, 'r', encoding='utf-8') as f:
