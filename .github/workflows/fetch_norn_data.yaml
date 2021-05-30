@@ -1,4 +1,4 @@
-name: Fetch Norn Data
+name: FetchNornData
 
 on:
   workflow_dispatch:
