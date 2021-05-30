@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { DataGrid, GridOverlay } from '@material-ui/data-grid'
-import { isMobile } from 'react-device-detect'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 import { makeStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import BarChartSharpIcon from '@material-ui/icons/BarChartSharp'
+import Link from '@material-ui/core/Link'
 import useFetch from 'use-http'
 
 import industryTableStyle from './industryTable.module.scss'
@@ -85,13 +87,6 @@ function NoDataInTable() {
 
 const IndustryTable = ({ loadingAnimeRef }) => {
 
-  const renderTable = (data) => {
-    // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
-    // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
-    // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
-    return <DataGrid rows={data} columns={tableCol} scrollbarSize={17} pageSize={50} components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
-  }
-
   const colorPercentField = (field, headerName, width, colShow)=>{
     return {
       field: field,
@@ -106,102 +101,111 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     }
   }
 
-  const [showColList, setShowColList] = useState({
-    'Industry': true,
-    'Change': true,
-    'Recom': true,
-    'PerfWeek': true,
-    'PerfMonth': true,
-    'PerfQuart': true,
-    'PerfHalf': true,
-    'PerfYear': true,
-    'PerfYTD': true,
-    'MKSymbol': true,
-    'MKSource': true,
-    'MKPerfWeek': true,
-    'MKPerfMonth': true,
-    'MKPerfQuart': true,
-    'MKPerfHalf': true,
-    'MKPerfYear': true,
-    'MKPerfYTD': true,
-    'Graph': false,
-  })
+  const tableColList = {
+    Change: { show: true, text: 'Change' },
+    FloatShort: {show: true, text: 'Float Short' },
+    Recom: { show: true, text: 'Recommand' },
+    PerfWeek: { show: true, text: 'Perf Week' },
+    PerfMonth: { show: true, text: 'Perf Month' },
+    PerfQuart: { show: true, text: 'Perf Quart' },
+    PerfHalf: { show: true, text: 'Perf Half' },
+    PerfYear: { show: true, text: 'Perf Year' },
+    PerfYTD: { show: true, text: 'Perf YTD' },
+    MKSymbol: { show: true, text: 'Symbol' },
+    MKSource: { show: true, text: 'Source' },
+    MKPerfWeek: { show: true, text: 'Perf Week' },
+    MKPerfMonth: { show: true, text: 'Perf Month' },
+    MKPerfQuart: { show: true, text: 'Perf Quart' },
+    MKPerfHalf: { show: true, text: 'Perf Half' },
+    MKPerfYear: { show: true, text: 'Perf Year' },
+    MKPerfYTD: { show: true, text: 'Perf YTD' },
+    Graph: { show: false, text: 'Graph' },
+  }
 
-  const tableColTemplate = [
-    { field: 'Industry', headerName: 'Industry', width: 250, colShow: showColList['Industry'] },
-    colorPercentField('Change', 'Change', 110, showColList['Change']),
-    {
-      field: 'FloatShort',
-      headerName: 'Float Short',
-      width: 110,
-      renderCell: (params) => (
-        <span>{(params.value * 100).toFixed(2) + "%"}</span>
-      ),
-      colShow: showColList['FloatShort']
-    },
-    {
-      field: 'Recom',
-      headerName: 'Recom',
-      width: 80,
-      renderCell: (params) => (
-        <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
-      ),
-      colShow: showColList['Recom']
-    },
-    colorPercentField('PerfWeek', 'Perf Week', 110, showColList['PerfWeek']),
-    colorPercentField('PerfMonth', 'Perf Month', 110, showColList['PerfMonth']),
-    colorPercentField('PerfQuart', 'Perf Quart', 110, showColList['PerfQuart']),
-    colorPercentField('PerfHalf', 'Perf Half', 110, showColList['PerfHalf']),
-    colorPercentField('PerfYear', 'Perf Year', 110, showColList['PerfYear']),
-    colorPercentField('PerfYTD', 'Perf YTD', 110, showColList['PerfYTD']),
-    { field: 'MKSymbol', headerName: 'Symbol', width: 110, colShow: showColList['MKSymbol'] },
-    { field: 'MKDataUrl', hide: true, colShow: true },
-    {
-      field: 'MKSource',
-      headerName: 'Source',
-      width: 130,
-      renderCell: (params) => (
-        params.getValue('MKDataUrl') === '-' ?
-          <span>-</span> : 
-          <a href={params.getValue('MKDataUrl')} target="_blank" rel="noreferrer noopener">
-          <span style={{ cursor: 'pointer'}}>{params.value}</span>
-        </a>
-      ),
-      colShow: showColList['MKSource']
-    },
-    colorPercentField('MKPerfWeek', 'Perf Week', 110, showColList['MKPerfWeek']),
-    colorPercentField('MKPerfMonth', 'Perf Month', 110, showColList['MKPerfMonth']),
-    colorPercentField('MKPerfQuart', 'Perf Quart', 110, showColList['MKPerfQuart']),
-    colorPercentField('MKPerfHalf', 'Perf Half', 110, showColList['MKPerfHalf']),
-    colorPercentField('MKPerfYear', 'Perf Year', 110, showColList['MKPerfYear']),
-    colorPercentField('MKPerfYTD', 'Perf YTD', 110, showColList['MKPerfYTD']),
-    {
-      field: 'Graph',
-      headerName: 'Graph',
-      width: 100,
-      renderCell: (params) => (
-        <IconButton
-          size="small"
-          aria-haspopup="true"
-          onClick={(event) => {
-          }}
-        >
-          <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
-        </IconButton>
-      ),
-      colShow: showColList['Graph']
-    },
-  ]
-
-  const tableCol = tableColTemplate.reduce((accumulator, currentValue) => {
-    if (currentValue.colShow) {
-      accumulator.push(currentValue)
-    }
+  const showColListRef = useRef(Object.keys(tableColList).reduce((accumulator, currentValue) => {
+    accumulator[currentValue] = tableColList[currentValue].show
     return accumulator
-  }, [])
+  }, {}))
+
+  const getTableColTemplate = (showColList) => {
+    return [
+      { field: 'Industry', headerName: 'Industry', width: 250, colShow: true },
+      colorPercentField('Change', tableColList.Change.text, 110, showColList['Change']),
+      {
+        field: 'FloatShort',
+        headerName: tableColList.FloatShort.text,
+        width: 110,
+        renderCell: (params) => (
+          <span>{(params.value * 100).toFixed(2) + "%"}</span>
+        ),
+        colShow: showColList['FloatShort']
+      },
+      {
+        field: 'Recom',
+        headerName: tableColList.Recom.text,
+        width: 120,
+        renderCell: (params) => (
+          <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
+        ),
+        colShow: showColList['Recom']
+      },
+      colorPercentField('PerfWeek', tableColList.PerfWeek.text, 110, showColList['PerfWeek']),
+      colorPercentField('PerfMonth', tableColList.PerfMonth.text, 110, showColList['PerfMonth']),
+      colorPercentField('PerfQuart', tableColList.PerfQuart.text, 110, showColList['PerfQuart']),
+      colorPercentField('PerfHalf', tableColList.PerfHalf.text, 110, showColList['PerfHalf']),
+      colorPercentField('PerfYear', tableColList.PerfYear.text, 110, showColList['PerfYear']),
+      colorPercentField('PerfYTD', tableColList.PerfYTD.text, 110, showColList['PerfYTD']),
+      { field: 'MKSymbol', headerName: tableColList.MKSymbol.text, width: 110, colShow: showColList['MKSymbol'] },
+      { field: 'MKDataUrl', hide: true, colShow: true },
+      {
+        field: 'MKSource',
+        headerName: tableColList.MKSource.text,
+        width: 130,
+        renderCell: (params) => (
+          params.getValue('MKDataUrl') === '-' ?
+            <span>-</span> :
+            <Link href={params.getValue('MKDataUrl')} target="_blank" rel="noreferrer noopener">
+              <span>{params.value}</span>
+            </Link>
+        ),
+        colShow: showColList['MKSource']
+      },
+      colorPercentField('MKPerfWeek', tableColList.MKPerfWeek.text, 110, showColList['MKPerfWeek']),
+      colorPercentField('MKPerfMonth', tableColList.MKPerfMonth.text, 110, showColList['MKPerfMonth']),
+      colorPercentField('MKPerfQuart', tableColList.MKPerfQuart.text, 110, showColList['MKPerfQuart']),
+      colorPercentField('MKPerfHalf', tableColList.MKPerfHalf.text, 110, showColList['MKPerfHalf']),
+      colorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 110, showColList['MKPerfYear']),
+      colorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 110, showColList['MKPerfYTD']),
+      {
+        field: 'Graph',
+        headerName: tableColList.Graph.text,
+        width: 100,
+        renderCell: (params) => (
+          <IconButton
+            size="small"
+            aria-haspopup="true"
+            onClick={(event) => {
+            }}
+          >
+            <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
+          </IconButton>
+        ),
+        colShow: showColList['Graph']
+      },
+    ]
+  }
+
+  const getTableCol = ()=>{
+    return getTableColTemplate(showColListRef.current).reduce((accumulator, currentValue) => {
+      if (currentValue.colShow) {
+        accumulator.push(currentValue)
+      }
+      return accumulator
+    }, [])
+  }
+  const [tableCol, setTableCol] = useState(getTableCol())
 
   const { get, response } = useFetch()
-
   const genRowData = (src) => {
     let output = []
     src.forEach((value, index) => {
@@ -257,16 +261,34 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     if (response.ok) {
       console.log(resp_data)
       let output = genRowData(resp_data['data'])
-      setTableData(renderTable(output))
+      setRowData(output)
     }
     else{
-      setTableData(renderTable([]))
+      setRowData([])
     }
     loadingAnimeRef.current.setLoading(false)
   }
+  const [rowData, setRowData] = useState([])
 
-  const [tableData, setTableData] = useState(renderTable([]))
-  const containerRef = useRef()
+  const renderCheckbox = (key) => {
+    return <FormControlLabel
+      key={key}
+      control={
+        <Checkbox
+          onChange={() => {
+            showColListRef.current[key] = !showColListRef.current[key]
+            setTableCol(getTableCol())
+          }}
+          name={tableColList[key].text}
+          color="primary"
+          defaultChecked={tableColList[key].show}
+        />
+      }
+      label={
+        <div>{tableColList[key].text}</div>
+      }
+    />
+  }
 
   useEffect(() => {
     // componentDidMount is here!
@@ -278,8 +300,15 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   }, [])
 
   return (
-    <div className={industryTableStyle.container} ref={containerRef}>
-      {tableData}
+    <div className={industryTableStyle.container}>
+      <div className={industryTableStyle.showColumn}>
+        {Object.keys(showColListRef.current).map((key, index) => {
+          return renderCheckbox(key)
+        })}
+      </div>
+      <div className={industryTableStyle.table}>
+        <DataGrid rows={rowData} columns={tableCol} scrollbarSize={17} pageSize={50} components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
+      </div>
     </div>
   )
 }
