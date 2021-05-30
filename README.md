@@ -101,9 +101,13 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Insider ownership, Insider transcations
   * Institution ownership, Institution transcations
 
+# Sub Page
+  * Industry-Market (https://norn-stockscreener.zmcx16.moe/industry/)
+
 # Financial Data Source
   * Finviz (https://finviz.com)
   * Yahoo Finance (https://finance.yahoo.com)
+  * MarketWatch (https://www.marketwatch.com/)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
 
