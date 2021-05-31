@@ -8,6 +8,8 @@ import BarChartSharpIcon from '@material-ui/icons/BarChartSharp'
 import Link from '@material-ui/core/Link'
 import useFetch from 'use-http'
 
+import ModalWindow from './modalWindow'
+
 import industryTableStyle from './industryTable.module.scss'
 import './resultTable.css'
 
@@ -86,6 +88,10 @@ function NoDataInTable() {
 }
 
 const IndustryTable = ({ loadingAnimeRef }) => {
+
+  const modalWindowRef = useRef({
+    popModalWindow: null
+  })
 
   const colorPercentField = (field, headerName, width, colShow)=>{
     return {
@@ -184,7 +190,8 @@ const IndustryTable = ({ loadingAnimeRef }) => {
           <IconButton
             size="small"
             aria-haspopup="true"
-            onClick={(event) => {
+            onClick={() => {
+              modalWindowRef.current.popModalWindow(<div>Graph</div>)
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
@@ -300,16 +307,19 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   }, [])
 
   return (
-    <div className={industryTableStyle.container}>
-      <div className={industryTableStyle.showColumn}>
-        {Object.keys(showColListRef.current).map((key, index) => {
-          return renderCheckbox(key)
-        })}
+    <>
+      <div className={industryTableStyle.container}>
+        <div className={industryTableStyle.showColumn}>
+          {Object.keys(showColListRef.current).map((key, index) => {
+            return renderCheckbox(key)
+          })}
+        </div>
+        <div className={industryTableStyle.table}>
+          <DataGrid rows={rowData} columns={tableCol} scrollbarSize={17} pageSize={50} components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
+        </div>
       </div>
-      <div className={industryTableStyle.table}>
-        <DataGrid rows={rowData} columns={tableCol} scrollbarSize={17} pageSize={50} components={{ noRowsOverlay: NoDataInTable, }} disableSelectionOnClick />
-      </div>
-    </div>
+      <ModalWindow modalWindowRef={modalWindowRef} />
+    </>
   )
 }
 

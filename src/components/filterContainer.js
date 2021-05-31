@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect, createRef } from 'react'
+import React, { useRef, useEffect, createRef } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { blue } from '@material-ui/core/colors'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
-import Modal from '@material-ui/core/Modal'
-import Fade from '@material-ui/core/Fade'
-import Backdrop from '@material-ui/core/Backdrop'
 import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles'
+
 import { isMobile } from 'react-device-detect'
 import shortid from "shortid"
 import useFetch from 'use-http'
@@ -15,6 +13,7 @@ import { StockSectorDict, StockIndustryDict} from '../common/stockdef'
 import { FCDataTemplate } from '../common/argsList'
 import { NSSServerUrl, NSSDoQueryAPI } from '../common/common'
 import FilterCriteria from './filterCriteria'
+import ModalWindow from './modalWindow'
 import NornMinehunter from './nornMinehunter'
 import MultiFactor from './multiFactor'
 import FilterSectorsIndustries from './filterSectorsIndustries'
@@ -31,20 +30,6 @@ const customTheme = createMuiTheme({
     }
   },
 })
-
-const useModalStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}))
 
 const getCurrentSetting = (filterCriteriaListRef, nornMinehunterRef, multiFactorRef, filterSectorsIndustriesRef)=>{
 
@@ -121,44 +106,6 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
   }
 
   return (<></>)
-}
-
-const ModalWindow = ({ modalWindowRef }) => {
-  
-  const classes = useModalStyles()
-
-  const [openModal, setOpenModal] = useState(false)
-  const [modalNode, setModalNode] = useState(<div></div>)
-
-  modalWindowRef.current = {
-    popModalWindow: (content) => {
-      setModalNode(
-        <div className={classes.paper}>
-          {content}
-        </div>
-      )
-      setOpenModal(true)
-    }
-  }
-
-  return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      className={classes.modal}
-      open={openModal}
-      onClose={() => { setOpenModal(false) }}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-    >
-      <Fade in={openModal}>
-        {modalNode}
-      </Fade>
-    </Modal>  
-  )
 }
 
 const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
