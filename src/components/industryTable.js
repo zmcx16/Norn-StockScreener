@@ -187,11 +187,13 @@ const IndustryTable = ({ loadingAnimeRef }) => {
         headerName: tableColList.Graph.text,
         width: 100,
         renderCell: (params) => (
+          params.getValue('MKDataUrl') === '-' ?
+            <span>-</span> :
           <IconButton
             size="small"
             aria-haspopup="true"
             onClick={() => {
-              modalWindowRef.current.popModalWindow(<div>Graph</div>)
+              modalWindowRef.current.popModalWindow(<div>功能開發中...</div>)
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />

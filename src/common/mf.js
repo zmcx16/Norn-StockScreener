@@ -64,7 +64,17 @@ export const MFDataTemplate = {
       name: "TgtPrice_w",
       display_name: "Target Price weight",
       val: "0.5"
-    }      
+    },
+    {
+      name: "ShortFloat_w",
+      display_name: "Short Float weight",
+      val: "0"
+    },
+    {
+      name: "ShortRatio_w",
+      display_name: "Short Ratio weight",
+      val: "0"
+    }     
   ]      
 }
 

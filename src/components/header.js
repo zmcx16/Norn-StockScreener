@@ -103,7 +103,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
                 <MenuItem key={option.text} selected={option.path === new URL(getUrl()).pathname} onClick={() => {
                   setPageRouterMenu(null)
                   let url = new URL(getUrl())
-                  window.location = url.protocol + "//" + url.hostname + option.path
+                  window.location = url.protocol + "//" + url.hostname + ":" + url.port + option.path
                 }}>
                   {option.text}
                 </MenuItem>
