@@ -20,11 +20,13 @@
     "gatsby-plugin-sharp": "^2.4.3",
     "gatsby-source-filesystem": "^2.1.46",
     "gatsby-transformer-sharp": "^2.3.13",
+    "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-device-detect": "^1.14.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
+    "recharts": "^2.0.9",
     "sass": "^1.29.0",
     "shortid": "^2.2.16",
     "use-http": "^1.0.16"

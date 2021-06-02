@@ -9,6 +9,7 @@ import Link from '@material-ui/core/Link'
 import useFetch from 'use-http'
 
 import ModalWindow from './modalWindow'
+import IndustryMarketChart from './industryMarketChart'
 
 import industryTableStyle from './industryTable.module.scss'
 import './resultTable.css'
@@ -90,7 +91,8 @@ function NoDataInTable() {
 const IndustryTable = ({ loadingAnimeRef }) => {
 
   const modalWindowRef = useRef({
-    popModalWindow: null
+    popModalWindow: null,
+    popPureModal: null,
   })
 
   const colorPercentField = (field, headerName, width, colShow)=>{
@@ -125,7 +127,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     MKPerfHalf: { show: true, text: 'Perf Half' },
     MKPerfYear: { show: true, text: 'Perf Year' },
     MKPerfYTD: { show: true, text: 'Perf YTD' },
-    Graph: { show: false, text: 'Graph' },
+    Graph: { show: true, text: 'Graph' },
   }
 
   const showColListRef = useRef(Object.keys(tableColList).reduce((accumulator, currentValue) => {
@@ -193,7 +195,23 @@ const IndustryTable = ({ loadingAnimeRef }) => {
             size="small"
             aria-haspopup="true"
             onClick={() => {
-              modalWindowRef.current.popModalWindow(<div>功能開發中...</div>)
+              const getMarketData = async (industry, src, symbol) =>{
+                let fileName = btoa(industry + '_' + src + '_' + symbol) + '.json'
+                const resp_data = await get('/norn-data/market-industry/market/' + fileName)
+                console.log(resp_data)
+                if (response.ok && resp_data.data && resp_data.data.length > 0) {
+                  let marketData = resp_data.data.reduce((accumulator, currentValue) => {
+                    accumulator.unshift({ Date: currentValue.Date, Close: currentValue.Close})
+                    return accumulator
+                  }, [])
+                  modalWindowRef.current.popModalWindow(<div style={{ width: '800px', height: '400px' }}><IndustryMarketChart marketData={marketData}/></div>)
+                }
+                else{
+                  modalWindowRef.current.popModalWindow(<div>Load market data failed</div>)
+                }
+              }
+
+              getMarketData(params.getValue('Industry'), params.getValue('MKSource'), params.getValue('MKSymbol'))
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
@@ -273,6 +291,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       setRowData(output)
     }
     else{
+      modalWindowRef.current.popModalWindow(<div>Load indusrty-table.json failed</div>)
       setRowData([])
     }
     loadingAnimeRef.current.setLoading(false)

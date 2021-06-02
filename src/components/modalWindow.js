@@ -35,7 +35,7 @@ const ModalWindow = ({ modalWindowRef }) => {
         </div>
       )
       setOpenModal(true)
-    }
+    },
   }
 
   return (
