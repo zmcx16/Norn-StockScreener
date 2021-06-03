@@ -111,7 +111,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
 
   const tableColList = {
     Change: { show: true, text: 'Change' },
-    FloatShort: {show: true, text: 'Float Short' },
+    FloatShort: { show: true, text: 'Float Short' },
     Recom: { show: true, text: 'Recommand' },
     PerfWeek: { show: true, text: 'Perf Week' },
     PerfMonth: { show: true, text: 'Perf Month' },
@@ -200,11 +200,50 @@ const IndustryTable = ({ loadingAnimeRef }) => {
                 const resp_data = await get('/norn-data/market-industry/market/' + fileName)
                 console.log(resp_data)
                 if (response.ok && resp_data.data && resp_data.data.length > 0) {
+                  let info = {
+                    industry: params.row['Industry'],
+                    market: params.row['MKSymbol'],
+                  }
+
                   let marketData = resp_data.data.reduce((accumulator, currentValue) => {
                     accumulator.unshift({ Date: currentValue.Date, Close: currentValue.Close})
                     return accumulator
                   }, [])
-                  modalWindowRef.current.popModalWindow(<div style={{ width: '800px', height: '400px' }}><IndustryMarketChart marketData={marketData}/></div>)
+
+                  let perfData = [
+                    {
+                      name: 'Perf Week',
+                      industry: parseInt(params.row['PerfWeek'] * 10000, 10) / 100.0,
+                      market: parseInt(params.row['MKPerfWeek'] * 10000, 10) / 100.0,
+                    },
+                    {
+                      name: 'Perf Month',
+                      industry: parseInt(params.row['PerfMonth'] * 10000, 10) / 100.0,
+                      market: parseInt(params.row['MKPerfMonth'] * 10000, 10) / 100.0,
+                    },
+                    {
+                      name: 'Perf Quart',
+                      industry: parseInt(params.row['PerfQuart'] * 10000, 10) / 100.0,
+                      market: parseInt(params.row['MKPerfQuart'] * 10000, 10) / 100.0,
+                    },
+                    {
+                      name: 'Perf Half',
+                      industry: parseInt(params.row['PerfHalf'] * 10000, 10) / 100.0,
+                      market: parseInt(params.row['MKPerfHalf'] * 10000, 10) / 100.0,
+                    },
+                    {
+                      name: 'Perf Year',
+                      industry: parseInt(params.row['PerfYear'] * 10000, 10) / 100.0,
+                      market: parseInt(params.row['MKPerfYear'] * 10000, 10) / 100.0,
+                    },
+                    {
+                      name: 'Perf YTD',
+                      industry: parseInt(params.row['PerfYTD'] * 10000, 10) / 100.0,
+                      market: parseInt(params.row['MKPerfYTD'] * 10000, 10) / 100.0,
+                    },
+                  ]
+
+                  modalWindowRef.current.popModalWindow(<IndustryMarketChart marketData={marketData} perfData={perfData} info={info}/>)
                 }
                 else{
                   modalWindowRef.current.popModalWindow(<div>Load market data failed</div>)
