@@ -18,6 +18,33 @@ def send_request(url):
 
     return 0, res.text
 
+def get_config():
+
+    base_url = os.environ.get("MARKET_URL", "")
+    token = os.environ.get("MARKET_TOKEN", "")
+
+    try:
+        param = {
+            'code': token,
+            'api': 'get-market-industry-config'
+        }
+        encoded_args = urlencode(param)
+        query_url = base_url + '?' + encoded_args
+        ret, content = send_request(query_url)
+        if ret == 0:
+            resp = json.loads(content)
+            if resp["ret"] == 0:
+                return resp["data"]
+            else:
+                print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
+        else:
+            print('send_request failed: {ret}'.format(ret=ret))
+
+        sys.exit(1)
+
+    except Exception as exc:
+        print('Generated an exception: %s' % exc)
+
 
 def update_get_market(norn_data_folder_path, config):
 
@@ -101,11 +128,7 @@ if __name__ == "__main__":
     if not os.path.exists(market_folder_path):
         os.makedirs(market_folder_path)
 
-    config_path = root / "config.json"
-    config = {}
-    with open(config_path, 'r', encoding='utf-8') as f:
-        config = json.loads(f.read())
-
+    config = get_config()
     update_get_market(norn_data_folder_path, config)
     get_market_industry()
     print('all task done')
