@@ -17,7 +17,7 @@ import moment from 'moment'
 
 const IndustryMarketChart = ({ marketData, perfData, info}) => {
   return (  
-    <div style={{ width: '960px', height: '700px' }}>
+    <div style={{ width: (window.innerWidth - 100) + 'px', height: (window.innerHeight - 100) + 'px', maxWidth: '1200px', maxHeight: '600px' }}>
       <ResponsiveContainer width="100%" height="47%">
         <LineChart
           data={marketData}

@@ -250,7 +250,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
                 }
               }
 
-              getMarketData(params.getValue('Industry'), params.getValue('MKSource'), params.getValue('MKSymbol'))
+              getMarketData(params.row['Industry'], params.row['MKSource'], params.row['MKSymbol'])
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
