@@ -271,7 +271,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   }
   const [tableCol, setTableCol] = useState(getTableCol())
 
-  const { get, response } = useFetch()
+  const { get, response } = useFetch({ cachePolicy: 'no-cache' })
   const genRowData = (src) => {
     let output = []
     src.forEach((value, index) => {
