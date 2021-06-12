@@ -109,6 +109,9 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Finviz (https://finviz.com)
   * Yahoo Finance (https://finance.yahoo.com)
   * MarketWatch (https://www.marketwatch.com/)
+  * Investing (https://www.investing.com/)
+  * Bloomberg (https://www.bloomberg.com/)
+  * FBX Freightos (https://fbx.freightos.com/)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
 

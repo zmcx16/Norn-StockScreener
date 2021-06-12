@@ -111,8 +111,8 @@ const IndustryTable = ({ loadingAnimeRef }) => {
 
   const tableColList = {
     Change: { show: true, text: 'Change' },
-    FloatShort: { show: true, text: 'Float Short' },
-    Recom: { show: true, text: 'Recommand' },
+    FloatShort: { show: false, text: 'Float Short' },
+    Recom: { show: false, text: 'Recommand' },
     PerfWeek: { show: true, text: 'Perf Week' },
     PerfMonth: { show: true, text: 'Perf Month' },
     PerfQuart: { show: true, text: 'Perf Quart' },
@@ -127,7 +127,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     MKPerfHalf: { show: true, text: 'Perf Half' },
     MKPerfYear: { show: true, text: 'Perf Year' },
     MKPerfYTD: { show: true, text: 'Perf YTD' },
-    Graph: { show: true, text: 'Graph' },
+    Chart: { show: true, text: 'Chart' },
   }
 
   const showColListRef = useRef(Object.keys(tableColList).reduce((accumulator, currentValue) => {
@@ -137,7 +137,19 @@ const IndustryTable = ({ loadingAnimeRef }) => {
 
   const getTableColTemplate = (showColList) => {
     return [
-      { field: 'Industry', headerName: 'Industry', width: 250, colShow: true },
+      {
+        field: 'Industry',
+        headerName: 'Industry',
+        width: 250,
+        renderCell: (params) => (
+          params.row['Url'] === '-' ?
+            <span>{params.value}</span> :
+            <Link href={params.row['Url']} target="_blank" rel="noreferrer noopener">
+              <span>{params.value}</span>
+            </Link>
+        ),
+        colShow: true
+      },
       colorPercentField('Change', tableColList.Change.text, 110, showColList['Change']),
       {
         field: 'FloatShort',
@@ -185,8 +197,8 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       colorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 110, showColList['MKPerfYear']),
       colorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 110, showColList['MKPerfYTD']),
       {
-        field: 'Graph',
-        headerName: tableColList.Graph.text,
+        field: 'Chart',
+        headerName: tableColList.Chart.text,
         width: 100,
         renderCell: (params) => (
           params.getValue('MKDataUrl') === '-' ?
@@ -256,7 +268,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
           </IconButton>
         ),
-        colShow: showColList['Graph']
+        colShow: showColList['Chart']
       },
     ]
   }
@@ -287,6 +299,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
         PerfHalf: value['Perf Half'],
         PerfYear: value['Perf Year'],
         PerfYTD: value['Perf YTD'],
+        Url: value['Url'],
         MKSymbol: '-',
         MKSource: '-',
         MKPerfWeek: -Number.MAX_VALUE,
