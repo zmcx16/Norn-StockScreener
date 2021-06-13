@@ -218,7 +218,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
                   }
 
                   let marketData = resp_data.data.reduce((accumulator, currentValue) => {
-                    accumulator.unshift({ Date: currentValue.Date, Close: currentValue.Close})
+                    accumulator.unshift({ Date: currentValue.Date, Close: parseFloat(currentValue.Close)})
                     return accumulator
                   }, [])
 
