@@ -74,7 +74,12 @@ export const MFDataTemplate = {
       name: "ShortRatio_w",
       display_name: "Short Ratio weight",
       val: "0"
-    }     
+    },
+    {
+      name: "E_Q/P_w",
+      display_name: "E/P (Last Q) weight",
+      val: "1.0"
+    } 
   ]      
 }
 
