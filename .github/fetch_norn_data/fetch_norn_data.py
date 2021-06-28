@@ -71,7 +71,7 @@ def update_get_market(norn_data_folder_path, config):
                                   'src': item['src'], 'data': item['data']}
 
                         base64_file_name = base64.b64encode(item['id'].encode('ascii')).decode('ascii')
-                        with open(norn_data_folder_path / 'market-industry' / 'market' / (base64_file_name + '.json'), 'w', encoding='utf-8') as f:
+                        with open(norn_data_folder_path / 'markets' / (base64_file_name + '.json'), 'w', encoding='utf-8') as f:
                             f.write(json.dumps(output, separators=(',', ':')))
 
                 else:
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     root = pathlib.Path(__file__).parent.resolve()
     norn_data_folder_path = root / ".." / "norn-data"
 
-    market_folder_path = norn_data_folder_path / 'market-industry' / 'market'
+    market_folder_path = norn_data_folder_path / 'markets'
     if not os.path.exists(market_folder_path):
         os.makedirs(market_folder_path)
 

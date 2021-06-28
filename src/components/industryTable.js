@@ -207,9 +207,9 @@ const IndustryTable = ({ loadingAnimeRef }) => {
             size="small"
             aria-haspopup="true"
             onClick={() => {
-              const getMarketData = async (industry, src, symbol) =>{
-                let fileName = btoa(industry + '_' + src + '_' + symbol) + '.json'
-                const resp_data = await get('/norn-data/market-industry/market/' + fileName)
+              const getMarketData = async (src, symbol) =>{
+                let fileName = btoa(src + '_' + symbol) + '.json'
+                const resp_data = await get('/norn-data/markets/' + fileName)
                 console.log(resp_data)
                 if (response.ok && resp_data.data && resp_data.data.length > 0) {
                   let info = {
@@ -262,7 +262,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
                 }
               }
 
-              getMarketData(params.row['Industry'], params.row['MKSource'], params.row['MKSymbol'])
+              getMarketData(params.row['MKSource'], params.row['MKSymbol'])
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
