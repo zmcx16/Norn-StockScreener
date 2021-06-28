@@ -67,7 +67,7 @@ def update_get_market(norn_data_folder_path, config):
                 if resp["ret"] == 0:
                     data = resp["data"]
                     for item in data:
-                        output = {'update_time': str(datetime.now()), 'industry': item['industry'], 'symbol': item['symbol'],
+                        output = {'update_time': str(datetime.now()), 'symbol': item['symbol'],
                                   'src': item['src'], 'data': item['data']}
 
                         base64_file_name = base64.b64encode(item['id'].encode('ascii')).decode('ascii')
