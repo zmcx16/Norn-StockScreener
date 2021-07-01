@@ -10,8 +10,8 @@ def send_get_json(url):
         res = requests.get(url)
         res.raise_for_status()
     except Exception as ex:
-        print('Generated an exception: ex'.format(ex=ex))
-        return -1, exc
+        print('Generated an exception: {ex}'.format(ex=ex))
+        return -1, ex
 
     return 0, res.json()
 
