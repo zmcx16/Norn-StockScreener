@@ -12,9 +12,9 @@ def send_request(url):
     try:
         res = requests.get(url)
         res.raise_for_status()
-    except Exception as exc:
-        print('Generated an exception: %s' % exc)
-        return -1, exc
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+        return -1, ex
 
     return 0, res.text
 
@@ -42,8 +42,8 @@ def get_config():
 
         sys.exit(1)
 
-    except Exception as exc:
-        print('Generated an exception: %s' % exc)
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
 
 
 def update_get_market(norn_data_folder_path, config):
@@ -79,8 +79,8 @@ def update_get_market(norn_data_folder_path, config):
             else:
                 print('send_request failed: {ret}'.format(ret=ret))
 
-        except Exception as exc:
-            print('Generated an exception: %s' % exc)
+        except Exception as ex:
+            print('Generated an exception: {ex}'.format(ex=ex))
 
     print('update_get_market done')
 
@@ -114,8 +114,8 @@ def get_market_industry():
             print('send_request failed: {ret}'.format(ret=ret))
             sys.exit(1)
 
-    except Exception as exc:
-        print('Generated an exception: %s' % exc)
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
         sys.exit(1)
 
     print('get_market_industry done')
