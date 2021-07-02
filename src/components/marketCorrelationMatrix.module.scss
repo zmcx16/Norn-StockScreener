@@ -1,11 +1,13 @@
 .container {
   padding: 50px 0 10px 0;
   width: 100%;
+  overflow:auto;
 }
 
 .matrixColTitle{
-  transform: translate(7px, -10px) rotate(-45deg);
+  transform: translate(60px, -60px) rotate(-45deg);
   width: 100%;
+  min-width: 180px;
 }
 
 .matrixRowTitle{

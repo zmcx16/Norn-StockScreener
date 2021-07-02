@@ -19,6 +19,7 @@ const MarketCorrelationMatrixPage = () => {
       <Layout >
         <MarketCorrelationMatrix loadingAnimeRef={loadingAnimeRef} />
       </Layout>
+      <LoadingAnime loadingAnimeRef={loadingAnimeRef} />
     </StylesProvider>
   )
 }
