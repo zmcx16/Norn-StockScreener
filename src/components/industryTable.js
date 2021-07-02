@@ -336,7 +336,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   }
 
   const getIndustryTable = async () =>{
-    const resp_data = await get('/norn-data/market-industry/indusrty-table.json')
+    const resp_data = await get('/norn-data/indusrty-table.json')
     if (response.ok) {
       console.log(resp_data)
       let output = genRowData(resp_data['data'])
