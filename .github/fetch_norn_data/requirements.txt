@@ -1,2 +1,4 @@
 requests>=2.22.0
 urllib3>=1.25.6
+numpy>=1.21.0
+scipy>=1.7.0

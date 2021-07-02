@@ -1,0 +1,37 @@
+.container {
+  padding: 50px 0 10px 0;
+  width: 100%;
+  overflow:auto;
+}
+
+.matrixColTitle{
+  transform: translate(60px, -60px) rotate(-45deg);
+  width: 100%;
+  min-width: 180px;
+}
+
+.matrixRowTitle{
+  text-align: right;
+  width: 100%;
+  padding-right: 10px;
+}
+
+.matrixNodeFirstRow {
+  border-top: 1px solid;
+}
+
+.matrixNodeFirstColumn {
+  border-left: 1px solid;
+}
+
+.matrixNode {
+  text-align: center;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+  border-color: rgb(228, 212, 212);
+  color: black;
+}
