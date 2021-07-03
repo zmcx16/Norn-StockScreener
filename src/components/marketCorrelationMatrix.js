@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Link from '@material-ui/core/Link'
+import Popper from '@material-ui/core/Popper'
+import Fade from '@material-ui/core/Fade'
+import Paper from '@material-ui/core/Paper'
 import shortid from 'shortid'
 import useFetch from 'use-http'
 
@@ -56,7 +59,7 @@ const table2MatrixData = (table) => {
   return parsedData
 }
 
-const MatrixNode = ({data}) => {
+const MatrixNode = ({ data, popperTipRef }) => {
   let nodeStyle = marketCorrelationMatrixStyle.matrixNode
   if (data.row === 0) {
     nodeStyle += ' ' + marketCorrelationMatrixStyle.matrixNodeFirstRow
@@ -66,12 +69,54 @@ const MatrixNode = ({data}) => {
     nodeStyle += ' ' + marketCorrelationMatrixStyle.matrixNodeFirstColumn
   }
 
+  const message = 
+`${data.colTitle} has a ${data.value} correlation to ${data.rowTitle}
+p-value: ${data.pValue}
+`
+
   return (
     <div className={nodeStyle} style={{background: 'white'}}>
-      <div style={{ background: data.color }}>
+      <div style={{ background: data.color }} onMouseOver={(event)=>{
+        popperTipRef.current.setOpen(true, event.currentTarget, message)
+      }} onMouseOut={(event) => {
+        popperTipRef.current.setOpen(false)
+      }}>
         {data.value.toFixed(2).replace(/(\.0*|(?<=(\..*))0*)$/, '').replace("0.",".")}
       </div>
     </div>
+  )
+}
+
+const PopperTip = ({ popperTipRef }) =>{
+
+  // PopperTip API
+  popperTipRef.current = {
+    setOpen: (v, a=null, msg='') => {
+      if (v) {
+        setAnchorEl(a)
+        setMessage(msg)
+      }
+      setOpenPopper(v)
+    },
+    getOpen: () => {
+      return openPopper
+    }
+  }
+
+  const [openPopper, setOpenPopper] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [message, setMessage] = useState('')
+
+  return (
+    <Popper open={openPopper} anchorEl={anchorEl} transition>
+      {({ TransitionProps }) => (
+        <Fade {...TransitionProps} timeout={350}>
+          <Paper style={{padding: '10px'}}>
+            <span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{message}</span>
+          </Paper>
+        </Fade>
+      )}
+    </Popper>
   )
 }
 
@@ -80,6 +125,11 @@ const MarketCorrelationMatrix = ({ loadingAnimeRef }) => {
   const modalWindowRef = useRef({
     popModalWindow: null,
     popPureModal: null,
+  })
+
+  const popperTipRef = useRef({
+    setOpen: null,
+    getOpen: null,
   })
 
   const [table, setTable] = useState([])
@@ -120,7 +170,7 @@ const MarketCorrelationMatrix = ({ loadingAnimeRef }) => {
             </Link>
           </div>)
       }
-      output.push(<MatrixNode data={d} key={shortid.generate()} />)
+      output.push(<MatrixNode data={d} popperTipRef={popperTipRef} key={shortid.generate()} />)
     })
 
     return output
@@ -143,6 +193,7 @@ const MarketCorrelationMatrix = ({ loadingAnimeRef }) => {
           {renderRowsTitleAndData()}
         </div>
       </div>
+      <PopperTip popperTipRef={popperTipRef}/>
       <ModalWindow modalWindowRef={modalWindowRef} />
     </>
   )
