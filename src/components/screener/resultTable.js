@@ -5,12 +5,12 @@ import { DataGrid, GridOverlay } from '@material-ui/data-grid'
 import { isMobile } from 'react-device-detect'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { convertKMBT } from '../common/utils'
-import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../common/common'
-import { NMUrl } from '../common/nm'
+import { convertKMBT } from '../../common/utils'
+import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../../common/common'
+import { NMUrl } from '../../common/nm'
 
 import resultTableStyle from './resultTable.module.scss'
-import './resultTable.css'
+import '../muiTablePagination.css'
 
 const useNoDataStyles = makeStyles((theme) => ({
   root: {

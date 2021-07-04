@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import shortid from 'shortid'
 import useFetch from 'use-http'
 
-import ModalWindow from './modalWindow'
+import ModalWindow from '../modalWindow'
 
 import marketCorrelationMatrixStyle from './marketCorrelationMatrix.module.scss'
 

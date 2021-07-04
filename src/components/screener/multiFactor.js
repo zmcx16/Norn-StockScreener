@@ -4,9 +4,9 @@ import Link from '@material-ui/core/Link'
 import Tooltip from '@material-ui/core/Tooltip'
 import shortid from 'shortid'
 
-import { MFDataTemplate, MFNote, MFUrl } from '../common/mf'
+import { MFDataTemplate, MFNote, MFUrl } from '../../common/mf'
 
-import commonStyle from './common.module.scss'
+import commonStyle from '../common.module.scss'
 import multiFactorStyle from './multiFactor.module.scss'
 
 

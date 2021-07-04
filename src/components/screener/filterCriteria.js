@@ -7,8 +7,8 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { isMobile } from 'react-device-detect'
 import shortid from 'shortid'
 
-import { argSetValueBackgroundColor } from '../common/common'
-import { getFromEndVal } from '../common/utils'
+import { argSetValueBackgroundColor } from '../../common/common'
+import { getFromEndVal } from '../../common/utils'
 
 import filterCriteriaStyle from './filterCriteria.module.scss'
 

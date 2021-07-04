@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 
 import FilterContainer from './filterContainer'
 import ResultTable from './resultTable'
-import commonStyle from './common.module.scss'
+import commonStyle from '../common.module.scss'
 
 const App = ({ loadingAnimeRef }) => {
   

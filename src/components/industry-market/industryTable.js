@@ -8,11 +8,11 @@ import BarChartSharpIcon from '@material-ui/icons/BarChartSharp'
 import Link from '@material-ui/core/Link'
 import useFetch from 'use-http'
 
-import ModalWindow from './modalWindow'
+import ModalWindow from '../modalWindow'
 import IndustryMarketChart from './industryMarketChart'
 
 import industryTableStyle from './industryTable.module.scss'
-import './resultTable.css'
+import '../muiTablePagination.css'
 
 const useNoDataStyles = makeStyles((theme) => ({
   root: {
