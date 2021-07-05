@@ -7,11 +7,37 @@ import shortid from 'shortid'
 import useFetch from 'use-http'
 
 import ModalWindow from '../modalWindow'
+import { rollingCorrelationWindowDays } from '../../common/common'
+import RollingCorrelationChart from './rollingCorrelationChart'
 
 import marketCorrelationMatrixStyle from './marketCorrelationMatrix.module.scss'
 
+const pcorr = (x, y) => {
+  let sumX = 0,
+    sumY = 0,
+    sumXY = 0,
+    sumX2 = 0,
+    sumY2 = 0;
+  const minLength = x.length = y.length = Math.min(x.length, y.length),
+    reduce = (xi, idx) => {
+      const yi = y[idx];
+      sumX += xi;
+      sumY += yi;
+      sumXY += xi * yi;
+      sumX2 += xi * xi;
+      sumY2 += yi * yi;
+    }
+  x.forEach(reduce)
+  return (minLength * sumXY - sumX * sumY) / Math.sqrt((minLength * sumX2 - sumX * sumX) * (minLength * sumY2 - sumY * sumY))
+}
+
 const getTableCategories = (table) => {
-  return table.map((category) => category.symbol)
+  return table.map((category) => {
+    return {
+      symbol: category.symbol,
+      src: category.src
+    }
+  })
 }
 
 const table2MatrixData = (table) => {
@@ -28,22 +54,22 @@ const table2MatrixData = (table) => {
     return `rgba(46, 233, 255, ${isNaN(alpha) ? 0 : alpha})`
   }
 
-  const parsedData = categories.reduce((acc, rowTitle) => {
-    const category = table.find((d) => d.symbol === rowTitle)
-    const categoryCorrelations = categories.reduce((acc2, colTitle) => {
-      const value = category.correlations[colTitle]['value']
-      const pValue = category.correlations[colTitle]['p_value']
+  const parsedData = categories.reduce((acc, rowSymbolSrc) => {
+    const category = table.find((d) => d.symbol === rowSymbolSrc.symbol)
+    const categoryCorrelations = categories.reduce((acc2, colSymbolSrc) => {
+      const value = category.correlations[colSymbolSrc.symbol]['value']
+      const pValue = category.correlations[colSymbolSrc.symbol]['p_value']
       const dataUrl = category['dataUrl']
-      const row = categories.indexOf(rowTitle)
-      const column = categories.indexOf(colTitle)
+      const row = categories.indexOf(rowSymbolSrc.symbol)
+      const column = categories.indexOf(colSymbolSrc.symbol)
       const color =
         value < 0 ? negativeColor(value) : positiveColor(value)
 
       return [
         ...acc2,
         {
-          colTitle,
-          rowTitle,
+          colSymbolSrc,
+          rowSymbolSrc,
           row,
           column,
           value,
@@ -59,7 +85,7 @@ const table2MatrixData = (table) => {
   return parsedData
 }
 
-const MatrixNode = ({ data, popperTipRef }) => {
+const MatrixNode = ({ data, popperTipRef, modalWindowRef }) => {
   let nodeStyle = marketCorrelationMatrixStyle.matrixNode
   if (data.row === 0) {
     nodeStyle += ' ' + marketCorrelationMatrixStyle.matrixNodeFirstRow
@@ -70,16 +96,88 @@ const MatrixNode = ({ data, popperTipRef }) => {
   }
 
   const message = 
-`${data.colTitle} has a ${data.value} correlation to ${data.rowTitle}
+`${data.colSymbolSrc.symbol} has a ${data.value} correlation to ${data.rowSymbolSrc.symbol}
 p-value: ${data.pValue}
 `
+  const fetch1 = useFetch({ cachePolicy: 'no-cache' })
+  const fetch2 = useFetch({ cachePolicy: 'no-cache' })
 
   return (
-    <div className={nodeStyle} style={{background: 'white'}}>
+    <div className={nodeStyle}>
       <div style={{ background: data.color }} onMouseOver={(event)=>{
         popperTipRef.current.setOpen(true, event.currentTarget, message)
-      }} onMouseOut={(event) => {
+      }} onMouseOut={() => {
         popperTipRef.current.setOpen(false)
+      }} onClick={()=>{
+        const getMarketData = async (src, symbol, fetchObj) => {
+          let fileName = btoa(src + '_' + symbol) + '.json'
+          const resp_data = await fetchObj.get('/norn-data/markets/' + fileName)
+          if (fetchObj.response.ok && resp_data.data && resp_data.data.length > 0) {
+            return resp_data.data
+          }
+          else {
+            return null
+          }
+        }
+
+        Promise.all([
+          getMarketData(data.colSymbolSrc.src, data.colSymbolSrc.symbol, fetch1),
+          getMarketData(data.rowSymbolSrc.src, data.rowSymbolSrc.symbol, fetch2),
+        ]).then((allResponses) => {
+          // console.log(allResponses)
+          if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {
+            const convertDictData = (arr) => {
+              let key_data_val = {}
+              arr.forEach((d, i) => {
+                let v = d["Close"]
+                if (typeof v === 'string') {
+                  v = parseFloat(v.replace("%", ""))
+                }
+                key_data_val[d["Date"]] = v
+              })
+              return key_data_val
+            }
+
+            let dataDict1 = convertDictData(allResponses[0])
+            let dataDict2 = convertDictData(allResponses[1])
+
+            const getIntersectionKey = (o1, o2) => {
+              return Object.keys(o1).filter({}.hasOwnProperty.bind(o2));
+            }
+
+            const keys = getIntersectionKey(dataDict1, dataDict2)
+            let slidingWindowSize = 2
+            let startCalcTime = Date.parse(keys[keys.length - 1]) + rollingCorrelationWindowDays * 24 * 60 * 60 * 1000
+            for (let i = keys.length - 2; i>=0; i--) {
+              if (startCalcTime <= Date.parse(keys[i])) {
+                slidingWindowSize = Math.max(slidingWindowSize, keys.length - 1 - i + 1)
+                break
+              }
+            }
+
+            let pcorrData = []
+            for (let i = keys.length - 1 - slidingWindowSize + 1; i >= 0; i--) {
+              
+              let dataX = []
+              let dataY = []
+              let dataWindow = keys.slice(i, i + slidingWindowSize)
+              dataWindow.forEach((e)=>{
+                dataX.push(dataDict1[e])
+                dataY.push(dataDict2[e])
+              })
+              let score = pcorr(dataX, dataY)
+              pcorrData.push({ 'Date': keys[i], 'Score': score})
+            }
+
+            // console.log(pcorrData)
+            const description = `${data.rowSymbolSrc.symbol} - ${data.colSymbolSrc.symbol} Rolling ${rollingCorrelationWindowDays} days Correlation`
+            modalWindowRef.current.popModalWindow(<RollingCorrelationChart data={pcorrData} description={description} />)
+          } else {
+            modalWindowRef.current.popModalWindow(<div>Load some market data failed</div>)
+          }
+        }).catch(() => {
+          modalWindowRef.current.popModalWindow(<div>Load market data failed</div>)
+        })
       }}>
         {data.value.toFixed(2).replace(/(\.0*|(?<=(\..*))0*)$/, '').replace("0.",".")}
       </div>
@@ -153,7 +251,7 @@ const MarketCorrelationMatrix = ({ loadingAnimeRef }) => {
       <>
         <div className={marketCorrelationMatrixStyle.matrixColTitle} key={shortid.generate()}></div>
         {getTableCategories(table).map((val) => {
-          return <div className={marketCorrelationMatrixStyle.matrixColTitle} key={shortid.generate()}>{val}</div>
+          return <div className={marketCorrelationMatrixStyle.matrixColTitle} key={shortid.generate()}>{val.symbol}</div>
         })}
       </>
     )
@@ -166,11 +264,11 @@ const MarketCorrelationMatrix = ({ loadingAnimeRef }) => {
         output.push(
           <div className={marketCorrelationMatrixStyle.matrixRowTitle} key={shortid.generate()}>
             <Link href={d.dataUrl} target="_blank" rel="noreferrer noopener">
-              <span>{d.rowTitle}</span>
+              <span>{d.rowSymbolSrc.symbol}</span>
             </Link>
           </div>)
       }
-      output.push(<MatrixNode data={d} popperTipRef={popperTipRef} key={shortid.generate()} />)
+      output.push(<MatrixNode data={d} popperTipRef={popperTipRef} modalWindowRef={modalWindowRef} key={shortid.generate()} />)
     })
 
     return output
