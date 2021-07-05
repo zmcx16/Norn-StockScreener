@@ -12,6 +12,8 @@ export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
+export const rollingCorrelationWindowDays = 90
+
 export const pageRouterTable = [
   { text: 'Stock-Screener', path: '/'},
   { text: 'Industry-Market', path: '/industry-market/' },

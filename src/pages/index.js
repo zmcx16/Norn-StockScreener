@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { StylesProvider } from '@material-ui/core/styles'
 
 import Layout from '../components/layout'
-import App from '../components/app'
+import App from '../components/screener/app'
 import LoadingAnime from '../components/loadingAnime'
 import SEO from '../components/seo'
 

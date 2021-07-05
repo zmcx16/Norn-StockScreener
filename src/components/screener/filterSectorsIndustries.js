@@ -6,8 +6,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Link from '@material-ui/core/Link'
 import shortid from 'shortid'
-import { StockSectorDict, StockIndustryDict } from '../common/stockdef'
-import { FinvizUrl} from '../common/common'
+import { StockSectorDict, StockIndustryDict } from '../../common/stockdef'
+import { FinvizUrl} from '../../common/common'
 
 import filterSectorsIndustriesStyle from './filterSectorsIndustries.module.scss'
 

@@ -11,10 +11,10 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { isMobile } from 'react-device-detect'
 import shortid from 'shortid'
 
-import { NMDataTemplate, NMNote, NMUrl } from '../common/nm'
-import { getFromEndVal } from '../common/utils'
+import { NMDataTemplate, NMNote, NMUrl } from '../../common/nm'
+import { getFromEndVal } from '../../common/utils'
 
-import commonStyle from './common.module.scss'
+import commonStyle from '../common.module.scss'
 import nornMinehunterStyle from './nornMinehunter.module.scss'
 
 

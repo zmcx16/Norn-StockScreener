@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { StylesProvider } from '@material-ui/core/styles'
 
 import Layout from '../components/layout'
-import MarketCorrelationMatrix from '../components/marketCorrelationMatrix'
+import MarketCorrelationMatrix from '../components/market-correlation-matrix/marketCorrelationMatrix'
 import LoadingAnime from '../components/loadingAnime'
 import SEO from '../components/seo'
 
