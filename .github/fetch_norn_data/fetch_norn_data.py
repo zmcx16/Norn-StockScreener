@@ -188,8 +188,13 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
                 data1 = np.array(list(intersection_key_data_val.values())).astype(np.float)
                 data2 = np.array(list(intersection_correlation_key_data_val.values())).astype(np.float)
 
-                val, p_value = stats.pearsonr(data1, data2)
-                market_dict[key]['correlations'][market_dict[correlation_key]['symbol']] = {'value': val, 'p_value': p_value}
+                if len(data1) > 2 and len(data2) > 2:
+                    val, p_value = stats.pearsonr(data1, data2)
+                    market_dict[key]['correlations'][market_dict[correlation_key]['symbol']] = {'value': val,
+                                                                                                'p_value': p_value}
+                else:
+                    market_dict[key]['correlations'][market_dict[correlation_key]['symbol']] = {'value': 'NaN',
+                                                                                                'p_value': 'NaN'}
 
             table.append(market_dict[key])
 
