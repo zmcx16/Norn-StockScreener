@@ -6,12 +6,13 @@ import json
 import requests
 import numpy as np
 from urllib.parse import urlencode
-from datetime import datetime
+from datetime import datetime, timedelta
 from scipy import stats
 
 
 base_url = os.environ.get("MARKET_URL", "")
 token = os.environ.get("MARKET_TOKEN", "")
+
 
 def send_request(url):
     try:
@@ -118,6 +119,10 @@ def get_market_industry(norn_data_folder_path):
     print('get_market_industry done')
 
 
+def over_date_interval(d1, d2, days):
+    return datetime.strptime(d1, '%m/%d/%Y') - datetime.strptime(d2, '%m/%d/%Y') > timedelta(days=days)
+
+
 def calc_market_correlation(norn_data_folder_path, market_folder_path):
 
     market_dict = {}
@@ -149,19 +154,33 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
                         'r', encoding='utf-8') as f:
                     correlation_key_data = json.loads(f.read())
 
+                key_data_is_monthly_intervals = over_date_interval(key_data["data"][0]["Date"],
+                                                                   key_data["data"][1]["Date"], 15)
                 key_data_val = {}
                 for d in key_data["data"]:
                     v = d["Close"]
                     if type(v) is str and "%" in v:
                         v = v.replace("%", "")
-                    key_data_val[d["Date"]] = v
 
+                    if key_data_is_monthly_intervals:
+                        date_offset = datetime.strptime(d["Date"], '%m/%d/%Y').strftime("%m/01/%Y")
+                        key_data_val[date_offset] = v
+                    else:
+                        key_data_val[d["Date"]] = v
+
+                correlation_key_data_is_monthly_intervals = over_date_interval(correlation_key_data["data"][0]["Date"],
+                                                                   correlation_key_data["data"][1]["Date"], 15)
                 correlation_key_data_val = {}
                 for d in correlation_key_data["data"]:
                     v = d["Close"]
                     if type(v) is str and "%" in v:
                         v = v.replace("%", "")
-                    correlation_key_data_val[d["Date"]] = v
+
+                    if correlation_key_data_is_monthly_intervals:
+                        date_offset = datetime.strptime(d["Date"], '%m/%d/%Y').strftime("%m/01/%Y")
+                        correlation_key_data_val[date_offset] = v
+                    else:
+                        correlation_key_data_val[d["Date"]] = v
 
                 intersection_key_data_val = {x: key_data_val[x] for x in key_data_val if x in correlation_key_data_val}
                 intersection_correlation_key_data_val = {x: correlation_key_data_val[x] for x in intersection_key_data_val}
@@ -187,6 +206,7 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
 
 
 def main():
+
     root = pathlib.Path(__file__).parent.resolve()
     norn_data_folder_path = root / ".." / "norn-data"
 
