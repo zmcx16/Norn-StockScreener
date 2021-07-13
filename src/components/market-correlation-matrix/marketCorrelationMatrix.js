@@ -126,14 +126,27 @@ p-value: ${data.pValue}
         ]).then((allResponses) => {
           // console.log(allResponses)
           if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {
+            
+            const overDateInterval = (d1, d2, days) => {
+              return Date.parse(d1) - Date.parse(d2) > days * 24 * 60 * 60 * 1000
+            }
+
             const convertDictData = (arr) => {
               let key_data_val = {}
+              const key_data_is_monthly_intervals = overDateInterval(arr[0]["Date"], arr[1]["Date"], 15)
               arr.forEach((d, i) => {
                 let v = d["Close"]
                 if (typeof v === 'string') {
                   v = parseFloat(v.replace("%", ""))
                 }
-                key_data_val[d["Date"]] = v
+
+                if (key_data_is_monthly_intervals) {
+                  let dt = Date.parse(d["Date"])
+                  const date_offset = (dt.getMonth() + 1).toString().padStart(2, "0") + "/01/" + dt.getFullYear().toString()
+                  key_data_val[date_offset] = v
+                } else {
+                  key_data_val[d["Date"]] = v
+                }
               })
               return key_data_val
             }
@@ -145,7 +158,7 @@ p-value: ${data.pValue}
               return Object.keys(o1).filter({}.hasOwnProperty.bind(o2));
             }
 
-            const keys = getIntersectionKey(dataDict1, dataDict2)
+            const keys = getIntersectionKey(dataDict1, dataDict2)            
             let slidingWindowSize = 2
             let startCalcTime = Date.parse(keys[keys.length - 1]) + rollingCorrelationWindowDays * 24 * 60 * 60 * 1000
             for (let i = keys.length - 2; i>=0; i--) {
@@ -154,7 +167,7 @@ p-value: ${data.pValue}
                 break
               }
             }
-
+            
             let pcorrData = []
             for (let i = keys.length - 1 - slidingWindowSize + 1; i >= 0; i--) {
               
@@ -179,7 +192,7 @@ p-value: ${data.pValue}
           modalWindowRef.current.popModalWindow(<div>Load market data failed</div>)
         })
       }}>
-        {data.value.toFixed(2).replace(/(\.0*|(?<=(\..*))0*)$/, '').replace("0.",".")}
+        {data.value==='NaN' ? 'NaN' : data.value.toFixed(2).replace(/(\.0*|(?<=(\..*))0*)$/, '').replace("0.",".")}
       </div>
     </div>
   )
