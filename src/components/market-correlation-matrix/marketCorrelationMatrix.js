@@ -167,7 +167,7 @@ p-value: ${data.pValue}
                 break
               }
             }
-            
+
             let pcorrData = []
             for (let i = keys.length - 1 - slidingWindowSize + 1; i >= 0; i--) {
               
@@ -189,7 +189,7 @@ p-value: ${data.pValue}
             modalWindowRef.current.popModalWindow(<div>Load some market data failed</div>)
           }
         }).catch(() => {
-          modalWindowRef.current.popModalWindow(<div>Load market data failed</div>)
+          modalWindowRef.current.popModalWindow(<div>Can't draw rolling correlation chart for these market data</div>)
         })
       }}>
         {data.value==='NaN' ? 'NaN' : data.value.toFixed(2).replace(/(\.0*|(?<=(\..*))0*)$/, '').replace("0.",".")}
