@@ -4,13 +4,14 @@ import pathlib
 import json
 import requests
 import csv
+import time
 from urllib.parse import urlencode
 from datetime import datetime, timedelta
 
 
 afscreener_url = os.environ.get("AF_URL", "")
 afscreener_token = os.environ.get("AF_TOKEN", "")
-
+DELAY_TIME_SEC = 1
 
 def is_float(value):
     try:
@@ -108,6 +109,8 @@ def main():
             print('download stock ' + symbol + ' done')
         else:
             print('stock ' + symbol + ' is null')
+
+        time.sleep(DELAY_TIME_SEC)
 
     print('all task done')
 
