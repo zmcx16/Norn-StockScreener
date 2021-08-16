@@ -168,9 +168,8 @@ def main():
     if not os.path.exists(google_trend_data_folder_path):
         os.makedirs(google_trend_data_folder_path)
 
-
-    stock_info = {"A": ["Agilent Technologies, Inc.", "Diagnostics & Research"], "AA":[ "Alcoa Corporation", "Aluminum" ]}
-    # stock_info = get_stock_info()
+    # stock_info = {"A": ["Agilent Technologies, Inc.", "Diagnostics & Research"], "AA":[ "Alcoa Corporation", "Aluminum" ]}
+    stock_info = get_stock_info()
 
     task_queue = queue.Queue()
     for symbol in stock_info:
