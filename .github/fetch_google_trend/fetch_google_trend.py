@@ -38,28 +38,44 @@ class GoogleAPIThread(threading.Thread):
                 api_param_list = {"week": "now 7-d", "month": "today 1-m", "quarter": "today 3-m", "year": "today 12-m"}
                 raw = {"symbol": symbol, "keyword": "", "update_time": "", "week": [], "month": [], "quarter": [], "year": []}
                 statistics = {
-                    "last_3_days_max": {"symbol": symbol, "week": {}, "month": {}, "quarter": {}, "year": {}},
-                    "last_7_days_max": {"symbol": symbol, "month": {}, "quarter": {}, "year": {}},
-                    "last_14_days_max": {"symbol": symbol, "month": {}, "quarter": {}, "year": {}},
+                    "symbol": symbol,
+                    "keyword": "",
+                    "week-3": 0,
+                    "month-3": 0, "month-7": 0, "month-14": 0,
+                    "quarter-7": 0, "quarter-14": 0, "quarter-21": 0,
+                    "year-14": 0, "year-21": 0,
                 }
 
                 suggest_keyword = data["company"]
                 for key in api_param_list:
                     resp = self.__get_google_trend_data(data["company"], api_param_list[key])
                     if resp:
-                        suggest_keyword = resp["keyword"]
                         # print(resp)
+                        suggest_keyword = resp["keyword"]
+                        if len(resp["data"]["index"]) == 0:
+                            print("Get", symbol, "for", key, "failed, try next param")
+
                         record, stat = self.__parse_data(resp["data"])
                         raw[key] = record
 
-                        statistics["last_3_days_max"][key] = stat["last_3_days_max"]
-                        if key != "week":
-                            statistics["last_7_days_max"][key] = stat["last_7_days_max"]
-                            statistics["last_14_days_max"][key] = stat["last_14_days_max"]
+                        if key == "week":
+                            statistics[key + "-3"] = stat["last_3_days_max"]
+                        elif key == "month":
+                            statistics[key + "-3"] = stat["last_3_days_max"]
+                            statistics[key + "-7"] = stat["last_7_days_max"]
+                            statistics[key + "-14"] = stat["last_14_days_max"]
+                        elif key == "quarter":
+                            statistics[key + "-7"] = stat["last_7_days_max"]
+                            statistics[key + "-14"] = stat["last_14_days_max"]
+                            statistics[key + "-21"] = stat["last_21_days_max"]
+                        elif key == "year":
+                            statistics[key + "-14"] = stat["last_14_days_max"]
+                            statistics[key + "-21"] = stat["last_21_days_max"]
+
                     else:
                         print("Get", symbol, "failed")
 
-                raw["keyword"] = suggest_keyword
+                raw["keyword"] = statistics["keyword"] = suggest_keyword
                 raw["update_time"] = str(datetime.now())
                 # print(raw)
                 # print(statistics)
@@ -77,28 +93,27 @@ class GoogleAPIThread(threading.Thread):
 
     def __parse_data(self, data):
         record = []
-        statistics = {"last_3_days_max": 0, "last_7_days_max": 0, "last_14_days_max": 0}
+        statistics = {"last_3_days_max": 0, "last_7_days_max": 0, "last_14_days_max": 0, "last_21_days_max": 0}
 
         now = datetime.now()
-        three_3_days_ago = now - timedelta(days=3)
-        three_7_days_ago = now - timedelta(days=7)
-        three_14_days_ago = now - timedelta(days=14)
 
         # default use latest data
-        statistics["last_3_days_max"] = statistics["last_7_days_max"] = statistics["last_14_days_max"] = data["data"][len(data["index"])-1][0]
+        statistics["last_3_days_max"] = statistics["last_7_days_max"] = statistics["last_14_days_max"] = statistics["last_21_days_max"] = data["data"][len(data["index"])-1][0]
 
         for index in range(len(data["index"])):
             ts_d = datetime.fromtimestamp(data["index"][index] / 1000)
-            date = ts_d.strftime("%m/%d/%Y")
+            date = ts_d.strftime("%m/%d/%Y %H:%M:%S")
             value = data["data"][index][0]
             record.append({"Date": date, "Value": value})
 
-            if ts_d > three_3_days_ago:
+            if ts_d > now - timedelta(days=3):
                 statistics["last_3_days_max"] = max(value, statistics["last_3_days_max"])
-            if ts_d > three_7_days_ago:
+            if ts_d > now - timedelta(days=7):
                 statistics["last_7_days_max"] = max(value, statistics["last_7_days_max"])
-            if ts_d > three_14_days_ago:
+            if ts_d > now - timedelta(days=14):
                 statistics["last_14_days_max"] = max(value, statistics["last_14_days_max"])
+            if ts_d > now - timedelta(days=21):
+                statistics["last_21_days_max"] = max(value, statistics["last_21_days_max"])
 
         record.reverse()
         # print(record)
@@ -197,12 +212,10 @@ def main():
         worker.join()
 
     # save statistics_output
-    final_statistics_output = {"last_3_days_max": [], "last_7_days_max": [], "last_14_days_max": []}
+    final_statistics_output = []
     for worker in work_list:
         for stat in worker.statistics_output:
-            final_statistics_output["last_3_days_max"].append(stat["last_3_days_max"])
-            final_statistics_output["last_7_days_max"].append(stat["last_7_days_max"])
-            final_statistics_output["last_14_days_max"].append(stat["last_14_days_max"])
+            final_statistics_output.append(stat)
 
     with open(google_trend_folder_path / 'stat.json', 'w', encoding='utf-8') as f:
         f.write(json.dumps(final_statistics_output, separators=(',', ':')))
