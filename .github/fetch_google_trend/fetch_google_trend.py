@@ -35,25 +35,31 @@ class GoogleAPIThread(threading.Thread):
                 symbol = data["symbol"]
                 print("Get", symbol, "start")
 
-                api_param_list = {"month": "today 1-m", "quarter": "today 3-m", "year": "today 12-m"}
-                raw = {"symbol": symbol, "update_time": "", "month": [], "quarter": [], "year": []}
+                api_param_list = {"week": "now 7-d", "month": "today 1-m", "quarter": "today 3-m", "year": "today 12-m"}
+                raw = {"symbol": symbol, "keyword": "", "update_time": "", "week": [], "month": [], "quarter": [], "year": []}
                 statistics = {
-                    "last_3_days_max": {"symbol": symbol, "month": {}, "quarter": {}, "year": {}},
+                    "last_3_days_max": {"symbol": symbol, "week": {}, "month": {}, "quarter": {}, "year": {}},
                     "last_7_days_max": {"symbol": symbol, "month": {}, "quarter": {}, "year": {}},
                     "last_14_days_max": {"symbol": symbol, "month": {}, "quarter": {}, "year": {}},
                 }
+
+                suggest_keyword = data["company"]
                 for key in api_param_list:
                     resp = self.__get_google_trend_data(data["company"], api_param_list[key])
                     if resp:
+                        suggest_keyword = resp["keyword"]
                         # print(resp)
-                        record, stat = self.__parse_data(resp)
+                        record, stat = self.__parse_data(resp["data"])
                         raw[key] = record
+
                         statistics["last_3_days_max"][key] = stat["last_3_days_max"]
-                        statistics["last_7_days_max"][key] = stat["last_7_days_max"]
-                        statistics["last_14_days_max"][key] = stat["last_14_days_max"]
+                        if key != "week":
+                            statistics["last_7_days_max"][key] = stat["last_7_days_max"]
+                            statistics["last_14_days_max"][key] = stat["last_14_days_max"]
                     else:
                         print("Get", symbol, "failed")
 
+                raw["keyword"] = suggest_keyword
                 raw["update_time"] = str(datetime.now())
                 # print(raw)
                 # print(statistics)
@@ -77,6 +83,9 @@ class GoogleAPIThread(threading.Thread):
         three_3_days_ago = now - timedelta(days=3)
         three_7_days_ago = now - timedelta(days=7)
         three_14_days_ago = now - timedelta(days=14)
+
+        # default use latest data
+        statistics["last_3_days_max"] = statistics["last_7_days_max"] = statistics["last_14_days_max"] = data["data"][len(data["index"])-1][0]
 
         for index in range(len(data["index"])):
             ts_d = datetime.fromtimestamp(data["index"][index] / 1000)
