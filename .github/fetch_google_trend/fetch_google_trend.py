@@ -16,6 +16,7 @@ google_trend_api_list = os.environ.get("GOOGLE_TREND_API_LIST", "")
 afscreener_url = os.environ.get("AF_URL", "")
 afscreener_token = os.environ.get("AF_TOKEN", "")
 DELAY_TIME_SEC = 10
+RETRY_THRESHOLD = 5
 
 class GoogleAPIThread(threading.Thread):
 
@@ -48,7 +49,16 @@ class GoogleAPIThread(threading.Thread):
 
                 suggest_keyword = data["company"]
                 for key in api_param_list:
-                    resp = self.__get_google_trend_data(data["company"], api_param_list[key])
+                    resp = None
+                    retry = 0
+                    while True:
+                        resp = self.__get_google_trend_data(data["company"], api_param_list[key])
+                        if resp or retry >= RETRY_THRESHOLD:
+                            break
+                        print("call __get_google_trend_data for", data["company"], api_param_list[key], "failed, retry=", retry)
+                        retry += 1
+                        time.sleep(DELAY_TIME_SEC)
+
                     if resp:
                         # print(resp)
                         suggest_keyword = resp["keyword"]
