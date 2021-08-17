@@ -52,7 +52,9 @@ class GoogleAPIThread(threading.Thread):
                     if resp:
                         # print(resp)
                         suggest_keyword = resp["keyword"]
-                        record, stat = self.__parse_data(resp["data"])
+                        record, stat = self.__parse_data(symbol, resp["data"])
+                        if len(record) == 0:
+                            print("Get", symbol, "for", key, "failed, use default data")
 
                         raw[key] = record
                         if key == "week":
@@ -93,7 +95,6 @@ class GoogleAPIThread(threading.Thread):
         statistics = {"last_3_days_max": 0, "last_7_days_max": 0, "last_14_days_max": 0, "last_21_days_max": 0}
 
         if len(data["index"]) == 0:
-            print("Get", symbol, "for", key, "failed, use default data")
             return record, statistics
 
         now = datetime.now()
