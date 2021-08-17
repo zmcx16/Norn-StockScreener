@@ -52,7 +52,7 @@ class GoogleAPIThread(threading.Thread):
                     if resp:
                         # print(resp)
                         suggest_keyword = resp["keyword"]
-                        record, stat = self.__parse_data(symbol, resp["data"])
+                        record, stat = self.__parse_data(resp["data"])
                         if len(record) == 0:
                             print("Get", symbol, "for", key, "failed, use default data")
 
