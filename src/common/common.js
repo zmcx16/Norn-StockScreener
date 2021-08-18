@@ -15,9 +15,10 @@ export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 export const rollingCorrelationWindowDays = 90
 
 export const pageRouterTable = [
-  { text: 'Stock-Screener', path: '/'},
-  { text: 'Industry-Market', path: '/industry-market/' },
-  { text: 'Market-Correlation-Matrix', path: '/market-correlation-matrix/' },
+  { text: 'Stock Screener', path: '/'},
+  { text: 'Industry Market', path: '/industry-market/' },
+  { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
+  { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
 ]
 
 export const kanbanNote = 
