@@ -9,7 +9,8 @@ from urllib.parse import urlencode
 from datetime import datetime, timedelta
 
 
-afscreener_url = os.environ.get("AF_URL", "")
+afscreener_url = os.environ.get(
+    "AF_URL", "")
 afscreener_token = os.environ.get("AF_TOKEN", "")
 DELAY_TIME_SEC = 1
 
@@ -31,6 +32,16 @@ def send_request(url):
 
     return 0, res.text
 
+def send_post_json(url, req_data):
+    try:
+        headers = {'content-type': 'application/json'}
+        res = requests.post(url, req_data, headers=headers)
+        res.raise_for_status()
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+        return -1, ex
+
+    return 0, res.json()
 
 def get_stock_info():
 
@@ -91,26 +102,70 @@ def get_stock_1y_data_from_marketwatch(symbol):
     return None
 
 
+def get_stock_base_info():
+    print("call get_stock_base_info")
+    try:
+        param = {
+            'code': afscreener_token,
+            'api': 'get-stock-report'
+        }
+        encoded_args = urlencode(param)
+        query_url = afscreener_url + '?' + encoded_args
+        ret, resp = send_post_json(query_url, str(
+            {"baseinfo_v": ["P/E", "P/B", "Dividend %", "52W High", "52W Low", "Perf Week", "Perf Month", "Perf Quarter", "Perf Half Y", "Perf Year", "Perf YTD"]}))
+        if ret == 0:
+            if resp["ret"] == 0:
+                return resp["data"]
+            else:
+                print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
+        else:
+            print('send_post_json failed: {ret}'.format(ret=ret))
+
+        sys.exit(1)
+
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+
+
 def main():
     root = pathlib.Path(__file__).parent.resolve()
     norn_data_folder_path = root / ".." / "norn-data"
 
-    stock_folder_path = norn_data_folder_path / "stock" / "historical-quotes"
-    if not os.path.exists(stock_folder_path):
-        os.makedirs(stock_folder_path)
+    stock_folder_path = norn_data_folder_path / "stock"
+    stock_historical_folder_path = stock_folder_path / "historical-quotes"
+    if not os.path.exists(stock_historical_folder_path):
+        os.makedirs(stock_historical_folder_path)
 
+    # get stock info
     stock_info = get_stock_info()
     print(stock_info)
+
+    # get stock 1y data
+    stock_stat = {}
     for symbol in stock_info:
         stock_data = get_stock_1y_data_from_marketwatch(symbol)
-        if stock_data:
-            with open(stock_folder_path / (symbol + '.json'), 'w', encoding='utf-8') as f:
+        if stock_data and len(stock_data) > 0:
+            stock_stat[symbol] = {"Close": stock_data[0]["Close"], "P/E": "-", "P/B": "-", "Dividend %": "-", "52W High": "-", "52W Low": "-",
+                                  "Perf Week": "-", "Perf Month": "-", "Perf Quarter": "-", "Perf Half Y": "-", "Perf Year": "-", "Perf YTD": "-"}
+            with open(stock_historical_folder_path / (symbol + '.json'), 'w', encoding='utf-8') as f:
                 f.write(json.dumps(stock_data, separators=(',', ':')))
             print('download stock ' + symbol + ' done')
         else:
             print('stock ' + symbol + ' is null')
 
         time.sleep(DELAY_TIME_SEC)
+    
+    # get stock base info
+    base_info = get_stock_base_info()
+    for info in base_info:
+        symbol = info["symbol"]
+        if symbol in stock_stat:
+            for key in info:
+                if key != "symbol":
+                    stock_stat[symbol][key] = info[key]
+    
+    with open(stock_folder_path / 'stat.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(stock_stat, separators=(',', ':')))
 
     print('all task done')
 
