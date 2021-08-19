@@ -10,6 +10,7 @@ import useFetch from 'use-http'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import { FinvizUrl } from '../../common/common'
+import StockAndTrendDataChart from './stockAndTrendDataChart'
 
 import googleTrendStocksTableStyle from './googleTrendStocksTable.module.scss'
 import '../muiTablePagination.css'
@@ -65,6 +66,16 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
     }
   }
 
+  const getData = async (url, fetchObj) => {
+    const resp_data = await fetchObj.get(url)
+    if (fetchObj.response.ok && resp_data) {
+      return resp_data
+    }
+    else {
+      return null
+    }
+  }
+
   const getTableColTemplate = (showColList) => {
     return [
       { 
@@ -105,63 +116,55 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
             size="small"
             aria-haspopup="true"
             onClick={() => {
-              /*
-              const getMarketData = async (src, symbol) => {
-                let fileName = btoa(src + '_' + symbol) + '.json'
-                const resp_data = await get('/norn-data/markets/' + fileName)
-                console.log(resp_data)
-                if (response.ok && resp_data.data && resp_data.data.length > 0) {
-                  let info = {
-                    industry: params.row['Industry'],
-                    market: params.row['MKSymbol'],
+              Promise.all([
+                getData("/norn-data/stock/historical-quotes/" + params.row['symbol']+".json", fetchStockData),
+                getData("/norn-data/google-trend/data/" + params.row['symbol'] + ".json", fetchGoogleTrendData),
+              ]).then((allResponses) => {
+                // console.log(allResponses)
+                if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {
+                  
+                  // get all google trend date
+                  let googleTrendDataByDateKey = {}
+                  const convertGoogleTrendData2DictByDate = (data, key) => {
+                    data.forEach((val) => {
+                      let date = val["Date"]
+                      if (!(date in googleTrendDataByDateKey)) {
+                        googleTrendDataByDateKey[date] = {}
+                      } 
+                      googleTrendDataByDateKey[date][key] = val["Value"]
+                    })
                   }
+                  convertGoogleTrendData2DictByDate(allResponses[1]["week"], "week")
+                  convertGoogleTrendData2DictByDate(allResponses[1]["month"], "month")
+                  convertGoogleTrendData2DictByDate(allResponses[1]["quarter"], "quarter")
+                  convertGoogleTrendData2DictByDate(allResponses[1]["year"], "year")
+                  // console.log(googleTrendDataByDateKey)
+                  let googleTrendDataArray = []
+                  for (let key in googleTrendDataByDateKey) {
+                    let o = {Date: key}
+                    if ("week" in googleTrendDataByDateKey[key]) {
+                      o["week"] = googleTrendDataByDateKey[key]["week"]
+                    } 
+                    if ("month" in googleTrendDataByDateKey[key]) {
+                      o["month"] = googleTrendDataByDateKey[key]["month"]
+                    } 
+                    if ("quarter" in googleTrendDataByDateKey[key]) {
+                      o["quarter"] = googleTrendDataByDateKey[key]["quarter"]
+                    } 
+                    if ("year" in googleTrendDataByDateKey[key]) {
+                      o["year"] = googleTrendDataByDateKey[key]["year"]
+                    }
+                    googleTrendDataArray.push(o)
+                  }
+                  // console.log(googleTrendDataArray)
+                  modalWindowRef.current.popModalWindow(<StockAndTrendDataChart stockData={allResponses[0].reverse()} googleTrendData={googleTrendDataArray.reverse()} />)
 
-                  let marketData = resp_data.data.reduce((accumulator, currentValue) => {
-                    accumulator.unshift({ Date: currentValue.Date, Close: parseFloat(currentValue.Close) })
-                    return accumulator
-                  }, [])
-
-                  let perfData = [
-                    {
-                      name: 'Perf Week',
-                      industry: parseInt(params.row['PerfWeek'] * 10000, 10) / 100.0,
-                      market: parseInt(params.row['MKPerfWeek'] * 10000, 10) / 100.0,
-                    },
-                    {
-                      name: 'Perf Month',
-                      industry: parseInt(params.row['PerfMonth'] * 10000, 10) / 100.0,
-                      market: parseInt(params.row['MKPerfMonth'] * 10000, 10) / 100.0,
-                    },
-                    {
-                      name: 'Perf Quart',
-                      industry: parseInt(params.row['PerfQuart'] * 10000, 10) / 100.0,
-                      market: parseInt(params.row['MKPerfQuart'] * 10000, 10) / 100.0,
-                    },
-                    {
-                      name: 'Perf Half',
-                      industry: parseInt(params.row['PerfHalf'] * 10000, 10) / 100.0,
-                      market: parseInt(params.row['MKPerfHalf'] * 10000, 10) / 100.0,
-                    },
-                    {
-                      name: 'Perf Year',
-                      industry: parseInt(params.row['PerfYear'] * 10000, 10) / 100.0,
-                      market: parseInt(params.row['MKPerfYear'] * 10000, 10) / 100.0,
-                    },
-                    {
-                      name: 'Perf YTD',
-                      industry: parseInt(params.row['PerfYTD'] * 10000, 10) / 100.0,
-                      market: parseInt(params.row['MKPerfYTD'] * 10000, 10) / 100.0,
-                    },
-                  ]
-
-                  modalWindowRef.current.popModalWindow(<IndustryMarketChart marketData={marketData} perfData={perfData} info={info} />)
+                } else {
+                  modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
                 }
-                else {
-                  modalWindowRef.current.popModalWindow(<div>Load market data failed</div>)
-                }
-              }
-              */
-              // getMarketData(params.row['MKSource'], params.row['MKSymbol'])
+              }).catch(() => {
+                modalWindowRef.current.popModalWindow(<div>Can't draw google trend with stock price chart</div>)
+              })
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
@@ -183,6 +186,8 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   const [tableCol, setTableCol] = useState(getTableCol())
 
   const { get, response } = useFetch({ cachePolicy: 'no-cache' })
+  const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
+  const fetchGoogleTrendData = useFetch({ cachePolicy: 'no-cache' })
 
   const getGoogleTrendTable = async () => {
     const resp_data = await get('/norn-data/google-trend/stat.json')
