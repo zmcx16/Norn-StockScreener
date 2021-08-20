@@ -47,5 +47,5 @@ jobs:
       run: |-
         git config --global user.name "zmcx16-bot"
         git reset --soft HEAD~1
-        git add ./norn-data/stock/historical-quotes/\* && git commit -m "updated website & stock-data"
+        git add ./norn-data/stock/\* && git commit -m "updated website & stock-data"
         git push -f
