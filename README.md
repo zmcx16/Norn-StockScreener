@@ -103,8 +103,9 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Institution ownership, Institution transcations
 
 # Sub Page
-  * Industry-Market (https://norn-stockscreener.zmcx16.moe/industry/)
-  * Market-Correlation-Matrix (https://norn-stockscreener.zmcx16.moe/market-correlation-matrix/)
+  * Industry Market (https://norn-stockscreener.zmcx16.moe/industry/)
+  * Google Trend Stocks (https://norn-stockscreener.zmcx16.moe/google-trend-stocks/)
+  * Market Correlation Matrix (https://norn-stockscreener.zmcx16.moe/market-correlation-matrix/)
 
 # Financial Data Source
   * Finviz (https://finviz.com)
