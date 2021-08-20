@@ -9,6 +9,7 @@ import { convertKMBT } from '../../common/utils'
 import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../../common/common'
 import { NMUrl } from '../../common/nm'
 import DefaultDataGridTable from '../defaultDataGridTable'
+import { ColorPercentField } from '../../common/reactUtils'
 
 import resultTableStyle from './resultTable.module.scss'
 import '../muiTablePagination.css'
@@ -134,20 +135,6 @@ const ResultTable = ({ResultTableRef}) => {
     return <DataGrid rows={data} columns={tableHeader} scrollbarSize={17} pageSize={20} components={{ noRowsOverlay: DefaultDataGridTable,}} disableSelectionOnClick />
   }
 
-  const colorPercentField = (field, headerName, width, mobileShow) => {
-    return {
-      field: field,
-      headerName: headerName,
-      width: width,
-      renderCell: (params) => (
-        params.value === -Number.MAX_VALUE || params.value === 'NaN' || params.value === "Infinity" ?
-          <span>NaN</span> :
-          <span style={{ fontWeight: 700, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
-      ),
-      mobileShow: mobileShow
-    }
-  }
-
   const tableHeaderTemplate = [
     { field: 'symbol', headerName: 'Symbol', width: 110, mobileShow: true },
     { field: 'sector', headerName: 'Sector', width: 155, mobileShow: false },
@@ -188,7 +175,7 @@ const ResultTable = ({ResultTableRef}) => {
       ),
       mobileShow: true
     },
-    colorPercentField('change', 'Change', 110, true),
+    ColorPercentField('change', 'Change', 110, true, 700),
     {
       field: 'volume',
       headerName: 'Volume',

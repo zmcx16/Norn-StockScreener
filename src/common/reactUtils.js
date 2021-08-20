@@ -21,13 +21,27 @@ export function useInterval(callback, delay) {
   }, [delay])
 }
 
-export function colorPosGreenNegRedField(field, headerName, width, colShow){
+export function PureFieldWithValueCheck(field, headerName, width, valueFixed, colShow) {
   return {
     field: field,
     headerName: headerName,
     width: width,
     renderCell: (params) => (
-      params.value === "-" || params.value === "Infinity" || params.value === 'NaN' ?
+      params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
+        <span>-</span> :
+        <span>{params.value.toFixed(valueFixed)}</span>
+    ),
+    colShow: colShow
+  }
+}
+
+export function ColorPosGreenNegRedField(field, headerName, width, colShow){
+  return {
+    field: field,
+    headerName: headerName,
+    width: width,
+    renderCell: (params) => (
+      params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
         <span>-</span> :
         <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{params.value}</span>
     ),
@@ -35,27 +49,13 @@ export function colorPosGreenNegRedField(field, headerName, width, colShow){
   }
 }
 
-export function colorPosGreenNegRedPercentField(field, headerName, width, colShow){
+export function PercentField(field, headerName, width, colShow){
   return {
     field: field,
     headerName: headerName,
     width: width,
     renderCell: (params) => (
-      params.value === "-" || params.value === -Number.MAX_VALUE || params.value === "Infinity" || params.value === 'NaN' ?
-        <span>-</span> :
-        <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
-    ),
-    colShow: colShow
-  }
-}
-
-export function percentField(field, headerName, width, colShow){
-  return {
-    field: field,
-    headerName: headerName,
-    width: width,
-    renderCell: (params) => (
-      params.value === "-" || params.value === -Number.MAX_VALUE || params.value === "Infinity" || params.value === 'NaN' ?
+      params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN'  ?
         <span>-</span> :
         <span>{(params.value * 100).toFixed(2) + "%"}</span>
     ),
@@ -64,15 +64,15 @@ export function percentField(field, headerName, width, colShow){
 }
 
 
-export function colorPercentField(field, headerName, width, colShow){
+export function ColorPercentField(field, headerName, width, colShow, fontWeight){
   return {
     field: field,
     headerName: headerName,
     width: width,
     renderCell: (params) => (
-      params.value === -Number.MAX_VALUE || params.value === "Infinity" || params.value === 'NaN' ?
+      params.value === '-' || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
         <span>-</span> :
-        <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
+        <span style={{ fontWeight: fontWeight, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
     ),
     colShow: colShow
   }
