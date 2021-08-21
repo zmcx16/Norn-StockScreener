@@ -14,9 +14,10 @@ import {
 
 import moment from 'moment'
 
-const StockAndTrendDataChart = ({ data }) => {
+const StockAndTrendDataChart = ({ title, data }) => {
   return (
-    <div style={{ width: (window.innerWidth - 100) + 'px', height: (window.innerHeight - 100) + 'px', maxWidth: '1200px', maxHeight: '600px' }}>
+    <div style={{ width: (window.innerWidth - 80) + 'px', height: (window.innerHeight - 80) + 'px', maxWidth: '1200px', maxHeight: '700px' }}>
+      <h3>{title}</h3>
       <ResponsiveContainer width="100%" height="47%">
         <ComposedChart
           data={data}

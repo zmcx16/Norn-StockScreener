@@ -168,7 +168,8 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
                     allDataArray.push(o)
                   })
                   //console.log(allDataArray)
-                  modalWindowRef.current.popModalWindow(<StockAndTrendDataChart data={allDataArray} />)
+                  const title = `${params.row['symbol']} (${params.row['keyword']}) Chart`
+                  modalWindowRef.current.popModalWindow(<StockAndTrendDataChart title={title} data={allDataArray} />)
                 } else {
                   modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
                 }
