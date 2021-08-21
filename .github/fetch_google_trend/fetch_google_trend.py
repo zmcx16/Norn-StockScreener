@@ -41,10 +41,10 @@ class GoogleAPIThread(threading.Thread):
                 statistics = {
                     "symbol": symbol,
                     "keyword": "",
-                    "week-3": 0,
-                    "month-3": 0, "month-7": 0, "month-14": 0,
-                    "quarter-7": 0, "quarter-14": 0, "quarter-21": 0,
-                    "year-14": 0, "year-21": 0,
+                    "week-3": 0, "week-avg": 0,
+                    "month-3": 0, "month-7": 0, "month-14": 0, "month-avg": 0,
+                    "quarter-7": 0, "quarter-14": 0, "quarter-21": 0, "quarter-avg": 0,
+                    "year-14": 0, "year-21": 0, "year-avg": 0,
                 }
 
                 suggest_keyword = data["company"]
@@ -80,7 +80,7 @@ class GoogleAPIThread(threading.Thread):
                         elif key == "year":
                             statistics[key + "-14"] = stat["last_14_days_max"]
                             statistics[key + "-21"] = stat["last_21_days_max"]
-
+                        statistics[key + "-avg"] = stat["avg"]
                     else:
                         print("Get", symbol, "failed")
 
@@ -102,7 +102,7 @@ class GoogleAPIThread(threading.Thread):
 
     def __parse_data(self, data):
         record = []
-        statistics = {"last_3_days_max": 0, "last_7_days_max": 0, "last_14_days_max": 0, "last_21_days_max": 0}
+        statistics = {"last_3_days_max": 0, "last_7_days_max": 0, "last_14_days_max": 0, "last_21_days_max": 0, "avg": 0}
 
         if len(data["index"]) == 0:
             return record, statistics
@@ -112,10 +112,12 @@ class GoogleAPIThread(threading.Thread):
         # default use latest data
         statistics["last_3_days_max"] = statistics["last_7_days_max"] = statistics["last_14_days_max"] = statistics["last_21_days_max"] = data["data"][len(data["index"])-1][0]
 
+        total = 0
         for index in range(len(data["index"])):
             ts_d = datetime.fromtimestamp(data["index"][index] / 1000)
             date = ts_d.strftime("%m/%d/%Y %H:%M:%S")
             value = data["data"][index][0]
+            total = total + value
             record.append({"Date": date, "Value": value})
 
             if ts_d > now - timedelta(days=3):
@@ -126,6 +128,8 @@ class GoogleAPIThread(threading.Thread):
                 statistics["last_14_days_max"] = max(value, statistics["last_14_days_max"])
             if ts_d > now - timedelta(days=21):
                 statistics["last_21_days_max"] = max(value, statistics["last_21_days_max"])
+
+        statistics["avg"] = total / len(data["index"])
 
         record.reverse()
         # print(record)
