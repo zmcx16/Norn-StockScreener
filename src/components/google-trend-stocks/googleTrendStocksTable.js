@@ -24,28 +24,38 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   })
 
   const tableColList = {
-    Week3: { show: true, text: 'Week-3' },
-    Month3: { show: true, text: 'Month-3' },
-    Month7: { show: true, text: 'Month-7' },
-    Month14: { show: true, text: 'Month-14' },
-    Quart7: { show: true, text: 'Quart-7' },
-    Quart14: { show: true, text: 'Quart-14' },
-    Quart21: { show: true, text: 'Quart-21' },
-    Year14: { show: true, text: 'Year-14' },
-    Year21: { show: true, text: 'Year-21' },
-    Avg: { show: true, text: 'Avg' },
+    Week3: { show: false, text: 'W3-Max' },
+    Week3R: { show: true, text: 'W3-Ratio' },
+    Month3: { show: false, text: 'M3-Max' },
+    Month3R: { show: true, text: 'M3-Ratio' },
+    Month7: { show: false, text: 'M7-Max' },
+    Month7R: { show: true, text: 'M7-Ratio' },
+    Month14: { show: false, text: 'M14-Max' },
+    Month14R: { show: true, text: 'M14-Ratio' },
+    Quart7: { show: false, text: 'Q7-Max' },
+    Quart7R: { show: true, text: 'Q7-Ratio' },
+    Quart14: { show: false, text: 'Q14-Max' },
+    Quart14R: { show: true, text: 'Q14-Ratio' },
+    Quart21: { show: false, text: 'Q21-Max' },
+    Quart21R: { show: true, text: 'Q21-Ratio' },
+    Year14: { show: false, text: 'Y14-Max' },
+    Year14R: { show: true, text: 'Y14-Ratio' },
+    Year21: { show: false, text: 'Y21-Max' },
+    Year21R: { show: true, text: 'Y21-Ratio' },
+    Avg: { show: true, text: 'Avg-Max' },
+    AvgR: { show: true, text: 'Avg-Ratio' },
     Close: { show: true, text: 'Price' },
     PE: { show: true, text: 'P/E' },
     PB: { show: true, text: 'P/B' },
     Dividend: { show: true, text: 'Dividend %' },
-    High52: { show: true, text: '52W High' },
-    Low52: { show: true, text: '52W Low' },
-    PerfWeek: { show: true, text: 'Perf Week' },
-    PerfMonth: { show: true, text: 'Perf Month' },
-    PerfQuarter: { show: true, text: 'Perf Quarter' },
-    PerfHalfY: { show: true, text: 'Perf Half Y' },
-    PerfYear: { show: true, text: 'Perf Year' },
-    PerfYTD: { show: true, text: 'Perf YTD' },
+    High52: { show: false, text: '52W High' },
+    Low52: { show: false, text: '52W Low' },
+    PerfWeek: { show: false, text: 'Perf Week' },
+    PerfMonth: { show: false, text: 'Perf Month' },
+    PerfQuarter: { show: false, text: 'Perf Quarter' },
+    PerfHalfY: { show: false, text: 'Perf Half Y' },
+    PerfYear: { show: false, text: 'Perf Year' },
+    PerfYTD: { show: false, text: 'Perf YTD' },
     Chart: { show: true, text: 'Chart' },
   }
 
@@ -72,7 +82,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
       width: width,
       renderCell: (params) => (
         <Link href={encodeURI("https://trends.google.com.tw/trends/explore?date=" + date + "&q=" + params.row['keyword'])} target="_blank" rel="noreferrer noopener">
-          <span>{params.row[valueKey]}</span>
+          <span>{params.row[valueKey].toFixed(2)}</span>
         </Link>
       ),
       colShow: colShow
@@ -92,24 +102,42 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   const getTableColTemplate = (showColList) => {
     return [
       SymbolNameField('symbol', 'Symbol', 90, true),
-      trendDataField("week3", tableColList.Week3.text, 95, "week3", showColList['Week3']),
-      trendDataField("month3", tableColList.Month3.text, 95, "month3", showColList['Month3']),
-      trendDataField("month7", tableColList.Month7.text, 95, "month7", showColList['Month7']),
-      trendDataField("month14", tableColList.Month14.text, 95, "month14", showColList['Month14']),
-      trendDataField("quarter7", tableColList.Quart7.text, 95, "quarter7", showColList['Quart7']),
-      trendDataField("quarter14", tableColList.Quart14.text, 95, "quarter14", showColList['Quart14']),
-      trendDataField("quarter21", tableColList.Quart21.text, 95, "quarter21", showColList['Quart21']),
-      trendDataField("year14", tableColList.Year14.text, 95, "year14", showColList['Year14']),
-      trendDataField("year21", tableColList.Year21.text, 95, "year21", showColList['Year21']),
+      trendDataField("week3", tableColList.Week3.text, 100, "week3", showColList['Week3']),
+      trendDataField("week3R", tableColList.Week3R.text, 100, "week3R", showColList['Week3R']),
+      trendDataField("month3", tableColList.Month3.text, 100, "month3", showColList['Month3']),
+      trendDataField("month3R", tableColList.Month3R.text, 100, "month3R", showColList['Month3R']),
+      trendDataField("month7", tableColList.Month7.text, 100, "month7", showColList['Month7']),
+      trendDataField("month7R", tableColList.Month7R.text, 100, "month7R", showColList['Month7R']),
+      trendDataField("month14", tableColList.Month14.text, 100, "month14", showColList['Month14']),
+      trendDataField("month14R", tableColList.Month14R.text, 100, "month14R", showColList['Month14R']),
+      trendDataField("quarter7", tableColList.Quart7.text, 100, "quarter7", showColList['Quart7']),
+      trendDataField("quarter7R", tableColList.Quart7R.text, 100, "quarter7R", showColList['Quart7R']),
+      trendDataField("quarter14", tableColList.Quart14.text, 100, "quarter14", showColList['Quart14']),
+      trendDataField("quarter14R", tableColList.Quart14R.text, 100, "quarter14R", showColList['Quart14R']),
+      trendDataField("quarter21", tableColList.Quart21.text, 100, "quarter21", showColList['Quart21']),
+      trendDataField("quarter21R", tableColList.Quart21R.text, 100, "quarter21R", showColList['Quart21R']),
+      trendDataField("year14", tableColList.Year14.text, 100, "year14", showColList['Year14']),
+      trendDataField("year14R", tableColList.Year14R.text, 100, "year14R", showColList['Year14R']),
+      trendDataField("year21", tableColList.Year21.text, 100, "year21", showColList['Year21']),
+      trendDataField("year21R", tableColList.Year21R.text, 100, "year21R", showColList['Year21R']),
       { 
         field: 'avg', 
         headerName: tableColList.Avg.text, 
-        width: 90, 
+        width: 100, 
         renderCell: (params) => (
           <span>{params.row['avg'].toFixed(2)}</span>
         ),
         colShow: showColList['Avg'] 
-      }, // {"Close":167.67,"P/E":54.61,"P/B":10.3,"Dividend %":0.0048,"52W High":0.010700000000000001,"52W Low":0.7682,"Perf Week":0.0415,"Perf Month":0.0919,"Perf Quarter":0.252,"Perf Half Y":0.2768,"Perf Year":0.6658,"Perf YTD":0.37579999999999997}
+      },
+      {
+        field: 'avgR',
+        headerName: tableColList.AvgR.text,
+        width: 100,
+        renderCell: (params) => (
+          <span>{params.row['avgR'].toFixed(2)}</span>
+        ),
+        colShow: showColList['AvgR']
+      },
       PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, showColList['Close']),
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, showColList['PE']),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, showColList['PB']),
@@ -209,20 +237,33 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
       if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {      
         let output = allResponses[1].map((value, index) => {
           let stockInfo = allResponses[0][value['symbol']]
-          return {
+          const getRatio = (val, avg) => {
+            return avg === 0 ? 0 : val / avg
+          }
+          let o = {
             id: index,
             symbol: value['symbol'],
             keyword: value['keyword'],
             week3: value['week-3'],
+            week3R: getRatio(value['week-3'], value['week-avg']) ,
             month3: value['month-3'],
+            month3R: getRatio(value['month-3'], value['month-avg']),
             month7: value['month-7'],
+            month7R: getRatio(value['month-7'], value['month-avg']),
             month14: value['month-14'],
+            month14R: getRatio(value['month-14'], value['month-avg']),
             quarter7: value['quarter-7'],
+            quarter7R: getRatio(value['quarter-7'], value['quarter-avg']),
             quarter14: value['quarter-14'],
+            quarter14R: getRatio(value['quarter-14'], value['quarter-avg']),
             quarter21: value['quarter-21'],
+            quarter21R: getRatio(value['quarter-21'], value['quarter-avg']),
             year14: value['year-14'],
+            year14R: getRatio(value['year-14'], value['year-avg']),
             year21: value['year-21'],
-            avg: (value['week-3'] + value['month-3'] + value['month-7'] + value['month-14'] + value['quarter-7'] + value['quarter-14'] + value['quarter-21'] + value['year-14'] + value['year-21']) / 9.0,
+            year21R: getRatio(value['year-21'], value['year-avg']),
+            avg: 0,
+            avgR: 0,
             close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
             PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
             PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
@@ -236,6 +277,9 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
             perfYear: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Year'] !== '-' ? stockInfo['Perf Year'] : -Number.MAX_VALUE,
             perfYTD: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf YTD'] !== '-' ? stockInfo['Perf YTD'] : -Number.MAX_VALUE,
           }
+          o.avg = [o.week3, o.month3, o.month7, o.month14, o.quarter7, o.quarter14, o.quarter21, o.year14, o.year21].reduce((a, b) => a + b, 0) / 9.0
+          o.avgR = [o.week3R, o.month3R, o.month7R, o.month14R, o.quarter7R, o.quarter14R, o.quarter21R, o.year14R, o.year21R].reduce((a, b) => a + b, 0) / 9.0
+          return o
         })
         setRowData(output)
       } else {
