@@ -81,12 +81,11 @@ def get_gurus(gurus_folder_path):
             if ret == 0:
                 resp = json.loads(content)
                 if resp["ret"] == 0:
-                    name = resp["data"]["name"]
                     for holding in resp["data"]["holdings"]:
                         symbol = holding["symbol"]
                         if symbol not in output_table["data"]:
                             output_table["data"][symbol] = []
-                        output_table["data"][symbol].append({"name": name, "value": holding["value"]})
+                        output_table["data"][symbol].append({"name": manager["name"], "value": holding["value"]})
 
                 else:
                     print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
