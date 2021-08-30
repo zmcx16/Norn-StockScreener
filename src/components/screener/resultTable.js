@@ -1,9 +1,8 @@
 import React, { useState, useRef } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
-import { DataGrid, GridOverlay } from '@material-ui/data-grid'
+import { DataGrid } from '@material-ui/data-grid'
 import { isMobile } from 'react-device-detect'
-import { makeStyles } from '@material-ui/core/styles'
 
 import { convertKMBT } from '../../common/utils'
 import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../../common/common'

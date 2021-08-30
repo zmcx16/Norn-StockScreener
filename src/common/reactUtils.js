@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import Link from '@material-ui/core/Link'
 
+import { convertKMBT } from './utils'
+
 export function useInterval(callback, delay) {
   const savedCallback = useRef();
 
@@ -63,6 +65,19 @@ export function PercentField(field, headerName, width, colShow){
   }
 }
 
+export function KMBTField(field, headerName, width, valueFixed, colShow) {
+  return {
+    field: field,
+    headerName: headerName,
+    width: width,
+    renderCell: (params) => (
+      params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
+        <span>-</span> :
+        <span>{convertKMBT(params.value, valueFixed)}</span>
+    ),
+    colShow: colShow
+  }
+}
 
 export function ColorPercentField(field, headerName, width, colShow, fontWeight){
   return {

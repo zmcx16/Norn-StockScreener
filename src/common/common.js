@@ -1,4 +1,5 @@
 export const FinvizUrl = "https://finviz.com/"
+export const DataromaUrl = "https://dataroma.com/"
 export const YahooFinanceEnUrl = "https://finance.yahoo.com/"
 export const YahooFinanceZhUrl = "https://hk.finance.yahoo.com/"
 
@@ -18,6 +19,7 @@ export const pageRouterTable = [
   { text: 'Stock Screener', path: '/'},
   { text: 'Industry Market', path: '/industry-market/' },
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
+  { text: 'Investment Gurus', path: '/investment-gurus/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
 ]
 
