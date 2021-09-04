@@ -87,7 +87,7 @@ def get_gurus(gurus_folder_path):
         query_url = base_url + '?' + encoded_args
 
         try:
-            ret, resp = send_post_json(query_url, str({link:manager['link']}))
+            ret, resp = send_post_json(query_url, str({"link":manager['link']}))
             if ret == 0:
                 if resp["ret"] == 0:
                     for holding in resp["data"]["holdings"]:
