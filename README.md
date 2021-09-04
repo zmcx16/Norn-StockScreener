@@ -105,6 +105,7 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
 # Sub Page
   * Industry Market (https://norn-stockscreener.zmcx16.moe/industry/)
   * Google Trend Stocks (https://norn-stockscreener.zmcx16.moe/google-trend-stocks/)
+  * Investment Gurus (https://norn-stockscreener.zmcx16.moe/investment-gurus/)
   * Market Correlation Matrix (https://norn-stockscreener.zmcx16.moe/market-correlation-matrix/)
 
 # Financial Data Source

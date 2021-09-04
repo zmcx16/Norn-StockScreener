@@ -80,7 +80,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
           <span>{"Finviz"}</span>
         </Link>
         {", "}
-        <Link href={DataromaUrl} target="_blank" rel="noreferrer noopener" style={{paddingRight:"30px"}}>
+        <Link href={DataromaUrl} target="_blank" rel="noreferrer noopener">
           <span>{"Dataroma"}</span>
         </Link>
         {", "}
