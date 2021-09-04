@@ -25,6 +25,16 @@ def send_request(url):
 
     return 0, res.text
 
+def send_post_json(url, req_data):
+    try:
+        headers = {'content-type': 'application/json'}
+        res = requests.post(url, req_data, headers=headers)
+        res.raise_for_status()
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+        return -1, ex
+
+    return 0, res.json()
 
 def get_managers_list():
 
@@ -72,15 +82,13 @@ def get_gurus(gurus_folder_path):
         param = {
             'code': token,
             'api': 'get-portfolio',
-            'id': manager['id']
         }
         encoded_args = urlencode(param)
         query_url = base_url + '?' + encoded_args
 
         try:
-            ret, content = send_request(query_url)
+            ret, resp = send_post_json(query_url, str({link:manager['link']}))
             if ret == 0:
-                resp = json.loads(content)
                 if resp["ret"] == 0:
                     for holding in resp["data"]["holdings"]:
                         symbol = holding["symbol"]

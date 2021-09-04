@@ -1,5 +1,6 @@
 export const FinvizUrl = "https://finviz.com/"
 export const DataromaUrl = "https://dataroma.com/"
+export const ZacksUrl = "https://www.zacks.com/"
 export const YahooFinanceEnUrl = "https://finance.yahoo.com/"
 export const YahooFinanceZhUrl = "https://hk.finance.yahoo.com/"
 

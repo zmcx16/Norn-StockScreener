@@ -9,7 +9,7 @@ import useFetch from 'use-http'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import { SymbolNameField, PureFieldWithValueCheck, PercentField, KMBTField } from '../../common/reactUtils'
-import { FinvizUrl, DataromaUrl } from '../../common/common'
+import { FinvizUrl, DataromaUrl, ZacksUrl } from '../../common/common'
 
 import investmentGurusStyle from './investmentGurus.module.scss'
 import '../muiTablePagination.css'
@@ -82,6 +82,10 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
         {", "}
         <Link href={DataromaUrl} target="_blank" rel="noreferrer noopener" style={{paddingRight:"30px"}}>
           <span>{"Dataroma"}</span>
+        </Link>
+        {", "}
+        <Link href={ZacksUrl} target="_blank" rel="noreferrer noopener" style={{ paddingRight: "30px" }}>
+          <span>{"Zacks"}</span>
         </Link>
         {"More Gurus Activity: "}
         {manager_list.map((val) => {
