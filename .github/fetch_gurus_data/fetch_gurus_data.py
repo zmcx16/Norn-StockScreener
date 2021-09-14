@@ -78,7 +78,7 @@ def get_gurus(gurus_folder_path):
     for manager in managers_list:
         print('get portfolio', manager['id'])
         output_table["manager_list"].append(
-            {'name': manager["name"], 'link': manager["link"]})
+            {'name': manager["name"], 'link': manager["uilink"]})
         param = {
             'code': token,
             'api': 'get-portfolio',
