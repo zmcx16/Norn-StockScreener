@@ -115,8 +115,20 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Investing (https://www.investing.com/)
   * Bloomberg (https://www.bloomberg.com/)
   * FBX Freightos (https://fbx.freightos.com/)
+  * Dataroma (https://dataroma.com/)
+  * Zacks (https://www.zacks.com/)
+  * Insider Monkey (https://www.insidermonkey.com/)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
+# Terms of Service
+  * This site and the data included herein is for general information purposes only and does not constitute a recommendation to buy or sell any security. Furthermore, statements or comments made by this site are merely opinions.
+
+  * Users of this site are advised to conduct their own independent research into individual stocks before making a purchase or sale decision. Additionally, users are advised that past performance of the funds and investment managers tracked by this site are no guarantee of future price appreciation.
+
+  * norn-stockscreener.zmcx16.moe does not guarantee the accuracy, completeness, or usefulness of the information provided on the site. Users of this site are advised to evaluate, and bear all risks associated with, the use of any content herein. norn-stockscreener.zmcx16.moe does not assume any responsibility or liability for any loss that may be incurred as a result of reliance upon the content provided on the site
+
+  * All contents on this website are for personal, education and non-commercial use only, do not use for commercial/profit purpose. If you feel your rights have been violated, please contact me. I will take off the violated resources.
+  
 
 # License
 This project is licensed under the terms of the MIT license.
