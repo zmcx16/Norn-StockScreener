@@ -174,7 +174,7 @@ const ResultTable = ({ResultTableRef}) => {
       ),
       mobileShow: true
     },
-    ColorPercentField('change', 'Change', 110, true, 700),
+    ColorPercentField('change', 'Change', 110, 2, true, 700),
     {
       field: 'volume',
       headerName: 'Volume',

@@ -20,6 +20,7 @@ export const rollingCorrelationWindowDays = 90
 export const pageRouterTable = [
   { text: 'Stock Screener', path: '/'},
   { text: 'Industry Market', path: '/industry-market/' },
+  { text: 'Industry Insiders', path: '/industry-insiders/' },
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },

@@ -25,7 +25,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   const tableColList = {
     Change: { show: true, text: 'Change' },
     FloatShort: { show: false, text: 'Float Short' },
-    Recom: { show: false, text: 'Recommand' },
+    Recom: { show: false, text: 'Recom' },
     PerfWeek: { show: true, text: 'Perf Week' },
     PerfMonth: { show: true, text: 'Perf Month' },
     PerfQuart: { show: true, text: 'Perf Quart' },
@@ -63,7 +63,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
         ),
         colShow: true
       },
-      ColorPercentField('Change', tableColList.Change.text, 110, showColList['Change'], 500),
+      ColorPercentField('Change', tableColList.Change.text, 110, 2, showColList['Change'], 500),
       {
         field: 'FloatShort',
         headerName: tableColList.FloatShort.text,
@@ -76,18 +76,18 @@ const IndustryTable = ({ loadingAnimeRef }) => {
       {
         field: 'Recom',
         headerName: tableColList.Recom.text,
-        width: 120,
+        width: 110,
         renderCell: (params) => (
           <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
         ),
         colShow: showColList['Recom']
       },
-      ColorPercentField('PerfWeek', tableColList.PerfWeek.text, 110, showColList['PerfWeek'], 500),
-      ColorPercentField('PerfMonth', tableColList.PerfMonth.text, 110, showColList['PerfMonth'], 500),
-      ColorPercentField('PerfQuart', tableColList.PerfQuart.text, 110, showColList['PerfQuart'], 500),
-      ColorPercentField('PerfHalf', tableColList.PerfHalf.text, 110, showColList['PerfHalf'], 500),
-      ColorPercentField('PerfYear', tableColList.PerfYear.text, 110, showColList['PerfYear'], 500),
-      ColorPercentField('PerfYTD', tableColList.PerfYTD.text, 110, showColList['PerfYTD'], 500),
+      ColorPercentField('PerfWeek', tableColList.PerfWeek.text, 110, 2, showColList['PerfWeek'], 500),
+      ColorPercentField('PerfMonth', tableColList.PerfMonth.text, 110, 2, showColList['PerfMonth'], 500),
+      ColorPercentField('PerfQuart', tableColList.PerfQuart.text, 110, 2, showColList['PerfQuart'], 500),
+      ColorPercentField('PerfHalf', tableColList.PerfHalf.text, 110, 2, showColList['PerfHalf'], 500),
+      ColorPercentField('PerfYear', tableColList.PerfYear.text, 110, 2, showColList['PerfYear'], 500),
+      ColorPercentField('PerfYTD', tableColList.PerfYTD.text, 110, 2, showColList['PerfYTD'], 500),
       { field: 'MKSymbol', headerName: tableColList.MKSymbol.text, width: 110, colShow: showColList['MKSymbol'] },
       { field: 'MKDataUrl', hide: true, colShow: true },
       {
@@ -103,12 +103,12 @@ const IndustryTable = ({ loadingAnimeRef }) => {
         ),
         colShow: showColList['MKSource']
       },
-      ColorPercentField('MKPerfWeek', tableColList.MKPerfWeek.text, 110, showColList['MKPerfWeek'], 500),
-      ColorPercentField('MKPerfMonth', tableColList.MKPerfMonth.text, 110, showColList['MKPerfMonth'], 500),
-      ColorPercentField('MKPerfQuart', tableColList.MKPerfQuart.text, 110, showColList['MKPerfQuart'], 500),
-      ColorPercentField('MKPerfHalf', tableColList.MKPerfHalf.text, 110, showColList['MKPerfHalf'], 500),
-      ColorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 110, showColList['MKPerfYear'], 500),
-      ColorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 110, showColList['MKPerfYTD'], 500),
+      ColorPercentField('MKPerfWeek', tableColList.MKPerfWeek.text, 110, 2, showColList['MKPerfWeek'], 500),
+      ColorPercentField('MKPerfMonth', tableColList.MKPerfMonth.text, 110, 2, showColList['MKPerfMonth'], 500),
+      ColorPercentField('MKPerfQuart', tableColList.MKPerfQuart.text, 110, 2, showColList['MKPerfQuart'], 500),
+      ColorPercentField('MKPerfHalf', tableColList.MKPerfHalf.text, 110, 2, showColList['MKPerfHalf'], 500),
+      ColorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 110, 2, showColList['MKPerfYear'], 500),
+      ColorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 110, 2, showColList['MKPerfYTD'], 500),
       {
         field: 'Chart',
         headerName: tableColList.Chart.text,

@@ -79,7 +79,7 @@ export function KMBTField(field, headerName, width, valueFixed, colShow) {
   }
 }
 
-export function ColorPercentField(field, headerName, width, colShow, fontWeight){
+export function ColorPercentField(field, headerName, width, valueFixed, colShow, fontWeight){
   return {
     field: field,
     headerName: headerName,
@@ -87,7 +87,7 @@ export function ColorPercentField(field, headerName, width, colShow, fontWeight)
     renderCell: (params) => (
       params.value === '-' || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
         <span>-</span> :
-        <span style={{ fontWeight: fontWeight, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(2) + "%"}</span>
+        <span style={{ fontWeight: fontWeight, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(valueFixed) + "%"}</span>
     ),
     colShow: colShow
   }

@@ -11,7 +11,7 @@ import moment from 'moment'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import StockAndTrendDataChart from './stockAndTrendDataChart'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/reactUtils'
 
 import googleTrendStocksTableStyle from './googleTrendStocksTable.module.scss'
 import '../muiTablePagination.css'
@@ -144,12 +144,12 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
       PercentField("dividend", tableColList.Dividend.text, 110, showColList['Dividend']),
       PercentField("high52", tableColList.High52.text, 110, showColList['High52']),
       PercentField("low52", tableColList.Low52.text, 110, showColList['Low52']),
-      PercentField("perfWeek", tableColList.PerfWeek.text, 110, showColList['PerfWeek']),
-      PercentField("perfMonth", tableColList.PerfMonth.text, 110, showColList['PerfMonth']),
-      PercentField("perfQuarter", tableColList.PerfQuarter.text, 110, showColList['PerfQuarter']),
-      PercentField("perfHalfY", tableColList.PerfHalfY.text, 110, showColList['PerfHalfY']),
-      PercentField("perfYear", tableColList.PerfYear.text, 110, showColList['PerfYear']),
-      PercentField("perfYTD", tableColList.PerfYTD.text, 110, showColList['PerfYTD']),
+      ColorPercentField("perfWeek", tableColList.PerfWeek.text, 110, 2, showColList['PerfWeek'], 500),
+      ColorPercentField("perfMonth", tableColList.PerfMonth.text, 110, 2, showColList['PerfMonth'], 500),
+      ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 110, 2, showColList['PerfQuarter'], 500),
+      ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 110, 2, showColList['PerfHalfY'], 500),
+      ColorPercentField("perfYear", tableColList.PerfYear.text, 110, 2, showColList['PerfYear'], 500),
+      ColorPercentField("perfYTD", tableColList.PerfYTD.text, 110, 2, showColList['PerfYTD'], 500),
       {
         field: 'Chart',
         headerName: tableColList.Chart.text,
@@ -224,7 +224,6 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   }
   const [tableCol, setTableCol] = useState(getTableCol())
 
-  const { get, response } = useFetch({ cachePolicy: 'no-cache' })
   const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
   const fetchGoogleTrendData = useFetch({ cachePolicy: 'no-cache' })
 
