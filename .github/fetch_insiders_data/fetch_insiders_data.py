@@ -151,7 +151,7 @@ def get_insiders_summary(insiders_path, insiders_data_path):
             industry_trading_dict[industry] = []
 
         for trade in stock['insider_trans_list']:
-            trade['symbol'] = symbol
+            trade['Symbol'] = symbol
             industry_trading_dict[industry].append(trade)
 
     # sort data by date and save
