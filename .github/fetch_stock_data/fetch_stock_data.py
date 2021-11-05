@@ -14,6 +14,7 @@ afscreener_url = os.environ.get(
 afscreener_token = os.environ.get("AF_TOKEN", "")
 DELAY_TIME_SEC = 1
 
+
 def is_float(value):
     try:
         float(value)
@@ -32,6 +33,7 @@ def send_request(url):
 
     return 0, res.text
 
+
 def send_post_json(url, req_data):
     try:
         headers = {'content-type': 'application/json'}
@@ -42,6 +44,7 @@ def send_post_json(url, req_data):
         return -1, ex
 
     return 0, res.json()
+
 
 def get_stock_info():
 
@@ -86,7 +89,7 @@ def get_stock_1y_data_from_marketwatch(symbol):
             for row in read_csv:
                 d = {}
                 for i in range(len(headers)):
-                    v = row[i].replace(',', '') # 2,134 -> 2134
+                    v = row[i].replace(',', '')  # 2,134 -> 2134
                     if is_float(v):
                         v = float(v)
                     d[headers[i]] = v
@@ -127,6 +130,53 @@ def get_stock_base_info():
         print('Generated an exception: {ex}'.format(ex=ex))
 
 
+def str2timestamp(d):
+    return int(datetime.strptime(d, "%m/%d/%Y").timestamp())
+
+
+def parse_stock_hl_pv(stock_data):
+    print('do get_stock_hl_pv_db')
+    # [{"Date":"10/15/2021","Open":153.14,"High":153.89,"Low":152.55,"Close":153.27,"Volume":1386930.0}, ...
+    output = {"PH": 0, "PL": 0, "VH": 0}
+    max_p = stock_data[0]["Close"]
+    min_p = stock_data[0]["Close"]
+    max_v = stock_data[0]["Volume"]
+    for day_data in stock_data[1:]:
+        if day_data["Close"] > max_p:
+            max_p = day_data["Close"]
+            output["PH"] = str2timestamp(day_data["Date"])
+        if day_data["Close"] < min_p:
+            min_p = day_data["Close"]
+            output["PL"] = str2timestamp(day_data["Date"])
+        if day_data["Volume"] > max_v:
+            max_v = day_data["Volume"]
+            output["VH"] = str2timestamp(day_data["Date"])
+
+    return output
+
+
+def update_stock_hl_pv_db(data):
+    print("call update_stock_hl_pv_db")
+    try:
+        param = {
+            'code': afscreener_token,
+            'api': 'update-stock-high-low-price-volume'
+        }
+        encoded_args = urlencode(param)
+        query_url = afscreener_url + '?' + encoded_args
+        ret, resp = send_post_json(query_url, str({"data": data}))
+        if ret == 0:
+            print('update_stock_hl_pv_db done')
+            return
+        else:
+            print('send_post_json failed: {ret}'.format(ret=ret))
+
+        sys.exit(1)
+
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+
+
 def main():
     root = pathlib.Path(__file__).parent.resolve()
     norn_data_folder_path = root / ".." / "norn-data"
@@ -142,6 +192,7 @@ def main():
 
     # get stock 1y data
     stock_stat = {}
+    stock_hl_pv = {}
     for symbol in stock_info:
         stock_data = get_stock_1y_data_from_marketwatch(symbol)
         if stock_data and len(stock_data) > 0:
@@ -149,12 +200,17 @@ def main():
                                   "Perf Week": "-", "Perf Month": "-", "Perf Quarter": "-", "Perf Half Y": "-", "Perf Year": "-", "Perf YTD": "-"}
             with open(stock_historical_folder_path / (symbol + '.json'), 'w', encoding='utf-8') as f:
                 f.write(json.dumps(stock_data, separators=(',', ':')))
+
+            stock_hl_pv[symbol] = parse_stock_hl_pv(stock_data)
+
             print('download stock ' + symbol + ' done')
         else:
             print('stock ' + symbol + ' is null')
 
         time.sleep(DELAY_TIME_SEC)
-    
+
+    update_stock_hl_pv_db(stock_hl_pv)
+
     # get stock base info
     base_info = get_stock_base_info()
     for info in base_info:
