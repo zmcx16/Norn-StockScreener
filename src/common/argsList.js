@@ -408,5 +408,29 @@ export const FCDataTemplate = [
     tooltip: "Use financial ratios and eight variables to identify whether a company has manipulated its earnings",
     args_items: ["Any", "< -2.22", "< -1.78", "> -2.22", "> -1.78", "-2.22 ~ -1.78"],
     default_index: 0
+  },
+  {
+    name: "HL_PV_PH",
+    display_name: "N-Day Price High",
+    type: 1,
+    tooltip: "Maximum price high from latest X day to Y day (1Y data)",
+    args_items: ["Any", "< 7", "< 30", "< 90", "< 180", "30 ~ 90"],
+    default_index: 0
+  },
+  {
+    name: "HL_PV_PL",
+    display_name: "N-Day Price Low",
+    type: 1,
+    tooltip: "Minimum price low from latest X day to Y day (1Y data)",
+    args_items: ["Any", "< 7", "< 30", "< 90", "< 180", "30 ~ 90"],
+    default_index: 0
+  },
+  {
+    name: "HL_PV_VH",
+    display_name: "N-Day Vol High",
+    type: 1,
+    tooltip: "Maximum volume high from latest X day to Y day (1Y data)",
+    args_items: ["Any", "< 7", "< 30", "< 90", "< 180", "30 ~ 90"],
+    default_index: 0
   }
 ]
