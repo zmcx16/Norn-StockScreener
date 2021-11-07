@@ -293,7 +293,7 @@ export const FCDataTemplate = [
     display_name: "52W High",
     type: 0,
     tooltip: "Distance from 52-Week High",
-    args_items: ["Any", "< -5%", "< -10%", "< -15%", "< -20%", "< -25%", "< -30%", "< -35%", "< -40%", "< -45%", "< -50%", "< -55%", "< -60%"],
+    args_items: ["Any", "> -5%", "> -10%", "> -15%", "> -20%", "> -25%", "> -30%", "> -35%", "> -40%", "> -45%", "> -50%", "> -55%", "> -60%"],
     default_index: 0
   },
   {
