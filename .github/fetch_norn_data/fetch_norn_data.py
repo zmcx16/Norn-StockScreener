@@ -4,6 +4,7 @@ import base64
 import pathlib
 import json
 import requests
+import re
 import numpy as np
 from urllib.parse import urlencode
 from datetime import datetime, timedelta
@@ -71,8 +72,8 @@ def update_get_market(market_folder_path, config):
                         output = {'update_time': str(datetime.now()), 'symbol': item['symbol'],
                                   'src': item['src'], 'data': item['data']}
 
-                        base64_file_name = base64.b64encode(item['id'].encode('ascii')).decode('ascii')
-                        with open(market_folder_path / (base64_file_name + '.json'), 'w', encoding='utf-8') as f:
+                        file_name = "-".join(re.findall("[a-zA-Z]+", item['id']))
+                        with open(market_folder_path / (file_name + '.json'), 'w', encoding='utf-8') as f:
                             f.write(json.dumps(output, separators=(',', ':')))
 
                 else:
