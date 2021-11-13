@@ -121,7 +121,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
             aria-haspopup="true"
             onClick={() => {
               const getMarketData = async (src, symbol) =>{
-                let fileName = btoa(src + '_' + symbol) + '.json'
+                let fileName = (src + '_' + symbol).match(/\w+/gi).join('_') + '.json'
                 const resp_data = await get('/norn-data/markets/' + fileName)
                 console.log(resp_data)
                 if (response.ok && resp_data.data && resp_data.data.length > 0) {
