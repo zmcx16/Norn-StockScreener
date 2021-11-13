@@ -89,7 +89,7 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
         headerName: tableColList.DetailLink.text,
         width: 90,
         renderCell: (params) => (
-          <a href={(new URL(getUrl())).protocol + "//" + (new URL(getUrl())).hostname + ":" + (new URL(getUrl())).port + '/insiders-trade-list' + '?industry=' + params.getValue('industry').match(/[a-z]+($|\S+)/gi).join('-')} target="_blank" rel="noreferrer noopener">
+          <a href={(new URL(getUrl())).protocol + "//" + (new URL(getUrl())).hostname + ":" + (new URL(getUrl())).port + '/insiders-trade-list' + '?industry=' + params.getValue('industry').match(/\w+/gi).join('_')} target="_blank" rel="noreferrer noopener">
             <IconButton
               size="small"
               aria-haspopup="true">
