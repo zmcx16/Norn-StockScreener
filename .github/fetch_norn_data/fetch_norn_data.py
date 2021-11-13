@@ -72,7 +72,7 @@ def update_get_market(market_folder_path, config):
                         output = {'update_time': str(datetime.now()), 'symbol': item['symbol'],
                                   'src': item['src'], 'data': item['data']}
 
-                        file_name = "-".join(re.findall("[a-zA-Z]+", item['id']))
+                        file_name = "_".join(re.findall("[a-zA-Z]+", item['id']))
                         with open(market_folder_path / (file_name + '.json'), 'w', encoding='utf-8') as f:
                             f.write(json.dumps(output, separators=(',', ':')))
 
