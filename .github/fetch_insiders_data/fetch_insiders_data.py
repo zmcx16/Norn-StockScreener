@@ -159,7 +159,7 @@ def get_insiders_summary(insiders_path, insiders_data_path):
         industry_trading_dict[key] = sorted(industry_trading_dict[key],
                                             key=lambda x: time.strptime(x['Date'], "%m/%d/%Y"), reverse=True)
 
-        file_name = "-".join(re.findall("[a-zA-Z]+", key))
+        file_name = "_".join(re.findall("[a-zA-Z0-9]+", key))
         with open(insiders_data_path / (file_name + '.json'), 'w', encoding='utf-8') as f:
             f.write(json.dumps(industry_trading_dict[key], separators=(',', ':')))
         print('sort and save {} done'.format(key))
