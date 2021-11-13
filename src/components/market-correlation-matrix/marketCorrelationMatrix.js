@@ -110,7 +110,7 @@ p-value: ${data.pValue}
         popperTipRef.current.setOpen(false)
       }} onClick={()=>{
         const getMarketData = async (src, symbol, fetchObj) => {
-          let fileName = btoa(src + '_' + symbol) + '.json'
+          let fileName = (src + '_' + symbol).match(/\w+/gi).join('_') + '.json'
           const resp_data = await fetchObj.get('/norn-data/markets/' + fileName)
           if (fetchObj.response.ok && resp_data.data && resp_data.data.length > 0) {
             return resp_data.data
