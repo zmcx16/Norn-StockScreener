@@ -147,11 +147,15 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
             for correlation_key in market_dict:
                 print('calc {key} and {correlation_key} correlation'.format(key=key, correlation_key=correlation_key))
                 with open(
-                        market_folder_path / (base64.b64encode(key.encode('ascii')).decode('ascii') + '.json'),
+                        market_folder_path /
+                    ("_".join(re.findall(
+                        "[a-zA-Z0-9]+", key)) + '.json'),
                         'r', encoding='utf-8') as f:
                     key_data = json.loads(f.read())
                 with open(
-                        market_folder_path / (base64.b64encode(correlation_key.encode('ascii')).decode('ascii') + '.json'),
+                        market_folder_path /
+                    ("_".join(re.findall(
+                        "[a-zA-Z0-9]+", correlation_key)) + '.json'),
                         'r', encoding='utf-8') as f:
                     correlation_key_data = json.loads(f.read())
 
