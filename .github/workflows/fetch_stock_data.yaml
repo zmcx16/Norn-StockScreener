@@ -49,3 +49,18 @@ jobs:
         git reset --soft HEAD~1
         git add ./norn-data/stock/\* && git commit -m "updated website & stock-data"
         git push -f
+    - name: Checkout zmcx16.github.io
+      uses: actions/checkout@master
+      with: 
+        repository: zmcx16/zmcx16.github.io
+        token: ${{ secrets.ACTIONS_TOKEN }}
+        path: ./zmcx16.github.io
+    - name: Copy stock-data & push zmcx16.github.io
+      run: |-
+        cp -r ./norn-data/stock ./zmcx16.github.io/
+        cd ./zmcx16.github.io
+        mv stock stock-data
+        git config --global user.name "zmcx16-bot"
+        git add ./stock-data/\* && git commit -m "updated stock-data"
+        git push
+
