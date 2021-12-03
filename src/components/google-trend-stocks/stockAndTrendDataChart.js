@@ -33,8 +33,8 @@ const StockAndTrendDataChart = ({ title, data }) => {
           <XAxis dataKey="Date" tickFormatter={(tickItem) => {
             return moment(tickItem).format('MM/DD/YYYY HH:mm:ss')
           }} />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
+          <YAxis yAxisId="left" domain={['auto', 'auto']}/>
+          <YAxis yAxisId="right" orientation="right" domain={['auto', 'auto']}/>
           <Tooltip />
           <Legend />
           <Line connectNulls yAxisId="left" type="monotone" name={"Close Price"} dataKey="close" stroke="#8884d8" dot={false} />
@@ -56,8 +56,8 @@ const StockAndTrendDataChart = ({ title, data }) => {
           <XAxis dataKey="Date" tickFormatter={(tickItem) => {
             return moment(tickItem).format('MM/DD/YYYY HH:mm:ss')
           }} />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
+          <YAxis yAxisId="left" domain={['auto', 'auto']}/>
+          <YAxis yAxisId="right" orientation="right" domain={['auto', 'auto']}/>
           <Tooltip />
           <Legend />
           <Line yAxisId="right" connectNulls type="monotone" name={"Week"} dataKey="week" stroke="#0088FE" dot={false} />

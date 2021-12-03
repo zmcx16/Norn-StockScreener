@@ -32,7 +32,7 @@ const IndustryMarketChart = ({ marketData, perfData, info}) => {
           <XAxis dataKey="Date" tickFormatter={(tickItem) => {
             return moment(tickItem).format('MM/DD/YYYY')
           }}/>
-          <YAxis />
+          <YAxis domain={['auto', 'auto']}/>
           <Tooltip />
           <Legend />
           <Line type="monotone" name={`Market (${info.market})`} dataKey="Close" stroke="#8884d8" dot={false}/>
@@ -53,7 +53,7 @@ const IndustryMarketChart = ({ marketData, perfData, info}) => {
           <XAxis dataKey="name" />
           <YAxis tickFormatter={(tick) => {
             return `${tick}%`;
-          }}/>
+          }} domain={['auto', 'auto']}/>
           <Tooltip />
           <Legend />
           <ReferenceLine y={0} stroke="#000" />
