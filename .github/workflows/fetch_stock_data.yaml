@@ -59,6 +59,7 @@ jobs:
       run: |-
         cp -r ./norn-data/stock ./zmcx16.github.io/
         cd ./zmcx16.github.io
+        rm -rf ./stock-data
         mv stock stock-data
         git config --global user.name "zmcx16-bot"
         git add ./stock-data/\* && git commit -m "updated stock-data"
