@@ -49,3 +49,16 @@ jobs:
         git reset --soft HEAD~1
         git add ./norn-data/\* && git commit -m "updated website & norn-data"
         git push -f
+    - name: Checkout zmcx16.github.io
+      uses: actions/checkout@master
+      with: 
+        repository: zmcx16/zmcx16.github.io
+        token: ${{ secrets.ACTIONS_TOKEN }}
+        path: ./zmcx16.github.io
+    - name: Copy indusrty-table.json & push zmcx16.github.io
+      run: |-
+        cp -f ./norn-data/indusrty-table.json ./zmcx16.github.io/
+        cd ./zmcx16.github.io
+        git config --global user.name "zmcx16-bot"
+        git add indusrty-table.json && git commit -m "updated indusrty-table.json"
+        git push
