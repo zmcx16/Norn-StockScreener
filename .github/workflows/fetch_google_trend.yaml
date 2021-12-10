@@ -3,7 +3,7 @@ name: FetchGoogleTrendData
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '20 8,23 * * *'
+    - cron:  '20 5 * * *'
 
 jobs:
   build:
