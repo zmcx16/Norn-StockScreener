@@ -23,32 +23,27 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   })
 
   const tableColList = {
-    Change: { show: true, text: 'Change' },
-    FloatShort: { show: false, text: 'Float Short' },
-    Recom: { show: false, text: 'Recom' },
-    PerfWeek: { show: true, text: 'Perf Week' },
-    PerfMonth: { show: true, text: 'Perf Month' },
-    PerfQuart: { show: true, text: 'Perf Quart' },
-    PerfHalf: { show: true, text: 'Perf Half' },
-    PerfYear: { show: true, text: 'Perf Year' },
-    PerfYTD: { show: true, text: 'Perf YTD' },
-    MKSymbol: { show: true, text: 'Symbol' },
-    MKSource: { show: true, text: 'Source' },
-    MKPerfWeek: { show: true, text: 'Perf Week' },
-    MKPerfMonth: { show: true, text: 'Perf Month' },
-    MKPerfQuart: { show: true, text: 'Perf Quart' },
-    MKPerfHalf: { show: true, text: 'Perf Half' },
-    MKPerfYear: { show: true, text: 'Perf Year' },
-    MKPerfYTD: { show: true, text: 'Perf YTD' },
-    Chart: { show: true, text: 'Chart' },
+    Change: { hide: false, text: 'Change' },
+    FloatShort: { hide: true, text: 'Float Short' },
+    Recom: { hide: true, text: 'Recom' },
+    PerfWeek: { hide: false, text: 'Perf Week' },
+    PerfMonth: { hide: false, text: 'Perf Month' },
+    PerfQuart: { hide: false, text: 'Perf Quart' },
+    PerfHalf: { hide: false, text: 'Perf Half' },
+    PerfYear: { hide: false, text: 'Perf Year' },
+    PerfYTD: { hide: false, text: 'Perf YTD' },
+    MKSymbol: { hide: false, text: 'Symbol' },
+    MKSource: { hide: false, text: 'Source' },
+    MKPerfWeek: { hide: false, text: 'Perf Week' },
+    MKPerfMonth: { hide: false, text: 'Perf Month' },
+    MKPerfQuart: { hide: false, text: 'Perf Quart' },
+    MKPerfHalf: { hide: false, text: 'Perf Half' },
+    MKPerfYear: { hide: false, text: 'Perf Year' },
+    MKPerfYTD: { hide: false, text: 'Perf YTD' },
+    Chart: { hide: false, text: 'Chart' },
   }
 
-  const showColListRef = useRef(Object.keys(tableColList).reduce((accumulator, currentValue) => {
-    accumulator[currentValue] = tableColList[currentValue].show
-    return accumulator
-  }, {}))
-
-  const getTableColTemplate = (showColList) => {
+  const genTableColTemplate = () => {
     return [
       {
         field: 'Industry',
@@ -61,60 +56,60 @@ const IndustryTable = ({ loadingAnimeRef }) => {
               <span>{params.value}</span>
             </Link>
         ),
-        colShow: true
       },
-      ColorPercentField('Change', tableColList.Change.text, 110, 2, showColList['Change'], 500),
+      ColorPercentField('Change', tableColList.Change.text, 130, 2, tableColList['Change'].hide, 500),
       {
         field: 'FloatShort',
         headerName: tableColList.FloatShort.text,
-        width: 110,
+        width: 130,
+        type: 'number',
         renderCell: (params) => (
           <span>{(params.value * 100).toFixed(2) + "%"}</span>
         ),
-        colShow: showColList['FloatShort']
+        hide: tableColList['FloatShort'].hide
       },
       {
         field: 'Recom',
         headerName: tableColList.Recom.text,
-        width: 110,
+        width: 130,
+        type: 'number',
         renderCell: (params) => (
           <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
         ),
-        colShow: showColList['Recom']
+        hide: tableColList['Recom'].hide
       },
-      ColorPercentField('PerfWeek', tableColList.PerfWeek.text, 110, 2, showColList['PerfWeek'], 500),
-      ColorPercentField('PerfMonth', tableColList.PerfMonth.text, 110, 2, showColList['PerfMonth'], 500),
-      ColorPercentField('PerfQuart', tableColList.PerfQuart.text, 110, 2, showColList['PerfQuart'], 500),
-      ColorPercentField('PerfHalf', tableColList.PerfHalf.text, 110, 2, showColList['PerfHalf'], 500),
-      ColorPercentField('PerfYear', tableColList.PerfYear.text, 110, 2, showColList['PerfYear'], 500),
-      ColorPercentField('PerfYTD', tableColList.PerfYTD.text, 110, 2, showColList['PerfYTD'], 500),
-      { field: 'MKSymbol', headerName: tableColList.MKSymbol.text, width: 110, colShow: showColList['MKSymbol'] },
-      { field: 'MKDataUrl', hide: true, colShow: true },
+      ColorPercentField('PerfWeek', tableColList.PerfWeek.text, 145, 2, tableColList['PerfWeek'].hide, 500),
+      ColorPercentField('PerfMonth', tableColList.PerfMonth.text, 150, 2, tableColList['PerfMonth'].hide, 500),
+      ColorPercentField('PerfQuart', tableColList.PerfQuart.text, 145, 2, tableColList['PerfQuart'].hide, 500),
+      ColorPercentField('PerfHalf', tableColList.PerfHalf.text, 140, 2, tableColList['PerfHalf'].hide, 500),
+      ColorPercentField('PerfYear', tableColList.PerfYear.text, 140, 2, tableColList['PerfYear'].hide, 500),
+      ColorPercentField('PerfYTD', tableColList.PerfYTD.text, 140, 2, tableColList['PerfYTD'].hide, 500),
+      { field: 'MKSymbol', headerName: tableColList.MKSymbol.text, width: 130, hide: tableColList['MKSymbol'].hide },
       {
         field: 'MKSource',
         headerName: tableColList.MKSource.text,
         width: 130,
         renderCell: (params) => (
-          params.getValue('MKDataUrl') === '-' ?
+          params.row['MKDataUrl'] === '-' ?
             <span>-</span> :
-            <Link href={params.getValue('MKDataUrl')} target="_blank" rel="noreferrer noopener">
+            <Link href={params.row['MKDataUrl']} target="_blank" rel="noreferrer noopener">
               <span>{params.value}</span>
             </Link>
         ),
-        colShow: showColList['MKSource']
+        hide: tableColList['MKSource'].hide
       },
-      ColorPercentField('MKPerfWeek', tableColList.MKPerfWeek.text, 110, 2, showColList['MKPerfWeek'], 500),
-      ColorPercentField('MKPerfMonth', tableColList.MKPerfMonth.text, 110, 2, showColList['MKPerfMonth'], 500),
-      ColorPercentField('MKPerfQuart', tableColList.MKPerfQuart.text, 110, 2, showColList['MKPerfQuart'], 500),
-      ColorPercentField('MKPerfHalf', tableColList.MKPerfHalf.text, 110, 2, showColList['MKPerfHalf'], 500),
-      ColorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 110, 2, showColList['MKPerfYear'], 500),
-      ColorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 110, 2, showColList['MKPerfYTD'], 500),
+      ColorPercentField('MKPerfWeek', tableColList.MKPerfWeek.text, 145, 2, tableColList['MKPerfWeek'].hide, 500),
+      ColorPercentField('MKPerfMonth', tableColList.MKPerfMonth.text, 150, 2, tableColList['MKPerfMonth'].hide, 500),
+      ColorPercentField('MKPerfQuart', tableColList.MKPerfQuart.text, 145, 2, tableColList['MKPerfQuart'].hide, 500),
+      ColorPercentField('MKPerfHalf', tableColList.MKPerfHalf.text, 140, 2, tableColList['MKPerfHalf'].hide, 500),
+      ColorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 140, 2, tableColList['MKPerfYear'].hide, 500),
+      ColorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 140, 2, tableColList['MKPerfYTD'].hide, 500),
       {
         field: 'Chart',
         headerName: tableColList.Chart.text,
-        width: 100,
+        width: 120,
         renderCell: (params) => (
-          params.getValue('MKDataUrl') === '-' ?
+          params.row['MKDataUrl'] === '-' ?
             <span>-</span> :
           <IconButton
             size="small"
@@ -181,20 +176,10 @@ const IndustryTable = ({ loadingAnimeRef }) => {
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
           </IconButton>
         ),
-        colShow: showColList['Chart']
+        hide: tableColList['Chart'].hide
       },
     ]
   }
-
-  const getTableCol = ()=>{
-    return getTableColTemplate(showColListRef.current).reduce((accumulator, currentValue) => {
-      if (currentValue.colShow) {
-        accumulator.push(currentValue)
-      }
-      return accumulator
-    }, [])
-  }
-  const [tableCol, setTableCol] = useState(getTableCol())
 
   const { get, response } = useFetch({ cachePolicy: 'no-cache' })
   const genRowData = (src) => {
@@ -263,26 +248,6 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   }
   const [rowData, setRowData] = useState([])
 
-  const renderCheckbox = (key) => {
-    return <FormControlLabel
-      key={key}
-      control={
-        <Checkbox
-          onChange={() => {
-            showColListRef.current[key] = !showColListRef.current[key]
-            setTableCol(getTableCol())
-          }}
-          name={tableColList[key].text}
-          color="primary"
-          defaultChecked={tableColList[key].show}
-        />
-      }
-      label={
-        <div>{tableColList[key].text}</div>
-      }
-    />
-  }
-
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -295,13 +260,8 @@ const IndustryTable = ({ loadingAnimeRef }) => {
   return (
     <>
       <div className={industryTableStyle.container}>
-        <div className={industryTableStyle.showColumn}>
-          {Object.keys(showColListRef.current).map((key, index) => {
-            return renderCheckbox(key)
-          })}
-        </div>
         <div className={industryTableStyle.table}>
-          <DataGrid rows={rowData} columns={tableCol} scrollbarSize={17} pageSize={50} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={genTableColTemplate()} scrollbarSize={17} pageSize={50} rowsPerPageOptions={[]} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

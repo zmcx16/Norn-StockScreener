@@ -131,64 +131,69 @@ const ResultTable = ({ResultTableRef}) => {
     // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
     // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
     // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
-    return <DataGrid rows={data} columns={tableHeader} scrollbarSize={17} pageSize={20} components={{ noRowsOverlay: DefaultDataGridTable,}} disableSelectionOnClick />
+    return <DataGrid rows={data} rowsPerPageOptions={[]}  columns={tableHeaderTemplate} scrollbarSize={17} pageSize={20} components={{ noRowsOverlay: DefaultDataGridTable,}} disableSelectionOnClick />
   }
 
   const tableHeaderTemplate = [
-    { field: 'symbol', headerName: 'Symbol', width: 110, mobileShow: true },
-    { field: 'sector', headerName: 'Sector', width: 155, mobileShow: false },
-    { field: 'industry', headerName: 'Industry', width: 255, mobileShow: false },
+    { field: 'symbol', headerName: 'Symbol', width: 130, hide: false },
+    { field: 'sector', headerName: 'Sector', width: 155, hide: isMobile },
+    { field: 'industry', headerName: 'Industry', width: 255, hide: isMobile },
     {
       field: 'marketCap',
       headerName: 'Market Cap',
-      width: 130,
+      width: 150,
+      type: 'number',
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : convertKMBT(params.value, 2)}</span>
       ),
-      mobileShow: false
+      hide: isMobile
     },
     {
       field: 'PE',
       headerName: 'P/E',
-      width: 80,
+      width: 110,
+      type: 'number',
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      mobileShow: true
+      hide: false
     },
     {
       field: 'PB',
       headerName: 'P/B',
-      width: 80,
+      width: 110,
+      type: 'number',
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      mobileShow: true
+      hide: false
     },
     {
       field: 'price',
       headerName: 'Price',
-      width: 90,
+      width: 110,
+      type: 'number',
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      mobileShow: true
+      hide: false
     },
-    ColorPercentField('change', 'Change', 110, 2, true, 700),
+    ColorPercentField('change', 'Change', 130, 2, true, 700),
     {
       field: 'volume',
       headerName: 'Volume',
-      width: 110,
+      width: 130,
+      type: 'number',
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : convertKMBT(params.value, 2)}</span>
       ),
-      mobileShow: false
+      hide: isMobile
     },
-    { field: 'tactics', hide: true, mobileShow: true },
     {
       field: 'beneish_score',
       headerName: 'Beneish Model',
-      width: 130,
+      width: 180,
+      type: 'number',
       renderCell: (params) => (
         <div className={resultTableStyle.risk}>
           <a>
@@ -202,15 +207,16 @@ const ResultTable = ({ResultTableRef}) => {
           <span style={{ fontSize: 18 }}>({(params.value === "NaN" || params.value === "Infinity" ||  params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)})</span>
         </div>
       ), 
-      mobileShow: false
+      hide: isMobile
     },
     {
       field: 'risk',
       headerName: 'Risk',
       width: 130,
+      type: 'number',
       renderCell: (params) => (
         <div className={resultTableStyle.risk}>
-          <a href={NMUrl + '?api=get-def-scan&tactics=' + params.getValue('tactics') + '&symbol=' + params.getValue('symbol')} target="_blank" rel="noreferrer noopener">
+          <a href={NMUrl + '?api=get-def-scan&tactics=' + params.row['tactics'] + '&symbol=' + params.row['symbol']} target="_blank" rel="noreferrer noopener">
             <Img className={resultTableStyle.bombImg} fixed={
               (isNaN(params.value) || params.value === -Number.MAX_VALUE) ? data.bomb3.childImageSharp.fixed :
                 params.value < 100 * (1 / 5.0) ? data.bomb1.childImageSharp.fixed :
@@ -223,16 +229,17 @@ const ResultTable = ({ResultTableRef}) => {
           <span style={{ fontSize: 18 }}>({(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN"  : params.value + "%"})</span>
         </div>
       ), 
-      mobileShow: true
+      hide: false
     },
     { 
       field: 'multiFactor', 
       headerName: 'Mulit-Factor', 
-      width: 130, 
+      width: 160, 
+      type: 'number',
       renderCell: (params) => (
         <span style={{ fontSize: 18 }}>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      mobileShow: true 
+      hide: false 
     },
     {
       field: 'links',
@@ -240,24 +247,17 @@ const ResultTable = ({ResultTableRef}) => {
       width: 130,
       renderCell: (params) => (
         <div className={resultTableStyle.links}>
-          <a href={FinvizUrl + 'quote.ashx?t=' + params.getValue('symbol')} target="_blank" rel="noreferrer noopener">
+          <a href={FinvizUrl + 'quote.ashx?t=' + params.row['symbol']} target="_blank" rel="noreferrer noopener">
             <Img className={resultTableStyle.linkIcon} fixed={data.finviz.childImageSharp.fixed} fadeIn={false} />
           </a>
-          <a href={YahooFinanceUrl + 'quote/' + params.getValue('symbol')} target="_blank" rel="noreferrer noopener">
+          <a href={YahooFinanceUrl + 'quote/' + params.row['symbol']} target="_blank" rel="noreferrer noopener">
             <Img className={resultTableStyle.linkIcon} fixed={data.yahoo.childImageSharp.fixed} fadeIn={false} />
           </a>
         </div>
       ), 
-      mobileShow: true
+      hide: false
     },
   ]
-
-  const tableHeader = tableHeaderTemplate.reduce((accumulator, currentValue) => {
-    if (!isMobile || currentValue.mobileShow){
-      accumulator.push(currentValue)
-    }
-    return accumulator
-  }, [])
 
   const [tableData, setTableData] = useState(renderTable([]))
   const containerRef = useRef()

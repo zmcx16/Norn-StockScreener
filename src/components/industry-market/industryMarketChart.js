@@ -17,7 +17,7 @@ import moment from 'moment'
 
 const IndustryMarketChart = ({ marketData, perfData, info}) => {
   return (  
-    <div style={{ width: (window.innerWidth - 100) + 'px', height: (window.innerHeight - 100) + 'px', maxWidth: '1200px', maxHeight: '600px' }}>
+    <div style={{ width: (window.innerWidth - 100) + 'px', height: (window.innerHeight - 100) + 'px', maxWidth: '1200px', maxHeight: '800px' }}>
       <ResponsiveContainer width="100%" height="47%">
         <LineChart
           data={marketData}
@@ -34,7 +34,7 @@ const IndustryMarketChart = ({ marketData, perfData, info}) => {
           }}/>
           <YAxis domain={['auto', 'auto']}/>
           <Tooltip />
-          <Legend />
+          <Legend wrapperStyle={{ bottom: -15 }}/>
           <Line type="monotone" name={`Market (${info.market})`} dataKey="Close" stroke="#8884d8" dot={false}/>
         </LineChart>
       </ResponsiveContainer>

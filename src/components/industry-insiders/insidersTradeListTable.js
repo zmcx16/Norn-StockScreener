@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { DataGrid } from '@material-ui/data-grid'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import useFetch from 'use-http'
 import moment from 'moment'
 
@@ -21,27 +19,22 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
     })
 
     const tableColList = {
-        Symbol: { show: true, text: 'Symbol' },
-        Transaction: { show: true, text: 'Transaction' },
-        Value: { show: true, text: 'Value' },
-        Close: { show: true, text: 'Price' },
-        PE: { show: true, text: 'P/E' },
-        PB: { show: true, text: 'P/B' },
-        Dividend: { show: true, text: 'Dividend %' },
-        High52: { show: true, text: '52W High' },
-        Low52: { show: true, text: '52W Low' },
-        PerfWeek: { show: true, text: 'Perf Week' },
-        PerfMonth: { show: true, text: 'Perf Month' },
-        PerfQuarter: { show: true, text: 'Perf Quarter' },
-        PerfHalfY: { show: true, text: 'Perf Half Y' },
-        PerfYear: { show: true, text: 'Perf Year' },
-        PerfYTD: { show: true, text: 'Perf YTD' },
+        Symbol: { hide: false, text: 'Symbol' },
+        Transaction: { hide: false, text: 'Transaction' },
+        Value: { hide: false, text: 'Value' },
+        Close: { hide: false, text: 'Price' },
+        PE: { hide: false, text: 'P/E' },
+        PB: { hide: false, text: 'P/B' },
+        Dividend: { hide: false, text: 'Dividend %' },
+        High52: { hide: false, text: '52W High' },
+        Low52: { hide: false, text: '52W Low' },
+        PerfWeek: { hide: false, text: 'Perf Week' },
+        PerfMonth: { hide: false, text: 'Perf Month' },
+        PerfQuarter: { hide: false, text: 'Perf Quarter' },
+        PerfHalfY: { hide: false, text: 'Perf Half Y' },
+        PerfYear: { hide: false, text: 'Perf Year' },
+        PerfYTD: { hide: false, text: 'Perf YTD' },
     }
-
-    const showColListRef = useRef(Object.keys(tableColList).reduce((accumulator, currentValue) => {
-        accumulator[currentValue] = tableColList[currentValue].show
-        return accumulator
-    }, {}))
 
     const getData = async (url, fetchObj) => {
         const resp_data = await fetchObj.get(url)
@@ -53,54 +46,46 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
         }
     }
 
-    const getTableColTemplate = (showColList) => {
+    const genTableColTemplate = () => {
         return [
             {
                 field: 'date',
                 headerName: 'Date',
-                width: 100,
+                width: 120,
+                type: 'date',
                 renderCell: (params) => (
                     <span>{moment(params.row['date']).format('MM/DD/YYYY')}</span>
                 ),
-                colShow: true
+                hide: false
             },
-            SymbolNameField('symbol', 'Symbol', 90, true),
+            SymbolNameField('symbol', 'Symbol', 130, false),
             {
                 field: 'transaction',
                 headerName: 'Transaction',
-                width: 140,
+                width: 160,
+                type: 'number',
                 renderCell: (params) => (
                     params.value === "-" ?
                         <span>-</span> :
                         <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{params.value === 1 ? 'Buy' : (params.value === -1 ? 'Sale' : 'Option Exercise')}</span>
                 ),
-                colShow: showColList['Transaction']
+                hide: tableColList['Transaction'].hide
             },
-            KMBTField("value", tableColList.Value.text, 110, 2, showColList['Value']),
-            PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, showColList['Close']),
-            PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, showColList['PE']),
-            PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, showColList['PB']),
-            PercentField("dividend", tableColList.Dividend.text, 110, showColList['Dividend']),
-            PercentField("high52", tableColList.High52.text, 110, showColList['High52']),
-            PercentField("low52", tableColList.Low52.text, 110, showColList['Low52']),
-            ColorPercentField("perfWeek", tableColList.PerfWeek.text, 110, 2, showColList['PerfWeek'], 500),
-            ColorPercentField("perfMonth", tableColList.PerfMonth.text, 110, 2, showColList['PerfMonth'], 500),
-            ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 110, 2, showColList['PerfQuarter'], 500),
-            ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 110, 2, showColList['PerfHalfY'], 500),
-            ColorPercentField("perfYear", tableColList.PerfYear.text, 110, 2, showColList['PerfYear'], 500),
-            ColorPercentField("perfYTD", tableColList.PerfYTD.text, 110, 2, showColList['PerfYTD'], 500),
+            KMBTField("value", tableColList.Value.text, 130, 2, tableColList['Value'].hide),
+            PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, tableColList['Close'].hide),
+            PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, tableColList['PE'].hide),
+            PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, tableColList['PB'].hide),
+            PercentField("dividend", tableColList.Dividend.text, 150, tableColList['Dividend'].hide),
+            PercentField("high52", tableColList.High52.text, 150, tableColList['High52'].hide),
+            PercentField("low52", tableColList.Low52.text, 150, tableColList['Low52'].hide),
+            ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, tableColList['PerfWeek'].hide, 500),
+            ColorPercentField("perfMonth", tableColList.PerfMonth.text, 150, 2, tableColList['PerfMonth'].hide, 500),
+            ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 160, 2, tableColList['PerfQuarter'].hide, 500),
+            ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, tableColList['PerfHalfY'].hide, 500),
+            ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, tableColList['PerfYear'].hide, 500),
+            ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, tableColList['PerfYTD'].hide, 500),
         ]
     }
-
-    const getTableCol = () => {
-        return getTableColTemplate(showColListRef.current).reduce((accumulator, currentValue) => {
-            if (currentValue.colShow) {
-                accumulator.push(currentValue)
-            }
-            return accumulator
-        }, [])
-    }
-    const [tableCol, setTableCol] = useState(getTableCol())
 
     const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
     const fetchInsidersData = useFetch({ cachePolicy: 'no-cache' })
@@ -158,26 +143,6 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
 
     const [rowData, setRowData] = useState([])
 
-    const renderCheckbox = (key) => {
-        return <FormControlLabel
-            key={key}
-            control={
-                <Checkbox
-                    onChange={() => {
-                        showColListRef.current[key] = !showColListRef.current[key]
-                        setTableCol(getTableCol())
-                    }}
-                    name={tableColList[key].text}
-                    color="primary"
-                    defaultChecked={tableColList[key].show}
-                />
-            }
-            label={
-                <div>{tableColList[key].text}</div>
-            }
-        />
-    }
-
     useEffect(() => {
         // componentDidMount is here!
         // componentDidUpdate is here!
@@ -190,13 +155,8 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
     return (
         <>
             <div className={insidersTradeListTableStyle.container}>
-                <div className={insidersTradeListTableStyle.showColumn}>
-                    {Object.keys(showColListRef.current).map((key, index) => {
-                        return renderCheckbox(key)
-                    })}
-                </div>
                 <div className={insidersTradeListTableStyle.table}>
-                    <DataGrid rows={rowData} columns={tableCol} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+                    <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
                 </div>
             </div>
             <ModalWindow modalWindowRef={modalWindowRef} />

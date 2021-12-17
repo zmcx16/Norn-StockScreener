@@ -26,51 +26,29 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
   const getTableColTemplate = (showColList) => {
     return Object.keys(showColList).map((key) => {
       if (key === 'Symbol') {
-        return SymbolNameField(key, showColList[key].text, 130, showColList[key].show)
+        return SymbolNameField(key, showColList[key].text, 130, showColList[key].hide)
       } else if (key === 'GurusCount'){
         return {
-          field: key, headerName: showColList[key].text, width: 130, colShow: showColList[key].show
+          field: key, headerName: showColList[key].text, width: 170, type: 'number', hide: showColList[key].hide
         }
       } else if (key === 'Close' || key === 'PE' || key === 'PB') {
-        return PureFieldWithValueCheck(key, showColList[key].text, 110, 2, showColList[key].show)
+        return PureFieldWithValueCheck(key, showColList[key].text, 110, 2, showColList[key].hide)
       } else if (key === 'Dividend' || key === 'High52' || key === 'Low52' || 
         key === 'PerfWeek' || key === 'PerfMonth' || key === 'PerfQuarter' || key === 'PerfHalfY' || key === 'PerfYear' || key === 'PerfYTD') {
-        return PercentField(key, showColList[key].text, 110, showColList[key].show)
+        return PercentField(key, showColList[key].text, 150, showColList[key].hide)
       } else {
-        return KMBTField(key, showColList[key].text, 130, 2, showColList[key].show)
+        return KMBTField(key, showColList[key].text, 150, 2, showColList[key].hide)
       }
     })
   }
 
   const getTableCol = () => {
     return getTableColTemplate(showColListRef.current).reduce((accumulator, currentValue) => {
-      if (currentValue.colShow) {
-        accumulator.push(currentValue)
-      }
+      accumulator.push(currentValue)
       return accumulator
     }, [])
   }
   const [tableCol, setTableCol] = useState(getTableCol())
-
-  const renderCheckbox = (key) => {
-    return <FormControlLabel
-      key={key}
-      control={
-        <Checkbox
-          onChange={() => {
-            showColListRef.current[key].show = !showColListRef.current[key].show
-            setTableCol(getTableCol())
-          }}
-          name={showColListRef.current[key].text}
-          color="primary"
-          checked={showColListRef.current[key].show}
-        />
-      }
-      label={
-        <div>{showColListRef.current[key].text}</div>
-      }
-    />
-  }
 
   const renderDataRefDesc = (manager_list) => {
     return <>
@@ -160,25 +138,25 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
         })
 
         showColListRef.current = {
-          Symbol: { show: true, text: 'Symbol' },
-          Close: { show: true, text: 'Price' },
-          PE: { show: true, text: 'P/E' },
-          PB: { show: true, text: 'P/B' },
-          Dividend: { show: true, text: 'Dividend %' },
-          High52: { show: true, text: '52W High' },
-          Low52: { show: true, text: '52W Low' },
-          PerfWeek: { show: true, text: 'Perf Week' },
-          PerfMonth: { show: true, text: 'Perf Month' },
-          PerfQuarter: { show: true, text: 'Perf Quarter' },
-          PerfHalfY: { show: true, text: 'Perf Half Y' },
-          PerfYear: { show: true, text: 'Perf Year' },
-          PerfYTD: { show: true, text: 'Perf YTD' },
-          GurusCount: { show: true, text: 'Gurus Count' },
-          GurusValue: { show: true, text: 'Gurus Value' },
+          Symbol: { hide: false, text: 'Symbol' },
+          Close: { hide: false, text: 'Price' },
+          PE: { hide: false, text: 'P/E' },
+          PB: { hide: false, text: 'P/B' },
+          Dividend: { hide: false, text: 'Dividend %' },
+          High52: { hide: false, text: '52W High' },
+          Low52: { hide: false, text: '52W Low' },
+          PerfWeek: { hide: false, text: 'Perf Week' },
+          PerfMonth: { hide: false, text: 'Perf Month' },
+          PerfQuarter: { hide: false, text: 'Perf Quarter' },
+          PerfHalfY: { hide: false, text: 'Perf Half Y' },
+          PerfYear: { hide: false, text: 'Perf Year' },
+          PerfYTD: { hide: false, text: 'Perf YTD' },
+          GurusCount: { hide: false, text: 'Gurus Count' },
+          GurusValue: { hide: false, text: 'Gurus Value' },
         }
 
         manager_list.forEach((val) => {
-          showColListRef.current[val["name"]] = { show: true, text: val["name"] }
+          showColListRef.current[val["name"]] = { hide: false, text: val["name"] }
         })
 
         setDataRefDesc(renderDataRefDesc(manager_list))
@@ -212,13 +190,10 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
     <>
       <div className={investmentGurusStyle.container}>
         <div className={investmentGurusStyle.showColumn}>
-          {Object.keys(showColListRef.current).map((key) => {
-            return renderCheckbox(key)
-          })}
           {dataRefDesc}
         </div>
         <div className={investmentGurusStyle.table}>
-          <DataGrid rows={rowData} columns={tableCol} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={tableCol} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

@@ -24,47 +24,42 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   })
 
   const tableColList = {
-    Week3: { show: false, text: 'W3-Max' },
-    Week3R: { show: true, text: 'W3-Ratio' },
-    Month3: { show: false, text: 'M3-Max' },
-    Month3R: { show: true, text: 'M3-Ratio' },
-    Month7: { show: false, text: 'M7-Max' },
-    Month7R: { show: true, text: 'M7-Ratio' },
-    Month14: { show: false, text: 'M14-Max' },
-    Month14R: { show: true, text: 'M14-Ratio' },
-    Quart7: { show: false, text: 'Q7-Max' },
-    Quart7R: { show: true, text: 'Q7-Ratio' },
-    Quart14: { show: false, text: 'Q14-Max' },
-    Quart14R: { show: true, text: 'Q14-Ratio' },
-    Quart21: { show: false, text: 'Q21-Max' },
-    Quart21R: { show: true, text: 'Q21-Ratio' },
-    Year14: { show: false, text: 'Y14-Max' },
-    Year14R: { show: true, text: 'Y14-Ratio' },
-    Year21: { show: false, text: 'Y21-Max' },
-    Year21R: { show: true, text: 'Y21-Ratio' },
-    Avg: { show: true, text: 'Avg-Max' },
-    AvgR: { show: true, text: 'Avg-Ratio' },
-    Close: { show: true, text: 'Price' },
-    PE: { show: true, text: 'P/E' },
-    PB: { show: true, text: 'P/B' },
-    Dividend: { show: true, text: 'Dividend %' },
-    High52: { show: false, text: '52W High' },
-    Low52: { show: false, text: '52W Low' },
-    PerfWeek: { show: false, text: 'Perf Week' },
-    PerfMonth: { show: false, text: 'Perf Month' },
-    PerfQuarter: { show: false, text: 'Perf Quarter' },
-    PerfHalfY: { show: false, text: 'Perf Half Y' },
-    PerfYear: { show: false, text: 'Perf Year' },
-    PerfYTD: { show: false, text: 'Perf YTD' },
-    Chart: { show: true, text: 'Chart' },
+    Week3: { hide: true, text: 'W3-Max' },
+    Week3R: { hide: false, text: 'W3-Ratio' },
+    Month3: { hide: true, text: 'M3-Max' },
+    Month3R: { hide: false, text: 'M3-Ratio' },
+    Month7: { hide: true, text: 'M7-Max' },
+    Month7R: { hide: false, text: 'M7-Ratio' },
+    Month14: { hide: true, text: 'M14-Max' },
+    Month14R: { hide: false, text: 'M14-Ratio' },
+    Quart7: { hide: true, text: 'Q7-Max' },
+    Quart7R: { hide: false, text: 'Q7-Ratio' },
+    Quart14: { hide: true, text: 'Q14-Max' },
+    Quart14R: { hide: false, text: 'Q14-Ratio' },
+    Quart21: { hide: true, text: 'Q21-Max' },
+    Quart21R: { hide: false, text: 'Q21-Ratio' },
+    Year14: { hide: true, text: 'Y14-Max' },
+    Year14R: { hide: false, text: 'Y14-Ratio' },
+    Year21: { hide: true, text: 'Y21-Max' },
+    Year21R: { hide: false, text: 'Y21-Ratio' },
+    Avg: { hide: false, text: 'Avg-Max' },
+    AvgR: { hide: false, text: 'Avg-Ratio' },
+    Close: { hide: false, text: 'Price' },
+    PE: { hide: false, text: 'P/E' },
+    PB: { hide: false, text: 'P/B' },
+    Dividend: { hide: false, text: 'Dividend %' },
+    High52: { hide: true, text: '52W High' },
+    Low52: { hide: true, text: '52W Low' },
+    PerfWeek: { hide: true, text: 'Perf Week' },
+    PerfMonth: { hide: true, text: 'Perf Month' },
+    PerfQuarter: { hide: true, text: 'Perf Quarter' },
+    PerfHalfY: { hide: true, text: 'Perf Half Y' },
+    PerfYear: { hide: true, text: 'Perf Year' },
+    PerfYTD: { hide: true, text: 'Perf YTD' },
+    Chart: { hide: false, text: 'Chart' },
   }
 
-  const showColListRef = useRef(Object.keys(tableColList).reduce((accumulator, currentValue) => {
-    accumulator[currentValue] = tableColList[currentValue].show
-    return accumulator
-  }, {}))
-
-  const trendDataField = (field, headerName, width, valueKey, colShow) => {
+  const trendDataField = (field, headerName, width, valueKey, hide) => {
     let date = ""
     if (valueKey.indexOf("week")!==-1) {
       date = "now 7-d"
@@ -80,12 +75,13 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
       field: field,
       headerName: headerName,
       width: width,
+      type: 'number',
       renderCell: (params) => (
         <Link href={encodeURI("https://trends.google.com.tw/trends/explore?date=" + date + "&q=" + params.row['keyword'])} target="_blank" rel="noreferrer noopener">
           <span>{params.row[valueKey].toFixed(2)}</span>
         </Link>
       ),
-      colShow: colShow
+      hide: hide
     }
   }
 
@@ -99,61 +95,63 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
     }
   }
 
-  const getTableColTemplate = (showColList) => {
+  const genTableColTemplate = () => {
     return [
-      SymbolNameField('symbol', 'Symbol', 90, true),
-      trendDataField("week3", tableColList.Week3.text, 100, "week3", showColList['Week3']),
-      trendDataField("week3R", tableColList.Week3R.text, 100, "week3R", showColList['Week3R']),
-      trendDataField("month3", tableColList.Month3.text, 100, "month3", showColList['Month3']),
-      trendDataField("month3R", tableColList.Month3R.text, 100, "month3R", showColList['Month3R']),
-      trendDataField("month7", tableColList.Month7.text, 100, "month7", showColList['Month7']),
-      trendDataField("month7R", tableColList.Month7R.text, 100, "month7R", showColList['Month7R']),
-      trendDataField("month14", tableColList.Month14.text, 100, "month14", showColList['Month14']),
-      trendDataField("month14R", tableColList.Month14R.text, 100, "month14R", showColList['Month14R']),
-      trendDataField("quarter7", tableColList.Quart7.text, 100, "quarter7", showColList['Quart7']),
-      trendDataField("quarter7R", tableColList.Quart7R.text, 100, "quarter7R", showColList['Quart7R']),
-      trendDataField("quarter14", tableColList.Quart14.text, 100, "quarter14", showColList['Quart14']),
-      trendDataField("quarter14R", tableColList.Quart14R.text, 100, "quarter14R", showColList['Quart14R']),
-      trendDataField("quarter21", tableColList.Quart21.text, 100, "quarter21", showColList['Quart21']),
-      trendDataField("quarter21R", tableColList.Quart21R.text, 100, "quarter21R", showColList['Quart21R']),
-      trendDataField("year14", tableColList.Year14.text, 100, "year14", showColList['Year14']),
-      trendDataField("year14R", tableColList.Year14R.text, 100, "year14R", showColList['Year14R']),
-      trendDataField("year21", tableColList.Year21.text, 100, "year21", showColList['Year21']),
-      trendDataField("year21R", tableColList.Year21R.text, 100, "year21R", showColList['Year21R']),
+      SymbolNameField('symbol', 'Symbol', 130, false),
+      trendDataField("week3", tableColList.Week3.text, 140, "week3", tableColList['Week3'].hide),
+      trendDataField("week3R", tableColList.Week3R.text, 140, "week3R", tableColList['Week3R'].hide),
+      trendDataField("month3", tableColList.Month3.text, 140, "month3", tableColList['Month3'].hide),
+      trendDataField("month3R", tableColList.Month3R.text, 140, "month3R", tableColList['Month3R'].hide),
+      trendDataField("month7", tableColList.Month7.text, 140, "month7", tableColList['Month7'].hide),
+      trendDataField("month7R", tableColList.Month7R.text, 140, "month7R", tableColList['Month7R'].hide),
+      trendDataField("month14", tableColList.Month14.text, 140, "month14", tableColList['Month14'].hide),
+      trendDataField("month14R", tableColList.Month14R.text, 150, "month14R", tableColList['Month14R'].hide),
+      trendDataField("quarter7", tableColList.Quart7.text, 140, "quarter7", tableColList['Quart7'].hide),
+      trendDataField("quarter7R", tableColList.Quart7R.text, 140, "quarter7R", tableColList['Quart7R'].hide),
+      trendDataField("quarter14", tableColList.Quart14.text, 140, "quarter14", tableColList['Quart14'].hide),
+      trendDataField("quarter14R", tableColList.Quart14R.text, 150, "quarter14R", tableColList['Quart14R'].hide),
+      trendDataField("quarter21", tableColList.Quart21.text, 140, "quarter21", tableColList['Quart21'].hide),
+      trendDataField("quarter21R", tableColList.Quart21R.text, 150, "quarter21R", tableColList['Quart21R'].hide),
+      trendDataField("year14", tableColList.Year14.text, 140, "year14", tableColList['Year14'].hide),
+      trendDataField("year14R", tableColList.Year14R.text, 140, "year14R", tableColList['Year14R'].hide),
+      trendDataField("year21", tableColList.Year21.text, 140, "year21", tableColList['Year21'].hide),
+      trendDataField("year21R", tableColList.Year21R.text, 140, "year21R", tableColList['Year21R'].hide),
       { 
         field: 'avg', 
         headerName: tableColList.Avg.text, 
-        width: 100, 
+        width: 140, 
+        type: 'number',
         renderCell: (params) => (
           <span>{params.row['avg'].toFixed(2)}</span>
         ),
-        colShow: showColList['Avg'] 
+        hide: tableColList['Avg'].hide
       },
       {
         field: 'avgR',
         headerName: tableColList.AvgR.text,
-        width: 100,
+        width: 140,
+        type: 'number',
         renderCell: (params) => (
           <span>{params.row['avgR'].toFixed(2)}</span>
         ),
-        colShow: showColList['AvgR']
+        hide: tableColList['AvgR'].hide
       },
-      PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, showColList['Close']),
-      PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, showColList['PE']),
-      PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, showColList['PB']),
-      PercentField("dividend", tableColList.Dividend.text, 110, showColList['Dividend']),
-      PercentField("high52", tableColList.High52.text, 110, showColList['High52']),
-      PercentField("low52", tableColList.Low52.text, 110, showColList['Low52']),
-      ColorPercentField("perfWeek", tableColList.PerfWeek.text, 110, 2, showColList['PerfWeek'], 500),
-      ColorPercentField("perfMonth", tableColList.PerfMonth.text, 110, 2, showColList['PerfMonth'], 500),
-      ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 110, 2, showColList['PerfQuarter'], 500),
-      ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 110, 2, showColList['PerfHalfY'], 500),
-      ColorPercentField("perfYear", tableColList.PerfYear.text, 110, 2, showColList['PerfYear'], 500),
-      ColorPercentField("perfYTD", tableColList.PerfYTD.text, 110, 2, showColList['PerfYTD'], 500),
+      PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, tableColList['Close'].hide),
+      PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, tableColList['PE'].hide),
+      PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, tableColList['PB'].hide),
+      PercentField("dividend", tableColList.Dividend.text, 150, tableColList['Dividend'].hide),
+      PercentField("high52", tableColList.High52.text, 150, tableColList['High52'].hide),
+      PercentField("low52", tableColList.Low52.text, 150, tableColList['Low52'].hide),
+      ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, tableColList['PerfWeek'].hide, 500),
+      ColorPercentField("perfMonth", tableColList.PerfMonth.text, 150, 2, tableColList['PerfMonth'].hide, 500),
+      ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 150, 2, tableColList['PerfQuarter'].hide, 500),
+      ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, tableColList['PerfHalfY'].hide, 500),
+      ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, tableColList['PerfYear'].hide, 500),
+      ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, tableColList['PerfYTD'].hide, 500),
       {
         field: 'Chart',
         headerName: tableColList.Chart.text,
-        width: 90,
+        width: 130,
         renderCell: (params) => (
           <IconButton
             size="small"
@@ -209,20 +207,10 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
           </IconButton>
         ),
-        colShow: showColList['Chart']
+        hide: tableColList['Chart'].hide
       },
     ]
   }
-
-  const getTableCol = () => {
-    return getTableColTemplate(showColListRef.current).reduce((accumulator, currentValue) => {
-      if (currentValue.colShow) {
-        accumulator.push(currentValue)
-      }
-      return accumulator
-    }, [])
-  }
-  const [tableCol, setTableCol] = useState(getTableCol())
 
   const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
   const fetchGoogleTrendData = useFetch({ cachePolicy: 'no-cache' })
@@ -293,25 +281,6 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
 
   const [rowData, setRowData] = useState([])
 
-  const renderCheckbox = (key) => {
-    return <FormControlLabel
-      key={key}
-      control={
-        <Checkbox
-          onChange={() => {
-            showColListRef.current[key] = !showColListRef.current[key]
-            setTableCol(getTableCol())
-          }}
-          name={tableColList[key].text}
-          color="primary"
-          defaultChecked={tableColList[key].show}
-        />
-      }
-      label={
-        <div>{tableColList[key].text}</div>
-      }
-    />
-  }
 
   useEffect(() => {
     // componentDidMount is here!
@@ -325,13 +294,8 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   return (
     <>
       <div className={googleTrendStocksTableStyle.container}>
-        <div className={googleTrendStocksTableStyle.showColumn}>
-          {Object.keys(showColListRef.current).map((key, index) => {
-            return renderCheckbox(key)
-          })}
-        </div>
         <div className={googleTrendStocksTableStyle.table}>
-          <DataGrid rows={rowData} columns={tableCol} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

@@ -23,30 +23,25 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
   })
 
   const tableColList = {
-    Change: { show: true, text: 'Change' },
-    FloatShort: { show: false, text: 'Float Short' },
-    Recom: { show: false, text: 'Recom' },
-    PerfWeek: { show: true, text: 'Perf Week' },
-    PerfMonth: { show: true, text: 'Perf Month' },
-    PerfQuarter: { show: true, text: 'Perf Quarter' },
-    PerfHalfY: { show: true, text: 'Perf Half Y' },
-    PerfYear: { show: true, text: 'Perf Year' },
-    PerfYTD: { show: true, text: 'Perf YTD' },
-    TradeWeek: { show: true, text: 'Trade Week' },
-    TradeMonth: { show: true, text: 'Trade Month' },
-    TradeQuarter: { show: true, text: 'Trade Quarter' },
-    TradeHalfY: { show: true, text: 'Trade Half Y' },
-    TradeYear: { show: true, text: 'Trade Year' },
-    TradeYTD: { show: true, text: 'Trade YTD' },
-    DetailLink: { show: true, text: 'Detail' },
+    Change: { hide: false, text: 'Change' },
+    FloatShort: { hide: true, text: 'Float Short' },
+    Recom: { hide: true, text: 'Recom' },
+    PerfWeek: { hide: false, text: 'Perf Week' },
+    PerfMonth: { hide: false, text: 'Perf Month' },
+    PerfQuarter: { hide: false, text: 'Perf Quarter' },
+    PerfHalfY: { hide: false, text: 'Perf Half Y' },
+    PerfYear: { hide: false, text: 'Perf Year' },
+    PerfYTD: { hide: false, text: 'Perf YTD' },
+    TradeWeek: { hide: false, text: 'Trade Week' },
+    TradeMonth: { hide: false, text: 'Trade Month' },
+    TradeQuarter: { hide: false, text: 'Trade Quarter' },
+    TradeHalfY: { hide: false, text: 'Trade Half Y' },
+    TradeYear: { hide: false, text: 'Trade Year' },
+    TradeYTD: { hide: false, text: 'Trade YTD' },
+    DetailLink: { hide: false, text: 'Detail' },
   }
 
-  const showColListRef = useRef(Object.keys(tableColList).reduce((accumulator, currentValue) => {
-    accumulator[currentValue] = tableColList[currentValue].show
-    return accumulator
-  }, {}))
-
-  const getTableColTemplate = (showColList) => {
+  const genTableColTemplate = () => {
     return [
       {
         field: 'industry',
@@ -59,37 +54,38 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
               <span>{params.value}</span>
             </Link>
         ),
-        colShow: true
+        hide: false
       },
-      ColorPercentField('change', tableColList.Change.text, 110, 2, showColList['Change'], 500),
-      PercentField("floatShort", tableColList.FloatShort.text, 110, showColList['FloatShort']),
+      ColorPercentField('change', tableColList['Change'].text, 130, 2, tableColList['Change'].hide, 500),
+      PercentField("floatShort", tableColList['FloatShort'].text, 150, tableColList['FloatShort'].hide),
       {
         field: 'recom',
-        headerName: tableColList.Recom.text,
-        width: 110,
+        headerName: tableColList['Recom'].text,
+        width: 150,
+        type: 'number',
         renderCell: (params) => (
           <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
         ),
-        colShow: showColList['Recom']
+        hide: tableColList['Recom'].hide
       },
-      ColorPercentField("perfWeek", tableColList.PerfWeek.text, 110, 2, showColList['PerfWeek'], 500),
-      ColorPercentField("perfMonth", tableColList.PerfMonth.text, 110, 2, showColList['PerfMonth'], 500),
-      ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 110, 2, showColList['PerfQuarter'], 500),
-      ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 110, 2, showColList['PerfHalfY'], 500),
-      ColorPercentField("perfYear", tableColList.PerfYear.text, 110, 2, showColList['PerfYear'], 500),
-      ColorPercentField("perfYTD", tableColList.PerfYTD.text, 110, 2, showColList['PerfYTD'], 500),
-      ColorPercentField("tradeWeek", tableColList.TradeWeek.text, 120, 3, showColList['TradeWeek'], 500),
-      ColorPercentField("tradeMonth", tableColList.TradeMonth.text, 120, 3, showColList['TradeMonth'], 500),
-      ColorPercentField("tradeQuarter", tableColList.TradeQuarter.text, 120, 2, showColList['TradeQuarter'], 500),
-      ColorPercentField("tradeHalfY", tableColList.TradeHalfY.text, 120, 2, showColList['TradeHalfY'], 500),
-      ColorPercentField("tradeYear", tableColList.TradeYear.text, 120, 2, showColList['TradeYear'], 500),
-      ColorPercentField("tradeYTD", tableColList.TradeYTD.text, 120, 2, showColList['TradeYTD'], 500),
+      ColorPercentField("perfWeek", tableColList['PerfWeek'].text, 150, 2, tableColList['PerfWeek'].hide, 500),
+      ColorPercentField("perfMonth", tableColList['PerfMonth'].text, 150, 2, tableColList['PerfMonth'].hide, 500),
+      ColorPercentField("perfQuarter", tableColList['PerfQuarter'].text, 160, 2, tableColList['PerfQuarter'].hide, 500),
+      ColorPercentField("perfHalfY", tableColList['PerfHalfY'].text, 150, 2, tableColList['PerfHalfY'].hide, 500),
+      ColorPercentField("perfYear", tableColList['PerfYear'].text, 150, 2, tableColList['PerfYear'].hide, 500),
+      ColorPercentField("perfYTD", tableColList['PerfYTD'].text, 150, 2, tableColList['PerfYTD'].hide, 500),
+      ColorPercentField("tradeWeek", tableColList['TradeWeek'].text, 160, 3, tableColList['TradeWeek'].hide, 500),
+      ColorPercentField("tradeMonth", tableColList['TradeMonth'].text, 160, 3, tableColList['TradeMonth'].hide, 500),
+      ColorPercentField("tradeQuarter", tableColList['TradeQuarter'].text, 170, 2, tableColList['TradeQuarter'].hide, 500),
+      ColorPercentField("tradeHalfY", tableColList['TradeHalfY'].text, 160, 2, tableColList['TradeHalfY'].hide, 500),
+      ColorPercentField("tradeYear", tableColList['TradeYear'].text, 160, 2, tableColList['TradeYear'].hide, 500),
+      ColorPercentField("tradeYTD", tableColList['TradeYTD'].text, 160, 2, tableColList['TradeYTD'].hide, 500),
       {
         field: 'detailLink',
-        headerName: tableColList.DetailLink.text,
-        width: 90,
+        headerName: tableColList['DetailLink'].text,
+        width: 130,
         renderCell: (params) => (
-          <a href={(new URL(getUrl())).protocol + "//" + (new URL(getUrl())).hostname + ":" + (new URL(getUrl())).port + '/insiders-trade-list' + '?industry=' + params.getValue('industry').match(/\w+/gi).join('_')} target="_blank" rel="noreferrer noopener">
+          <a href={(new URL(getUrl())).protocol + "//" + (new URL(getUrl())).hostname + ":" + (new URL(getUrl())).port + '/insiders-trade-list' + '?industry=' + params.row['industry'].match(/\w+/gi).join('_')} target="_blank" rel="noreferrer noopener">
             <IconButton
               size="small"
               aria-haspopup="true">
@@ -97,20 +93,10 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
             </IconButton>
           </a>
         ),
-        colShow: showColList['DetailLink']
+        hide: tableColList['DetailLink'].hide
       },
     ]
   }
-
-  const getTableCol = () => {
-    return getTableColTemplate(showColListRef.current).reduce((accumulator, currentValue) => {
-      if (currentValue.colShow) {
-        accumulator.push(currentValue)
-      }
-      return accumulator
-    }, [])
-  }
-  const [tableCol, setTableCol] = useState(getTableCol())
 
   const { get, response } = useFetch({ cachePolicy: 'no-cache' })
 
@@ -153,26 +139,6 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
 
   const [rowData, setRowData] = useState([])
 
-  const renderCheckbox = (key) => {
-    return <FormControlLabel
-      key={key}
-      control={
-        <Checkbox
-          onChange={() => {
-            showColListRef.current[key] = !showColListRef.current[key]
-            setTableCol(getTableCol())
-          }}
-          name={tableColList[key].text}
-          color="primary"
-          defaultChecked={tableColList[key].show}
-        />
-      }
-      label={
-        <div>{tableColList[key].text}</div>
-      }
-    />
-  }
-
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -185,13 +151,8 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
   return (
     <>
       <div className={industryInsidersTableStyle.container}>
-        <div className={industryInsidersTableStyle.showColumn}>
-          {Object.keys(showColListRef.current).map((key, index) => {
-            return renderCheckbox(key)
-          })}
-        </div>
         <div className={industryInsidersTableStyle.table}>
-          <DataGrid rows={rowData} columns={tableCol} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]}  autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />
