@@ -54,10 +54,10 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
               <span>{params.value}</span>
             </Link>
         ),
-        hide: false
+        hide: 'industry' in hideColState ? hideColState['industry'] : false
       },
-      ColorPercentField('change', tableColList['Change'].text, 130, 2, tableColList['Change'].hide, 500),
-      PercentField("floatShort", tableColList['FloatShort'].text, 150, tableColList['FloatShort'].hide),
+      ColorPercentField('change', tableColList['Change'].text, 130, 2, 'change' in hideColState ? hideColState['change'] : tableColList['Change'].hide, 500),
+      PercentField("floatShort", tableColList['FloatShort'].text, 150, "floatShort" in hideColState ? hideColState["floatShort"] : tableColList['FloatShort'].hide),
       {
         field: 'recom',
         headerName: tableColList['Recom'].text,
@@ -66,20 +66,20 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
         renderCell: (params) => (
           <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
         ),
-        hide: tableColList['Recom'].hide
+        hide: 'recom' in hideColState ? hideColState['recom'] : tableColList['Recom'].hide
       },
-      ColorPercentField("perfWeek", tableColList['PerfWeek'].text, 150, 2, tableColList['PerfWeek'].hide, 500),
-      ColorPercentField("perfMonth", tableColList['PerfMonth'].text, 150, 2, tableColList['PerfMonth'].hide, 500),
-      ColorPercentField("perfQuarter", tableColList['PerfQuarter'].text, 160, 2, tableColList['PerfQuarter'].hide, 500),
-      ColorPercentField("perfHalfY", tableColList['PerfHalfY'].text, 150, 2, tableColList['PerfHalfY'].hide, 500),
-      ColorPercentField("perfYear", tableColList['PerfYear'].text, 150, 2, tableColList['PerfYear'].hide, 500),
-      ColorPercentField("perfYTD", tableColList['PerfYTD'].text, 150, 2, tableColList['PerfYTD'].hide, 500),
-      ColorPercentField("tradeWeek", tableColList['TradeWeek'].text, 160, 3, tableColList['TradeWeek'].hide, 500),
-      ColorPercentField("tradeMonth", tableColList['TradeMonth'].text, 160, 3, tableColList['TradeMonth'].hide, 500),
-      ColorPercentField("tradeQuarter", tableColList['TradeQuarter'].text, 170, 2, tableColList['TradeQuarter'].hide, 500),
-      ColorPercentField("tradeHalfY", tableColList['TradeHalfY'].text, 160, 2, tableColList['TradeHalfY'].hide, 500),
-      ColorPercentField("tradeYear", tableColList['TradeYear'].text, 160, 2, tableColList['TradeYear'].hide, 500),
-      ColorPercentField("tradeYTD", tableColList['TradeYTD'].text, 160, 2, tableColList['TradeYTD'].hide, 500),
+      ColorPercentField("perfWeek", tableColList['PerfWeek'].text, 150, 2, "perfWeek" in hideColState ? hideColState["perfWeek"] : tableColList['PerfWeek'].hide, 500),
+      ColorPercentField("perfMonth", tableColList['PerfMonth'].text, 150, 2, "perfMonth" in hideColState ? hideColState["perfMonth"] : tableColList['PerfMonth'].hide, 500),
+      ColorPercentField("perfQuarter", tableColList['PerfQuarter'].text, 160, 2, "perfQuarter" in hideColState ? hideColState["perfQuarter"] : tableColList['PerfQuarter'].hide, 500),
+      ColorPercentField("perfHalfY", tableColList['PerfHalfY'].text, 150, 2, "perfHalfY" in hideColState ? hideColState["perfHalfY"] : tableColList['PerfHalfY'].hide, 500),
+      ColorPercentField("perfYear", tableColList['PerfYear'].text, 150, 2, "perfYear" in hideColState ? hideColState["perfYear"] : tableColList['PerfYear'].hide, 500),
+      ColorPercentField("perfYTD", tableColList['PerfYTD'].text, 150, 2, "perfYTD" in hideColState ? hideColState["perfYTD"] : tableColList['PerfYTD'].hide, 500),
+      ColorPercentField("tradeWeek", tableColList['TradeWeek'].text, 160, 3, "tradeWeek" in hideColState ? hideColState["tradeWeek"] : tableColList['TradeWeek'].hide, 500),
+      ColorPercentField("tradeMonth", tableColList['TradeMonth'].text, 160, 3, "tradeMonth" in  hideColState? hideColState["tradeMonth"] : tableColList['TradeMonth'].hide, 500),
+      ColorPercentField("tradeQuarter", tableColList['TradeQuarter'].text, 170, 2, "tradeQuarter" in hideColState ? hideColState["tradeQuarter"] : tableColList['TradeQuarter'].hide, 500),
+      ColorPercentField("tradeHalfY", tableColList['TradeHalfY'].text, 160, 2, "tradeHalfY" in hideColState ? hideColState["tradeHalfY"] : tableColList['TradeHalfY'].hide, 500),
+      ColorPercentField("tradeYear", tableColList['TradeYear'].text, 160, 2, "tradeYear" in hideColState ? hideColState["tradeYear"] : tableColList['TradeYear'].hide, 500),
+      ColorPercentField("tradeYTD", tableColList['TradeYTD'].text, 160, 2, "tradeYTD" in hideColState? hideColState["tradeYTD"] : tableColList['TradeYTD'].hide, 500),
       {
         field: 'detailLink',
         headerName: tableColList['DetailLink'].text,
@@ -93,7 +93,7 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
             </IconButton>
           </a>
         ),
-        hide: tableColList['DetailLink'].hide
+        hide: 'detailLink' in  hideColState? hideColState['detailLink'] : tableColList['DetailLink'].hide
       },
     ]
   }
@@ -138,6 +138,7 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
   }
 
   const [rowData, setRowData] = useState([])
+  const [hideColState, setHideColState] = useState({})
 
   useEffect(() => {
     // componentDidMount is here!
@@ -152,7 +153,11 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
     <>
       <div className={industryInsidersTableStyle.container}>
         <div className={industryInsidersTableStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]}  autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+            let tempHideColState = hideColState
+            tempHideColState[param['field']] = !param['isVisible']
+            setHideColState(tempHideColState)
+          }}/>
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

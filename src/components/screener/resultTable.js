@@ -127,17 +127,23 @@ const ResultTable = ({ResultTableRef}) => {
     }
   }
 
+  const [hideColState, setHideColState] = useState({})
+
   const renderTable = (data)=>{
     // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
     // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
     // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
-    return <DataGrid rows={data} rowsPerPageOptions={[]}  columns={tableHeaderTemplate} scrollbarSize={17} pageSize={20} components={{ noRowsOverlay: DefaultDataGridTable,}} disableSelectionOnClick />
+    return <DataGrid rows={data} rowsPerPageOptions={[]} columns={tableHeaderTemplate} scrollbarSize={17} pageSize={20} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+      let tempHideColState = hideColState
+      tempHideColState[param['field']] = !param['isVisible']
+      setHideColState(tempHideColState)
+    }}/>
   }
 
   const tableHeaderTemplate = [
-    { field: 'symbol', headerName: 'Symbol', width: 130, hide: false },
-    { field: 'sector', headerName: 'Sector', width: 155, hide: isMobile },
-    { field: 'industry', headerName: 'Industry', width: 255, hide: isMobile },
+    { field: 'symbol', headerName: 'Symbol', width: 130, hide: 'symbol' in hideColState? hideColState['symbol'] : false },
+    { field: 'sector', headerName: 'Sector', width: 155, hide: 'sector' in hideColState ? hideColState['sector'] : isMobile },
+    { field: 'industry', headerName: 'Industry', width: 255, hide: 'industry' in hideColState ? hideColState['industry'] : isMobile },
     {
       field: 'marketCap',
       headerName: 'Market Cap',
@@ -146,7 +152,7 @@ const ResultTable = ({ResultTableRef}) => {
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : convertKMBT(params.value, 2)}</span>
       ),
-      hide: isMobile
+      hide: 'marketCap' in hideColState ? hideColState['marketCap'] : isMobile
     },
     {
       field: 'PE',
@@ -156,7 +162,7 @@ const ResultTable = ({ResultTableRef}) => {
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      hide: false
+      hide: 'PE' in hideColState ? hideColState['PE'] : false
     },
     {
       field: 'PB',
@@ -166,7 +172,7 @@ const ResultTable = ({ResultTableRef}) => {
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      hide: false
+      hide: 'PB' in hideColState ? hideColState['PB'] : false
     },
     {
       field: 'price',
@@ -176,9 +182,9 @@ const ResultTable = ({ResultTableRef}) => {
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      hide: false
+      hide: 'price' in hideColState ? hideColState['price'] : false
     },
-    ColorPercentField('change', 'Change', 130, 2, false, 700),
+    ColorPercentField('change', 'Change', 130, 2, 'change' in hideColState ? hideColState['change'] : false, 700),
     {
       field: 'volume',
       headerName: 'Volume',
@@ -187,7 +193,7 @@ const ResultTable = ({ResultTableRef}) => {
       renderCell: (params) => (
         <span>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : convertKMBT(params.value, 2)}</span>
       ),
-      hide: isMobile
+      hide: 'volume' in hideColState ? hideColState['volume'] : isMobile
     },
     {
       field: 'beneish_score',
@@ -207,7 +213,7 @@ const ResultTable = ({ResultTableRef}) => {
           <span style={{ fontSize: 18 }}>({(params.value === "NaN" || params.value === "Infinity" ||  params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)})</span>
         </div>
       ), 
-      hide: isMobile
+      hide: 'beneish_score' in hideColState ? hideColState['beneish_score'] : isMobile
     },
     {
       field: 'risk',
@@ -229,7 +235,7 @@ const ResultTable = ({ResultTableRef}) => {
           <span style={{ fontSize: 18 }}>({(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN"  : params.value + "%"})</span>
         </div>
       ), 
-      hide: false
+      hide: 'risk' in  hideColState? hideColState['risk'] : false
     },
     { 
       field: 'multiFactor', 
@@ -239,7 +245,7 @@ const ResultTable = ({ResultTableRef}) => {
       renderCell: (params) => (
         <span style={{ fontSize: 18 }}>{(params.value === "NaN" || params.value === "Infinity" || params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)}</span>
       ),
-      hide: false 
+      hide: 'multiFactor' in  hideColState ? hideColState['multiFactor'] : false 
     },
     {
       field: 'links',
@@ -255,7 +261,7 @@ const ResultTable = ({ResultTableRef}) => {
           </a>
         </div>
       ), 
-      hide: false
+      hide: 'links' in hideColState? hideColState['links'] : false
     },
   ]
 

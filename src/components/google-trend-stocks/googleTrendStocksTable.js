@@ -18,6 +18,8 @@ import '../muiTablePagination.css'
 
 const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
 
+  const [hideColState, setHideColState] = useState({})
+
   const modalWindowRef = useRef({
     popModalWindow: null,
     popPureModal: null,
@@ -97,25 +99,25 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
 
   const genTableColTemplate = () => {
     return [
-      SymbolNameField('symbol', 'Symbol', 130, false),
-      trendDataField("week3", tableColList.Week3.text, 140, "week3", tableColList['Week3'].hide),
-      trendDataField("week3R", tableColList.Week3R.text, 140, "week3R", tableColList['Week3R'].hide),
-      trendDataField("month3", tableColList.Month3.text, 140, "month3", tableColList['Month3'].hide),
-      trendDataField("month3R", tableColList.Month3R.text, 140, "month3R", tableColList['Month3R'].hide),
-      trendDataField("month7", tableColList.Month7.text, 140, "month7", tableColList['Month7'].hide),
-      trendDataField("month7R", tableColList.Month7R.text, 140, "month7R", tableColList['Month7R'].hide),
-      trendDataField("month14", tableColList.Month14.text, 140, "month14", tableColList['Month14'].hide),
-      trendDataField("month14R", tableColList.Month14R.text, 150, "month14R", tableColList['Month14R'].hide),
-      trendDataField("quarter7", tableColList.Quart7.text, 140, "quarter7", tableColList['Quart7'].hide),
-      trendDataField("quarter7R", tableColList.Quart7R.text, 140, "quarter7R", tableColList['Quart7R'].hide),
-      trendDataField("quarter14", tableColList.Quart14.text, 140, "quarter14", tableColList['Quart14'].hide),
-      trendDataField("quarter14R", tableColList.Quart14R.text, 150, "quarter14R", tableColList['Quart14R'].hide),
-      trendDataField("quarter21", tableColList.Quart21.text, 140, "quarter21", tableColList['Quart21'].hide),
-      trendDataField("quarter21R", tableColList.Quart21R.text, 150, "quarter21R", tableColList['Quart21R'].hide),
-      trendDataField("year14", tableColList.Year14.text, 140, "year14", tableColList['Year14'].hide),
-      trendDataField("year14R", tableColList.Year14R.text, 140, "year14R", tableColList['Year14R'].hide),
-      trendDataField("year21", tableColList.Year21.text, 140, "year21", tableColList['Year21'].hide),
-      trendDataField("year21R", tableColList.Year21R.text, 140, "year21R", tableColList['Year21R'].hide),
+      SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
+      trendDataField("week3", tableColList.Week3.text, 140, "week3", "week3" in hideColState ? hideColState["week3"] : tableColList['Week3'].hide),
+      trendDataField("week3R", tableColList.Week3R.text, 140, "week3R", "week3R" in hideColState ? hideColState["week3R"] : tableColList['Week3R'].hide),
+      trendDataField("month3", tableColList.Month3.text, 140, "month3", "month3" in hideColState ? hideColState["month3"] : tableColList['Month3'].hide),
+      trendDataField("month3R", tableColList.Month3R.text, 140, "month3R", "month3R" in hideColState ? hideColState["month3R"] : tableColList['Month3R'].hide),
+      trendDataField("month7", tableColList.Month7.text, 140, "month7", "month7" in hideColState ? hideColState["month7"] : tableColList['Month7'].hide),
+      trendDataField("month7R", tableColList.Month7R.text, 140, "month7R", "month7R" in hideColState ? hideColState["month7R"] : tableColList['Month7R'].hide),
+      trendDataField("month14", tableColList.Month14.text, 140, "month14", "month14" in hideColState ? hideColState["month14"] : tableColList['Month14'].hide),
+      trendDataField("month14R", tableColList.Month14R.text, 150, "month14R", "month14R" in hideColState ? hideColState["month14R"] : tableColList['Month14R'].hide),
+      trendDataField("quarter7", tableColList.Quart7.text, 140, "quarter7", "quarter7" in hideColState ? hideColState["quarter7"] : tableColList['Quart7'].hide),
+      trendDataField("quarter7R", tableColList.Quart7R.text, 140, "quarter7R", "quarter7R" in hideColState ? hideColState["quarter7R"] : tableColList['Quart7R'].hide),
+      trendDataField("quarter14", tableColList.Quart14.text, 140, "quarter14", "quarter14" in hideColState ? hideColState["quarter14"] : tableColList['Quart14'].hide),
+      trendDataField("quarter14R", tableColList.Quart14R.text, 150, "quarter14R", "quarter14R" in hideColState ? hideColState["quarter14R"] : tableColList['Quart14R'].hide),
+      trendDataField("quarter21", tableColList.Quart21.text, 140, "quarter21", "quarter21" in hideColState ? hideColState["quarter21"] : tableColList['Quart21'].hide),
+      trendDataField("quarter21R", tableColList.Quart21R.text, 150, "quarter21R", "quarter21R" in hideColState ? hideColState["quarter21R"] : tableColList['Quart21R'].hide),
+      trendDataField("year14", tableColList.Year14.text, 140, "year14", "year14" in hideColState ? hideColState["year14"] : tableColList['Year14'].hide),
+      trendDataField("year14R", tableColList.Year14R.text, 140, "year14R", "year14R" in hideColState ? hideColState["year14R"] : tableColList['Year14R'].hide),
+      trendDataField("year21", tableColList.Year21.text, 140, "year21", "year21" in hideColState ? hideColState["year21"] : tableColList['Year21'].hide),
+      trendDataField("year21R", tableColList.Year21R.text, 140, "year21R", "year21R" in hideColState ? hideColState["year21R"] : tableColList['Year21R'].hide),
       { 
         field: 'avg', 
         headerName: tableColList.Avg.text, 
@@ -124,7 +126,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
         renderCell: (params) => (
           <span>{params.row['avg'].toFixed(2)}</span>
         ),
-        hide: tableColList['Avg'].hide
+        hide: 'avg' in hideColState ? hideColState['avg'] : tableColList['Avg'].hide
       },
       {
         field: 'avgR',
@@ -134,20 +136,20 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
         renderCell: (params) => (
           <span>{params.row['avgR'].toFixed(2)}</span>
         ),
-        hide: tableColList['AvgR'].hide
+        hide: 'avgR' in hideColState ? hideColState['avgR'] : tableColList['AvgR'].hide
       },
-      PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, tableColList['Close'].hide),
-      PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, tableColList['PE'].hide),
-      PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, tableColList['PB'].hide),
-      PercentField("dividend", tableColList.Dividend.text, 150, tableColList['Dividend'].hide),
-      PercentField("high52", tableColList.High52.text, 150, tableColList['High52'].hide),
-      PercentField("low52", tableColList.Low52.text, 150, tableColList['Low52'].hide),
-      ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, tableColList['PerfWeek'].hide, 500),
-      ColorPercentField("perfMonth", tableColList.PerfMonth.text, 150, 2, tableColList['PerfMonth'].hide, 500),
-      ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 150, 2, tableColList['PerfQuarter'].hide, 500),
-      ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, tableColList['PerfHalfY'].hide, 500),
-      ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, tableColList['PerfYear'].hide, 500),
-      ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, tableColList['PerfYTD'].hide, 500),
+      PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, "close" in hideColState ? hideColState["close"] : tableColList['Close'].hide),
+      PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
+      PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
+      PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
+      PercentField("high52", tableColList.High52.text, 150, "high52" in hideColState ? hideColState["high52"] : tableColList['High52'].hide),
+      PercentField("low52", tableColList.Low52.text, 150, "low52" in hideColState ? hideColState["low52"] : tableColList['Low52'].hide),
+      ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, "perfWeek" in hideColState ? hideColState["perfWeek"] : tableColList['PerfWeek'].hide, 500),
+      ColorPercentField("perfMonth", tableColList.PerfMonth.text, 150, 2, "perfMonth" in hideColState ? hideColState["perfMonth"] : tableColList['PerfMonth'].hide, 500),
+      ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 150, 2, "perfQuarter" in hideColState ? hideColState["perfQuarter"] : tableColList['PerfQuarter'].hide, 500),
+      ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, "perfHalfY" in hideColState ? hideColState["perfHalfY"] : tableColList['PerfHalfY'].hide, 500),
+      ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, "perfYear" in hideColState ? hideColState["perfYear"] : tableColList['PerfYear'].hide, 500),
+      ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, "perfYTD" in hideColState ? hideColState["perfYTD"] : tableColList['PerfYTD'].hide, 500),
       {
         field: 'Chart',
         headerName: tableColList.Chart.text,
@@ -207,7 +209,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
           </IconButton>
         ),
-        hide: tableColList['Chart'].hide
+        hide: 'Chart' in hideColState ? hideColState['Chart'] : tableColList['Chart'].hide
       },
     ]
   }
@@ -281,7 +283,6 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
 
   const [rowData, setRowData] = useState([])
 
-
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -295,7 +296,11 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
     <>
       <div className={googleTrendStocksTableStyle.container}>
         <div className={googleTrendStocksTableStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+            let tempHideColState = hideColState
+            tempHideColState[param['field']] = !param['isVisible']
+            setHideColState(tempHideColState)
+          }}/>
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

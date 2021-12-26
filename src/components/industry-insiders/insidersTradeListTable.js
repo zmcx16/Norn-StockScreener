@@ -56,9 +56,9 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
                 renderCell: (params) => (
                     <span>{moment(params.row['date']).format('MM/DD/YYYY')}</span>
                 ),
-                hide: false
+                hide: 'date' in hideColState ? hideColState['date'] : false
             },
-            SymbolNameField('symbol', 'Symbol', 130, false),
+            SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
             {
                 field: 'transaction',
                 headerName: 'Transaction',
@@ -69,21 +69,21 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
                         <span>-</span> :
                         <span style={{ fontWeight: 500, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{params.value === 1 ? 'Buy' : (params.value === -1 ? 'Sale' : 'Option Exercise')}</span>
                 ),
-                hide: tableColList['Transaction'].hide
+                hide: 'transaction' in hideColState ? hideColState['transaction'] : tableColList['Transaction'].hide
             },
-            KMBTField("value", tableColList.Value.text, 130, 2, tableColList['Value'].hide),
-            PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, tableColList['Close'].hide),
-            PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, tableColList['PE'].hide),
-            PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, tableColList['PB'].hide),
-            PercentField("dividend", tableColList.Dividend.text, 150, tableColList['Dividend'].hide),
-            PercentField("high52", tableColList.High52.text, 150, tableColList['High52'].hide),
-            PercentField("low52", tableColList.Low52.text, 150, tableColList['Low52'].hide),
-            ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, tableColList['PerfWeek'].hide, 500),
-            ColorPercentField("perfMonth", tableColList.PerfMonth.text, 150, 2, tableColList['PerfMonth'].hide, 500),
-            ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 160, 2, tableColList['PerfQuarter'].hide, 500),
-            ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, tableColList['PerfHalfY'].hide, 500),
-            ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, tableColList['PerfYear'].hide, 500),
-            ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, tableColList['PerfYTD'].hide, 500),
+            KMBTField("value", tableColList.Value.text, 130, 2, "value" in hideColState ? hideColState["value"] : tableColList['Value'].hide),
+            PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, "close" in hideColState ? hideColState["close"] : tableColList['Close'].hide),
+            PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
+            PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in  hideColState ? hideColState["PB"] : tableColList['PB'].hide),
+            PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
+            PercentField("high52", tableColList.High52.text, 150, "high52" in  hideColState? hideColState["high52"] : tableColList['High52'].hide),
+            PercentField("low52", tableColList.Low52.text, 150, "low52" in hideColState ? hideColState["low52"] :  tableColList['Low52'].hide),
+            ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, "perfWeek" in hideColState ? hideColState["perfWeek"] : tableColList['PerfWeek'].hide, 500),
+            ColorPercentField("perfMonth", tableColList.PerfMonth.text, 150, 2, "perfMonth" in   hideColState? hideColState["perfMonth"] : tableColList['PerfMonth'].hide, 500),
+            ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 160, 2, "perfQuarter" in hideColState ? hideColState["perfQuarter"] : tableColList['PerfQuarter'].hide, 500),
+            ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, "perfHalfY" in  hideColState? hideColState["perfHalfY"] : tableColList['PerfHalfY'].hide, 500),
+            ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, "perfYear" in  hideColState ? hideColState["perfYear"] :  tableColList['PerfYear'].hide, 500),
+            ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, "perfYTD" in hideColState ? hideColState["perfYTD"] : tableColList['PerfYTD'].hide, 500),
         ]
     }
 
@@ -142,6 +142,7 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
     }
 
     const [rowData, setRowData] = useState([])
+    const [hideColState, setHideColState] = useState({})
 
     useEffect(() => {
         // componentDidMount is here!
@@ -156,7 +157,11 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
         <>
             <div className={insidersTradeListTableStyle.container}>
                 <div className={insidersTradeListTableStyle.table}>
-                    <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+                    <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+                        let tempHideColState = hideColState
+                        tempHideColState[param['field']] = !param['isVisible']
+                        setHideColState(tempHideColState)
+                    }}/>
                 </div>
             </div>
             <ModalWindow modalWindowRef={modalWindowRef} />

@@ -56,8 +56,9 @@ const IndustryTable = ({ loadingAnimeRef }) => {
               <span>{params.value}</span>
             </Link>
         ),
+        hide: 'Industry' in hideColState ? hideColState['Industry'] :  false
       },
-      ColorPercentField('Change', tableColList.Change.text, 130, 2, tableColList['Change'].hide, 500),
+      ColorPercentField('Change', tableColList.Change.text, 130, 2, 'Change' in hideColState ? hideColState['Change'] : tableColList['Change'].hide, 500),
       {
         field: 'FloatShort',
         headerName: tableColList.FloatShort.text,
@@ -66,7 +67,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
         renderCell: (params) => (
           <span>{(params.value * 100).toFixed(2) + "%"}</span>
         ),
-        hide: tableColList['FloatShort'].hide
+        hide: 'FloatShort' in  hideColState ? hideColState['FloatShort'] : tableColList['FloatShort'].hide
       },
       {
         field: 'Recom',
@@ -76,15 +77,15 @@ const IndustryTable = ({ loadingAnimeRef }) => {
         renderCell: (params) => (
           <span style={{ fontWeight: 500, color: params.value < 2 ? 'green' : params.value > 3 ? 'red' : '' }}>{params.value}</span>
         ),
-        hide: tableColList['Recom'].hide
+        hide: 'Recom' in hideColState ? hideColState['Recom'] : tableColList['Recom'].hide
       },
-      ColorPercentField('PerfWeek', tableColList.PerfWeek.text, 145, 2, tableColList['PerfWeek'].hide, 500),
-      ColorPercentField('PerfMonth', tableColList.PerfMonth.text, 150, 2, tableColList['PerfMonth'].hide, 500),
-      ColorPercentField('PerfQuart', tableColList.PerfQuart.text, 145, 2, tableColList['PerfQuart'].hide, 500),
-      ColorPercentField('PerfHalf', tableColList.PerfHalf.text, 140, 2, tableColList['PerfHalf'].hide, 500),
-      ColorPercentField('PerfYear', tableColList.PerfYear.text, 140, 2, tableColList['PerfYear'].hide, 500),
-      ColorPercentField('PerfYTD', tableColList.PerfYTD.text, 140, 2, tableColList['PerfYTD'].hide, 500),
-      { field: 'MKSymbol', headerName: tableColList.MKSymbol.text, width: 130, hide: tableColList['MKSymbol'].hide },
+      ColorPercentField('PerfWeek', tableColList.PerfWeek.text, 145, 2, 'PerfWeek' in hideColState ? hideColState['PerfWeek'] : tableColList['PerfWeek'].hide, 500),
+      ColorPercentField('PerfMonth', tableColList.PerfMonth.text, 150, 2, 'PerfMonth' in  hideColState? hideColState['PerfMonth'] : tableColList['PerfMonth'].hide, 500),
+      ColorPercentField('PerfQuart', tableColList.PerfQuart.text, 145, 2, 'PerfQuart' in hideColState ? hideColState['PerfQuart'] : tableColList['PerfQuart'].hide, 500),
+      ColorPercentField('PerfHalf', tableColList.PerfHalf.text, 140, 2, 'PerfHalf' in hideColState ? hideColState['PerfHalf'] : tableColList['PerfHalf'].hide, 500),
+      ColorPercentField('PerfYear', tableColList.PerfYear.text, 140, 2, 'PerfYear' in hideColState ? hideColState['PerfYear'] : tableColList['PerfYear'].hide, 500),
+      ColorPercentField('PerfYTD', tableColList.PerfYTD.text, 140, 2, 'PerfYTD' in hideColState ? hideColState['PerfYTD'] : tableColList['PerfYTD'].hide, 500),
+      { field: 'MKSymbol', headerName: tableColList.MKSymbol.text, width: 130, hide: 'MKSymbol' in  hideColState ? hideColState['MKSymbol'] : tableColList['MKSymbol'].hide },
       {
         field: 'MKSource',
         headerName: tableColList.MKSource.text,
@@ -96,14 +97,14 @@ const IndustryTable = ({ loadingAnimeRef }) => {
               <span>{params.value}</span>
             </Link>
         ),
-        hide: tableColList['MKSource'].hide
+        hide: 'MKSource' in  hideColState ? hideColState['MKSource'] : tableColList['MKSource'].hide
       },
-      ColorPercentField('MKPerfWeek', tableColList.MKPerfWeek.text, 145, 2, tableColList['MKPerfWeek'].hide, 500),
-      ColorPercentField('MKPerfMonth', tableColList.MKPerfMonth.text, 150, 2, tableColList['MKPerfMonth'].hide, 500),
-      ColorPercentField('MKPerfQuart', tableColList.MKPerfQuart.text, 145, 2, tableColList['MKPerfQuart'].hide, 500),
-      ColorPercentField('MKPerfHalf', tableColList.MKPerfHalf.text, 140, 2, tableColList['MKPerfHalf'].hide, 500),
-      ColorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 140, 2, tableColList['MKPerfYear'].hide, 500),
-      ColorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 140, 2, tableColList['MKPerfYTD'].hide, 500),
+      ColorPercentField('MKPerfWeek', tableColList.MKPerfWeek.text, 145, 2, 'MKPerfWeek' in  hideColState? hideColState['MKPerfWeek'] : tableColList['MKPerfWeek'].hide, 500),
+      ColorPercentField('MKPerfMonth', tableColList.MKPerfMonth.text, 150, 2, 'MKPerfMonth' in  hideColState? hideColState['MKPerfMonth'] : tableColList['MKPerfMonth'].hide, 500),
+      ColorPercentField('MKPerfQuart', tableColList.MKPerfQuart.text, 145, 2, 'MKPerfQuart' in hideColState ? hideColState['MKPerfQuart'] : tableColList['MKPerfQuart'].hide, 500),
+      ColorPercentField('MKPerfHalf', tableColList.MKPerfHalf.text, 140, 2, 'MKPerfHalf' in hideColState ? hideColState['MKPerfHalf'] : tableColList['MKPerfHalf'].hide, 500),
+      ColorPercentField('MKPerfYear', tableColList.MKPerfYear.text, 140, 2, 'MKPerfYear' in  hideColState? hideColState['MKPerfYear'] : tableColList['MKPerfYear'].hide, 500),
+      ColorPercentField('MKPerfYTD', tableColList.MKPerfYTD.text, 140, 2, 'MKPerfYTD' in  hideColState ? hideColState['MKPerfYTD'] : tableColList['MKPerfYTD'].hide, 500),
       {
         field: 'Chart',
         headerName: tableColList.Chart.text,
@@ -176,7 +177,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
           </IconButton>
         ),
-        hide: tableColList['Chart'].hide
+        hide: 'Chart' in  hideColState? hideColState['Chart'] : tableColList['Chart'].hide
       },
     ]
   }
@@ -247,6 +248,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     loadingAnimeRef.current.setLoading(false)
   }
   const [rowData, setRowData] = useState([])
+  const [hideColState, setHideColState] = useState({})
 
   useEffect(() => {
     // componentDidMount is here!
@@ -261,7 +263,11 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     <>
       <div className={industryTableStyle.container}>
         <div className={industryTableStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} scrollbarSize={17} pageSize={50} rowsPerPageOptions={[]} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={genTableColTemplate()} scrollbarSize={17} pageSize={50} rowsPerPageOptions={[]} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+            let tempHideColState = hideColState
+            tempHideColState[param['field']] = !param['isVisible']
+            setHideColState(tempHideColState)
+          }}/>
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

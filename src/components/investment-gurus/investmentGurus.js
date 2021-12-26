@@ -16,6 +16,8 @@ import '../muiTablePagination.css'
 
 const InvestmentGurus = ({ loadingAnimeRef }) => {
 
+  const [hideColState, setHideColState] = useState({})
+
   const modalWindowRef = useRef({
     popModalWindow: null,
     popPureModal: null,
@@ -26,18 +28,18 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
   const getTableColTemplate = (showColList) => {
     return Object.keys(showColList).map((key) => {
       if (key === 'Symbol') {
-        return SymbolNameField(key, showColList[key].text, 130, showColList[key].hide)
+        return SymbolNameField(key, showColList[key].text, 130, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else if (key === 'GurusCount'){
         return {
-          field: key, headerName: showColList[key].text, width: 170, type: 'number', hide: showColList[key].hide
+          field: key, headerName: showColList[key].text, width: 170, type: 'number', hide: key in hideColState ? hideColState[key] : showColList[key].hide
         }
       } else if (key === 'Close' || key === 'PE' || key === 'PB') {
-        return PureFieldWithValueCheck(key, showColList[key].text, 110, 2, showColList[key].hide)
+        return PureFieldWithValueCheck(key, showColList[key].text, 110, 2, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else if (key === 'Dividend' || key === 'High52' || key === 'Low52' || 
         key === 'PerfWeek' || key === 'PerfMonth' || key === 'PerfQuarter' || key === 'PerfHalfY' || key === 'PerfYear' || key === 'PerfYTD') {
-        return PercentField(key, showColList[key].text, 150, showColList[key].hide)
+        return PercentField(key, showColList[key].text, 150, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else {
-        return KMBTField(key, showColList[key].text, 150, 2, showColList[key].hide)
+        return KMBTField(key, showColList[key].text, 150, 2, key in hideColState ? hideColState[key] : showColList[key].hide)
       }
     })
   }
@@ -193,7 +195,11 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
           {dataRefDesc}
         </div>
         <div className={investmentGurusStyle.table}>
-          <DataGrid rows={rowData} columns={tableCol} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick />
+          <DataGrid rows={rowData} columns={tableCol} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+            let tempHideColState = hideColState
+            tempHideColState[param['field']] = !param['isVisible']
+            setHideColState(tempHideColState)
+          }}/>
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />
