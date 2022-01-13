@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import { blue } from '@material-ui/core/colors'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
-import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles'
+import { MuiThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles'
 
 import { isMobile } from 'react-device-detect'
 import shortid from "shortid"
@@ -20,7 +20,7 @@ import FilterSectorsIndustries from './filterSectorsIndustries'
 
 import filterContainerStyle from './filterContainer.module.scss'
 
-const customTheme = createMuiTheme({
+const customTheme = createTheme({
   palette: {
     import: { 
       backgroundColor: '#43a047', color: '#fff'
@@ -223,7 +223,7 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
             <div></div>
             <Button variant="contained" style={customTheme.palette.export} onClick={exportSetting}>Export</Button>
             <div></div>
-            <MuiThemeProvider theme={createMuiTheme({ palette: { primary: blue } })}>
+            <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
               <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
                 queryStocksRef.current.doQuery()
               }}>{isMobile ? 'Query' : 'Query Now'}</Button>

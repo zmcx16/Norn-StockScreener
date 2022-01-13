@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import Avatar from '@material-ui/core/Avatar'
 import Chip from '@material-ui/core/Chip'
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import Link from '@material-ui/core/Link'
 import Tooltip from '@material-ui/core/Tooltip'
 import { isMobile } from 'react-device-detect'
@@ -86,7 +86,7 @@ const NornMinehunter = ({ nornMinehunterRef }) => {
     tacticsColor.palette[element.type] = element.color
   })
 
-  const tacticsTheme = createMuiTheme(tacticsColor)
+  const tacticsTheme = createTheme(tacticsColor)
 
   // set arg value
   const valueFromRef = useRef({ value: '' })

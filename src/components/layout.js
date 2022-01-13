@@ -1,7 +1,7 @@
 import React, { useState} from 'react'
 import PropTypes from 'prop-types'
 import { ThemeProvider } from '@material-ui/core/styles'
-import { CssBaseline, createMuiTheme } from '@material-ui/core'
+import { CssBaseline, createTheme } from '@material-ui/core'
 
 import Header from './header'
 import Footer from './footer'
@@ -13,7 +13,7 @@ const Layout = ({ children} ) => {
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   return (
-    <ThemeProvider theme={createMuiTheme({ 
+    <ThemeProvider theme={createTheme({ 
       palette: { 
         type: isDarkMode ? 'dark' : 'light',
         background: {

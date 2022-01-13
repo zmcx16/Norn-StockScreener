@@ -111,3 +111,13 @@ export function SymbolNameField(field, headerName, width, hide) {
     hide: hide
   }
 }
+
+export const GetDataByFetchObj = async (url, fetchObj) => {
+  const resp_data = await fetchObj.get(url)
+  if (fetchObj.response.ok && resp_data) {
+    return resp_data
+  }
+  else {
+    return null
+  }
+}

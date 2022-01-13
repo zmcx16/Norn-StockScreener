@@ -1,6 +1,6 @@
 import React, { useState, useRef, createRef } from 'react'
 import Chip from '@material-ui/core/Chip'
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -38,7 +38,7 @@ const ChipObj = ({chipObjRef, text}) => {
     }
   }
 
-  const chipTheme = createMuiTheme(chipColor)
+  const chipTheme = createTheme(chipColor)
 
   return <Chip
     label={text}
