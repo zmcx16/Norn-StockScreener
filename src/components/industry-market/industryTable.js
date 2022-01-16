@@ -263,7 +263,7 @@ const IndustryTable = ({ loadingAnimeRef }) => {
     <>
       <div className={industryTableStyle.container}>
         <div className={industryTableStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} scrollbarSize={17} pageSize={50} rowsPerPageOptions={[]} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={genTableColTemplate()} scrollbarSize={17} pageSize={50} rowsPerPageOptions={[]} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)

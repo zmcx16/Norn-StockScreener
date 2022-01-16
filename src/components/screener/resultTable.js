@@ -133,7 +133,7 @@ const ResultTable = ({ResultTableRef}) => {
     // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
     // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
     // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
-    return <DataGrid rows={data} rowsPerPageOptions={[]} columns={tableHeaderTemplate} scrollbarSize={17} pageSize={20} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+    return <DataGrid rows={data} rowsPerPageOptions={[]} columns={tableHeaderTemplate} scrollbarSize={17} pageSize={20} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
       let tempHideColState = hideColState
       tempHideColState[param['field']] = !param['isVisible']
       setHideColState(tempHideColState)

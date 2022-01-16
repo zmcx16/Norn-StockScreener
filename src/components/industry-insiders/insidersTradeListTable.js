@@ -157,7 +157,7 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
         <>
             <div className={insidersTradeListTableStyle.container}>
                 <div className={insidersTradeListTableStyle.table}>
-                    <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+                    <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
                         let tempHideColState = hideColState
                         tempHideColState[param['field']] = !param['isVisible']
                         setHideColState(tempHideColState)

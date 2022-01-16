@@ -10,7 +10,7 @@ import moment from 'moment'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField } from '../../common/reactUtils'
+import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField } from '../../common/reactUtils'
 import { Options_Def } from '../../common/optionsDef'
 
 import commonStyle from '../common.module.scss'
@@ -26,17 +26,17 @@ const Options = ({loadingAnimeRef}) => {
 
   const tableColList = {
     Symbol: { hide: false, text: 'Symbol' },
-    StockPrice: { hide: false, text: 'Stock Price' },
-    ExpiryDate: { hide: false, text: 'Expiry Date' },
+    StockPrice: { hide: false, text: 'Price (Stock)' },
+    ExpiryDate: { hide: false, text: 'Expiry' },
     Strike: { hide: false, text: 'Strike' },
     LastPrice: { hide: false, text: 'Last Price' },
-    AvgEWMA: { hide: false, text: 'Avg Valuation' },
-    PriceBias: { hide: false, text: 'Price Bias' },
+    AvgEWMA: { hide: false, text: 'Valuation (Avg)' },
+    PriceBias: { hide: false, text: 'Bias' },
     LastTradeDate: { hide: false, text: 'Last Trade Date' },
     Bid: { hide: false, text: 'Bid' },
     Ask: { hide: false, text: 'Ask' },
-    Change: { hide: false, text: 'Change' },
-    PercentChange: { hide: false, text: 'Percent Change' },
+    Change: { hide: true, text: 'Change' },
+    PercentChange: { hide: false, text: 'Change (%)' },
     Volume: { hide: false, text: 'Volume' },
     OpenInterest: { hide: false, text: 'Open Interest' },
     ImpliedVolatility: { hide: false, text: 'Implied Volatility' },
@@ -49,24 +49,24 @@ const Options = ({loadingAnimeRef}) => {
   const genTableColTemplate = () => {
     return [
       SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
-      PureFieldWithValueCheck("stockPrice", tableColList.StockPrice.text, 140, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide),
+      PureFieldWithValueCheck("stockPrice", tableColList.StockPrice.text, 130, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide),
       {
         field: 'expiryDate',
-        headerName: 'ExpiryDate',
-        width: 140,
+        headerName: tableColList.ExpiryDate.text,
+        width: 130,
         type: 'date',
         renderCell: (params) => (
           <span>{moment(params.row['expiryDate']).format('YYYY-MM-DD')}</span>
         ),
         hide: 'expiryDate' in hideColState ? hideColState['expiryDate'] : tableColList['ExpiryDate'].hide
       },
-      PureFieldWithValueCheck("strike", tableColList.Strike.text, 140, 2, "strike" in hideColState ? hideColState["strike"] : tableColList['Strike'].hide),
+      PureFieldWithValueCheck("strike", tableColList.Strike.text, 120, 2, "strike" in hideColState ? hideColState["strike"] : tableColList['Strike'].hide),
       PureFieldWithValueCheck("lastPrice", tableColList.LastPrice.text, 140, 2, "lastPrice" in hideColState ? hideColState["lastPrice"] : tableColList['LastPrice'].hide),
       PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 140, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
-      PureFieldWithValueCheck("priceBias", tableColList.PriceBias.text, 140, 2, "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide),
+      PureFieldWithValueCheck("priceBias", tableColList.PriceBias.text, 110, 2, "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide),
       {
         field: 'lastTradeDate',
-        headerName: 'LastTradeDate',
+        headerName: tableColList.LastTradeDate.text,
         width: 140,
         type: 'date',
         renderCell: (params) => (
@@ -74,14 +74,14 @@ const Options = ({loadingAnimeRef}) => {
         ),
         hide: 'lastTradeDate' in hideColState ? hideColState['lastTradeDate'] : tableColList['LastTradeDate'].hide
       },
-      PureFieldWithValueCheck("bid", tableColList.Bid.text, 140, 2, "bid" in hideColState ? hideColState["bid"] : tableColList['Bid'].hide),
-      PureFieldWithValueCheck("ask", tableColList.Ask.text, 140, 2, "ask" in hideColState ? hideColState["ask"] : tableColList['Ask'].hide),
-      ColorPosGreenNegRedField("change", tableColList.Change.text, 150, 2, "change" in hideColState ? hideColState["change"] : tableColList['Change'].hide, 500),
-      ColorPercentField("percentChange", tableColList.PercentChange.text, 150, 2, "percentChange" in hideColState ? hideColState["percentChange"] : tableColList['PercentChange'].hide, 500),
+      PureFieldWithValueCheck("bid", tableColList.Bid.text, 105, 2, "bid" in hideColState ? hideColState["bid"] : tableColList['Bid'].hide),
+      PureFieldWithValueCheck("ask", tableColList.Ask.text, 105, 2, "ask" in hideColState ? hideColState["ask"] : tableColList['Ask'].hide),
+      ColorPosGreenNegRedField("change", tableColList.Change.text, 130, "change" in hideColState ? hideColState["change"] : tableColList['Change'].hide, 500),
+      ColorPercentField("percentChange", tableColList.PercentChange.text, 140, 2, "percentChange" in hideColState ? hideColState["percentChange"] : tableColList['PercentChange'].hide, 500),
       PureFieldWithValueCheck("volume", tableColList.Volume.text, 140, 2, "volume" in hideColState ? hideColState["volume"] : tableColList['Volume'].hide),
       PureFieldWithValueCheck("openInterest", tableColList.OpenInterest.text, 140, 2, "openInterest" in hideColState ? hideColState["openInterest"] : tableColList['OpenInterest'].hide),
-      PercentField("impliedVolatility", tableColList.ImpliedVolatility.text, 140, 2, "impliedVolatility" in hideColState ? hideColState["impliedVolatility"] : tableColList['ImpliedVolatility'].hide),
-      PercentField("EWMAHisVol", tableColList.EWMAHisVol.text, 140, 2, "EWMAHisVol" in hideColState ? hideColState["EWMAHisVol"] : tableColList['EWMAHisVol'].hide),
+      PercentField("impliedVolatility", tableColList.ImpliedVolatility.text, 140, "impliedVolatility" in hideColState ? hideColState["impliedVolatility"] : tableColList['ImpliedVolatility'].hide),
+      PercentField("EWMAHisVol", tableColList.EWMAHisVol.text, 140, "EWMAHisVol" in hideColState ? hideColState["EWMAHisVol"] : tableColList['EWMAHisVol'].hide),
       PureFieldWithValueCheck("BSM_EWMAHisVol", tableColList.BSM_EWMAHisVol.text, 140, 2, "BSM_EWMAHisVol" in hideColState ? hideColState["BSM_EWMAHisVol"] : tableColList['BSM_EWMAHisVol'].hide),
       PureFieldWithValueCheck("MC_EWMAHisVol", tableColList.MC_EWMAHisVol.text, 140, 2, "MC_EWMAHisVol" in hideColState ? hideColState["MC_EWMAHisVol"] : tableColList['MC_EWMAHisVol'].hide),
       PureFieldWithValueCheck("BT_EWMAHisVol", tableColList.BT_EWMAHisVol.text, 140, 2, "BT_EWMAHisVol" in hideColState ? hideColState["BT_EWMAHisVol"] : tableColList['BT_EWMAHisVol'].hide),
@@ -92,12 +92,12 @@ const Options = ({loadingAnimeRef}) => {
   const fetchOptionsData = useFetch({ cachePolicy: 'no-cache' })
 
   const renderOptionsData = (file_name) => {
+    loadingAnimeRef.current.setLoading(true)
     Promise.all([
       GetDataByFetchObj('/norn-data/options/' + file_name + '.json', fetchOptionsData),
     ]).then((allResponses) => {
       console.log(allResponses)
       if (allResponses.length == 1 && allResponses[0] !== null) {
-
         // [{"symbol":"A","stockPrice":149.50999450683594,"EWMA_historicalVolatility":0.2519420533670158,"contracts":[{"expiryDate":"2022-01-21","calls":[{"lastTradeDate":"2022-01-12","strike":155.0,"lastPrice":0.32,"bid":0.35,"ask":0.5,"change":0.049999982,"percentChange":18.51851,"volume":30,"openInterest":721,"impliedVolatility":0.22461712890624996,"valuationData":{"BSM_EWMAHisVol":0.7042894690005248,"MC_EWMAHisVol":0.70279983534146,"BT_EWMAHisVol":0.7046023394736802}}],"puts":[]}]}
         var calls = []
         var puts = []
@@ -116,7 +116,7 @@ const Options = ({loadingAnimeRef}) => {
                   stockPrice: stock_price,
                   EWMAHisVol: ewma_his_vol,
                   expiryDate: expiry_date,
-                  lastTradeDate: cp["lastTradeDate"] !== undefined && cp["lastTradeDate"] !== null && cp["lastTradeDate"] !== '-' ? cp["lastTradeDate"] : -Number.MAX_VALUE,
+                  lastTradeDate: cp["lastTradeDate"] !== undefined && cp["lastTradeDate"] !== null && cp["lastTradeDate"] !== '-' ? cp["lastTradeDate"] : 0,
                   strike: cp["strike"] !== undefined && cp["strike"] !== null && cp["strike"] !== '-' ? cp["strike"] : -Number.MAX_VALUE,
                   lastPrice: cp["lastPrice"] !== undefined && cp["lastPrice"] !== null && cp["lastPrice"] !== '-' ? cp["lastPrice"] : -Number.MAX_VALUE,
                   bid: cp["bid"] !== undefined && cp["bid"] !== null && cp["bid"] !== '-' ? cp["bid"] : -Number.MAX_VALUE,
@@ -150,20 +150,28 @@ const Options = ({loadingAnimeRef}) => {
               })
               return output
             }
-            calls = calls.concat(extra_data_func(contracts["calls"]));
-            puts = puts.concat(extra_data_func(contracts["puts"]));
+            calls = calls.concat(extra_data_func(contracts["calls"]))
+            puts = puts.concat(extra_data_func(contracts["puts"]))
           })
         })
+
+        // reset id
+        calls.forEach((d,i) => {
+          calls[i].id = i
+        });
+        puts.forEach((d, i) => {
+          puts[i].id = i
+        });
+
         console.log(calls)
         setCallsData(calls)
         console.log(puts)
         setPutsData(puts)
-        loadingAnimeRef.current.setLoading(false)
       } else {
         console.error("renderOptionsData some data failed")
         modalWindowRef.current.popModalWindow(<div>Get some data failed...</div>)
-        loadingAnimeRef.current.setLoading(false)
       }
+      loadingAnimeRef.current.setLoading(false)
     }).catch(() => {
       console.error("renderOptionsData failed")
       modalWindowRef.current.popModalWindow(<div>Get data failed...</div>)
@@ -173,7 +181,10 @@ const Options = ({loadingAnimeRef}) => {
 
   const refreshData = (name) => {
     if (name.startsWith('self_query')) {
-      // self query mode
+      setWs(new WebSocket("wss://norn-finance.zmcx16.moe/ws/option/quote-valuation?symbol=DAC&ewma_his_vol_lambda=0.94"))
+      setCallsData([])
+      setPutsData([])
+      loadingAnimeRef.current.setLoading(false)
     } else {
       renderOptionsData(name)
     }
@@ -183,6 +194,8 @@ const Options = ({loadingAnimeRef}) => {
   const [hideColState, setHideColState] = useState({})
   const [arg, setArg] = useState(0)
   
+  const [ws, setWs] = useState(null)
+
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -193,6 +206,28 @@ const Options = ({loadingAnimeRef}) => {
     }
   }, [])
 
+  useInterval(() => {
+    if (ws) {
+      ws.send("") // heartbeat
+      console.log("heartbeat")
+    }
+  }, ws ? 3000 : null)
+
+  useEffect(() => {
+    if (ws) {
+      ws.onopen = () => {
+        console.log('WebSocket Connected')
+      }
+      ws.onmessage = (e) => {
+        const message = JSON.parse(e.data)
+        console.log(message)
+        setWs(null)
+      }
+    }
+    return () => {
+    }
+  }, [ws])
+  
   return (
     <div className={commonStyle.defaultFont + ' ' + optionsStyle.container}>
       <div key={shortid.generate()} >
@@ -220,14 +255,14 @@ const Options = ({loadingAnimeRef}) => {
           </Grid>
         </Grid>
         <div className={optionsStyle.table}>
-          <DataGrid rows={callsData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={callsData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)
           }} />
         </div>
         <div className={optionsStyle.table}>
-          <DataGrid rows={putsData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={putsData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)

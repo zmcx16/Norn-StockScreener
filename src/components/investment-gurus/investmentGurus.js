@@ -195,7 +195,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
           {dataRefDesc}
         </div>
         <div className={investmentGurusStyle.table}>
-          <DataGrid rows={rowData} columns={tableCol} rowsPerPageOptions={[]} autoPageSize={true} components={{ noRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={tableCol} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)
