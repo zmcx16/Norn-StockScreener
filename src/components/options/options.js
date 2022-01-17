@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, createRef } from 'react'
+import SearchIcon from '@material-ui/icons/Search'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { DataGrid } from '@material-ui/data-grid'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
+import Typography from '@material-ui/core/Typography'
 import Select from '@material-ui/core/Select'
+import { blue } from '@material-ui/core/colors'
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles'
 import shortid from 'shortid'
 import useFetch from 'use-http'
 import moment from 'moment'
@@ -11,10 +17,29 @@ import moment from 'moment'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField } from '../../common/reactUtils'
-import { Options_Def } from '../../common/optionsDef'
+import { Options_Def, SelfQuery_Def, NornFinanceAPIUrl } from '../../common/optionsDef'
 
 import commonStyle from '../common.module.scss'
 import optionsStyle from './options.module.scss'
+
+
+// query parameter
+const genParameterField = (inputRef, name, value, display_name) => {
+  // add key to force re-render component
+  return (
+    <form noValidate autoComplete="off" key={shortid.generate()}>
+      <TextField id={name} className={optionsStyle.valueText} label={display_name} variant="outlined" defaultValue={value} size="small" inputRef={inputRef} />
+    </form>
+  )
+}
+
+const ParameterNodesField = ({ queryParameterRef, queryParameterCurrentRef }) => {
+  return SelfQuery_Def.parameters.map((value, index) => {
+    return (
+      genParameterField(queryParameterRef.current[index], value.name, queryParameterCurrentRef.current === null ? value.val : queryParameterCurrentRef.current[index], value.display_name)
+    )
+  })
+}
 
 
 const Options = ({loadingAnimeRef}) => {
@@ -91,6 +116,78 @@ const Options = ({loadingAnimeRef}) => {
 
   const fetchOptionsData = useFetch({ cachePolicy: 'no-cache' })
 
+  const renderTable = (resp) => {
+    // [{"symbol":"A","stockPrice":149.50999450683594,"EWMA_historicalVolatility":0.2519420533670158,"contracts":[{"expiryDate":"2022-01-21","calls":[{"lastTradeDate":"2022-01-12","strike":155.0,"lastPrice":0.32,"bid":0.35,"ask":0.5,"change":0.049999982,"percentChange":18.51851,"volume":30,"openInterest":721,"impliedVolatility":0.22461712890624996,"valuationData":{"BSM_EWMAHisVol":0.7042894690005248,"MC_EWMAHisVol":0.70279983534146,"BT_EWMAHisVol":0.7046023394736802}}],"puts":[]}]}
+    var calls = []
+    var puts = []
+    resp.forEach((data) => {
+      let symbol = data["symbol"]
+      let stock_price = data["stockPrice"]
+      let ewma_his_vol = data["EWMA_historicalVolatility"]
+      data["contracts"].forEach((contracts) => {
+        let expiry_date = contracts["expiryDate"]
+        let extra_data_func = (calls_puts) => {
+          let output = calls_puts.map((cp, index) => {
+            let v = cp["valuationData"]
+            let o = {
+              id: index,
+              symbol: symbol,
+              stockPrice: stock_price,
+              EWMAHisVol: ewma_his_vol,
+              expiryDate: expiry_date,
+              lastTradeDate: cp["lastTradeDate"] !== undefined && cp["lastTradeDate"] !== null && cp["lastTradeDate"] !== '-' ? cp["lastTradeDate"] : 0,
+              strike: cp["strike"] !== undefined && cp["strike"] !== null && cp["strike"] !== '-' ? cp["strike"] : -Number.MAX_VALUE,
+              lastPrice: cp["lastPrice"] !== undefined && cp["lastPrice"] !== null && cp["lastPrice"] !== '-' ? cp["lastPrice"] : -Number.MAX_VALUE,
+              bid: cp["bid"] !== undefined && cp["bid"] !== null && cp["bid"] !== '-' ? cp["bid"] : -Number.MAX_VALUE,
+              ask: cp["ask"] !== undefined && cp["ask"] !== null && cp["ask"] !== '-' ? cp["ask"] : -Number.MAX_VALUE,
+              change: cp["change"] !== undefined && cp["change"] !== null && cp["change"] !== '-' ? cp["change"] : -Number.MAX_VALUE,
+              percentChange: cp["percentChange"] !== undefined && cp["percentChange"] !== null && cp["percentChange"] !== '-' ? cp["percentChange"] / 100.0 : -Number.MAX_VALUE,
+              volume: cp["volume"] !== undefined && cp["volume"] !== null && cp["volume"] !== '-' ? cp["volume"] : -Number.MAX_VALUE,
+              openInterest: cp["openInterest"] !== undefined && cp["openInterest"] !== null && cp["openInterest"] !== '-' ? cp["openInterest"] : -Number.MAX_VALUE,
+              impliedVolatility: cp["impliedVolatility"] !== undefined && cp["impliedVolatility"] !== null && cp["impliedVolatility"] !== '-' ? cp["impliedVolatility"] : -Number.MAX_VALUE,
+              BSM_EWMAHisVol: v["BSM_EWMAHisVol"] !== undefined && v["BSM_EWMAHisVol"] !== null && v["BSM_EWMAHisVol"] > 0 ? v["BSM_EWMAHisVol"] : -Number.MAX_VALUE,
+              MC_EWMAHisVol: v["MC_EWMAHisVol"] !== undefined && v["MC_EWMAHisVol"] !== null && v["MC_EWMAHisVol"] > 0 ? v["MC_EWMAHisVol"] : -Number.MAX_VALUE,
+              BT_EWMAHisVol: v["BT_EWMAHisVol"] !== undefined && v["BT_EWMAHisVol"] !== null && v["BT_EWMAHisVol"] > 0 ? v["BT_EWMAHisVol"] : -Number.MAX_VALUE,
+            }
+            let cnt = 0
+            let sum = 0
+            if (o.BSM_EWMAHisVol > 0) {
+              cnt += 1
+              sum += o.BSM_EWMAHisVol
+            }
+            if (o.MC_EWMAHisVol > 0) {
+              cnt += 1
+              sum += o.MC_EWMAHisVol
+            }
+            if (o.BT_EWMAHisVol > 0) {
+              cnt += 1
+              sum += o.BT_EWMAHisVol
+            }
+            o["avgEWMA"] = sum / cnt
+            o["priceBias"] = Math.abs(o.lastPrice - o["avgEWMA"]) / o.lastPrice
+            return o
+          })
+          return output
+        }
+        calls = calls.concat(extra_data_func(contracts["calls"]))
+        puts = puts.concat(extra_data_func(contracts["puts"]))
+      })
+    })
+
+    // reset id
+    calls.forEach((d, i) => {
+      calls[i].id = i
+    });
+    puts.forEach((d, i) => {
+      puts[i].id = i
+    });
+
+    console.log(calls)
+    setCallsData(calls)
+    console.log(puts)
+    setPutsData(puts)
+  }
+
   const renderOptionsData = (file_name) => {
     loadingAnimeRef.current.setLoading(true)
     Promise.all([
@@ -98,75 +195,7 @@ const Options = ({loadingAnimeRef}) => {
     ]).then((allResponses) => {
       console.log(allResponses)
       if (allResponses.length == 1 && allResponses[0] !== null) {
-        // [{"symbol":"A","stockPrice":149.50999450683594,"EWMA_historicalVolatility":0.2519420533670158,"contracts":[{"expiryDate":"2022-01-21","calls":[{"lastTradeDate":"2022-01-12","strike":155.0,"lastPrice":0.32,"bid":0.35,"ask":0.5,"change":0.049999982,"percentChange":18.51851,"volume":30,"openInterest":721,"impliedVolatility":0.22461712890624996,"valuationData":{"BSM_EWMAHisVol":0.7042894690005248,"MC_EWMAHisVol":0.70279983534146,"BT_EWMAHisVol":0.7046023394736802}}],"puts":[]}]}
-        var calls = []
-        var puts = []
-        allResponses[0].forEach((data) => {
-          let symbol = data["symbol"]
-          let stock_price = data["stockPrice"]
-          let ewma_his_vol = data["EWMA_historicalVolatility"]
-          data["contracts"].forEach((contracts) => {
-            let expiry_date = contracts["expiryDate"]
-            let extra_data_func = (calls_puts)=>{
-              let output = calls_puts.map((cp, index) => {
-                let v = cp["valuationData"]
-                let o = {
-                  id: index,
-                  symbol: symbol,
-                  stockPrice: stock_price,
-                  EWMAHisVol: ewma_his_vol,
-                  expiryDate: expiry_date,
-                  lastTradeDate: cp["lastTradeDate"] !== undefined && cp["lastTradeDate"] !== null && cp["lastTradeDate"] !== '-' ? cp["lastTradeDate"] : 0,
-                  strike: cp["strike"] !== undefined && cp["strike"] !== null && cp["strike"] !== '-' ? cp["strike"] : -Number.MAX_VALUE,
-                  lastPrice: cp["lastPrice"] !== undefined && cp["lastPrice"] !== null && cp["lastPrice"] !== '-' ? cp["lastPrice"] : -Number.MAX_VALUE,
-                  bid: cp["bid"] !== undefined && cp["bid"] !== null && cp["bid"] !== '-' ? cp["bid"] : -Number.MAX_VALUE,
-                  ask: cp["ask"] !== undefined && cp["ask"] !== null && cp["ask"] !== '-' ? cp["ask"] : -Number.MAX_VALUE,
-                  change: cp["change"] !== undefined && cp["change"] !== null && cp["change"] !== '-' ? cp["change"] : -Number.MAX_VALUE,
-                  percentChange: cp["percentChange"] !== undefined && cp["percentChange"] !== null && cp["percentChange"] !== '-' ? cp["percentChange"] / 100.0 : -Number.MAX_VALUE,
-                  volume: cp["volume"] !== undefined && cp["volume"] !== null && cp["volume"] !== '-' ? cp["volume"] : -Number.MAX_VALUE,
-                  openInterest: cp["openInterest"] !== undefined && cp["openInterest"] !== null && cp["openInterest"] !== '-' ? cp["openInterest"] : -Number.MAX_VALUE,
-                  impliedVolatility: cp["impliedVolatility"] !== undefined && cp["impliedVolatility"] !== null && cp["impliedVolatility"] !== '-' ? cp["impliedVolatility"] : -Number.MAX_VALUE,
-                  BSM_EWMAHisVol: v["BSM_EWMAHisVol"] !== undefined && v["BSM_EWMAHisVol"] !== null && v["BSM_EWMAHisVol"] > 0 ? v["BSM_EWMAHisVol"] : -Number.MAX_VALUE,
-                  MC_EWMAHisVol: v["MC_EWMAHisVol"] !== undefined && v["MC_EWMAHisVol"] !== null && v["MC_EWMAHisVol"] > 0 ? v["MC_EWMAHisVol"] : -Number.MAX_VALUE,
-                  BT_EWMAHisVol: v["BT_EWMAHisVol"] !== undefined && v["BT_EWMAHisVol"] !== null && v["BT_EWMAHisVol"] > 0 ? v["BT_EWMAHisVol"] : -Number.MAX_VALUE,
-                }
-                let cnt = 0
-                let sum = 0
-                if (o.BSM_EWMAHisVol > 0) {
-                  cnt += 1
-                  sum += o.BSM_EWMAHisVol
-                }
-                if (o.MC_EWMAHisVol > 0) {
-                  cnt += 1
-                  sum += o.MC_EWMAHisVol
-                }
-                if (o.BT_EWMAHisVol > 0) {
-                  cnt += 1
-                  sum += o.BT_EWMAHisVol
-                }
-                o["avgEWMA"] = sum / cnt
-                o["priceBias"] = Math.abs(o.lastPrice - o["avgEWMA"]) / o.lastPrice
-                return o
-              })
-              return output
-            }
-            calls = calls.concat(extra_data_func(contracts["calls"]))
-            puts = puts.concat(extra_data_func(contracts["puts"]))
-          })
-        })
-
-        // reset id
-        calls.forEach((d,i) => {
-          calls[i].id = i
-        });
-        puts.forEach((d, i) => {
-          puts[i].id = i
-        });
-
-        console.log(calls)
-        setCallsData(calls)
-        console.log(puts)
-        setPutsData(puts)
+        renderTable(allResponses[0])
       } else {
         console.error("renderOptionsData some data failed")
         modalWindowRef.current.popModalWindow(<div>Get some data failed...</div>)
@@ -181,11 +210,12 @@ const Options = ({loadingAnimeRef}) => {
 
   const refreshData = (name) => {
     if (name.startsWith('self_query')) {
-      setWs(new WebSocket("wss://norn-finance.zmcx16.moe/ws/option/quote-valuation?symbol=DAC&ewma_his_vol_lambda=0.94"))
+      setDisplayQuery(true)
       setCallsData([])
       setPutsData([])
       loadingAnimeRef.current.setLoading(false)
     } else {
+      setDisplayQuery(false)
       renderOptionsData(name)
     }
   }
@@ -193,8 +223,17 @@ const Options = ({loadingAnimeRef}) => {
   const [putsData, setPutsData] = useState([])
   const [hideColState, setHideColState] = useState({})
   const [arg, setArg] = useState(0)
-  
+  const [displayQuery, setDisplayQuery] = useState(false)
   const [ws, setWs] = useState(null)
+
+
+
+  const queryParameterRef = useRef([])
+  SelfQuery_Def.parameters.forEach((value, index) => {
+    queryParameterRef.current[index] = createRef()
+    queryParameterRef.current[index].current = { value: value.val }
+  })
+  const queryParameterCurrentRef = useRef(null)
 
   useEffect(() => {
     // componentDidMount is here!
@@ -207,7 +246,7 @@ const Options = ({loadingAnimeRef}) => {
   }, [])
 
   useInterval(() => {
-    if (ws) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send("") // heartbeat
       console.log("heartbeat")
     }
@@ -216,11 +255,14 @@ const Options = ({loadingAnimeRef}) => {
   useEffect(() => {
     if (ws) {
       ws.onopen = () => {
+        loadingAnimeRef.current.setLoading(true)
         console.log('WebSocket Connected')
       }
       ws.onmessage = (e) => {
         const message = JSON.parse(e.data)
         console.log(message)
+        renderTable([message])
+        loadingAnimeRef.current.setLoading(false)
         setWs(null)
       }
     }
@@ -254,6 +296,30 @@ const Options = ({loadingAnimeRef}) => {
             </FormControl>
           </Grid>
         </Grid>
+        <div className={optionsStyle.queryPannel} style={{ display: displayQuery ? 'block' : 'none' }}>
+          <div className={optionsStyle.parameterTitle}>
+            <Typography variant="h6" gutterBottom component="div">
+              {'Query Parameters'}
+            </Typography>
+          </div>
+          <div className={optionsStyle.parameterBlock}>
+            <ParameterNodesField queryParameterRef={queryParameterRef} queryParameterCurrentRef={queryParameterCurrentRef}/>
+            <div></div>
+            <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
+              <Button className={optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
+                queryParameterCurrentRef.current = []
+                let args = SelfQuery_Def.parameters.reduce((accumulator, currentValue, currentIndex) => {
+                  accumulator[currentValue.name] = queryParameterRef.current[currentIndex].current.value
+                  queryParameterCurrentRef.current.push(accumulator[currentValue.name])
+                  return accumulator
+                }, {})
+                console.log(args)
+                let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&")
+                setWs(new WebSocket(NornFinanceAPIUrl + query_string))
+              }}>{'Query Now'}</Button>
+            </MuiThemeProvider>
+          </div>
+        </div>
         <div className={optionsStyle.table}>
           <DataGrid rows={callsData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState

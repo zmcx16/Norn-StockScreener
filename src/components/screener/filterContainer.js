@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import { blue } from '@material-ui/core/colors'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
-import { MuiThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles'
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles'
 
 import { isMobile } from 'react-device-detect'
 import shortid from "shortid"

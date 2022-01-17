@@ -7,6 +7,35 @@
   margin: 10px 0px;
 }
 
+.queryPannel {
+  border: 1px solid darkcyan;
+  border-radius: 10px;
+  padding: 10px 5px;
+  margin: 10px 0;
+}
+
+.parameterTitle {
+  padding-left: 15px;
+}
+
+.parameterBlock {
+  padding: 10px;
+  gap: 40px;
+  display: grid;
+  grid-template-columns: 120px 120px 120px 120px 190px 210px 200px 1fr auto;
+  justify-items: left;
+  align-items: center;
+}
+
+.valueText {
+  max-width: 300px;
+  width: 100%;
+}
+
+.queryBtn {
+  width: 160px;
+}
+
 .table{
   height: 800px;
   padding: 10px 0px;
