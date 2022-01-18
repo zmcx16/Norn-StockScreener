@@ -19,39 +19,54 @@ export const SelfQuery_Def = {
     {
       name: "symbol",
       display_name: "Symbol",
-      val: "DAC"
+      val: "DAC",
+      gridxs: 1,
     },
     {
       name: "min_next_days",
       display_name: "Min Next Days",
-      val: "0"
+      val: "0",
+      gridxs: 1,
     },
     {
       name: "max_next_days",
       display_name: "Max Next Days",
-      val: "45"
+      val: "45",
+      gridxs: 1,
     },
     {
       name: "last_trade_days",
       display_name: "Last Trade Days",
-      val: "3"
+      val: "3",
+      gridxs: 1,
     },
     {
       name: "ewma_his_vol_period",
-      display_name: "EWMA History Vol. Period",
-      val: "21"
+      display_name: "EWMA History Volatility Period",
+      val: "21",
+      gridxs: 2,
     },
     {
       name: "ewma_his_vol_lambda",
-      display_name: "EWMA History Vol. Lambda",
-      val: "0.94"
+      display_name: "EWMA History Volatility Lambda",
+      val: "0.94",
+      gridxs: 2,
     },
     {
       name: "proxy",
       display_name: "Proxy",
-      val: ""
+      val: "",
+      gridxs: 2,
     },
   ]
 }
 
 export const NornFinanceAPIUrl = "wss://norn-finance.zmcx16.moe"
+
+export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
+
+export const SelfQueryNote = 
+`The Self-Query API server is a free & lightweight server. 
+If you need a high-frequency query or occur query failed many times,
+try to build your server from Github source code as follow:
+` + NornFinanceAPIServerGithub

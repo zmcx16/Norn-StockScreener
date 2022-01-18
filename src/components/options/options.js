@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, createRef } from 'react'
 import SearchIcon from '@material-ui/icons/Search'
+import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@material-ui/core/IconButton'
+import InfoIcon from '@material-ui/icons/Info'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
@@ -9,7 +12,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Typography from '@material-ui/core/Typography'
 import Select from '@material-ui/core/Select'
 import { blue } from '@material-ui/core/colors'
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles'
+import { MuiThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles'
 import shortid from 'shortid'
 import useFetch from 'use-http'
 import moment from 'moment'
@@ -17,32 +20,41 @@ import moment from 'moment'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField } from '../../common/reactUtils'
-import { Options_Def, SelfQuery_Def, NornFinanceAPIUrl } from '../../common/optionsDef'
+import { Options_Def, SelfQuery_Def, NornFinanceAPIUrl, SelfQueryNote, NornFinanceAPIServerGithub } from '../../common/optionsDef'
 
 import commonStyle from '../common.module.scss'
 import optionsStyle from './options.module.scss'
 
 
 // query parameter
-const genParameterField = (inputRef, name, value, display_name) => {
+const genParameterField = (inputRef, name, value, display_name, gridxs) => {
   // add key to force re-render component
   return (
-    <form noValidate autoComplete="off" key={shortid.generate()}>
-      <TextField id={name} className={optionsStyle.valueText} label={display_name} variant="outlined" defaultValue={value} size="small" inputRef={inputRef} />
-    </form>
+    <Grid item xs={gridxs}>
+      <form noValidate autoComplete="off" key={shortid.generate()}>
+        <TextField id={name} className={optionsStyle.valueText} label={display_name} variant="outlined" defaultValue={value} size="small" inputRef={inputRef} />
+      </form>
+    </Grid>
   )
 }
 
 const ParameterNodesField = ({ queryParameterRef, queryParameterCurrentRef }) => {
   return SelfQuery_Def.parameters.map((value, index) => {
     return (
-      genParameterField(queryParameterRef.current[index], value.name, queryParameterCurrentRef.current === null ? value.val : queryParameterCurrentRef.current[index], value.display_name)
+      genParameterField(queryParameterRef.current[index], value.name, queryParameterCurrentRef.current === null ? value.val : queryParameterCurrentRef.current[index], value.display_name, value.gridxs)
     )
   })
 }
 
+const useStylesTooltip = makeStyles((theme) => ({
+  noMaxWidth: {
+    maxWidth: 'none',
+  },
+}))
 
 const Options = ({loadingAnimeRef}) => {
+
+  const tooltipStyle = useStylesTooltip()
 
   const modalWindowRef = useRef({
     popModalWindow: null,
@@ -300,24 +312,32 @@ const Options = ({loadingAnimeRef}) => {
           <div className={optionsStyle.parameterTitle}>
             <Typography variant="h6" gutterBottom component="div">
               {'Query Parameters'}
+              <Tooltip arrow classes={{ tooltip: tooltipStyle.noMaxWidth }} title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>{SelfQueryNote}</span>} >
+                <IconButton onClick={() => window.open(NornFinanceAPIServerGithub, "_blank")}>
+                  <InfoIcon color="action"/>
+                </IconButton>
+              </Tooltip>
             </Typography>
           </div>
           <div className={optionsStyle.parameterBlock}>
-            <ParameterNodesField queryParameterRef={queryParameterRef} queryParameterCurrentRef={queryParameterCurrentRef}/>
-            <div></div>
-            <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
-              <Button className={optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
-                queryParameterCurrentRef.current = []
-                let args = SelfQuery_Def.parameters.reduce((accumulator, currentValue, currentIndex) => {
-                  accumulator[currentValue.name] = queryParameterRef.current[currentIndex].current.value
-                  queryParameterCurrentRef.current.push(accumulator[currentValue.name])
-                  return accumulator
-                }, {})
-                console.log(args)
-                let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&")
-                setWs(new WebSocket(NornFinanceAPIUrl + query_string))
-              }}>{'Query Now'}</Button>
-            </MuiThemeProvider>
+            <Grid container spacing={2} justifyContent="flex-end">
+              <ParameterNodesField queryParameterRef={queryParameterRef} queryParameterCurrentRef={queryParameterCurrentRef}/>
+              <Grid item xs={2} >
+                <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
+                  <Button className={optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
+                    queryParameterCurrentRef.current = []
+                    let args = SelfQuery_Def.parameters.reduce((accumulator, currentValue, currentIndex) => {
+                      accumulator[currentValue.name] = queryParameterRef.current[currentIndex].current.value
+                      queryParameterCurrentRef.current.push(accumulator[currentValue.name])
+                      return accumulator
+                    }, {})
+                    console.log(args)
+                    let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&")
+                    setWs(new WebSocket(NornFinanceAPIUrl + query_string))
+                  }}>{'Query Now'}</Button>
+                </MuiThemeProvider>
+              </Grid>
+            </Grid>
           </div>
         </div>
         <div className={optionsStyle.table}>
