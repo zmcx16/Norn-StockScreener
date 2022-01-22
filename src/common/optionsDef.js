@@ -35,6 +35,12 @@ export const SelfQuery_Def = {
       gridxs: 1,
     },
     {
+      name: "min_volume",
+      display_name: "Min Volume",
+      val: "10",
+      gridxs: 1,
+    },
+    {
       name: "last_trade_days",
       display_name: "Last Trade Days",
       val: "3",
@@ -56,7 +62,7 @@ export const SelfQuery_Def = {
       name: "proxy",
       display_name: "Proxy",
       val: "",
-      gridxs: 2,
+      gridxs: 1,
     },
   ]
 }

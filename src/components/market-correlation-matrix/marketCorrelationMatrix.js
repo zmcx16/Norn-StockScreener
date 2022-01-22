@@ -125,7 +125,7 @@ p-value: ${data.pValue}
           getMarketData(data.rowSymbolSrc.src, data.rowSymbolSrc.symbol, fetch2),
         ]).then((allResponses) => {
           // console.log(allResponses)
-          if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {
+          if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
             
             const overDateInterval = (d1, d2, days) => {
               return Date.parse(d1) - Date.parse(d2) > days * 24 * 60 * 60 * 1000

@@ -164,7 +164,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
                 getData("/norn-data/google-trend/data/" + params.row['symbol'] + ".json", fetchGoogleTrendData),
               ]).then((allResponses) => {
                 // console.log(allResponses)
-                if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {
+                if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
                   
                   // get all google trend date
                   let allDateByKey = {}
@@ -223,7 +223,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
       getData('/norn-data/google-trend/stat.json', fetchGoogleTrendData),
     ]).then((allResponses) => {
       // console.log(allResponses)
-      if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {      
+      if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {      
         let output = allResponses[1].map((value, index) => {
           let stockInfo = allResponses[0][value['symbol']]
           const getRatio = (val, avg) => {

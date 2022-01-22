@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import InfoIcon from '@material-ui/icons/Info'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
 import { DataGrid } from '@material-ui/data-grid'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -68,7 +69,8 @@ const Options = ({loadingAnimeRef}) => {
     Strike: { hide: false, text: 'Strike' },
     LastPrice: { hide: false, text: 'Last Price' },
     AvgEWMA: { hide: false, text: 'Valuation (Avg)' },
-    PriceBias: { hide: false, text: 'Bias' },
+    PriceBias: { hide: false, text: 'Bias (Price)' },
+    VolBias: { hide: false, text: 'Bias (Vol.)' },
     LastTradeDate: { hide: false, text: 'Last Trade Date' },
     Bid: { hide: false, text: 'Bid' },
     Ask: { hide: false, text: 'Ask' },
@@ -206,7 +208,7 @@ const Options = ({loadingAnimeRef}) => {
       GetDataByFetchObj('/norn-data/options/' + file_name + '.json', fetchOptionsData),
     ]).then((allResponses) => {
       console.log(allResponses)
-      if (allResponses.length == 1 && allResponses[0] !== null) {
+      if (allResponses.length === 1 && allResponses[0] !== null) {
         renderTable(allResponses[0])
       } else {
         console.error("renderOptionsData some data failed")
@@ -323,19 +325,21 @@ const Options = ({loadingAnimeRef}) => {
             <Grid container spacing={2} justifyContent="flex-end">
               <ParameterNodesField queryParameterRef={queryParameterRef} queryParameterCurrentRef={queryParameterCurrentRef}/>
               <Grid item xs={2} >
-                <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
-                  <Button className={optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
-                    queryParameterCurrentRef.current = []
-                    let args = SelfQuery_Def.parameters.reduce((accumulator, currentValue, currentIndex) => {
-                      accumulator[currentValue.name] = queryParameterRef.current[currentIndex].current.value
-                      queryParameterCurrentRef.current.push(accumulator[currentValue.name])
-                      return accumulator
-                    }, {})
-                    console.log(args)
-                    let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&")
-                    setWs(new WebSocket(NornFinanceAPIUrl + query_string))
-                  }}>{'Query Now'}</Button>
-                </MuiThemeProvider>
+                <Box display="flex" justifyContent="flex-end">
+                  <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
+                    <Button className={optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
+                      queryParameterCurrentRef.current = []
+                      let args = SelfQuery_Def.parameters.reduce((accumulator, currentValue, currentIndex) => {
+                        accumulator[currentValue.name] = queryParameterRef.current[currentIndex].current.value
+                        queryParameterCurrentRef.current.push(accumulator[currentValue.name])
+                        return accumulator
+                      }, {})
+                      console.log(args)
+                      let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&")
+                      setWs(new WebSocket(NornFinanceAPIUrl + query_string))
+                    }}>{'Query Now'}</Button>
+                  </MuiThemeProvider>
+                </Box>
               </Grid>
             </Grid>
           </div>

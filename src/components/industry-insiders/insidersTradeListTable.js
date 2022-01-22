@@ -106,7 +106,7 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
             getData('/norn-data/insiders/data/' + industry + '.json', fetchInsidersData),
         ]).then((allResponses) => {
             // console.log(allResponses)
-            if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {
+            if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
                 let output = allResponses[1].map((value, index) => {
                     let stockInfo = allResponses[0][value['Symbol']]
                     let o = {

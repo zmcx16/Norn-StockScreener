@@ -100,7 +100,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
       getData('/norn-data/gurus/gurus-table.json', fetchGurusData),
     ]).then((allResponses) => {
       console.log(allResponses)
-      if (allResponses.length == 2 && allResponses[0] !== null && allResponses[1] !== null) {
+      if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
         let gurus_data = allResponses[1]["data"]
         let manager_list = allResponses[1]["manager_list"]
         let output = Object.keys(gurus_data).map((symbol, index) => {
