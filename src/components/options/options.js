@@ -92,7 +92,7 @@ const Options = ({loadingAnimeRef}) => {
       {
         field: 'expiryDate',
         headerName: tableColList.ExpiryDate.text,
-        width: 130,
+        width: 125,
         type: 'date',
         renderCell: (params) => (
           <span>{moment(params.row['expiryDate']).format('YYYY-MM-DD')}</span>
@@ -101,12 +101,12 @@ const Options = ({loadingAnimeRef}) => {
       },
       PureFieldWithValueCheck("strike", tableColList.Strike.text, 120, 2, "strike" in hideColState ? hideColState["strike"] : tableColList['Strike'].hide),
       PureFieldWithValueCheck("lastPrice", tableColList.LastPrice.text, 140, 2, "lastPrice" in hideColState ? hideColState["lastPrice"] : tableColList['LastPrice'].hide),
-      PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 140, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
-      PureFieldWithValueCheck("priceBias", tableColList.PriceBias.text, 110, 2, "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide),
+      PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 150, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
+      PureFieldWithValueCheck("priceBias", tableColList.PriceBias.text, 120, 2, "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide),
       {
         field: 'lastTradeDate',
         headerName: tableColList.LastTradeDate.text,
-        width: 140,
+        width: 145,
         type: 'date',
         renderCell: (params) => (
           <span>{moment(params.row['lastTradeDate']).format('YYYY-MM-DD')}</span>
@@ -117,8 +117,8 @@ const Options = ({loadingAnimeRef}) => {
       PureFieldWithValueCheck("ask", tableColList.Ask.text, 105, 2, "ask" in hideColState ? hideColState["ask"] : tableColList['Ask'].hide),
       ColorPosGreenNegRedField("change", tableColList.Change.text, 130, "change" in hideColState ? hideColState["change"] : tableColList['Change'].hide, 500),
       ColorPercentField("percentChange", tableColList.PercentChange.text, 140, 2, "percentChange" in hideColState ? hideColState["percentChange"] : tableColList['PercentChange'].hide, 500),
-      PureFieldWithValueCheck("volume", tableColList.Volume.text, 140, 2, "volume" in hideColState ? hideColState["volume"] : tableColList['Volume'].hide),
-      PureFieldWithValueCheck("openInterest", tableColList.OpenInterest.text, 140, 2, "openInterest" in hideColState ? hideColState["openInterest"] : tableColList['OpenInterest'].hide),
+      PureFieldWithValueCheck("volume", tableColList.Volume.text, 140, 0, "volume" in hideColState ? hideColState["volume"] : tableColList['Volume'].hide),
+      PureFieldWithValueCheck("openInterest", tableColList.OpenInterest.text, 140, 0, "openInterest" in hideColState ? hideColState["openInterest"] : tableColList['OpenInterest'].hide),
       PercentField("impliedVolatility", tableColList.ImpliedVolatility.text, 140, "impliedVolatility" in hideColState ? hideColState["impliedVolatility"] : tableColList['ImpliedVolatility'].hide),
       PercentField("EWMAHisVol", tableColList.EWMAHisVol.text, 140, "EWMAHisVol" in hideColState ? hideColState["EWMAHisVol"] : tableColList['EWMAHisVol'].hide),
       PureFieldWithValueCheck("BSM_EWMAHisVol", tableColList.BSM_EWMAHisVol.text, 140, 2, "BSM_EWMAHisVol" in hideColState ? hideColState["BSM_EWMAHisVol"] : tableColList['BSM_EWMAHisVol'].hide),
