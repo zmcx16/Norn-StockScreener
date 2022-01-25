@@ -46,6 +46,7 @@ jobs:
     - name: Add norn-data and push it
       run: |-
         git config --global user.name "zmcx16-bot"
+        git pull
         git reset --soft HEAD~1
         git add ./norn-data/\* && git commit -m "updated website & norn-data"
         git push -f
