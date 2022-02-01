@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { DataGrid } from '@material-ui/data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 import useFetch from 'use-http'
 import moment from 'moment'
 

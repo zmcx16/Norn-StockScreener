@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, createRef } from 'react'
-import TextField from '@material-ui/core/TextField'
-import Link from '@material-ui/core/Link'
-import Tooltip from '@material-ui/core/Tooltip'
+import TextField from '@mui/material/TextField'
+import Link from '@mui/material/Link'
+import Tooltip from '@mui/material/Tooltip'
 import shortid from 'shortid'
 
 import { MFDataTemplate, MFNote, MFUrl } from '../../common/mf'

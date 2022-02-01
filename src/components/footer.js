@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from '@material-ui/core/Link'
+import Link from '@mui/material/Link'
 
 import { NornStockScreenerUrl, NornStockScreenerMobileUrl, zmcx16ProjectUrl, zmcx16BlogUrl } from '../common/common'
 import { NornFinanceAPIServerGithub } from '../common/optionsDef'

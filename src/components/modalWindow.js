@@ -1,28 +1,21 @@
 import React, { useState } from 'react'
+import Box from '@mui/material/Box'
+import Fade from '@mui/material/Fade'
+import Backdrop from '@mui/material/Backdrop'
+import Modal from '@mui/material/Modal'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Fade from '@material-ui/core/Fade'
-import Backdrop from '@material-ui/core/Backdrop'
-import Modal from '@material-ui/core/Modal'
-
-const useModalStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}))
-
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
 
 const ModalWindow = ({ modalWindowRef }) => {
-
-  const classes = useModalStyles()
 
   const [openModal, setOpenModal] = useState(false)
   const [modalNode, setModalNode] = useState(<div></div>)
@@ -30,9 +23,9 @@ const ModalWindow = ({ modalWindowRef }) => {
   modalWindowRef.current = {
     popModalWindow: (content) => {
       setModalNode(
-        <div className={classes.paper}>
+        <Box sx={style}>
           {content}
-        </div>
+        </Box>
       )
       setOpenModal(true)
     },
@@ -42,7 +35,7 @@ const ModalWindow = ({ modalWindowRef }) => {
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
-      className={classes.modal}
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       open={openModal}
       onClose={() => { setOpenModal(false) }}
       closeAfterTransition

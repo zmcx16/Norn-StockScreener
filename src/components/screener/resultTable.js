@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
-import { DataGrid } from '@material-ui/data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 import { isMobile } from 'react-device-detect'
 
 import { convertKMBT } from '../../common/utils'

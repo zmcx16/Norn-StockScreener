@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import PlaceIcon from '@material-ui/icons/Place'
-import IconButton from '@material-ui/core/IconButton'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import PlaceIcon from '@mui/icons-material/Place'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Typography from '@mui/material/Typography'
 import { isMobile } from 'react-device-detect'
 
 import { IOSSwitch } from './iOSSwitch'
+import { NoMaxWidthTooltip } from '../common/reactUtils'
 import { kanbanNote, kanbanText, pageRouterTable } from '../common/common'
 import { getUrl } from '../common/utils'
 
 import commonStyle from './common.module.scss'
 import headerStyle from './header.module.scss'
 
-const useStylesTooltip = makeStyles((theme) => ({
-  noMaxWidth: {
-    maxWidth: 'none',
-  },
-}))
-
 const Header = ({ isDarkMode, setIsDarkMode }) => {
 
   const [pageRouterMenu, setPageRouterMenu] = useState(null)
   const openPageRouterMenu = Boolean(pageRouterMenu)
-
-  const tooltipStyle = useStylesTooltip()
 
   const imageData = useStaticQuery(graphql`
     query {
@@ -75,9 +66,9 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
           <Img fixed={imageData.images.childImageSharp.fixed} fadeIn={false} className={headerStyle.kanbanimg} />
           <div></div>
           <div className={headerStyle.kanbanTextBlock}>
-            <Tooltip arrow classes={{ tooltip: tooltipStyle.noMaxWidth }} title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>{kanbanNote}</span>} >
+            <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{kanbanNote}</span>} >
               <Typography style={{ fontSize: '22px', paddingTop: '5px' }} className={commonStyle.comicFont}>{headerText}</Typography>
-            </Tooltip>
+            </NoMaxWidthTooltip>
             {<Typography style={{ fontSize:'15px', position: 'absolute', paddingTop: '10px' }} >{kanbanText}</Typography>}
           </div>
           <div>

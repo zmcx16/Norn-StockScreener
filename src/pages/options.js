@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { StylesProvider } from '@material-ui/core/styles'
+import { StylesProvider } from '@mui/styles'
 
 import Layout from '../components/layout'
 import Options from '../components/options/options'

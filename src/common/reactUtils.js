@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react'
-import Link from '@material-ui/core/Link'
+import { styled } from '@mui/material/styles'
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import Link from '@mui/material/Link'
 
 import { convertKMBT } from './utils'
 
@@ -121,3 +123,11 @@ export const GetDataByFetchObj = async (url, fetchObj) => {
     return null
   }
 }
+
+export const NoMaxWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 'none',
+  },
+})

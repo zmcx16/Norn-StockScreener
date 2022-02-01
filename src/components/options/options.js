@@ -1,26 +1,26 @@
 import React, { useState, useEffect, useRef, createRef } from 'react'
-import SearchIcon from '@material-ui/icons/Search'
-import Tooltip from '@material-ui/core/Tooltip'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
-import { DataGrid } from '@material-ui/data-grid'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import Typography from '@material-ui/core/Typography'
-import Select from '@material-ui/core/Select'
-import { blue } from '@material-ui/core/colors'
-import { MuiThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles'
+import SearchIcon from '@mui/icons-material/Search'
+import IconButton from '@mui/material/IconButton'
+import InfoIcon from '@mui/icons-material/Info'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import { DataGrid } from '@mui/x-data-grid'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
+import Typography from '@mui/material/Typography'
+import Select from '@mui/material/Select'
+import { blue } from '@mui/material/colors'
+import { createTheme } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/styles'
 import shortid from 'shortid'
 import useFetch from 'use-http'
 import moment from 'moment'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField } from '../../common/reactUtils'
+import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField, NoMaxWidthTooltip } from '../../common/reactUtils'
 import { Options_Def, SelfQuery_Def, NornFinanceAPIUrl, SelfQueryNote, NornFinanceAPIServerGithub } from '../../common/optionsDef'
 
 import commonStyle from '../common.module.scss'
@@ -47,15 +47,7 @@ const ParameterNodesField = ({ queryParameterRef, queryParameterCurrentRef }) =>
   })
 }
 
-const useStylesTooltip = makeStyles((theme) => ({
-  noMaxWidth: {
-    maxWidth: 'none',
-  },
-}))
-
 const Options = ({loadingAnimeRef}) => {
-
-  const tooltipStyle = useStylesTooltip()
 
   const modalWindowRef = useRef({
     popModalWindow: null,
@@ -314,11 +306,11 @@ const Options = ({loadingAnimeRef}) => {
           <div className={optionsStyle.parameterTitle}>
             <Typography variant="h6" gutterBottom component="div">
               {'Query Parameters'}
-              <Tooltip arrow classes={{ tooltip: tooltipStyle.noMaxWidth }} title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>{SelfQueryNote}</span>} >
+              <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{SelfQueryNote}</span>} >
                 <IconButton onClick={() => window.open(NornFinanceAPIServerGithub, "_blank")}>
                   <InfoIcon color="action"/>
                 </IconButton>
-              </Tooltip>
+              </NoMaxWidthTooltip>
             </Typography>
           </div>
           <div className={optionsStyle.parameterBlock}>
@@ -326,7 +318,7 @@ const Options = ({loadingAnimeRef}) => {
               <ParameterNodesField queryParameterRef={queryParameterRef} queryParameterCurrentRef={queryParameterCurrentRef}/>
               <Grid item xs={2} >
                 <Box display="flex" justifyContent="flex-end">
-                  <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
+                  <ThemeProvider theme={createTheme({ palette: { primary: blue } })}>
                     <Button className={optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
                       queryParameterCurrentRef.current = []
                       let args = SelfQuery_Def.parameters.reduce((accumulator, currentValue, currentIndex) => {
@@ -338,7 +330,7 @@ const Options = ({loadingAnimeRef}) => {
                       let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&")
                       setWs(new WebSocket(NornFinanceAPIUrl + query_string))
                     }}>{'Query Now'}</Button>
-                  </MuiThemeProvider>
+                  </ThemeProvider>
                 </Box>
               </Grid>
             </Grid>
@@ -349,14 +341,32 @@ const Options = ({loadingAnimeRef}) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)
-          }} />
+          }} initialState={{
+            filter: {
+              filterModel: {
+                items: [{ columnField: 'lastPrice', operatorValue: '>', value: 0.1 }],
+              },
+            },
+            sorting: {
+              sortModel: [{ field: 'priceBias', sort: 'desc' }],
+            },
+          }}/>
         </div>
         <div className={optionsStyle.table}>
           <DataGrid rows={putsData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)
-          }} />
+          }} initialState={{
+            filter: {
+              filterModel: {
+                items: [{ columnField: 'lastPrice', operatorValue: '>', value: 0.1 }],
+              },
+            },
+            sorting: {
+              sortModel: [{ field: 'priceBias', sort: 'desc' }],
+            },
+          }}/>
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

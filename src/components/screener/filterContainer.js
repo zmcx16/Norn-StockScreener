@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, createRef } from 'react'
-import Grid from '@material-ui/core/Grid'
-import { blue } from '@material-ui/core/colors'
-import Button from '@material-ui/core/Button'
-import SearchIcon from '@material-ui/icons/Search'
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles'
+import Grid from '@mui/material/Grid'
+import { blue } from '@mui/material/colors'
+import Button from '@mui/material/Button'
+import SearchIcon from '@mui/icons-material/Search'
+import { createTheme } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/styles'
 
 import { isMobile } from 'react-device-detect'
 import shortid from "shortid"
@@ -210,7 +211,7 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
         <FilterSectorsIndustries filterSectorsIndustriesRef={filterSectorsIndustriesRef} />
         <NornMinehunter nornMinehunterRef={nornMinehunterRef}/>
         <MultiFactor multiFactorRef={multiFactorRef} />
-        <MuiThemeProvider theme={customTheme}>
+        <ThemeProvider theme={customTheme}>
           <div className={filterContainerStyle.cmdPanel}>
             <div></div>
             <Button variant="contained" component="label" style={customTheme.palette.import}>Import
@@ -223,13 +224,13 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
             <div></div>
             <Button variant="contained" style={customTheme.palette.export} onClick={exportSetting}>Export</Button>
             <div></div>
-            <MuiThemeProvider theme={createTheme({ palette: { primary: blue } })}>
+            <ThemeProvider theme={createTheme({ palette: { primary: blue } })}>
               <Button className={filterContainerStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
                 queryStocksRef.current.doQuery()
               }}>{isMobile ? 'Query' : 'Query Now'}</Button>
-            </MuiThemeProvider>
+            </ThemeProvider>
           </div>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />
       <QueryStocks queryStocksRef={queryStocksRef} loadingAnimeRef={loadingAnimeRef} filterCriteriaListRef={filterCriteriaListRef} ResultTableRef={ResultTableRef} nornMinehunterRef={nornMinehunterRef} multiFactorRef={multiFactorRef} filterSectorsIndustriesRef={filterSectorsIndustriesRef} modalWindowRef={modalWindowRef}/>
