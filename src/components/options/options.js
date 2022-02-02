@@ -17,6 +17,7 @@ import { ThemeProvider } from '@mui/styles'
 import shortid from 'shortid'
 import useFetch from 'use-http'
 import moment from 'moment'
+import { isMobile } from 'react-device-detect'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
@@ -28,10 +29,10 @@ import optionsStyle from './options.module.scss'
 
 
 // query parameter
-const genParameterField = (inputRef, name, value, display_name, gridxs) => {
+const genParameterField = (inputRef, name, value, display_name, gridsm) => {
   // add key to force re-render component
   return (
-    <Grid item xs={gridxs}>
+    <Grid item md={gridsm} xs={12}>
       <form noValidate autoComplete="off" key={shortid.generate()}>
         <TextField id={name} className={optionsStyle.valueText} label={display_name} variant="outlined" defaultValue={value} size="small" inputRef={inputRef} />
       </form>
@@ -42,7 +43,7 @@ const genParameterField = (inputRef, name, value, display_name, gridxs) => {
 const ParameterNodesField = ({ queryParameterRef, queryParameterCurrentRef }) => {
   return SelfQuery_Def.parameters.map((value, index) => {
     return (
-      genParameterField(queryParameterRef.current[index], value.name, queryParameterCurrentRef.current === null ? value.val : queryParameterCurrentRef.current[index], value.display_name, value.gridxs)
+      genParameterField(queryParameterRef.current[index], value.name, queryParameterCurrentRef.current === null ? value.val : queryParameterCurrentRef.current[index], value.display_name, value.gridsm)
     )
   })
 }
@@ -314,12 +315,12 @@ const Options = ({loadingAnimeRef}) => {
             </Typography>
           </div>
           <div className={optionsStyle.parameterBlock}>
-            <Grid container spacing={2} justifyContent="flex-end">
+            <Grid container spacing={2}>
               <ParameterNodesField queryParameterRef={queryParameterRef} queryParameterCurrentRef={queryParameterCurrentRef}/>
-              <Grid item xs={2} >
+              <Grid item md={2} xs={12} >
                 <Box display="flex" justifyContent="flex-end">
                   <ThemeProvider theme={createTheme({ palette: { primary: blue } })}>
-                    <Button className={optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
+                    <Button className={isMobile ? optionsStyle.queryBtnMobile : optionsStyle.queryBtn} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
                       queryParameterCurrentRef.current = []
                       let args = SelfQuery_Def.parameters.reduce((accumulator, currentValue, currentIndex) => {
                         accumulator[currentValue.name] = queryParameterRef.current[currentIndex].current.value
