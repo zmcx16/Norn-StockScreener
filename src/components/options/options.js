@@ -32,8 +32,8 @@ import optionsStyle from './options.module.scss'
 const genParameterField = (inputRef, name, value, display_name, gridsm) => {
   // add key to force re-render component
   return (
-    <Grid item md={gridsm} xs={12}>
-      <form noValidate autoComplete="off" key={shortid.generate()}>
+    <Grid item md={gridsm} xs={12} key={shortid.generate()}>
+      <form noValidate autoComplete="off">
         <TextField id={name} className={optionsStyle.valueText} label={display_name} variant="outlined" defaultValue={value} size="small" inputRef={inputRef} />
       </form>
     </Grid>
@@ -64,6 +64,11 @@ const Options = ({loadingAnimeRef}) => {
     AvgEWMA: { hide: false, text: 'Valuation (Avg)' },
     PriceBias: { hide: false, text: 'Bias (Price)' },
     VolBias: { hide: false, text: 'Bias (Vol.)' },
+    Delta: { hide: false, text: 'δ (Delta)' },
+    Gamma: { hide: false, text: 'γ (Gamma)' },
+    Rho: { hide: false, text: 'ρ (Rho)' },
+    Theta: { hide: false, text: 'θ (Theta)' },
+    Vega: { hide: false, text: 'ν (Vega)' },
     LastTradeDate: { hide: false, text: 'Last Trade Date' },
     Bid: { hide: false, text: 'Bid' },
     Ask: { hide: false, text: 'Ask' },
@@ -96,6 +101,11 @@ const Options = ({loadingAnimeRef}) => {
       PureFieldWithValueCheck("lastPrice", tableColList.LastPrice.text, 140, 2, "lastPrice" in hideColState ? hideColState["lastPrice"] : tableColList['LastPrice'].hide),
       PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 150, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
       PureFieldWithValueCheck("priceBias", tableColList.PriceBias.text, 120, 2, "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide),
+      PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
+      PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
+      PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),
+      PureFieldWithValueCheck("theta", tableColList.Theta.text, 90, 2, "theta" in hideColState ? hideColState["theta"] : tableColList['Theta'].hide),
+      PureFieldWithValueCheck("vega", tableColList.Vega.text, 90, 2, "vega" in hideColState ? hideColState["vega"] : tableColList['Vega'].hide),
       {
         field: 'lastTradeDate',
         headerName: tableColList.LastTradeDate.text,
@@ -155,6 +165,11 @@ const Options = ({loadingAnimeRef}) => {
               BSM_EWMAHisVol: v["BSM_EWMAHisVol"] !== undefined && v["BSM_EWMAHisVol"] !== null && v["BSM_EWMAHisVol"] > 0 ? v["BSM_EWMAHisVol"] : -Number.MAX_VALUE,
               MC_EWMAHisVol: v["MC_EWMAHisVol"] !== undefined && v["MC_EWMAHisVol"] !== null && v["MC_EWMAHisVol"] > 0 ? v["MC_EWMAHisVol"] : -Number.MAX_VALUE,
               BT_EWMAHisVol: v["BT_EWMAHisVol"] !== undefined && v["BT_EWMAHisVol"] !== null && v["BT_EWMAHisVol"] > 0 ? v["BT_EWMAHisVol"] : -Number.MAX_VALUE,
+              delta: v["delta"] !== undefined && v["delta"] !== null ? v["delta"] : -Number.MAX_VALUE,
+              gamma: v["gamma"] !== undefined && v["gamma"] !== null ? v["gamma"] : -Number.MAX_VALUE,
+              rho: v["rho"] !== undefined && v["rho"] !== null ? v["rho"] : -Number.MAX_VALUE,
+              theta: v["theta"] !== undefined && v["theta"] !== null ? v["theta"] : -Number.MAX_VALUE,
+              vega: v["vega"] !== undefined && v["vega"] !== null ? v["vega"] : -Number.MAX_VALUE,
             }
             let cnt = 0
             let sum = 0
