@@ -21,6 +21,8 @@ import { isMobile } from 'react-device-detect'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
+
+import { getRedLevel, getBlueLevel } from '../../common/utils'
 import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField, NoMaxWidthTooltip } from '../../common/reactUtils'
 import { Options_Def, SelfQuery_Def, NornFinanceAPIUrl, SelfQueryNote, NornFinanceAPIServerGithub } from '../../common/optionsDef'
 
@@ -100,7 +102,18 @@ const Options = ({loadingAnimeRef}) => {
       PureFieldWithValueCheck("strike", tableColList.Strike.text, 120, 2, "strike" in hideColState ? hideColState["strike"] : tableColList['Strike'].hide),
       PureFieldWithValueCheck("lastPrice", tableColList.LastPrice.text, 140, 2, "lastPrice" in hideColState ? hideColState["lastPrice"] : tableColList['LastPrice'].hide),
       PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 150, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
-      PureFieldWithValueCheck("priceBias", tableColList.PriceBias.text, 120, 2, "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide),
+      {
+        field: "priceBias",
+        headerName: tableColList.PriceBias.text,
+        width: 120,
+        type: 'number',
+        renderCell: (params) => (
+          params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
+            <span>-</span> :
+            <span style={{ fontWeight: 500, color: params.row['lastPrice'] > params.row['avgEWMA'] ? getRedLevel(params.value) : params.row['lastPrice'] < params.row['avgEWMA'] ? getBlueLevel(params.value) : '' }}>{params.value.toFixed(2)}</span>
+        ),
+        hide: "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide
+      },
       PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
       PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
       PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),

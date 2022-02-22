@@ -47,6 +47,44 @@ export const getFromEndVal = (input) =>{
   }
 }
 
+
+// ref: https://www.colorhexa.com/ff0000
+export function getRedLevel (val){
+  if (val >= 6.0 / 7.0) {
+    return '#b30000'
+  } else if (val >= 5.0 / 7.0) {
+    return '#cc0000'
+  } else if (val >= 4.0 / 7.0) {
+    return '#e60000'
+  } else if (val >= 3.0 / 7.0) {
+    return '#ff0000'
+  } else if (val >= 2.0 / 7.0) {
+    return '#ff1a1a'
+  } else if (val >= 1.0 / 7.0) {
+    return '#ff3333'
+  } else {
+    return '#ff4d4d'
+  } 
+}
+
+export function getBlueLevel (val){
+  if (val >= 6.0 / 7.0) {
+    return '#0000b3'
+  } else if (val >= 5.0 / 7.0) {
+    return '#0000cc'
+  } else if (val >= 4.0 / 7.0) {
+    return '#0000e6'
+  } else if (val >= 3.0 / 7.0) {
+    return '#0000ff'
+  } else if (val >= 2.0 / 7.0) {
+    return '#1a1aff'
+  } else if (val >= 1.0 / 7.0) {
+    return '#3333ff'
+  } else {
+    return '#4d4dff'
+  } 
+}
+
 function convertFromSelect2Input (input){
   // $50 mln -> 50
   // $50 bln -> 50000
