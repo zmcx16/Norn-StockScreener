@@ -66,6 +66,8 @@ const Options = ({loadingAnimeRef}) => {
     AvgEWMA: { hide: false, text: 'Valuation (Avg)' },
     PriceBias: { hide: false, text: 'Bias (Price)' },
     VolBias: { hide: false, text: 'Bias (Vol.)' },
+    PriceStrikeRatio: { hide: false, text: 'P/S (%)' },
+    DistanceRatio: { hide: false, text: 'Dist (%)' },
     Delta: { hide: false, text: 'δ (Delta)' },
     Gamma: { hide: false, text: 'γ (Gamma)' },
     Rho: { hide: false, text: 'ρ (Rho)' },
@@ -114,6 +116,8 @@ const Options = ({loadingAnimeRef}) => {
         ),
         hide: "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide
       },
+      PercentField("priceStrikeRatio", tableColList.PriceStrikeRatio.text, 90, "priceStrikeRatio" in hideColState ? hideColState["priceStrikeRatio"] : tableColList['PriceStrikeRatio'].hide),
+      PercentField("distanceRatio", tableColList.DistanceRatio.text, 90, "distanceRatio" in hideColState ? hideColState["distanceRatio"] : tableColList['DistanceRatio'].hide),
       PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
       PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
       PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),
@@ -199,7 +203,27 @@ const Options = ({loadingAnimeRef}) => {
               sum += o.BT_EWMAHisVol
             }
             o["avgEWMA"] = sum / cnt
-            o["priceBias"] = Math.abs(o.lastPrice - o["avgEWMA"]) / o.lastPrice
+
+            o["priceBias"] = -Number.MAX_VALUE
+            if (o.lastPrice != -Number.MAX_VALUE) {
+              o["priceBias"] = Math.abs(o.lastPrice - o["avgEWMA"]) / o.lastPrice
+            }
+
+            o["priceStrikeRatio"] = -Number.MAX_VALUE
+            if (o.strike != -Number.MAX_VALUE && o.lastPrice != -Number.MAX_VALUE) {
+              o["priceStrikeRatio"] = o.lastPrice / o.strike
+            }
+
+            o["priceStrikeRatio"] = -Number.MAX_VALUE
+            if (o.strike != -Number.MAX_VALUE && o.lastPrice != -Number.MAX_VALUE) {
+              o["priceStrikeRatio"] = o.lastPrice / o.strike
+            }
+
+            o["distanceRatio"] = -Number.MAX_VALUE
+            if (o.strike != -Number.MAX_VALUE && o.stockPrice != -Number.MAX_VALUE) {
+              o["distanceRatio"] = Math.abs(o.stockPrice - o.strike) / o.stockPrice
+            }
+
             return o
           })
           return output
