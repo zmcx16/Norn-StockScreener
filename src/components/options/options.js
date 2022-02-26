@@ -63,11 +63,11 @@ const Options = ({loadingAnimeRef}) => {
     ExpiryDate: { hide: false, text: 'Expiry' },
     Strike: { hide: false, text: 'Strike' },
     LastPrice: { hide: false, text: 'Last Price' },
-    AvgEWMA: { hide: false, text: 'Valuation (Avg)' },
-    PriceBias: { hide: false, text: 'Bias (Price)' },
+    AvgEWMA: { hide: false, text: 'Valuation (Avg)'},
+    PriceBias: { hide: false, text: 'Bias (Price)', description: '| Last Price - Valuation (Avg) | / Last Price' },
     VolBias: { hide: false, text: 'Bias (Vol.)' },
-    PriceStrikeRatio: { hide: false, text: 'P/S (%)' },
-    DistanceRatio: { hide: false, text: 'Dist (%)' },
+    PriceStrikeRatio: { hide: false, text: 'P/S (%)', description: 'Last Price / Strike' },
+    DistanceRatio: { hide: false, text: 'Dist (%)', description: '| Price (Stock) - Strike | / Strike' },
     Delta: { hide: false, text: 'δ (Delta)' },
     Gamma: { hide: false, text: 'γ (Gamma)' },
     Rho: { hide: false, text: 'ρ (Rho)' },
@@ -109,6 +109,7 @@ const Options = ({loadingAnimeRef}) => {
         headerName: tableColList.PriceBias.text,
         width: 120,
         type: 'number',
+        description: tableColList.PriceBias.description,
         renderCell: (params) => (
           params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
             <span>-</span> :
@@ -116,8 +117,8 @@ const Options = ({loadingAnimeRef}) => {
         ),
         hide: "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide
       },
-      PercentField("priceStrikeRatio", tableColList.PriceStrikeRatio.text, 90, "priceStrikeRatio" in hideColState ? hideColState["priceStrikeRatio"] : tableColList['PriceStrikeRatio'].hide),
-      PercentField("distanceRatio", tableColList.DistanceRatio.text, 90, "distanceRatio" in hideColState ? hideColState["distanceRatio"] : tableColList['DistanceRatio'].hide),
+      PercentField("priceStrikeRatio", tableColList.PriceStrikeRatio.text, 90, "priceStrikeRatio" in hideColState ? hideColState["priceStrikeRatio"] : tableColList['PriceStrikeRatio'].hide, tableColList.PriceStrikeRatio.description),
+      PercentField("distanceRatio", tableColList.DistanceRatio.text, 90, "distanceRatio" in hideColState ? hideColState["distanceRatio"] : tableColList['DistanceRatio'].hide, tableColList.DistanceRatio.description),
       PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
       PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
       PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),
