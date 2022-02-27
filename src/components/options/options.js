@@ -68,6 +68,10 @@ const Options = ({loadingAnimeRef}) => {
     VolBias: { hide: false, text: 'Bias (Vol.)' },
     PriceStrikeRatio: { hide: false, text: 'P/S (%)', description: 'Last Price / Strike' },
     DistanceRatio: { hide: false, text: 'Dist (%)', description: '| Price (Stock) - Strike | / Strike' },
+    KellyCriterion_buy: { hide: true, text: 'Kelly (Buy)', description: 'Kelly Criterion' },
+    KellyCriterion_sell: { hide: true, text: 'Kelly (Sell)', description: 'Kelly Criterion' },
+    KellyCriterion_MU_0_buy: { hide: false, text: 'Kelly (Buy, MU0)', description: 'Kelly Criterion, MU=0' },
+    KellyCriterion_MU_0_sell: { hide: false, text: 'Kelly (Sell, MU0)', description: 'Kelly Criterion, MU=0' },
     Delta: { hide: false, text: 'δ (Delta)' },
     Gamma: { hide: false, text: 'γ (Gamma)' },
     Rho: { hide: false, text: 'ρ (Rho)' },
@@ -89,21 +93,21 @@ const Options = ({loadingAnimeRef}) => {
 
   const genTableColTemplate = () => {
     return [
-      SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
-      PureFieldWithValueCheck("stockPrice", tableColList.StockPrice.text, 130, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide),
+      SymbolNameField('symbol', 'Symbol', 115, 'symbol' in hideColState ? hideColState['symbol'] : false),
+      PureFieldWithValueCheck("stockPrice", tableColList.StockPrice.text, 125, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide),
       {
         field: 'expiryDate',
         headerName: tableColList.ExpiryDate.text,
-        width: 125,
+        width: 120,
         type: 'date',
         renderCell: (params) => (
           <span>{moment(params.row['expiryDate']).format('YYYY-MM-DD')}</span>
         ),
         hide: 'expiryDate' in hideColState ? hideColState['expiryDate'] : tableColList['ExpiryDate'].hide
       },
-      PureFieldWithValueCheck("strike", tableColList.Strike.text, 120, 2, "strike" in hideColState ? hideColState["strike"] : tableColList['Strike'].hide),
+      PureFieldWithValueCheck("strike", tableColList.Strike.text, 110, 2, "strike" in hideColState ? hideColState["strike"] : tableColList['Strike'].hide),
       PureFieldWithValueCheck("lastPrice", tableColList.LastPrice.text, 140, 2, "lastPrice" in hideColState ? hideColState["lastPrice"] : tableColList['LastPrice'].hide),
-      PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 150, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
+      PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 140, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
       {
         field: "priceBias",
         headerName: tableColList.PriceBias.text,
@@ -119,6 +123,10 @@ const Options = ({loadingAnimeRef}) => {
       },
       PercentField("priceStrikeRatio", tableColList.PriceStrikeRatio.text, 90, "priceStrikeRatio" in hideColState ? hideColState["priceStrikeRatio"] : tableColList['PriceStrikeRatio'].hide, tableColList.PriceStrikeRatio.description),
       PercentField("distanceRatio", tableColList.DistanceRatio.text, 90, "distanceRatio" in hideColState ? hideColState["distanceRatio"] : tableColList['DistanceRatio'].hide, tableColList.DistanceRatio.description),
+      ColorPercentField("KellyCriterion_buy", tableColList.KellyCriterion_buy.text, 130, 2, "KellyCriterion_buy" in hideColState ? hideColState["KellyCriterion_buy"] : tableColList['KellyCriterion_buy'].hide, 500, tableColList.KellyCriterion_buy.description),
+      ColorPercentField("KellyCriterion_sell", tableColList.KellyCriterion_sell.text, 130, 2, "KellyCriterion_sell" in hideColState ? hideColState["KellyCriterion_sell"] : tableColList['KellyCriterion_sell'].hide, 500, tableColList.KellyCriterion_sell.description),
+      ColorPercentField("KellyCriterion_MU_0_buy", tableColList.KellyCriterion_MU_0_buy.text, 130, 2, "KellyCriterion_MU_0_buy" in hideColState ? hideColState["kellyCriterion_MU_0_buy"] : tableColList['KellyCriterion_MU_0_buy'].hide, 500, tableColList.KellyCriterion_MU_0_buy.description),
+      ColorPercentField("KellyCriterion_MU_0_sell", tableColList.KellyCriterion_MU_0_sell.text, 130, 2, "KellyCriterion_MU_0_sell" in hideColState ? hideColState["KellyCriterion_MU_0_sell"] : tableColList['KellyCriterion_MU_0_sell'].hide, 500, tableColList.KellyCriterion_MU_0_sell.description),
       PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
       PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
       PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),
@@ -188,6 +196,10 @@ const Options = ({loadingAnimeRef}) => {
               rho: v["rho"] !== undefined && v["rho"] !== null ? v["rho"] : -Number.MAX_VALUE,
               theta: v["theta"] !== undefined && v["theta"] !== null ? v["theta"] : -Number.MAX_VALUE,
               vega: v["vega"] !== undefined && v["vega"] !== null ? v["vega"] : -Number.MAX_VALUE,
+              KellyCriterion_buy: v["KellyCriterion_buy"] !== undefined && v["KellyCriterion_buy"] !== null ? v["KellyCriterion_buy"] : -Number.MAX_VALUE,
+              KellyCriterion_sell: v["KellyCriterion_sell"] !== undefined && v["KellyCriterion_sell"] !== null ? v["KellyCriterion_sell"] : -Number.MAX_VALUE,
+              KellyCriterion_MU_0_buy: v["KellyCriterion_MU_0_buy"] !== undefined && v["KellyCriterion_MU_0_buy"] !== null ? v["KellyCriterion_MU_0_buy"] : -Number.MAX_VALUE,
+              KellyCriterion_MU_0_sell: v["KellyCriterion_MU_0_sell"] !== undefined && v["KellyCriterion_MU_0_sell"] !== null ? v["KellyCriterion_MU_0_sell"] : -Number.MAX_VALUE,
             }
             let cnt = 0
             let sum = 0
