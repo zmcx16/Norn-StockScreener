@@ -8,16 +8,18 @@ import Img from 'gatsby-image'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Typography from '@mui/material/Typography'
 import { isMobile } from 'react-device-detect'
+import Cookies from 'universal-cookie'
 
 import { IOSSwitch } from './iOSSwitch'
 import { NoMaxWidthTooltip } from '../common/reactUtils'
-import { kanbanNote, kanbanText, pageRouterTable } from '../common/common'
+import { kanbanNote, kanbanText, pageRouterTable, COOKIE_KEY_DARK_MODE } from '../common/common'
 import { getUrl } from '../common/utils'
 
 import commonStyle from './common.module.scss'
 import headerStyle from './header.module.scss'
 
 const Header = ({ isDarkMode, setIsDarkMode }) => {
+  const cookies = new Cookies()
 
   const [pageRouterMenu, setPageRouterMenu] = useState(null)
   const openPageRouterMenu = Boolean(pageRouterMenu)
@@ -58,6 +60,12 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
   const [toggleMobileDisplay, setToggleMobileDisplay] = useState('none')
   const [kanbanBlockClass, setKanbanBlock] = useState(headerStyle.kanbanBlock)
   const [headerText, setHeaderText] = useState('')
+
+  const switchDarkModeFunc = () => {
+    let new_state = !isDarkMode
+    cookies.set(COOKIE_KEY_DARK_MODE, new_state?1:0, { path: '/' })
+    setIsDarkMode(new_state)
+  }
 
   return (
     <>
@@ -101,16 +109,14 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
               ))}
             </Menu>
           </div>
-          <div className={headerStyle.darkmodetoggle} style={{ background: isDarkMode ? 'black' : 'azure', paddingRight: '10px', display: toggleMobileDisplay }} onClick={
-            () => { setIsDarkMode(!isDarkMode) }
-          }>
+          <div className={headerStyle.darkmodetoggle} style={{ background: isDarkMode ? 'black' : 'azure', paddingRight: '10px', display: toggleMobileDisplay }} onClick={switchDarkModeFunc}>
             {toggleNode}
           </div>
           <FormControlLabel
             className={headerStyle.darkmodetoggle} style={{ background: isDarkMode ? 'black' : 'azure', display: toggleDisplay }}
             control={
               <IOSSwitch
-                onChange={() => { setIsDarkMode(!isDarkMode) }}
+                onChange={switchDarkModeFunc}
                 checked={isDarkMode}
               />
             }

@@ -15,6 +15,8 @@ export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
+export const COOKIE_KEY_DARK_MODE = 'dark_mode'
+
 export const rollingCorrelationWindowDays = 90
 
 export const pageRouterTable = [
