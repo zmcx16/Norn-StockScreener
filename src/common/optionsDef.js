@@ -67,9 +67,10 @@ export const SelfQuery_Def = {
   ]
 }
 
-export const NornFinanceAPIUrl = "wss://norn-finance.zmcx16.moe"
+export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
 
 export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
+
 
 export const SelfQueryNote = 
 `The Self-Query API server is a free & lightweight server. 
