@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
@@ -19,7 +19,13 @@ const Layout = ({ children} ) => {
     cookies.set(COOKIE_KEY_DARK_MODE, 0, { path: '/' })
   }
 
-  const [isDarkMode, setIsDarkMode] = useState(cookies.get(COOKIE_KEY_DARK_MODE)!=0)
+  const [isDarkMode, setIsDarkMode] = useState(true)
+
+  useEffect(() => {
+    setIsDarkMode(cookies.get(COOKIE_KEY_DARK_MODE)!=0)
+    return () => {
+    }
+  }, [])
 
   return (
     <ThemeProvider theme={createTheme({ 

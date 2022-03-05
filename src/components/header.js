@@ -43,6 +43,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
     isMobile ? setToggleMobileDisplay() : setToggleDisplay()
     isMobile ? setKanbanBlock(headerStyle.kanbanBlockMobile) : setKanbanBlock(headerStyle.kanbanBlock)
     isMobile ? setHeaderText('Norn-Screener') : setHeaderText('Norn-StockScreener')
+    setIsDarkMode(cookies.get(COOKIE_KEY_DARK_MODE)!=0)
     return () => {
       // componentWillUnmount is here!
     }
