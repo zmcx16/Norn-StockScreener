@@ -26,6 +26,7 @@ export const pageRouterTable = [
   { text: 'Options Valuation', path: '/options/' },
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
+  { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
 ]
 
@@ -41,3 +42,12 @@ That is all.
 `
 
 export const kanbanText = `Filter, shortlist stock from the market`
+
+export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
+export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
+
+export const QueryNote = 
+`The Self-Query API server is a free & lightweight server. 
+If you need a high-frequency query or occur query failed many times,
+try to build your server from Github source code as follow:
+` + NornFinanceAPIServerGithub

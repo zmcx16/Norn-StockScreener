@@ -23,9 +23,10 @@ import { isMobile } from 'react-device-detect'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 
+import { NornFinanceAPIServerDomain, QueryNote, NornFinanceAPIServerGithub } from '../../common/common'
 import { getRedLevel, getBlueLevel, workdayCount } from '../../common/utils'
 import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField, NoMaxWidthTooltip } from '../../common/reactUtils'
-import { Options_Def, SelfQuery_Def, NornFinanceAPIServerDomain, SelfQueryNote, NornFinanceAPIServerGithub } from '../../common/optionsDef'
+import { Options_Def, SelfQuery_Def } from '../../common/optionsDef'
 import MonteCarloChart from '../monteCarloChart'
 
 import commonStyle from '../common.module.scss'
@@ -190,7 +191,7 @@ const Options = ({loadingAnimeRef}) => {
                   allResponses[0]['mean'].forEach((mean_point, mean_index) => {
                     let d = {'Mean': parseInt(mean_point * 100, 10) / 100.0, 'Name': 'Day' + mean_index}
                     allResponses[0]['data'].forEach((data_points, data_i) => {
-                      d['Path-'+data_i] =  parseInt(data_points[mean_index] * 100, 10) / 100.0
+                      d['Path-'+String(data_i).padStart(2, '0')] =  parseInt(data_points[mean_index] * 100, 10) / 100.0
                     })
                     chartData.push(d)
                   })
@@ -433,7 +434,7 @@ const Options = ({loadingAnimeRef}) => {
           <div className={optionsStyle.parameterTitle}>
             <Typography variant="h6" gutterBottom component="div">
               {'Query Parameters'}
-              <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{SelfQueryNote}</span>} >
+              <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{QueryNote}</span>} >
                 <IconButton onClick={() => window.open(NornFinanceAPIServerGithub, "_blank")}>
                   <InfoIcon color="action"/>
                 </IconButton>
