@@ -223,7 +223,6 @@ const IndustryTable = ({ loadingAnimeRef }) => {
           data.MKPerfHalf = mkVal['Perf Half']
           data.MKPerfYear = mkVal['Perf Year']
           data.MKPerfYTD = mkVal['Perf YTD']
-          data.MKPerfYTD = mkVal['Perf YTD']
           data.MKDataUrl = mkVal['dataUrl']
           output.push(data)
         })
