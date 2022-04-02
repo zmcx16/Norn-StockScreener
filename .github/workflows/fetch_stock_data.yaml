@@ -3,7 +3,7 @@ name: FetchStockData
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '50 3 * * *'
+    - cron:  '50 1 * * *'
 
 jobs:
   build:
