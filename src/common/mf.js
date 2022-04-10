@@ -79,6 +79,11 @@ export const MFDataTemplate = {
       name: "E_Q/P_w",
       display_name: "E/P (Last Q) weight",
       val: "1.0"
+    },
+    {
+      name: "Range52W_w",
+      display_name: "52W Range weight",
+      val: "0.2"
     } 
   ]      
 }

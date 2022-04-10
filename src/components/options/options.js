@@ -80,6 +80,7 @@ const Options = ({loadingAnimeRef}) => {
     PriceBias: { hide: false, text: 'Bias (Price)', description: '| Last Price - Valuation (Avg) | / Last Price' },
     VolBias: { hide: false, text: 'Bias (Vol.)' },
     PriceStrikeRatio: { hide: false, text: 'P/S (%)', description: 'Last Price / Strike' },
+    PriceStrikeYearRatio: { hide: false, text: 'P/S (Y%)', description: 'Last Price / Strike (Year)' },
     DistanceRatio: { hide: false, text: 'Dist (%)', description: '| Price (Stock) - Strike | / Strike' },
     KellyCriterion_buy: { hide: true, text: 'Kelly (Buy)', description: 'Kelly Criterion' },
     KellyCriterion_sell: { hide: true, text: 'Kelly (Sell)', description: 'Kelly Criterion' },
@@ -136,6 +137,7 @@ const Options = ({loadingAnimeRef}) => {
         hide: "priceBias" in hideColState ? hideColState["priceBias"] : tableColList['PriceBias'].hide
       },
       PercentField("priceStrikeRatio", tableColList.PriceStrikeRatio.text, 90, "priceStrikeRatio" in hideColState ? hideColState["priceStrikeRatio"] : tableColList['PriceStrikeRatio'].hide, tableColList.PriceStrikeRatio.description),
+      PercentField("priceStrikeYearRatio", tableColList.PriceStrikeYearRatio.text, 90, "priceStrikeYearRatio" in hideColState ? hideColState["priceStrikeRatio"] : tableColList['PriceStrikeYearRatio'].hide, tableColList.PriceStrikeYearRatio.description),
       PercentField("distanceRatio", tableColList.DistanceRatio.text, 90, "distanceRatio" in hideColState ? hideColState["distanceRatio"] : tableColList['DistanceRatio'].hide, tableColList.DistanceRatio.description),
       ColorPercentField("KellyCriterion_buy", tableColList.KellyCriterion_buy.text, 130, 2, "KellyCriterion_buy" in hideColState ? hideColState["KellyCriterion_buy"] : tableColList['KellyCriterion_buy'].hide, 500, tableColList.KellyCriterion_buy.description),
       ColorPercentField("KellyCriterion_sell", tableColList.KellyCriterion_sell.text, 130, 2, "KellyCriterion_sell" in hideColState ? hideColState["KellyCriterion_sell"] : tableColList['KellyCriterion_sell'].hide, 500, tableColList.KellyCriterion_sell.description),
@@ -289,9 +291,10 @@ const Options = ({loadingAnimeRef}) => {
               o["priceStrikeRatio"] = o.lastPrice / o.strike
             }
 
-            o["priceStrikeRatio"] = -Number.MAX_VALUE
-            if (o.strike != -Number.MAX_VALUE && o.lastPrice != -Number.MAX_VALUE) {
-              o["priceStrikeRatio"] = o.lastPrice / o.strike
+            o["priceStrikeYearRatio"] = -Number.MAX_VALUE
+            if (o["priceStrikeRatio"] != -Number.MAX_VALUE) {
+              let day_diff = Math.floor((Date.parse(expiry_date) - Date.parse(new Date().toISOString().slice(0, 10))) / 86400000)
+              o["priceStrikeYearRatio"] = o["priceStrikeRatio"] * 365.0 / day_diff
             }
 
             o["distanceRatio"] = -Number.MAX_VALUE
