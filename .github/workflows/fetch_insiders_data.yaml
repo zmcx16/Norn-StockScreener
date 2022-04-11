@@ -3,7 +3,7 @@ name: FetchInsidersdData
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 6,23 * * *'
+    - cron:  '30 8,23 * * *'
 
 jobs:
   build:
