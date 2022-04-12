@@ -432,5 +432,21 @@ export const FCDataTemplate = [
     tooltip: "Maximum volume high from latest X day to Y day (1Y data)",
     args_items: ["Any", "< 7", "< 30", "< 90", "< 180", "30 ~ 90"],
     default_index: 0
+  },
+  {
+    name: "ShareOutstandingHalfYear",
+    display_name: "Share Change(6M)",
+    type: 1,
+    tooltip: "The Share outstanding changed in the last 6 month",
+    args_items: ["Any", "< -5%", "< -10%", "> 5%", "> 10%"],
+    default_index: 0
+  },
+  {
+    name: "ShareOutstandingOneYear",
+    display_name: "Share Change(1Y)",
+    type: 1,
+    tooltip: "The Share outstanding changed in the last year",
+    args_items: ["Any", "< -5%", "< -10%", "> 5%", "> 10%"],
+    default_index: 0
   }
 ]

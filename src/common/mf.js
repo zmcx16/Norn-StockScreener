@@ -84,6 +84,16 @@ export const MFDataTemplate = {
       name: "Range52W_w",
       display_name: "52W Range weight",
       val: "0.2"
+    },
+    {
+      name: "ShareOutstandingHalfYear_w",
+      display_name: "Share Change(6M) weight",
+      val: "0"
+    },
+    {
+      name: "ShareOutstandingOneYear_w",
+      display_name: "Share Change(1Y) weight",
+      val: "0"
     } 
   ]      
 }
