@@ -87,7 +87,7 @@ const QueryStocks = ({ queryStocksRef, loadingAnimeRef, filterCriteriaListRef, n
               volume: value['volume'] === '-' ? -Number.MAX_VALUE : value['volume'],
               beneish_score: value['beneish_score'] < -10000000 ? -Number.MAX_VALUE : value['beneish_score'],
               risk: value['risk'] === -1 ? -Number.MAX_VALUE : value['risk'],
-              multiFactor: value['mf_score'] < 0 ? -Number.MAX_VALUE : value['mf_score'],
+              multiFactor: value['mf_score'],
               tactics: nornMinehunterRef.current.getEnableTacticStrings(),
             }
           })
