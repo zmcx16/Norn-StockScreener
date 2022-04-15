@@ -71,6 +71,11 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
 
 # Advanced Argument Filter
   * Beneish Model
+  * N-Day Price High
+  * N-Day Price Low
+  * N-Day Vol High
+  * Share Change(6M)
+  * Share Change(1Y)
   * Sectors
   * Industries
   
@@ -93,6 +98,7 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
 # Multi-Factor Intersectional Model
 ##### Value factor
   * Earnings / Price
+  * Earnings / Price (Last Q)
   * Book / Price
   * Sales / Price
   
@@ -105,6 +111,10 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Dividend (%)
   * Insider ownership, Insider transcations
   * Institution ownership, Institution transcations
+  * Target Price
+  * Shoart Float, Short Ratio
+  * 52W Price Range
+  * Share Change(6M), Share Change(1Y)
 
 # Sub Page
   * Industry Market https://norn-stockscreener.zmcx16.moe/industry-market/)
@@ -125,6 +135,7 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Dataroma (https://dataroma.com/)
   * Zacks (https://www.zacks.com/)
   * Insider Monkey (https://www.insidermonkey.com/)
+  * Shares Outstanding History (https://sharesoutstandinghistory.com/)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
 # Terms of Service
