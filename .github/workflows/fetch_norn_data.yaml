@@ -3,7 +3,7 @@ name: FetchNornData
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '0 10,22 * * *'
+    - cron:  '0 11,22 * * *'
 
 jobs:
   build:
