@@ -3,7 +3,10 @@ import { styled } from '@mui/material/styles'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import Link from '@mui/material/Link'
 
+import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from './common'
 import { convertKMBT } from './utils'
+
+export const YahooFinanceUrl = (typeof window !== 'undefined' && navigator.language.includes('zh')) ? YahooFinanceZhUrl : YahooFinanceEnUrl
 
 export function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -125,13 +128,32 @@ export function ColorPercentField(field, headerName, width, valueFixed, hide, fo
   return output
 }
 
-export function SymbolNameField(field, headerName, width, hide, description = null) {
+export function SymbolNameField(field, headerName, width, hide, description = null, source="") {
   let output = {
     field: field,
     headerName: headerName,
     width: width,
     renderCell: (params) => (
-      <Link href={"https://finviz.com/quote.ashx?t=" + params.value + "&ty=c&p=d&b=1"} target="_blank" rel="noreferrer noopener">
+      <Link href={ source=="yahoo" ? YahooFinanceUrl + 'quote/' + params.value : FinvizUrl + 'quote.ashx?t=' + params.value} target="_blank" rel="noreferrer noopener">
+        <span>{params.value}</span>
+      </Link>
+    ),
+    hide: hide
+  }
+  
+  if (description != null) {
+    output['description'] = description
+  }
+  return output
+}
+
+export function NameWithLinkField(field, headerName, width, linkKey, hide, description = null) {
+  let output = {
+    field: field,
+    headerName: headerName,
+    width: width,
+    renderCell: (params) => (
+      <Link href={params.row[linkKey]} target="_blank" rel="noreferrer noopener">
         <span>{params.value}</span>
       </Link>
     ),

@@ -71,8 +71,6 @@ const StockPriceSimulation = ({loadingAnimeRef}) => {
     setChart: null
   })
 
-  const [arg, setArg] = useState(0)
-
   const queryParameterRef = useRef([])
   Query_Def.parameters.forEach((value, index) => {
     queryParameterRef.current[index] = createRef()
@@ -95,7 +93,7 @@ const StockPriceSimulation = ({loadingAnimeRef}) => {
         <div className={StockPriceSimulationStyle.parameterTitle}>
           <Typography variant="h6" gutterBottom component="div">
             {'Query Parameters'}
-            <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{QueryNote}</span>} >
+            <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', fontSize: '14px', lineHeight: '20px', textAlign: 'center'}}>{QueryNote}</span>} >
               <IconButton onClick={() => window.open(NornFinanceAPIServerGithub, "_blank")}>
                 <InfoIcon color="action"/>
               </IconButton>

@@ -437,7 +437,7 @@ const Options = ({loadingAnimeRef}) => {
           <div className={optionsStyle.parameterTitle}>
             <Typography variant="h6" gutterBottom component="div">
               {'Query Parameters'}
-              <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{QueryNote}</span>} >
+              <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{QueryNote}</span>} >
                 <IconButton onClick={() => window.open(NornFinanceAPIServerGithub, "_blank")}>
                   <InfoIcon color="action"/>
                 </IconButton>

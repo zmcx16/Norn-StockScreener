@@ -132,8 +132,7 @@ export const NMDataTemplate = {
 }
 
 export const NMUrl = "https://norn-minehunter.zmcx16.moe/"
-export const NMNote = `
-Do you want to know the stocks which you hold are Treasure or Bomb?\n
-Norn-Minehunter can help you to scan the stock financial & technical data to inspect the company's financial health & trend.\n
-[Note. The avg score is the lower the better, but the No Data also can cause avg score is lower.]\n
+export const NMNote = `Do you want to know the stocks which you hold are Treasure or Bomb?
+Norn-Minehunter can help you to scan the stock financial & technical data to inspect the company's financial health & trend.
+[Note. The avg score is the lower the better, but the No Data also can cause avg score is lower.]
 `

@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 import useFetch from 'use-http'

@@ -24,6 +24,7 @@ export const pageRouterTable = [
   { text: 'Industry Market', path: '/industry-market/' },
   { text: 'Industry Insiders', path: '/industry-insiders/' },
   { text: 'Options Valuation', path: '/options/' },
+  { text: 'Ranking Indicators', path: '/ranking/' },
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
   { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },

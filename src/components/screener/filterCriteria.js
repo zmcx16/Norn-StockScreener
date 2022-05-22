@@ -103,7 +103,7 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
         {isMobile ?
           <div></div>
           :
-          <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{tooltip}</span>} >
+          <Tooltip arrow title={<span style={{  fontSize: '14px', whiteSpace: 'pre-line' }}>{tooltip}</span>} >
             <span className={filterCriteriaStyle.display_name}>{display_name}</span>
           </Tooltip>
         } 

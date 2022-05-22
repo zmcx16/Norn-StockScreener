@@ -5,7 +5,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import { isMobile } from 'react-device-detect'
 
 import { convertKMBT } from '../../common/utils'
-import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from '../../common/common'
+import { FinvizUrl, YahooFinanceUrl } from '../../common/common'
 import { NMUrl } from '../../common/nm'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import { ColorPercentField } from '../../common/reactUtils'
@@ -114,8 +114,6 @@ const ResultTable = ({ResultTableRef}) => {
       }      
     }
   `)
-
-  const YahooFinanceUrl = (typeof window !== 'undefined' && navigator.language.includes('zh')) ? YahooFinanceZhUrl : YahooFinanceEnUrl
 
   // ResultTableRef API
   ResultTableRef.current = {

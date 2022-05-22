@@ -99,11 +99,10 @@ export const MFDataTemplate = {
 }
 
 export const MFUrl = "https://project.zmcx16.moe/?page=investment-formula"
-export const MFNote = `
-Ranked the stocks by multiple factors simulatneously: \n
-Value factor:  Earnings / Price, Book / Price, Sales / Price\n
-Growth factor: ROE, ROA, ROI\n
-Other factor:  Dividend (%), Insider ownership, Insider transcations,\n
-               Institution ownership, Institution transcations\n
-               Difference Target Price and Current Price\n
+export const MFNote = `Ranked the stocks by multiple factors simulatneously:
+Value factor:  Earnings / Price, Book / Price, Sales / Price
+Growth factor: ROE, ROA, ROI
+Other factor:  Dividend (%), Insider ownership, Insider transcations,
+               Institution ownership, Institution transcations
+               Difference Target Price and Current Price
 `

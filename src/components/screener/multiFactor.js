@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, createRef } from 'react'
 import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
-import Tooltip from '@mui/material/Tooltip'
 import shortid from 'shortid'
 
 import { MFDataTemplate, MFNote, MFUrl } from '../../common/mf'
+import { NoMaxWidthTooltip } from '../../common/reactUtils'
 
 import commonStyle from '../common.module.scss'
 import multiFactorStyle from './multiFactor.module.scss'
@@ -90,11 +90,11 @@ const MultiFactor = ({ multiFactorRef }) => {
   return (
     <div className={multiFactorStyle.container}>
       <div>
-        <Tooltip arrow title={<span style={{ whiteSpace: 'pre-line' }}>{MFNote}</span>} >
+        <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', lineHeight: '24px', whiteSpace: 'pre-line' }}>{MFNote}</span>} >
           <Link href={MFUrl} target="_blank" rel="noreferrer noopener">
             <span className={multiFactorStyle.displayName + ' ' + commonStyle.comicFont}>{display_name}</span>
           </Link>
-        </Tooltip>
+        </NoMaxWidthTooltip>
       </div>
       <div className={multiFactorStyle.weightBlock}>
         {weightListNode}
