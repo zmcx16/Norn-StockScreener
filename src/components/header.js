@@ -75,7 +75,7 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
           <Img fixed={imageData.images.childImageSharp.fixed} fadeIn={false} className={headerStyle.kanbanimg} />
           <div></div>
           <div className={headerStyle.kanbanTextBlock}>
-            <NoMaxWidthTooltip arrow title={<span style={{ whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{kanbanNote}</span>} >
+            <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{kanbanNote}</span>} >
               <Typography style={{ fontSize: '22px', paddingTop: '5px' }} className={commonStyle.comicFont}>{headerText}</Typography>
             </NoMaxWidthTooltip>
             {<Typography style={{ fontSize:'15px', position: 'absolute', paddingTop: '10px' }} >{kanbanText}</Typography>}
