@@ -148,7 +148,7 @@ const Ranking = ({loadingAnimeRef}) => {
     <div className={commonStyle.defaultFont + ' ' + rankingStyle.container}>
       <div key={shortid.generate()} >
         <Grid container spacing={3}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <FormControl size="small" variant="outlined" className={rankingStyle.rankingTableSelect}>
               <InputLabel htmlFor="arg-select">{'Ranking Indicators'}</InputLabel>
               <Select
@@ -169,10 +169,10 @@ const Ranking = ({loadingAnimeRef}) => {
               </Select>
             </FormControl>
             <Tooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{RankingDef[arg].description}</span>} >
-                <IconButton onClick={() => window.open(RankingDef[arg].link, "_blank")}>
-                  <InfoIcon color="action"/>
-                </IconButton>
-              </Tooltip>
+              <IconButton onClick={() => window.open(RankingDef[arg].link, "_blank")}>
+                <InfoIcon color="action"/>
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
         <div className={rankingStyle.table}>
