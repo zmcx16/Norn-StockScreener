@@ -205,7 +205,7 @@ export const RankingDef = [
         },
         {
             name: "Allianz",
-            symbol: "AAPL",
+            symbol: "ALV.DE",
             rank: 34,
             link: "https://interbrand.com/best-global-brands/allianz/",
         },
