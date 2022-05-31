@@ -13,7 +13,7 @@ import useFetch from 'use-http'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 
-import { GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, KMBTField } from '../../common/reactUtils'
+import { GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/reactUtils'
 import { RankingDef } from '../../common/rankingDef'
 
 import commonStyle from '../common.module.scss'
@@ -52,7 +52,8 @@ const Ranking = ({loadingAnimeRef}) => {
 
   const genTableColTemplate = () => {
     return [
-      PureFieldWithValueCheck("rank", tableColList.Rank.text, 60, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
+      ColorNumberWithExtraInfoField("rank", tableColList.Rank.text, 60, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
+      //PureFieldWithValueCheck("rank", tableColList.Rank.text, 60, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
       NameWithLinkField('name', 'Name', 150, 'link', 'name' in hideColState ? hideColState['name'] : tableColList['Name'].hide),
       SymbolNameField('symbol', 'Symbol', 110, 'symbol' in hideColState ? hideColState['symbol'] : tableColList['Symbol'].hide, null, "yahoo"),
       KMBTField("marketCap", tableColList.MarketCap.text, 130, 2, "marketCap" in hideColState ? hideColState["marketCap"] : tableColList['MarketCap'].hide),
@@ -104,6 +105,12 @@ const Ranking = ({loadingAnimeRef}) => {
         ROA: stockInfo !== undefined && stockInfo !== null && stockInfo['ROA'] !== '-' ? stockInfo['ROA'] : -Number.MAX_VALUE,
         ROI: stockInfo !== undefined && stockInfo !== null && stockInfo['ROI'] !== '-' ? stockInfo['ROI'] : -Number.MAX_VALUE,
         dividend: stockInfo !== undefined && stockInfo !== null && stockInfo['Dividend %'] !== '-' ? stockInfo['Dividend %'] : -Number.MAX_VALUE,
+      }
+      if ('extra_info' in value) {
+        o['extra_info'] = value['extra_info']
+      }
+      if ('rank_color' in value) {
+        o['word_color'] = value['rank_color']
       }
       return o
     })

@@ -1,3 +1,5 @@
+import { NavZhEnUrl } from './utils'
+
 export const RankingDef = [
     {
       name: 'Interbrand_BestGlobalBrands',
@@ -605,6 +607,32 @@ export const RankingDef = [
             rank: 100,
             link: "https://interbrand.com/best-global-brands/sephora/",
         }
+      ]
+    },  
+    {
+        name: 'Clarivate_Top100GlobalInnovators',
+        display_name: 'Clarivate - Top 100 Global Innovators (2022)',
+        description: ``,
+        link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/the-top-100/', 'https://clarivate.com/top-100-innovators/the-top-100/'),
+        data:[
+        {
+            name: "3M",
+            symbol: "MMM",
+            rank: 1,
+            link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/3M%E5%85%AC%E5%8F%B8', 'https://en.wikipedia.org/wiki/3M'),
+            rank_color: '#ff8f00',
+            extra_info: 
+`🌟 11x Winner
+🌟 11-Year Top 100 Global Innovator`,
+        },
+        {
+            name: "ABB",
+            symbol: "ABB",
+            rank: 1,
+            link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/ABB', 'https://en.wikipedia.org/wiki/ABB'),
+            extra_info: 
+`🌟 6x Winner`,
+        }, 
       ]
     }
   ]

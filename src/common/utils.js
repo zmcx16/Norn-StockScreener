@@ -125,3 +125,7 @@ function convertFromSelect2Input (input){
 
   return data
 }
+
+export function NavZhEnUrl(zhUrl, enUrl) {
+  return (typeof window !== 'undefined' && navigator.language.includes('zh')) ? zhUrl : enUrl
+}

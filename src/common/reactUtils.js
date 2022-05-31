@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 import { styled } from '@mui/material/styles'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 
 import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from './common'
-import { convertKMBT } from './utils'
+import { convertKMBT, NavZhEnUrl } from './utils'
 
-export const YahooFinanceUrl = (typeof window !== 'undefined' && navigator.language.includes('zh')) ? YahooFinanceZhUrl : YahooFinanceEnUrl
+export const YahooFinanceUrl = NavZhEnUrl(YahooFinanceZhUrl, YahooFinanceEnUrl)
 
 export function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -153,9 +154,34 @@ export function NameWithLinkField(field, headerName, width, linkKey, hide, descr
     headerName: headerName,
     width: width,
     renderCell: (params) => (
+      linkKey in params.row ?       
       <Link href={params.row[linkKey]} target="_blank" rel="noreferrer noopener">
         <span>{params.value}</span>
-      </Link>
+      </Link> : <span>{params.value}</span>
+    ),
+    hide: hide
+  }
+  
+  if (description != null) {
+    output['description'] = description
+  }
+  return output
+}
+
+
+export function ColorNumberWithExtraInfoField(field, headerName, width, valueFixed, hide, description = null) {
+  let output = {
+    field: field,
+    headerName: headerName,
+    width: width,
+    type: 'number',
+    renderCell: (params) => (
+      "extra_info" in params.row ?
+      <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{params.row["extra_info"]}</span>} >
+        <Typography sx={{ color: 'word_color' in params.row ? params.row['word_color'] : 'unset' }} style={{cursor: 'pointer'}}>{params.value.toFixed(valueFixed)}</Typography>
+      </NoMaxWidthTooltip>
+      :
+      <Typography sx={{ color: 'word_color' in params.row ? params.row['word_color'] : 'unset' }} >{params.value.toFixed(valueFixed)}</Typography>
     ),
     hide: hide
   }
