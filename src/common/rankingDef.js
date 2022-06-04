@@ -987,7 +987,7 @@ Growth New`,
         name: 'Clarivate_Top100GlobalInnovators',
         display_name: 'Clarivate - Top 100 Global Innovators (2022)',
         description: `Clarivate is a global leader in providing trusted insights and analytics to accelerate the pace of innovation. The vision is to improve the way the world creates, protects and advances innovation.`,
-        link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/the-top-100/?&clv-award-year=2022', 'https://clarivate.com/top-100-innovators/the-top-100/?clv-award-year=2022'),
+        link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/the-top-100/?clv-award-year=2022', 'https://clarivate.com/top-100-innovators/the-top-100/?clv-award-year=2022'),
         data:[
         {
             name: "3M",
