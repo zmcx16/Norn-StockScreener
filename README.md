@@ -137,6 +137,8 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Zacks (https://www.zacks.com/)
   * Insider Monkey (https://www.insidermonkey.com/)
   * Shares Outstanding History (https://sharesoutstandinghistory.com/)
+  * Interbrand 2021 Best Global Brands (https://interbrand.com/best-global-brands/)
+  * Clarivate 2022 Top 100 Global Innovators (https://clarivate.com/zh-hant/top-100-innovators/the-top-100/)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
 # Terms of Service
