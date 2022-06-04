@@ -52,7 +52,7 @@ const Ranking = ({loadingAnimeRef}) => {
 
   const genTableColTemplate = () => {
     return [
-      ColorNumberWithExtraInfoField("rank", tableColList.Rank.text, 60, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
+      ColorNumberWithExtraInfoField("rank", tableColList.Rank.text, 90, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
       //PureFieldWithValueCheck("rank", tableColList.Rank.text, 60, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
       NameWithLinkField('name', 'Name', 150, 'link', 'name' in hideColState ? hideColState['name'] : tableColList['Name'].hide),
       SymbolNameField('symbol', 'Symbol', 110, 'symbol' in hideColState ? hideColState['symbol'] : tableColList['Symbol'].hide, null, "yahoo"),
@@ -187,7 +187,10 @@ const Ranking = ({loadingAnimeRef}) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)
-          }} />
+          }} initialState={{
+            sorting: {
+              sortModel: [{ field: 'rank', sort: 'asc' }],
+            }}}/>
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />

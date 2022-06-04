@@ -178,10 +178,10 @@ export function ColorNumberWithExtraInfoField(field, headerName, width, valueFix
     renderCell: (params) => (
       "extra_info" in params.row ?
       <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{params.row["extra_info"]}</span>} >
-        <Typography sx={{ color: 'word_color' in params.row ? params.row['word_color'] : 'unset' }} style={{cursor: 'pointer'}}>{params.value.toFixed(valueFixed)}</Typography>
+        <Typography sx={{ fontWeight: 'word_color' in params.row ? 600 : 500, color: 'word_color' in params.row ? params.row['word_color'] : 'unset' }} style={{cursor: 'pointer'}}>{params.value.toFixed(valueFixed)}</Typography>
       </NoMaxWidthTooltip>
       :
-      <Typography sx={{ color: 'word_color' in params.row ? params.row['word_color'] : 'unset' }} >{params.value.toFixed(valueFixed)}</Typography>
+      <Typography sx={{ fontWeight: 'word_color' in params.row ? 600 : 500, color: 'word_color' in params.row ? params.row['word_color'] : 'unset' }} >{params.value.toFixed(valueFixed)}</Typography>
     ),
     hide: hide
   }
