@@ -61,6 +61,13 @@ const FetchNornFinanceAPIServer = ({FetchNornFinanceAPIServerRef}) => {
 
 const Options = ({loadingAnimeRef}) => {
 
+  const [callsData, setCallsData] = useState([])
+  const [putsData, setPutsData] = useState([])
+  const [hideColState, setHideColState] = useState({})
+  const [arg, setArg] = useState(0)
+  const [displayQuery, setDisplayQuery] = useState(false)
+  const [ws, setWs] = useState(null)
+
   const modalWindowRef = useRef({
     popModalWindow: null,
     popPureModal: null,
@@ -86,6 +93,8 @@ const Options = ({loadingAnimeRef}) => {
     KellyCriterion_sell: { hide: true, text: 'Kelly (Sell)', description: 'Kelly Criterion' },
     KellyCriterion_MU_0_buy: { hide: false, text: 'Kelly (Buy, MU0)', description: 'Kelly Criterion, MU=0' },
     KellyCriterion_MU_0_sell: { hide: false, text: 'Kelly (Sell, MU0)', description: 'Kelly Criterion, MU=0' },
+    KellyCriterion_IV_buy: { hide: Options_Def[arg].name.startsWith('self_query') ? false : true, text: 'Kelly (Buy, IV)', description: 'Kelly Criterion (IV)' },
+    KellyCriterion_IV_sell: { hide: Options_Def[arg].name.startsWith('self_query') ? false : true, text: 'Kelly (Sell, IV)', description: 'Kelly Criterion (IV)' },
     Delta: { hide: false, text: 'δ (Delta)' },
     Gamma: { hide: false, text: 'γ (Gamma)' },
     Rho: { hide: false, text: 'ρ (Rho)' },
@@ -143,6 +152,8 @@ const Options = ({loadingAnimeRef}) => {
       ColorPercentField("KellyCriterion_sell", tableColList.KellyCriterion_sell.text, 130, 2, "KellyCriterion_sell" in hideColState ? hideColState["KellyCriterion_sell"] : tableColList['KellyCriterion_sell'].hide, 500, tableColList.KellyCriterion_sell.description),
       ColorPercentField("KellyCriterion_MU_0_buy", tableColList.KellyCriterion_MU_0_buy.text, 130, 2, "KellyCriterion_MU_0_buy" in hideColState ? hideColState["kellyCriterion_MU_0_buy"] : tableColList['KellyCriterion_MU_0_buy'].hide, 500, tableColList.KellyCriterion_MU_0_buy.description),
       ColorPercentField("KellyCriterion_MU_0_sell", tableColList.KellyCriterion_MU_0_sell.text, 130, 2, "KellyCriterion_MU_0_sell" in hideColState ? hideColState["KellyCriterion_MU_0_sell"] : tableColList['KellyCriterion_MU_0_sell'].hide, 500, tableColList.KellyCriterion_MU_0_sell.description),
+      ColorPercentField("KellyCriterion_IV_buy", tableColList.KellyCriterion_IV_buy.text, 130, 2, "KellyCriterion_IV_buy" in hideColState ? hideColState["kellyCriterion_IV_buy"] : tableColList['KellyCriterion_IV_buy'].hide, 500, tableColList.KellyCriterion_IV_buy.description),
+      ColorPercentField("KellyCriterion_IV_sell", tableColList.KellyCriterion_IV_sell.text, 130, 2, "KellyCriterion_IV_sell" in hideColState ? hideColState["KellyCriterion_IV_sell"] : tableColList['KellyCriterion_IV_sell'].hide, 500, tableColList.KellyCriterion_IV_sell.description),
       PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
       PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
       PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),
@@ -264,6 +275,8 @@ const Options = ({loadingAnimeRef}) => {
               KellyCriterion_sell: v["KellyCriterion_sell"] !== undefined && v["KellyCriterion_sell"] !== null ? v["KellyCriterion_sell"] : -Number.MAX_VALUE,
               KellyCriterion_MU_0_buy: v["KellyCriterion_MU_0_buy"] !== undefined && v["KellyCriterion_MU_0_buy"] !== null ? v["KellyCriterion_MU_0_buy"] : -Number.MAX_VALUE,
               KellyCriterion_MU_0_sell: v["KellyCriterion_MU_0_sell"] !== undefined && v["KellyCriterion_MU_0_sell"] !== null ? v["KellyCriterion_MU_0_sell"] : -Number.MAX_VALUE,
+              KellyCriterion_IV_buy: v["KellyCriterion_IV_buy"] !== undefined && v["KellyCriterion_IV_buy"] !== null ? v["KellyCriterion_IV_buy"] : -Number.MAX_VALUE,
+              KellyCriterion_IV_sell: v["KellyCriterion_IV_sell"] !== undefined && v["KellyCriterion_IV_sell"] !== null ? v["KellyCriterion_IV_sell"] : -Number.MAX_VALUE,
             }
             let cnt = 0
             let sum = 0
@@ -356,14 +369,6 @@ const Options = ({loadingAnimeRef}) => {
       renderOptionsData(name)
     }
   }
-  const [callsData, setCallsData] = useState([])
-  const [putsData, setPutsData] = useState([])
-  const [hideColState, setHideColState] = useState({})
-  const [arg, setArg] = useState(0)
-  const [displayQuery, setDisplayQuery] = useState(false)
-  const [ws, setWs] = useState(null)
-
-
 
   const queryParameterRef = useRef([])
   SelfQuery_Def.parameters.forEach((value, index) => {
@@ -458,7 +463,7 @@ const Options = ({loadingAnimeRef}) => {
                         return accumulator
                       }, {})
                       console.log(args)
-                      let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&")
+                      let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&") + "&calc_kelly_iv=true"
                       setWs(new WebSocket("wss://" + NornFinanceAPIServerDomain + query_string))
                     }}>{'Query Now'}</Button>
                   </ThemeProvider>
