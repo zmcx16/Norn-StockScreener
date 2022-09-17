@@ -148,13 +148,14 @@ export function SymbolNameField(field, headerName, width, hide, description = nu
   return output
 }
 
-export function NameWithLinkField(field, headerName, width, linkKey, hide, description = null) {
+export function NameWithLinkField(field, headerName, width, linkKey, hide, align='left', description = null) {
   let output = {
     field: field,
     headerName: headerName,
     width: width,
+    align: align,
     renderCell: (params) => (
-      linkKey in params.row ?       
+      linkKey in params.row && params.row[linkKey] != "" && params.row[linkKey] != "-" ?       
       <Link href={params.row[linkKey]} target="_blank" rel="noreferrer noopener">
         <span>{params.value}</span>
       </Link> : <span>{params.value}</span>

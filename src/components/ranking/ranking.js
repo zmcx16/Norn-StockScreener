@@ -54,7 +54,7 @@ const Ranking = ({loadingAnimeRef}) => {
     return [
       ColorNumberWithExtraInfoField("rank", tableColList.Rank.text, 90, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
       //PureFieldWithValueCheck("rank", tableColList.Rank.text, 60, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
-      NameWithLinkField('name', 'Name', 150, 'link', 'name' in hideColState ? hideColState['name'] : tableColList['Name'].hide),
+      NameWithLinkField('name', 'Name', 150, 'link', 'name' in hideColState ? hideColState['name'] : tableColList['Name'].hide, 'left'),
       SymbolNameField('symbol', 'Symbol', 110, 'symbol' in hideColState ? hideColState['symbol'] : tableColList['Symbol'].hide, null, "yahoo"),
       KMBTField("marketCap", tableColList.MarketCap.text, 130, 2, "marketCap" in hideColState ? hideColState["marketCap"] : tableColList['MarketCap'].hide),
       PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, "close" in hideColState ? hideColState["close"] : tableColList['Close'].hide),
