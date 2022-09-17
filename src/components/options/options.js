@@ -8,6 +8,7 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { DataGrid } from '@mui/x-data-grid'
+import Link from '@mui/material/Link'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Typography from '@mui/material/Typography'
@@ -160,14 +161,25 @@ const Options = ({loadingAnimeRef}) => {
         field: "earningDate",
         headerName: tableColList.EarningDate.text,
         width: 120,
-        renderCell: ({ value }) => (
-          <span style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
-            {value}
+        renderCell: (params) => (
+          <span style={{ whiteSpace: 'normal', wordWrap: 'break-word', color: params.row['earningDateColor']}}>
+            {params.value}
           </span>
         ),
         hide: "earningDate" in hideColState ? hideColState["earningDate"] : tableColList['EarningDate'].hide
       },
-      NameWithLinkField('exDividendDate', tableColList.ExDividendDate.text, 120, 'exDividendLink', 'exDividendDate' in hideColState ? hideColState['exDividendDate'] : tableColList['ExDividendDate'].hide),
+      {
+        field: 'exDividendDate',
+        headerName: tableColList.ExDividendDate.text,
+        width: 120,
+        renderCell: (params) => (
+          'exDividendLink' in params.row && params.row['exDividendLink'] != "" && params.row['exDividendLink'] != "-" ?       
+          <Link href={params.row['exDividendLink']} target="_blank" rel="noreferrer noopener">
+            <span style={{color: params.row['exDividendDateColor']}}>{params.value}</span>
+          </Link> : <span>{params.value}</span>
+        ),
+        hide: 'exDividendDate' in hideColState ? hideColState['exDividendDate'] : tableColList['ExDividendDate'].hide
+      },
       PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
       PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
       PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),
@@ -258,13 +270,24 @@ const Options = ({loadingAnimeRef}) => {
       let stock_price = data["stockPrice"]
       let stock_extra_info = data["stockExtraInfo"]
       let earningDate = support_earnings_date ? 'No Data' : 'Not Supported' 
+      let min_earnings_date = 0
       if (stock_extra_info["earningsDate"] !== undefined && stock_extra_info["earningsDate"] !== null && stock_extra_info["earningsDate"] !== '') {
         let temp = stock_extra_info["earningsDate"].split(' - ')
         temp.forEach((d, i) => {
           temp[i] = temp[i].split(' ')[0]
+          if (i === 0) {
+            min_earnings_date = new Date(temp[i]).getTime()
+          }
         })
         earningDate = temp.join(" - ")
       }
+      let ex_dividend_date = ''
+      let ex_dividend_link = ''
+      if (symbol in exDividendDictRef.current) {
+        ex_dividend_date = exDividendDictRef.current[symbol]['ex_dividend_date']
+        ex_dividend_link = exDividendDictRef.current[symbol]['link']
+      }
+
       let ewma_his_vol = data["EWMA_historicalVolatility"]
       data["contracts"].forEach((contracts) => {
         let expiry_date = contracts["expiryDate"]
@@ -303,8 +326,10 @@ const Options = ({loadingAnimeRef}) => {
               KellyCriterion_IV_buy: v["KellyCriterion_IV_buy"] !== undefined && v["KellyCriterion_IV_buy"] !== null ? v["KellyCriterion_IV_buy"] : -Number.MAX_VALUE,
               KellyCriterion_IV_sell: v["KellyCriterion_IV_sell"] !== undefined && v["KellyCriterion_IV_sell"] !== null ? v["KellyCriterion_IV_sell"] : -Number.MAX_VALUE,
               earningDate: earningDate,
-              exDividendDate: symbol in exDividendDictRef.current ? exDividendDictRef.current[symbol]['ex_dividend_date'] : 'No Data',
-              exDividendLink: symbol in exDividendDictRef.current ? exDividendDictRef.current[symbol]['link'] : '',
+              earningDateColor: min_earnings_date > 0 && new Date(expiry_date).getTime() >= min_earnings_date && min_earnings_date >= new Date().getTime() ? 'red':'',
+              exDividendDate: ex_dividend_date != '' ? ex_dividend_date : 'No Data',
+              exDividendLink: ex_dividend_link,
+              exDividendDateColor:ex_dividend_date != '' && new Date(expiry_date).getTime() >= new Date(ex_dividend_date).getTime() && new Date(ex_dividend_date).getTime() >= new Date().getTime() ? 'red':'',
             }
             let cnt = 0
             let sum = 0
