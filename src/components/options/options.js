@@ -271,7 +271,7 @@ const Options = ({loadingAnimeRef}) => {
       let stock_extra_info = data["stockExtraInfo"]
       let earningDate = support_earnings_date ? 'No Data' : 'Not Supported' 
       let min_earnings_date = 0
-      if (stock_extra_info["earningsDate"] !== undefined && stock_extra_info["earningsDate"] !== null && stock_extra_info["earningsDate"] !== '') {
+      if (stock_extra_info != null && stock_extra_info["earningsDate"] !== undefined && stock_extra_info["earningsDate"] !== null && stock_extra_info["earningsDate"] !== '') {
         let temp = stock_extra_info["earningsDate"].split(' - ')
         temp.forEach((d, i) => {
           temp[i] = temp[i].split(' ')[0]
