@@ -98,6 +98,7 @@ const Options = ({loadingAnimeRef}) => {
     KellyCriterion_IV_sell: { hide: Options_Def[arg].name.startsWith('self_query') ? false : true, text: 'Kelly (Sell, IV)', description: 'Kelly Criterion (IV)' },
     EarningDate: { hide: false, text: 'Earning Date' },
     ExDividendDate: { hide: false, text: 'Ex-Dividend Date' }, 
+    ExerciseProbability: { hide: false, text: 'Exercise Probability' }, 
     Delta: { hide: false, text: 'δ (Delta)' },
     Gamma: { hide: false, text: 'γ (Gamma)' },
     Rho: { hide: false, text: 'ρ (Rho)' },
@@ -180,6 +181,7 @@ const Options = ({loadingAnimeRef}) => {
         ),
         hide: 'exDividendDate' in hideColState ? hideColState['exDividendDate'] : tableColList['ExDividendDate'].hide
       },
+      PercentField("exerciseProbability", tableColList.ExerciseProbability.text, 90, "exerciseProbability" in hideColState ? hideColState["exerciseProbability"] : tableColList['ExerciseProbability'].hide),
       PureFieldWithValueCheck("delta", tableColList.Delta.text, 90, 2, "delta" in hideColState ? hideColState["delta"] : tableColList['Delta'].hide),
       PureFieldWithValueCheck("gamma", tableColList.Gamma.text, 90, 2, "gamma" in hideColState ? hideColState["gamma"] : tableColList['Gamma'].hide),
       PureFieldWithValueCheck("rho", tableColList.Rho.text, 90, 2, "rho" in hideColState ? hideColState["rho"] : tableColList['Rho'].hide),
@@ -330,6 +332,7 @@ const Options = ({loadingAnimeRef}) => {
               exDividendDate: ex_dividend_date != '' ? ex_dividend_date : 'No Data',
               exDividendLink: ex_dividend_link,
               exDividendDateColor:ex_dividend_date != '' && new Date(expiry_date).getTime() >= new Date(ex_dividend_date).getTime() && new Date(ex_dividend_date).getTime() >= new Date().getTime() ? 'red':'',
+              exerciseProbability: v["exerciseProbability"] !== undefined && v["exerciseProbability"] !== null ? v["exerciseProbability"] : -Number.MAX_VALUE,
             }
             let cnt = 0
             let sum = 0
