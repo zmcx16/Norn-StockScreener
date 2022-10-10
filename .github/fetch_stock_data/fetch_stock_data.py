@@ -3,6 +3,7 @@ import sys
 import pathlib
 import json
 import requests
+import traceback
 import csv
 import time
 from urllib.parse import urlencode
