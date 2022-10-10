@@ -13,6 +13,7 @@ afscreener_url = os.environ.get(
     "AF_URL", "")
 afscreener_token = os.environ.get("AF_TOKEN", "")
 DELAY_TIME_SEC = 1
+RETRY_CNT = 5
 
 
 def is_float(value):
@@ -47,28 +48,29 @@ def send_post_json(url, req_data):
 
 
 def get_stock_info():
+    param = {
+        'code': afscreener_token,
+        'api': 'get-stock-info-from-db'
+    }
+    encoded_args = urlencode(param)
+    query_url = afscreener_url + '?' + encoded_args
 
-    try:
-        param = {
-            'code': afscreener_token,
-            'api': 'get-stock-info-from-db'
-        }
-        encoded_args = urlencode(param)
-        query_url = afscreener_url + '?' + encoded_args
-        ret, content = send_request(query_url)
-        if ret == 0:
-            resp = json.loads(content)
-            if resp["ret"] == 0:
-                return resp["data"]
+    for retry_i in range(RETRY_CNT):
+        try:
+            ret, content = web.send_request(query_url)
+            if ret == 0:
+                resp = json.loads(content)
+                if resp["ret"] == 0:
+                    return resp["data"]
+                else:
+                    print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
             else:
-                print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
-        else:
-            print('send_request failed: {ret}'.format(ret=ret))
+                printr('send_request failed: {ret}'.format(ret=ret))
 
-        sys.exit(1)
+        except Exception:
+            print('Generated an exception: {ex}, try next target.'.format(ex=traceback.format_exc()))
 
-    except Exception as ex:
-        print('Generated an exception: {ex}'.format(ex=ex))
+    sys.exit(1)
 
 
 def get_stock_1y_data_from_marketwatch(symbol):
