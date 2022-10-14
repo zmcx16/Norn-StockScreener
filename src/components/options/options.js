@@ -290,6 +290,8 @@ const Options = ({loadingAnimeRef}) => {
         ex_dividend_link = exDividendDictRef.current[symbol]['link']
       }
 
+      let today = new Date(new Date().toISOString().split('T')[0]);
+
       let ewma_his_vol = data["EWMA_historicalVolatility"]
       data["contracts"].forEach((contracts) => {
         let expiry_date = contracts["expiryDate"]
@@ -328,10 +330,10 @@ const Options = ({loadingAnimeRef}) => {
               KellyCriterion_IV_buy: v["KellyCriterion_IV_buy"] !== undefined && v["KellyCriterion_IV_buy"] !== null ? v["KellyCriterion_IV_buy"] : -Number.MAX_VALUE,
               KellyCriterion_IV_sell: v["KellyCriterion_IV_sell"] !== undefined && v["KellyCriterion_IV_sell"] !== null ? v["KellyCriterion_IV_sell"] : -Number.MAX_VALUE,
               earningDate: earningDate,
-              earningDateColor: min_earnings_date > 0 && new Date(expiry_date).getTime() >= min_earnings_date && min_earnings_date >= new Date().getTime() ? 'red':'',
+              earningDateColor: min_earnings_date > 0 && new Date(expiry_date).getTime() >= min_earnings_date && min_earnings_date >= today.getTime() ? 'red':'',
               exDividendDate: ex_dividend_date != '' ? ex_dividend_date : 'No Data',
               exDividendLink: ex_dividend_link,
-              exDividendDateColor:ex_dividend_date != '' && new Date(expiry_date).getTime() >= new Date(ex_dividend_date).getTime() && new Date(ex_dividend_date).getTime() >= new Date().getTime() ? 'red':'',
+              exDividendDateColor:ex_dividend_date != '' && new Date(expiry_date).getTime() >= new Date(ex_dividend_date).getTime() && new Date(ex_dividend_date).getTime() >= today.getTime() ? 'red':'',
               exerciseProbability: v["exerciseProbability"] !== undefined && v["exerciseProbability"] !== null ? v["exerciseProbability"] : -Number.MAX_VALUE,
             }
             let cnt = 0
