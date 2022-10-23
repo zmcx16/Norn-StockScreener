@@ -5,10 +5,10 @@ import { DataGrid } from '@mui/x-data-grid'
 import { isMobile } from 'react-device-detect'
 
 import { convertKMBT } from '../../common/utils'
-import { FinvizUrl, YahooFinanceUrl } from '../../common/common'
+import { FinvizUrl } from '../../common/common'
 import { NMUrl } from '../../common/nm'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { ColorPercentField } from '../../common/reactUtils'
+import { ColorPercentField, YahooFinanceUrl } from '../../common/reactUtils'
 
 import resultTableStyle from './resultTable.module.scss'
 import '../muiTablePagination.css'
