@@ -28,6 +28,8 @@ import { NornFinanceAPIServerDomain, QueryNote, NornFinanceAPIServerGithub } fro
 import { getRedLevel, getBlueLevel, workdayCount } from '../../common/utils'
 import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField, NoMaxWidthTooltip, NameWithLinkField } from '../../common/reactUtils'
 import { Options_Def, SelfQuery_Def } from '../../common/optionsDef'
+import { YahooFinanceUrl } from '../../common/reactUtils'
+
 import MonteCarloChart from '../monteCarloChart'
 
 import commonStyle from '../common.module.scss'
@@ -119,10 +121,42 @@ const Options = ({loadingAnimeRef}) => {
     MCChart: { hide: false, text: 'MC Chart' },
   }
 
+  const OptionPriceField = (field, headerName, width, valueFixed, hide, type) => {
+    let output = {
+      field: field,
+      headerName: headerName,
+      width: width,
+      type: 'number',
+      renderCell: (params) => {
+        const symbol = params.row['symbol']
+        let link = "javascript:void(0)"
+        if (type === "stock") {
+          link = YahooFinanceUrl + "quote/" +  symbol + "?p=" + symbol
+        } else if (type === "option") {
+          const expiredDate = params.row['expiryDate'].replaceAll("-","").substring(2) // 2022-10-28 -> 221028
+          const type = params.row['kind'] === 1 ? "C" : "P"
+          const strikeL = ((parseInt(params.row['strike'], 10)).toString()).padStart(5, 0)
+          let strikeR = (params.row['strike'].toFixed(3))
+          strikeR = strikeR.substring(strikeR.length-3)
+          const option_s = symbol + expiredDate + type +  strikeL + strikeR
+          link = YahooFinanceUrl + "quote/" + option_s + "?p=" + option_s
+        }
+  
+        return params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
+          <span>-</span> :
+          <Link href={link} target="_blank" rel="noreferrer noopener">
+          <span>{params.value.toFixed(valueFixed)}</span>
+          </Link>
+      },
+      hide: hide
+    }    
+    return output
+  }
+
   const genTableColTemplate = () => {
     return [
       SymbolNameField('symbol', 'Symbol', 115, 'symbol' in hideColState ? hideColState['symbol'] : false),
-      PureFieldWithValueCheck("stockPrice", tableColList.StockPrice.text, 125, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide),
+      OptionPriceField("stockPrice", tableColList.StockPrice.text, 125, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide, "stock"),
       {
         field: 'expiryDate',
         headerName: tableColList.ExpiryDate.text,
@@ -134,7 +168,7 @@ const Options = ({loadingAnimeRef}) => {
         hide: 'expiryDate' in hideColState ? hideColState['expiryDate'] : tableColList['ExpiryDate'].hide
       },
       PureFieldWithValueCheck("strike", tableColList.Strike.text, 110, 2, "strike" in hideColState ? hideColState["strike"] : tableColList['Strike'].hide),
-      PureFieldWithValueCheck("lastPrice", tableColList.LastPrice.text, 140, 2, "lastPrice" in hideColState ? hideColState["lastPrice"] : tableColList['LastPrice'].hide),
+      OptionPriceField("lastPrice", tableColList.LastPrice.text, 140, 2, "lastPrice" in hideColState ? hideColState["lastPrice"] : tableColList['LastPrice'].hide, "option"),
       PureFieldWithValueCheck("avgEWMA", tableColList.AvgEWMA.text, 140, 2, "avgEWMA" in hideColState ? hideColState["avgEWMA"] : tableColList['AvgEWMA'].hide),
       {
         field: "priceBias",
