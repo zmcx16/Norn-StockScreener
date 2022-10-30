@@ -557,7 +557,7 @@ const Options = ({loadingAnimeRef}) => {
                         return accumulator
                       }, {})
                       console.log(args)
-                      let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&") + "&calc_kelly_iv=true"
+                      let query_string = "/ws/option/quote-valuation?" + Object.keys(args).map(function (key) { return key + "=" + args[key] }).join("&") + "&calc_kelly_iv=true&iteration=20"
                       setWs(new WebSocket("wss://" + NornFinanceAPIServerDomain + query_string))
                     }}>{'Query Now'}</Button>
                   </ThemeProvider>
