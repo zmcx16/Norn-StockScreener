@@ -1,8 +1,7 @@
 import React from 'react'
 import Link from '@mui/material/Link'
 
-import { NornStockScreenerUrl, NornStockScreenerMobileUrl, zmcx16ProjectUrl, zmcx16BlogUrl } from '../common/common'
-import { NornFinanceAPIServerGithub } from '../common/optionsDef'
+import { NornStockScreenerUrl, NornStockScreenerMobileUrl, zmcx16ProjectUrl, zmcx16BlogUrl, NornFinanceAPIServerGithub } from '../common/common'
 
 import footerStyle from './footer.module.scss'
 import commonStyle from './common.module.scss'
