@@ -238,7 +238,11 @@ def get_esg_data(ranking_folder_path):
         if ret == 0:
             resp = json.loads(content)
             if resp["ret"] == 0:
-                output = {'update_time': str(datetime.now()), 'data': resp["data"]}
+                output = {'update_time': str(datetime.now()), 'data': {}}
+                for k in resp["data"]:
+                    if resp["data"][k]["totalEsg"] != "-":
+                        output["data"][k] = resp["data"][k]
+
                 with open(ranking_folder_path / 'esg.json', 'w',
                           encoding='utf-8') as f_it:
                     f_it.write(json.dumps(output, separators=(',', ':')))
