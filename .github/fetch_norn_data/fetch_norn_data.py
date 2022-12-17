@@ -1,7 +1,7 @@
 import os
 import sys
-import base64
 import pathlib
+import time
 import json
 import requests
 import re
@@ -11,30 +11,39 @@ from datetime import datetime, timedelta
 from scipy import stats
 
 
-base_url = os.environ.get("MARKET_URL", "")
-token = os.environ.get("MARKET_TOKEN", "")
-
+market_url = os.environ.get("MARKET_URL", "")
+market_token = os.environ.get("MARKET_TOKEN", "")
+afscreener_url = os.environ.get("AF_URL", "")
+afscreener_token = os.environ.get("AF_TOKEN", "")
+RETRY_SEND_REQUEST = 3
+RETRY_FAILED_DELAY = 20
 
 def send_request(url):
-    try:
-        res = requests.get(url)
-        res.raise_for_status()
-    except Exception as ex:
-        print('Generated an exception: {ex}'.format(ex=ex))
-        return -1, ex
+    for r in range(RETRY_SEND_REQUEST):
+        try:
+            res = requests.get(url)
+            res.raise_for_status()
+        except Exception as ex:
+            print('Generated an exception: {ex}'.format(ex=ex))
+            return -1, ex
 
-    return 0, res.text
+        if res.status_code == 200:
+            return 0, res.text
+        
+        time.sleep(RETRY_FAILED_DELAY)
+
+    return -2, "exceed retry cnt"
 
 
 def get_config():
 
     try:
         param = {
-            'code': token,
+            'code': market_token,
             'api': 'get-market-industry-config'
         }
         encoded_args = urlencode(param)
-        query_url = base_url + '?' + encoded_args
+        query_url = market_url + '?' + encoded_args
         ret, content = send_request(query_url)
         if ret == 0:
             resp = json.loads(content)
@@ -57,12 +66,12 @@ def update_get_market(market_folder_path, config):
         try:
             print('update industry market: ' + industry)
             param = {
-                'code': token,
+                'code': market_token,
                 'api': 'update-get-market',
                 'industry': industry
             }
             encoded_args = urlencode(param)
-            query_url = base_url + '?' + encoded_args
+            query_url = market_url + '?' + encoded_args
             ret, content = send_request(query_url)
             if ret == 0:
                 resp = json.loads(content)
@@ -90,11 +99,11 @@ def update_get_market(market_folder_path, config):
 def get_market_industry(norn_data_folder_path):
 
     param = {
-        'code': token,
+        'code': market_token,
         'api': 'get-market-industry'
     }
     encoded_args = urlencode(param)
-    query_url = base_url + '?' + encoded_args
+    query_url = market_url + '?' + encoded_args
 
     try:
         ret, content = send_request(query_url)
@@ -215,6 +224,38 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
     print('calc_market_correlation done')
 
 
+def get_esg_data(ranking_folder_path):
+
+    param = {
+        'code': afscreener_token,
+        'api': 'get-esg-data'
+    }
+    encoded_args = urlencode(param)
+    query_url = afscreener_url + '?' + encoded_args
+
+    try:
+        ret, content = send_request(query_url)
+        if ret == 0:
+            resp = json.loads(content)
+            if resp["ret"] == 0:
+                output = {'update_time': str(datetime.now()), 'data': resp["data"]}
+                with open(ranking_folder_path / 'esg.json', 'w',
+                          encoding='utf-8') as f_it:
+                    f_it.write(json.dumps(output, separators=(',', ':')))
+
+            else:
+                print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
+                sys.exit(1)
+        else:
+            print('send_request failed: {ret}'.format(ret=ret))
+            sys.exit(1)
+
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+        sys.exit(1)
+
+    print('get_esg_data done')
+
 def main():
 
     root = pathlib.Path(__file__).parent.resolve()
@@ -223,8 +264,13 @@ def main():
     market_folder_path = norn_data_folder_path / 'markets'
     if not os.path.exists(market_folder_path):
         os.makedirs(market_folder_path)
+    
+    ranking_folder_path = norn_data_folder_path / 'ranking'
+    if not os.path.exists(ranking_folder_path):
+        os.makedirs(ranking_folder_path)
 
     config = get_config()
+    get_esg_data(ranking_folder_path)
     update_get_market(market_folder_path, config)
     get_market_industry(norn_data_folder_path)
     calc_market_correlation(norn_data_folder_path, market_folder_path)

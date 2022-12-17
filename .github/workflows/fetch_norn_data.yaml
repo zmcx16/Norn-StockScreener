@@ -38,6 +38,8 @@ jobs:
       env:
         MARKET_URL: ${{ secrets.MARKET_URL }}
         MARKET_TOKEN: ${{ secrets.MARKET_TOKEN }}
+        AF_URL: ${{ secrets.AF_URL }}
+        AF_TOKEN: ${{ secrets.AF_TOKEN }}
       run: |-
         python ./ci-folder/fetch_norn_data.py
     - name: Delete ci-folder
