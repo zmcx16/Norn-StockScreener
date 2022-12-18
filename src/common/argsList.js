@@ -453,7 +453,7 @@ export const FCDataTemplate = [
     name: "ESG_TotalEsg",
     display_name: "Total ESG Risk",
     type: 1,
-    tooltip: "Total ESG risk score",
+    tooltip: "Sustainalytics total ESG risk score",
     args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
     default_index: 0
   },
@@ -461,7 +461,7 @@ export const FCDataTemplate = [
     name: "ESG_EnvironmentScore",
     display_name: "Environment Risk",
     type: 1,
-    tooltip: "Environment ESG risk score",
+    tooltip: "Sustainalytics environment ESG risk score",
     args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
     default_index: 0
   },
@@ -469,7 +469,7 @@ export const FCDataTemplate = [
     name: "ESG_SocialScore",
     display_name: "Social Risk",
     type: 1,
-    tooltip: "Social ESG risk score",
+    tooltip: "Sustainalytics social ESG risk score",
     args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
     default_index: 0
   },
@@ -477,7 +477,7 @@ export const FCDataTemplate = [
     name: "ESG_GovernanceScore",
     display_name: "Governance Risk",
     type: 1,
-    tooltip: "Governance ESG risk score",
+    tooltip: "Sustainalytics governance ESG risk score",
     args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
     default_index: 0
   },
@@ -485,7 +485,7 @@ export const FCDataTemplate = [
     name: "ESG_Percentile",
     display_name: "ESG Percentile",
     type: 1,
-    tooltip: "ESG percentile rank scoring",
+    tooltip: "Sustainalytics ESG percentile rank scoring",
     args_items: ["Any", "< 20", "< 40", "< 60", "< 80"],
     default_index: 0
   }
