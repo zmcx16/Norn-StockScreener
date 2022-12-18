@@ -274,11 +274,22 @@ def get_esg_data(ranking_folder_path):
                         "name": symbol,
                         "symbol": symbol,
                         "rank": i+1,
+                        "rank_color": '',
                         "extra_info": "",
-                        "link": "https://finviz.com/quote.ashx?t=" + symbol,
+                        "link": f"https://finance.yahoo.com/quote/{symbol}/sustainability",
                     }
                     if symbol in stock_info:
                         esg_data["name"] = stock_info[symbol][0]
+
+                    if dt[i]['totalEsg'] < 10:
+                        dt[i]['rank_color'] = "#00e676"
+                    elif dt[i]['totalEsg'] < 20:
+                        dt[i]['rank_color'] = "#29b6f6"
+                    elif dt[i]['totalEsg'] < 30:
+                        dt[i]['rank_color'] = "#ffca28"
+                    else:
+                        dt[i]['rank_color'] = "#f44336"
+
                     esg_data["extra_info"] = f"Total ESG: {dt[i]['totalEsg']}\n" \
                                              f"Environment: {dt[i]['environmentScore']}\n" \
                                              f"Social: {dt[i]['socialScore']}\n" \
