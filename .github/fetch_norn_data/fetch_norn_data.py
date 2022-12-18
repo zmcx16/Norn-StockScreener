@@ -6,6 +6,7 @@ import json
 import requests
 import re
 import numpy as np
+from functools import cmp_to_key
 from urllib.parse import urlencode
 from datetime import datetime, timedelta
 from scipy import stats
@@ -225,23 +226,66 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
 
 
 def get_esg_data(ranking_folder_path):
-
-    param = {
-        'code': afscreener_token,
-        'api': 'get-esg-data'
-    }
-    encoded_args = urlencode(param)
-    query_url = afscreener_url + '?' + encoded_args
-
     try:
+        # get stock info
+        stock_info = {}
+        param = {
+            'code': afscreener_token,
+            'api': 'get-stock-info-from-db'
+        }
+        encoded_args = urlencode(param)
+        query_url = afscreener_url + '?' + encoded_args
         ret, content = send_request(query_url)
         if ret == 0:
             resp = json.loads(content)
             if resp["ret"] == 0:
-                output = {'update_time': str(datetime.now()), 'data': {}}
+                stock_info = resp["data"]
+            else:
+                print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
+                sys.exit(1)
+        else:
+            print('send_request failed: {ret}'.format(ret=ret))
+            sys.exit(1)
+
+        # get esg data
+        param = {
+            'code': afscreener_token,
+            'api': 'get-esg-data'
+        }
+        encoded_args = urlencode(param)
+        query_url = afscreener_url + '?' + encoded_args
+
+        ret, content = send_request(query_url)
+        if ret == 0:
+            resp = json.loads(content)
+            if resp["ret"] == 0:
+                output = {'update_time': str(datetime.now()), 'data': []}
+                dt = []
                 for k in resp["data"]:
                     if resp["data"][k]["totalEsg"] != "-":
-                        output["data"][k] = resp["data"][k]
+                        o = resp["data"][k]
+                        o["symbol"] = k
+                        dt.append(o)
+
+                dt = sorted(dt, key=lambda d: d['totalEsg'])
+                for i in range(len(dt)):
+                    symbol = dt[i]["symbol"]
+                    esg_data = {
+                        "name": symbol,
+                        "symbol": symbol,
+                        "rank": i+1,
+                        "extra_info": "",
+                        "link": "https://finviz.com/quote.ashx?t=" + symbol,
+                    }
+                    if symbol in stock_info:
+                        esg_data["name"] = stock_info[symbol][0]
+                    esg_data["extra_info"] = f"Total ESG: {dt[i]['totalEsg']}\n" \
+                                             f"Environment: {dt[i]['environmentScore']}\n" \
+                                             f"Social: {dt[i]['socialScore']}\n" \
+                                             f"Governance: {dt[i]['governanceScore']}\n" \
+                                             f"Percentile: {dt[i]['percentile']}"
+
+                    output["data"].append(esg_data)
 
                 with open(ranking_folder_path / 'esg.json', 'w',
                           encoding='utf-8') as f_it:
