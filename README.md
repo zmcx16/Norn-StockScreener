@@ -78,6 +78,7 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Share Change(1Y)
   * Sectors
   * Industries
+  * ESG (Environment, Social, Governance, Percentile, Total)
   
 # Investment Master's Tactics
   * Benjamin Graham strategy
