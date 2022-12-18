@@ -448,5 +448,45 @@ export const FCDataTemplate = [
     tooltip: "The Share outstanding changed in the last year",
     args_items: ["Any", "< -5%", "< -10%", "> 5%", "> 10%"],
     default_index: 0
+  },
+  {
+    name: "ESG_TotalEsg",
+    display_name: "Total ESG Risk",
+    type: 1,
+    tooltip: "Total ESG risk score",
+    args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
+    default_index: 0
+  },
+  {
+    name: "ESG_EnvironmentScore",
+    display_name: "Environment Risk",
+    type: 1,
+    tooltip: "Environment ESG risk score",
+    args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
+    default_index: 0
+  },
+  {
+    name: "ESG_SocialScore",
+    display_name: "Social Risk",
+    type: 1,
+    tooltip: "Social ESG risk score",
+    args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
+    default_index: 0
+  },
+  {
+    name: "ESG_GovernanceScore",
+    display_name: "Governance Risk",
+    type: 1,
+    tooltip: "Governance ESG risk score",
+    args_items: ["Any", "< 10", "< 20", "< 30", "< 40"],
+    default_index: 0
+  },
+  {
+    name: "ESG_Percentile",
+    display_name: "ESG Percentile",
+    type: 1,
+    tooltip: "ESG percentile rank scoring",
+    args_items: ["Any", "< 20", "< 40", "< 60", "< 80"],
+    default_index: 0
   }
 ]
