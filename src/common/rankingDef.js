@@ -1896,6 +1896,13 @@ Growth +19%`,
       ]
     },
     {
+        name: 'ESG_Sustainalytics',
+        display_name: 'Sustainalytics - Company ESG Risk Ratings',
+        description: `ESG Risk Ratings available for sustainability risk management. Identify, understand and manage your environmental, social and governance risks.`,
+        link: 'https://www.sustainalytics.com/esg-ratings',
+        data: "/norn-data/ranking/esg.json"
+    },
+    {
       name: 'Interbrand_BestGlobalBrands',
       display_name: 'Interbrand - Best Global Brands (2021)',
       description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,

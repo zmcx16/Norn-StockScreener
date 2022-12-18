@@ -4,10 +4,11 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 
-import { FinvizUrl, YahooFinanceEnUrl, YahooFinanceZhUrl } from './common'
-import { convertKMBT, NavZhEnUrl } from './utils'
+import { FinvizUrl, YahooFinanceEnUrl } from './common'
+import { convertKMBT } from './utils'
 
-export const YahooFinanceUrl = NavZhEnUrl(YahooFinanceZhUrl, YahooFinanceEnUrl)
+// export const YahooFinanceUrl = NavZhEnUrl(YahooFinanceZhUrl, YahooFinanceEnUrl)
+export const YahooFinanceUrl = YahooFinanceEnUrl
 
 export function useInterval(callback, delay) {
   const savedCallback = useRef();

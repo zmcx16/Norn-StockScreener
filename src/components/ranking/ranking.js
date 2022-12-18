@@ -76,11 +76,11 @@ const Ranking = ({loadingAnimeRef}) => {
     ]
   }
 
-
   const fetchRankingData = useFetch({ cachePolicy: 'no-cache' })
+  const fetchStockInfoData = useFetch({ cachePolicy: 'no-cache' })
 
-  const renderTable = (resp, selectIndex) => {
-    let output = RankingDef[selectIndex].data.map((value, index) => {
+  const renderTable = (resp, ranking_data) => {
+    let output = ranking_data.map((value, index) => {
       let stockInfo = resp[value['symbol']]
       let o = {
         id: index,
@@ -119,12 +119,21 @@ const Ranking = ({loadingAnimeRef}) => {
 
   const renderRankingData = (selectIndex) => {
     loadingAnimeRef.current.setLoading(true)
-    Promise.all([
-      GetDataByFetchObj('/norn-data/stock/stat.json', fetchRankingData),
-    ]).then((allResponses) => {
+    let fetch_data = [
+      GetDataByFetchObj('/norn-data/stock/stat.json', fetchStockInfoData)
+    ]
+    if (typeof RankingDef[selectIndex].data === 'string'){
+      fetch_data.push(GetDataByFetchObj('/norn-data/ranking/esg.json', fetchRankingData))
+    }
+
+    Promise.all(fetch_data).then((allResponses) => {
       console.log(allResponses)
-      if (allResponses.length === 1 && allResponses[0] !== null) {
-        renderTable(allResponses[0], selectIndex)
+      if (allResponses[0] !== null) {
+        let data = RankingDef[selectIndex].data
+        if (allResponses.length === 2) { // get data by url
+          data = allResponses[1]["data"]
+        }
+        renderTable(allResponses[0], data)
       } else {
         console.error("renderRankingData some data failed")
         modalWindowRef.current.popModalWindow(<div>Get some data failed...</div>)
