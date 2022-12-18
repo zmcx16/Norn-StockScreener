@@ -282,13 +282,13 @@ def get_esg_data(ranking_folder_path):
                         esg_data["name"] = stock_info[symbol][0]
 
                     if dt[i]['totalEsg'] < 10:
-                        dt[i]['rank_color'] = "#00e676"
+                        esg_data['rank_color'] = "#00e676"
                     elif dt[i]['totalEsg'] < 20:
-                        dt[i]['rank_color'] = "#29b6f6"
+                        esg_data['rank_color'] = "#29b6f6"
                     elif dt[i]['totalEsg'] < 30:
-                        dt[i]['rank_color'] = "#ffca28"
+                        esg_data['rank_color'] = "#ffca28"
                     else:
-                        dt[i]['rank_color'] = "#f44336"
+                        esg_data['rank_color'] = "#f44336"
 
                     esg_data["extra_info"] = f"Total ESG: {dt[i]['totalEsg']}\n" \
                                              f"Environment: {dt[i]['environmentScore']}\n" \
