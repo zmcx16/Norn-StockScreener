@@ -200,8 +200,8 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
                 intersection_key_data_val = {x: key_data_val[x] for x in key_data_val if x in correlation_key_data_val}
                 intersection_correlation_key_data_val = {x: correlation_key_data_val[x] for x in intersection_key_data_val}
 
-                data1 = np.array(list(intersection_key_data_val.values())).astype(np.float)
-                data2 = np.array(list(intersection_correlation_key_data_val.values())).astype(np.float)
+                data1 = np.array(list(intersection_key_data_val.values())).astype(np.float64)
+                data2 = np.array(list(intersection_correlation_key_data_val.values())).astype(np.float64)
 
                 if len(data1) > 2 and len(data2) > 2:
                     val, p_value = stats.pearsonr(data1, data2)
