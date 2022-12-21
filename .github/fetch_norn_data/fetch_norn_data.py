@@ -26,7 +26,6 @@ def send_request(url):
             res.raise_for_status()
         except Exception as ex:
             print('Generated an exception: {ex}'.format(ex=ex))
-            return -1, ex
 
         if res.status_code == 200:
             return 0, res.text
