@@ -48,6 +48,7 @@ jobs:
     - name: Add norn-data and push it
       run: |-
         git config --global user.name "zmcx16-bot"
+        git config --global user.email "zmcx16@gmail.com"
         git config --global pull.ff only
         git pull
         git reset --soft HEAD~1
