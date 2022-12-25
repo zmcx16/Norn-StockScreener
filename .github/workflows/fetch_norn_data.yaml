@@ -65,5 +65,6 @@ jobs:
         cp -f ./norn-data/indusrty-table.json ./zmcx16.github.io/
         cd ./zmcx16.github.io
         git config --global user.name "zmcx16-bot"
+        git config --global user.email "zmcx16-bot@zmcx16.moe"
         git add indusrty-table.json && git commit -m "updated indusrty-table.json"
         git push
