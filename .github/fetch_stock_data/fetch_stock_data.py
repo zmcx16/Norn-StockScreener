@@ -1,6 +1,7 @@
 import os
 import sys
 import pathlib
+import argparse
 import json
 import requests
 import traceback
@@ -120,7 +121,7 @@ def get_stock_base_info():
         encoded_args = urlencode(param)
         query_url = afscreener_url + '?' + encoded_args
         ret, resp = send_post_json(query_url, str(
-            {"baseinfo_v": ["Market Cap", "ROE", "ROA", "ROI", "P/E", "P/B", "P/S", "Dividend %", "52W High", "52W Low",
+            {"baseinfo_v": ["Market Cap", "ROE", "ROA", "ROI", "P/E", "P/B", "P/S", "Dividend %", "52W Range", "52W High", "52W Low",
                             "Target Price", "Perf Week", "Perf Month", "Perf Quarter", "Perf Half Y", "Perf Year",
                             "Perf YTD"]}))
         if ret == 0:
@@ -188,13 +189,21 @@ def main():
     root = pathlib.Path(__file__).parent.resolve()
     norn_data_folder_path = root / ".." / "norn-data"
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "-input-symbol-list", dest="input", default="")
+    args = parser.parse_args()
+
     stock_folder_path = norn_data_folder_path / "stock"
     stock_historical_folder_path = stock_folder_path / "historical-quotes"
     if not os.path.exists(stock_historical_folder_path):
         os.makedirs(stock_historical_folder_path)
 
     # get stock info
-    stock_info = get_stock_info()
+    if args.input == "":
+        stock_info = get_stock_info()
+    else:
+        stock_info = args.input.split(",")
+
     print(stock_info)
 
     # get stock 1y data
