@@ -488,5 +488,13 @@ export const FCDataTemplate = [
     tooltip: "Sustainalytics ESG percentile rank scoring",
     args_items: ["Any", "< 20", "< 40", "< 60", "< 80"],
     default_index: 0
+  },
+  {
+    name: "Recomm_RecommendationMean",
+    display_name: "Recommendation",
+    type: 1,
+    tooltip: "Yahoo Finance recommendation rating",
+    args_items: ["Any", "< 2", "< 3", "< 4"],
+    default_index: 0
   }
 ]
