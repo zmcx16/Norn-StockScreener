@@ -34,6 +34,13 @@ export const RankingDef = [
         data: "/norn-data/ranking/esg.json"
     },
     {
+        name: 'YahooFinance_Recommendation',
+        display_name: 'Yahoo Finance - Recommendation Ratings',
+        description: `Yahoo Finance Stock Analyst Ratings.`,
+        link: 'https://finance.yahoo.com',
+        data: "/norn-data/ranking/recommendation.json"
+    },
+    {
       name: 'Interbrand_BestGlobalBrands2021',
       display_name: 'Interbrand - Best Global Brands (2021)',
       description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,

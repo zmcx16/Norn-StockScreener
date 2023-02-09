@@ -123,7 +123,7 @@ const Ranking = ({loadingAnimeRef}) => {
       GetDataByFetchObj('/norn-data/stock/stat.json', fetchStockInfoData)
     ]
     if (typeof RankingDef[selectIndex].data === 'string'){
-      fetch_data.push(GetDataByFetchObj('/norn-data/ranking/esg.json', fetchRankingData))
+      fetch_data.push(GetDataByFetchObj(RankingDef[selectIndex].data, fetchRankingData))
     }
 
     Promise.all(fetch_data).then((allResponses) => {
