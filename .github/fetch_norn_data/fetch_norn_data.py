@@ -357,11 +357,11 @@ def get_recommendation_data(ranking_folder_path, stock_info):
                     if symbol in stock_info:
                         recomm_data["name"] = stock_info[symbol][0]
 
-                    if dt[i]['recommendationMean'] < 2:
+                    if dt[i]['recommendationMean'] <= 1.5:
                         recomm_data['rank_color'] = "#00e676"
-                    elif dt[i]['recommendationMean'] < 3:
+                    elif dt[i]['recommendationMean'] <= 2.5:
                         recomm_data['rank_color'] = "#29b6f6"
-                    elif dt[i]['recommendationMean'] < 4:
+                    elif dt[i]['recommendationMean'] <= 3.5:
                         recomm_data['rank_color'] = "#ffca28"
                     else:
                         recomm_data['rank_color'] = "#f44336"
