@@ -224,10 +224,9 @@ def calc_market_correlation(norn_data_folder_path, market_folder_path):
     print('calc_market_correlation done')
 
 
-def get_esg_data(ranking_folder_path):
+def get_stock_info():
     try:
         # get stock info
-        stock_info = {}
         param = {
             'code': afscreener_token,
             'api': 'get-stock-info-from-db'
@@ -238,7 +237,7 @@ def get_esg_data(ranking_folder_path):
         if ret == 0:
             resp = json.loads(content)
             if resp["ret"] == 0:
-                stock_info = resp["data"]
+                return resp["data"]
             else:
                 print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
                 sys.exit(1)
@@ -246,6 +245,13 @@ def get_esg_data(ranking_folder_path):
             print('send_request failed: {ret}'.format(ret=ret))
             sys.exit(1)
 
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+        sys.exit(1)
+
+
+def get_esg_data(ranking_folder_path, stock_info):
+    try:
         # get esg data
         param = {
             'code': afscreener_token,
@@ -314,6 +320,75 @@ def get_esg_data(ranking_folder_path):
 
     print('get_esg_data done')
 
+
+def get_recommendation_data(ranking_folder_path, stock_info):
+    try:
+        # get recommendation data
+        param = {
+            'code': afscreener_token,
+            'api': 'get-recommendation-data'
+        }
+        encoded_args = urlencode(param)
+        query_url = afscreener_url + '?' + encoded_args
+
+        ret, content = send_request(query_url)
+        if ret == 0:
+            resp = json.loads(content)
+            if resp["ret"] == 0:
+                output = {'update_time': str(datetime.now()), 'data': []}
+                dt = []
+                for k in resp["data"]:
+                    if resp["data"][k]["recommendationMean"] != "-":
+                        o = resp["data"][k]
+                        o["symbol"] = k
+                        dt.append(o)
+
+                dt = sorted(dt, key=lambda d: d['recommendationMean'])
+                for i in range(len(dt)):
+                    symbol = dt[i]["symbol"]
+                    recomm_data = {
+                        "name": symbol,
+                        "symbol": symbol,
+                        "rank": i+1,
+                        "rank_color": '',
+                        "extra_info": "",
+                        "link": f"https://finance.yahoo.com/quote/{symbol}/analysis",
+                    }
+                    if symbol in stock_info:
+                        recomm_data["name"] = stock_info[symbol][0]
+
+                    if dt[i]['recommendationMean'] <= 1:
+                        recomm_data['rank_color'] = "#00e676"
+                    elif dt[i]['recommendationMean'] <= 2:
+                        recomm_data['rank_color'] = "#29b6f6"
+                    elif dt[i]['recommendationMean'] <= 3:
+                        recomm_data['rank_color'] = "#ffca28"
+                    else:
+                        recomm_data['rank_color'] = "#f44336"
+
+                    if 'recommendationKey' in dt[i]:
+                        recomm_data["extra_info"] = dt[i]['recommendationKey']
+
+                    output["data"].append(recomm_data)
+
+                with open(ranking_folder_path / 'recommendation.json', 'w',
+                          encoding='utf-8') as f_it:
+                    f_it.write(json.dumps(output, separators=(',', ':')))
+
+            else:
+                print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
+                sys.exit(1)
+        else:
+            print('send_request failed: {ret}'.format(ret=ret))
+            sys.exit(1)
+
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+        sys.exit(1)
+
+    print('get_recommendation_data done')
+
+
 def main():
 
     root = pathlib.Path(__file__).parent.resolve()
@@ -328,7 +403,9 @@ def main():
         os.makedirs(ranking_folder_path)
 
     config = get_config()
-    get_esg_data(ranking_folder_path)
+    stock_info = get_stock_info()
+    get_esg_data(ranking_folder_path, stock_info)
+    get_recommendation_data(ranking_folder_path, stock_info)
     update_get_market(market_folder_path, config)
     get_market_industry(norn_data_folder_path)
     calc_market_correlation(norn_data_folder_path, market_folder_path)
