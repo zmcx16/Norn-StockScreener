@@ -367,7 +367,7 @@ def get_recommendation_data(ranking_folder_path, stock_info):
                         recomm_data['rank_color'] = "#f44336"
 
                     if 'recommendationKey' in dt[i]:
-                        recomm_data["extra_info"] = dt[i]['recommendationKey']
+                        recomm_data["extra_info"] = f"{dt[i]['recommendationMean']}({dt[i]['recommendationKey']})"
 
                     output["data"].append(recomm_data)
 
