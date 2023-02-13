@@ -123,7 +123,7 @@ def get_stock_base_info():
         ret, resp = send_post_json(query_url, str(
             {"baseinfo_v": ["Market Cap", "ROE", "ROA", "ROI", "P/E", "P/B", "P/S", "Dividend %", "52W Range", "52W High", "52W Low",
                             "Target Price", "Perf Week", "Perf Month", "Perf Quarter", "Perf Half Y", "Perf Year",
-                            "Perf YTD"]}))
+                            "Perf YTD", "Short Float"]}))
         if ret == 0:
             if resp["ret"] == 0:
                 return resp["data"]
