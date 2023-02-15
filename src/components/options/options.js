@@ -83,6 +83,7 @@ const Options = ({loadingAnimeRef}) => {
   const tableColList = {
     Symbol: { hide: false, text: 'Symbol' },
     StockPrice: { hide: false, text: 'Price (Stock)' },
+    StockShortFloat: { hide: false, text: 'Short Float (Stock)' },
     ExpiryDate: { hide: false, text: 'Expiry' },
     Strike: { hide: false, text: 'Strike' },
     LastPrice: { hide: false, text: 'Last Price' },
@@ -157,6 +158,7 @@ const Options = ({loadingAnimeRef}) => {
     return [
       SymbolNameField('symbol', 'Symbol', 115, 'symbol' in hideColState ? hideColState['symbol'] : false),
       OptionPriceField("stockPrice", tableColList.StockPrice.text, 125, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide, "stock"),
+      PercentField("stockShortFloat", tableColList.StockShortFloat.text, 115, "stockShortFloat" in hideColState ? hideColState["stockShortFloat"] : tableColList['StockShortFloat'].hide),
       {
         field: 'expiryDate',
         headerName: tableColList.ExpiryDate.text,
@@ -296,6 +298,8 @@ const Options = ({loadingAnimeRef}) => {
   const fetchOptionsData = useFetch({ cachePolicy: 'no-cache' })
   const fetchExDividendData = useFetch({ cachePolicy: 'no-cache' })
   const exDividendDictRef = useRef({}) 
+  const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
+  const StockDictRef = useRef({}) 
   
   const renderTable = (resp, support_earnings_date) => {
     // [{"symbol":"A","stockPrice":149.50999450683594,"EWMA_historicalVolatility":0.2519420533670158,"contracts":[{"expiryDate":"2022-01-21","calls":[{"lastTradeDate":"2022-01-12","strike":155.0,"lastPrice":0.32,"bid":0.35,"ask":0.5,"change":0.049999982,"percentChange":18.51851,"volume":30,"openInterest":721,"impliedVolatility":0.22461712890624996,"valuationData":{"BSM_EWMAHisVol":0.7042894690005248,"MC_EWMAHisVol":0.70279983534146,"BT_EWMAHisVol":0.7046023394736802}}],"puts":[]}]}
@@ -324,6 +328,11 @@ const Options = ({loadingAnimeRef}) => {
         ex_dividend_link = exDividendDictRef.current[symbol]['link']
       }
 
+      let stock_short_float = '-'
+      if (symbol in StockDictRef.current) {
+        stock_short_float = StockDictRef.current[symbol]['Short Float']
+      }
+
       let today = new Date(new Date().toISOString().split('T')[0]);
 
       let ewma_his_vol = data["EWMA_historicalVolatility"]
@@ -336,6 +345,7 @@ const Options = ({loadingAnimeRef}) => {
               id: index,
               symbol: symbol,
               stockPrice: stock_price,
+              stockShortFloat: stock_short_float,
               EWMAHisVol: ewma_his_vol,
               kind: kind,
               expiryDate: expiry_date,
@@ -434,12 +444,14 @@ const Options = ({loadingAnimeRef}) => {
     loadingAnimeRef.current.setLoading(true)
     Promise.all([
       GetDataByFetchObj('/norn-data/options/ex_dividend_date_list.json', fetchExDividendData),
+      GetDataByFetchObj('/norn-data/stock/stat.json', fetchStockData),
       GetDataByFetchObj('/norn-data/options/' + file_name + '.json', fetchOptionsData),
     ]).then((allResponses) => {
       console.log(allResponses)
-      if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
+      if (allResponses.length === 3 && allResponses[0] !== null && allResponses[1] !== null && allResponses[2] !== null) {
         exDividendDictRef.current = Object.assign({}, ...allResponses[0]['data'].map((x) => ({[x['symbol']]: x})))
-        renderTable(allResponses[1], false)
+        StockDictRef.current = allResponses[1]
+        renderTable(allResponses[2], false)
       } else {
         console.error("renderOptionsData some data failed")
         modalWindowRef.current.popModalWindow(<div>Get some data failed...</div>)

@@ -45,6 +45,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
     Avg: { hide: false, text: 'Avg-Max' },
     AvgR: { hide: false, text: 'Avg-Ratio' },
     Close: { hide: false, text: 'Price' },
+    ShortFloat: { hide: false, text: 'Short Float' },
     PE: { hide: false, text: 'P/E' },
     PB: { hide: false, text: 'P/B' },
     Dividend: { hide: false, text: 'Dividend %' },
@@ -137,6 +138,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
         hide: 'avgR' in hideColState ? hideColState['avgR'] : tableColList['AvgR'].hide
       },
       PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, "close" in hideColState ? hideColState["close"] : tableColList['Close'].hide),
+      PercentField("shortFloat", tableColList.ShortFloat.text, 150, "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide),
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
       PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
@@ -252,6 +254,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
             avg: 0,
             avgR: 0,
             close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
+            shortFloat: stockInfo !== undefined && stockInfo !== null && stockInfo['Short Float'] !== '-' ? stockInfo['Short Float'] : -Number.MAX_VALUE,
             PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
             PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
             dividend: stockInfo !== undefined && stockInfo !== null && stockInfo['Dividend %'] !== '-' ? stockInfo['Dividend %'] : -Number.MAX_VALUE,

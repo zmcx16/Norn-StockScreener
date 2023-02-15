@@ -34,7 +34,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
       } else if (key === 'Close' || key === 'PE' || key === 'PB') {
         return PureFieldWithValueCheck(key, showColList[key].text, 110, 2, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else if (key === 'Dividend' || key === 'High52' || key === 'Low52' || 
-        key === 'PerfWeek' || key === 'PerfMonth' || key === 'PerfQuarter' || key === 'PerfHalfY' || key === 'PerfYear' || key === 'PerfYTD') {
+        key === 'PerfWeek' || key === 'PerfMonth' || key === 'PerfQuarter' || key === 'PerfHalfY' || key === 'PerfYear' || key === 'PerfYTD' || key === 'ShortFloat') {
         return PercentField(key, showColList[key].text, 150, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else {
         return KMBTField(key, showColList[key].text, 150, 2, key in hideColState ? hideColState[key] : showColList[key].hide)
@@ -118,6 +118,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
             PerfHalfY: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Half Y'] !== '-' ? stockInfo['Perf Half Y'] : -Number.MAX_VALUE,
             PerfYear: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Year'] !== '-' ? stockInfo['Perf Year'] : -Number.MAX_VALUE,
             PerfYTD: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf YTD'] !== '-' ? stockInfo['Perf YTD'] : -Number.MAX_VALUE,
+            ShortFloat: stockInfo !== undefined && stockInfo !== null && stockInfo['Short Float'] !== '-' ? stockInfo['Short Float'] : -Number.MAX_VALUE,
             GurusCount: 0,
             GurusValue: 0
           }
@@ -151,6 +152,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
           PerfHalfY: { hide: false, text: 'Perf Half Y' },
           PerfYear: { hide: false, text: 'Perf Year' },
           PerfYTD: { hide: false, text: 'Perf YTD' },
+          ShortFloat: { hide: false, text: 'Short Float' },
           GurusCount: { hide: false, text: 'Gurus Count' },
           GurusValue: { hide: false, text: 'Gurus Value' },
         }
