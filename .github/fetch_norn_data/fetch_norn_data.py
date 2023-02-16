@@ -19,6 +19,7 @@ afscreener_token = os.environ.get("AF_TOKEN", "")
 RETRY_SEND_REQUEST = 3
 RETRY_FAILED_DELAY = 20
 
+
 def send_request(url):
     for r in range(RETRY_SEND_REQUEST):
         try:

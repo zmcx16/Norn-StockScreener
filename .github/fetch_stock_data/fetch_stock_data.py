@@ -15,6 +15,7 @@ afscreener_url = os.environ.get(
     "AF_URL", "")
 afscreener_token = os.environ.get("AF_TOKEN", "")
 DELAY_TIME_SEC = 1
+RETRY_FAILED_DELAY = 20
 RETRY_CNT = 5
 
 
@@ -27,26 +28,36 @@ def is_float(value):
 
 
 def send_request(url):
-    try:
-        res = requests.get(url)
-        res.raise_for_status()
-    except Exception as ex:
-        print('Generated an exception: {ex}'.format(ex=ex))
-        return -1, ex
+    for r in range(RETRY_CNT):
+        try:
+            res = requests.get(url)
+            res.raise_for_status()
+        except Exception as ex:
+            print('Generated an exception: {ex}'.format(ex=ex))
 
-    return 0, res.text
+        if res.status_code == 200:
+            return 0, res.text
+
+        time.sleep(RETRY_FAILED_DELAY)
+
+    return -2, "exceed retry cnt"
 
 
 def send_post_json(url, req_data):
-    try:
-        headers = {'content-type': 'application/json'}
-        res = requests.post(url, req_data, headers=headers)
-        res.raise_for_status()
-    except Exception as ex:
-        print('Generated an exception: {ex}'.format(ex=ex))
-        return -1, ex
+    for r in range(RETRY_CNT):
+        try:
+            headers = {'content-type': 'application/json'}
+            res = requests.post(url, req_data, headers=headers)
+            res.raise_for_status()
+        except Exception as ex:
+            print('Generated an exception: {ex}'.format(ex=ex))
 
-    return 0, res.json()
+        if res.status_code == 200:
+            return 0, res.json()
+
+        time.sleep(RETRY_FAILED_DELAY)
+
+    return -2, {}
 
 
 def get_stock_info():
