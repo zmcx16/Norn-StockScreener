@@ -1,6 +1,7 @@
 import { NavZhEnUrl } from '../common/utils'
 import { interbrand_BestGlobalBrands2022 } from './data/interbrand_BestGlobalBrands2022'
 import { interbrand_BestGlobalBrands2021 } from './data/interbrand_BestGlobalBrands2021'
+import { Clarivate_GlobalInnovators2023 } from './data/Clarivate_GlobalInnovators2023'
 import { Clarivate_GlobalInnovators2022 } from './data/Clarivate_GlobalInnovators2022'
 import { Gartner_SupplyChain2022 } from './data/Gartner_SupplyChain2022'
 
@@ -13,11 +14,11 @@ export const RankingDef = [
         data: interbrand_BestGlobalBrands2022
     },    
     {
-        name: 'Clarivate_GlobalInnovators2022',
-        display_name: 'Clarivate - Top 100 Global Innovators (2022)',
+        name: 'Clarivate_GlobalInnovators2023',
+        display_name: 'Clarivate - Top 100 Global Innovators (2023)',
         description: `Clarivate is a global leader in providing trusted insights and analytics to accelerate the pace of innovation. The vision is to improve the way the world creates, protects and advances innovation.`,
-        link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/the-top-100/?clv-award-year=2022', 'https://clarivate.com/top-100-innovators/the-top-100/?clv-award-year=2022'),
-        data: Clarivate_GlobalInnovators2022
+        link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/top-100-innovators/?clv-award-year=2023', 'https://clarivate.com/top-100-innovators/top-100-innovators/?clv-award-year=2023'),
+        data: Clarivate_GlobalInnovators2023
     },
     {
         name: 'Gartner_SupplyChain2022',
@@ -46,5 +47,12 @@ export const RankingDef = [
       description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,
       link: 'https://interbrand.com/best-global-brands/',
       data: interbrand_BestGlobalBrands2021
-    }
+    },
+    {
+        name: 'Clarivate_GlobalInnovators2022',
+        display_name: 'Clarivate - Top 100 Global Innovators (2022)',
+        description: `Clarivate is a global leader in providing trusted insights and analytics to accelerate the pace of innovation. The vision is to improve the way the world creates, protects and advances innovation.`,
+        link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/top-100-innovators/?clv-award-year=2022', 'https://clarivate.com/top-100-innovators/top-100-innovators/?clv-award-year=2022'),
+        data: Clarivate_GlobalInnovators2022
+    },
   ]
