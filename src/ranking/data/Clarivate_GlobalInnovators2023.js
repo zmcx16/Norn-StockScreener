@@ -6,16 +6,20 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "MMM",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/3M%E5%85%AC%E5%8F%B8', 'https://en.wikipedia.org/wiki/3M'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     },
     {
         name: "AAC Technologies",
         symbol: "AACAY",
         rank: 96,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E7%91%9E%E8%81%B2%E7%A7%91%E6%8A%80', 'https://en.wikipedia.org/wiki/AAC_Technologies'),
+        rank_color: '#2196f3',
         extra_info: 
-`🌟 1x Winner`,
+`🌟 1x Winner
+🌟 New entrant`,
     },
     {
         name: "ABB",
@@ -102,8 +106,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "BA",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E6%B3%A2%E9%9F%B3', 'https://en.wikipedia.org/wiki/Boeing'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Bosch",
@@ -135,7 +141,7 @@ export const Clarivate_GlobalInnovators2023 = [
         rank: 20,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E5%8E%9F%E5%AD%90%E8%83%BD%E5%92%8C%E6%9B%BF%E4%BB%A3%E8%83%BD%E6%BA%90%E5%A7%94%E5%91%98%E4%BC%9A', 'https://en.wikipedia.org/wiki/French_Alternative_Energies_and_Atomic_Energy_Commission'),
         extra_info: 
-`🌟 11x Winner`,
+        `🌟 11x Winner`,
     }, 
     {
         name: "CNRS",
@@ -174,8 +180,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "DD",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E9%99%B6%E6%B0%8F%E5%8C%96%E5%B7%A5', 'https://en.wikipedia.org/wiki/Dow_Chemical_Company'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "DuPont",
@@ -198,8 +206,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "ERIC",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E6%84%9B%E7%AB%8B%E4%BF%A1', 'https://en.wikipedia.org/wiki/Ericsson'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Evonik",
@@ -246,16 +256,20 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "FJTSY",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E5%AF%8C%E5%A3%AB%E9%80%9A', 'https://en.wikipedia.org/wiki/Fujitsu'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "GE",
         symbol: "GE",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E9%80%9A%E7%94%A8%E7%94%B5%E6%B0%94', 'https://en.wikipedia.org/wiki/General_Electric'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "General Motors",
@@ -278,24 +292,30 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "HTHIY",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E6%97%A5%E7%AB%8B%E8%A3%BD%E4%BD%9C%E6%89%80', 'https://en.wikipedia.org/wiki/Hitachi'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Honda",
         symbol: "HMC",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E6%9C%AC%E7%94%B0%E6%8A%80%E7%A0%94%E5%B7%A5%E4%B8%9A', 'https://en.wikipedia.org/wiki/Honda'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Honeywell",
         symbol: "HON",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/wiki/%E9%9C%8D%E5%B0%BC%E9%9F%A6%E5%B0%94', 'https://en.wikipedia.org/wiki/Honeywell'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Huawei",
@@ -390,8 +410,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "LPL",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/LG%E9%9B%86%E5%9B%A2', 'https://en.wikipedia.org/wiki/LG_Corporation'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "MediaTek",
@@ -446,16 +468,20 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "2408.tw",
         rank: 96,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E5%8D%97%E4%BA%9E%E7%A7%91%E6%8A%80', 'https://en.wikipedia.org/wiki/Formosa_Plastics_Group#Subsidiaries'),
+        rank_color: '#2196f3',
         extra_info: 
-`🌟 1x Winner`,
+`🌟 1x Winner
+🌟 New entrant`,
     }, 
     {
         name: "NEC",
         symbol: "NIPNF",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E6%97%A5%E6%9C%AC%E9%9B%BB%E6%B0%A3', 'https://en.wikipedia.org/wiki/NEC'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Nichia",
@@ -470,8 +496,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "NJDCY",
         rank: 96,
         link: NavZhEnUrl('https://zh-yue.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E9%9B%BB%E7%94%A2', 'https://en.wikipedia.org/wiki/Nidec'),
+        rank_color: '#2196f3',
         extra_info: 
-`🌟 1x Winner`,
+`🌟 1x Winner
+🌟 New entrant`,
     }, 
     {
         name: "Nitto Denko",
@@ -510,16 +538,20 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "OTIS",
         rank: 96,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E5%A5%A7%E7%9A%84%E6%96%AF%E9%9B%BB%E6%A2%AF%E5%85%AC%E5%8F%B8', 'https://en.wikipedia.org/wiki/Otis_Worldwide'),
+        rank_color: '#2196f3',
         extra_info: 
-`🌟 1x Winner`,
+`🌟 1x Winner
+🌟 New entrant`,
     }, 
     {
         name: "Panasonic",
         symbol: "PCRFY",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E6%9D%BE%E4%B8%8B%E9%9B%BB%E5%99%A8', 'https://en.wikipedia.org/wiki/Panasonic'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Philip Morris International",
@@ -550,8 +582,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "QCOM",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E9%AB%98%E9%80%9A', 'https://en.wikipedia.org/wiki/Qualcomm'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Quanta Computer",
@@ -590,8 +624,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "RHHBY",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E7%BD%97%E6%B0%8F', 'https://en.wikipedia.org/wiki/Roche'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Rolls Royce",
@@ -614,8 +650,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "SSNLF",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E4%B8%89%E6%98%9F%E9%9B%86%E5%9B%A2', 'https://en.wikipedia.org/wiki/Samsung'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Saudi Aramco",
@@ -654,8 +692,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "SHECY",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E4%BF%A1%E8%B6%8A%E5%8C%96%E5%AD%B8%E5%B7%A5%E6%A5%AD', 'https://en.wikipedia.org/wiki/Shin-Etsu_Chemical'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "Siemens",
@@ -678,8 +718,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "SONY",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E7%B4%A2%E5%B0%BC', 'https://en.wikipedia.org/wiki/Sony'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     }, 
     {
         name: "STMicroelectronics",
@@ -742,16 +784,20 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "TOSYY",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E4%B8%9C%E8%8A%9D', 'https://en.wikipedia.org/wiki/Toshiba'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     },  
     {
         name: "Toyota",
         symbol: "TM",
         rank: 1,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-hant/%E4%B8%B0%E7%94%B0%E6%B1%BD%E8%BD%A6', 'https://en.wikipedia.org/wiki/Toyota'),
+        rank_color: '#ffc107',
         extra_info: 
-`🌟 12x Winner`,
+`🌟 12x Winner
+🌟 12-Year Top 100 Global Innovator`,
     },  
     {
         name: "TSMC",
@@ -774,8 +820,10 @@ export const Clarivate_GlobalInnovators2023 = [
         symbol: "2344.tw",
         rank: 96,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E8%8F%AF%E9%82%A6%E9%9B%BB%E5%AD%90', 'https://en.wikipedia.org/wiki/Winbond'),
+        rank_color: '#2196f3',
         extra_info: 
-`🌟 1x Winner`,
+`🌟 1x Winner
+🌟 New entrant`,
     }, 
     {
         name: "Wistron",
