@@ -5,6 +5,7 @@ import time
 import json
 import requests
 import re
+import pprint
 import numpy as np
 from functools import cmp_to_key
 from urllib.parse import urlencode
@@ -390,6 +391,93 @@ def get_recommendation_data(ranking_folder_path, stock_info):
     print('get_recommendation_data done')
 
 
+def get_eps_q_data(ranking_folder_path, stock_info):
+    try:
+        # get eps q data
+        param = {
+            'code': afscreener_token,
+            'api': 'get-eps-q-data'
+        }
+        encoded_args = urlencode(param)
+        query_url = afscreener_url + '?' + encoded_args
+
+        ret, content = send_request(query_url)
+        if ret == 0:
+            resp = json.loads(content)
+            if resp["ret"] == 0:
+                output = {'update_time': str(datetime.now()), 'data': []}
+                dt = []
+                for k in resp["data"]:
+                    if len(resp["data"][k]) > 0:
+                        o = {'eps': resp["data"][k], 'symbol': k, 'neg_count': 0, 'latest_growth': 0, 'avg_growth': 0}
+                        neg_count = 0
+                        eps_list = list(o["eps"].values())
+                        for i in range(len(eps_list)):
+                            if eps_list[i] < 0:
+                                neg_count += 1
+                            if i == 0 and len(eps_list) > 1:
+                                if eps_list[i+1] != 0:
+                                    o["latest_growth"] = (eps_list[i] - eps_list[i+1]) / abs(eps_list[i+1])
+                                avg = 0
+                                for j in range(len(o["eps"])-1):
+                                    if eps_list[j+1] == 0:
+                                        avg = 0
+                                        break
+                                    avg += (eps_list[j] - eps_list[j+1]) / abs(eps_list[j+1])
+                                avg /= len(eps_list) - 1
+
+                        o["neg_count"] = neg_count
+                        o["avg_growth"] = avg
+                        dt.append(o)
+
+                dt = sorted(dt, key=lambda d: d['latest_growth'], reverse=True)
+                for i in range(len(dt)):
+                    symbol = dt[i]["symbol"]
+                    eps_data = {
+                        "name": symbol,
+                        "symbol": symbol,
+                        "rank": i+1,
+                        "rank_color": '',
+                        "extra_info": "",
+                        "link": f"https://finance.yahoo.com/quote/{symbol}/analysis",
+                    }
+                    if symbol in stock_info:
+                        eps_data["name"] = stock_info[symbol][0]
+
+                    if dt[i]['neg_count'] == 0:
+                        eps_data['rank_color'] = "#00e676"
+                    elif dt[i]['neg_count'] == 1:
+                        eps_data['rank_color'] = "#29b6f6"
+                    elif dt[i]['neg_count'] == 2:
+                        eps_data['rank_color'] = "#ffca28"
+                    else:
+                        eps_data['rank_color'] = "#f44336"
+
+                    eps_data["extra_info"] = \
+                        f"Latest Growth: {dt[i]['latest_growth']:.2%}\n" \
+                        f"Avg Growth: {dt[i]['avg_growth']:.2%}\n " + \
+                        str(dt[i]['eps']).replace(',', '\n').replace('{', '').replace('}', '').replace("'", '')
+
+                    output["data"].append(eps_data)
+
+                with open(ranking_folder_path / 'eps_growth.json', 'w',
+                          encoding='utf-8') as f_it:
+                    f_it.write(json.dumps(output, separators=(',', ':')))
+
+            else:
+                print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
+                sys.exit(1)
+        else:
+            print('send_request failed: {ret}'.format(ret=ret))
+            sys.exit(1)
+
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+        sys.exit(1)
+
+    print('get_eps_q_data done')
+
+
 def main():
 
     root = pathlib.Path(__file__).parent.resolve()
@@ -407,6 +495,7 @@ def main():
     stock_info = get_stock_info()
     get_esg_data(ranking_folder_path, stock_info)
     get_recommendation_data(ranking_folder_path, stock_info)
+    get_eps_q_data(ranking_folder_path, stock_info)
     update_get_market(market_folder_path, config)
     get_market_industry(norn_data_folder_path)
     calc_market_correlation(norn_data_folder_path, market_folder_path)
