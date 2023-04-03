@@ -409,12 +409,17 @@ def get_eps_q_data(ranking_folder_path, stock_info):
                 dt = []
                 for k in resp["data"]:
                     if len(resp["data"][k]) > 0:
-                        o = {'eps': resp["data"][k], 'symbol': k, 'neg_count': 0, 'latest_growth': 0, 'avg_growth': 0}
+                        o = {'eps': resp["data"][k], 'symbol': k, 'neg_count': 0, 'latest_growth': 0, 'avg_growth': 0,
+                             'tags': []}
                         neg_count = 0
+                        keep_growth = True
                         eps_list = list(o["eps"].values())
                         for i in range(len(eps_list)):
-                            if eps_list[i] < 0:
+                            if eps_list[i] <= 0:
                                 neg_count += 1
+                            if i >= 1 and eps_list[i-1] <= eps_list[i]:
+                                keep_growth = False
+
                             if i == 0 and len(eps_list) > 1:
                                 if eps_list[i+1] != 0:
                                     o["latest_growth"] = (eps_list[i] - eps_list[i+1]) / abs(eps_list[i+1])
@@ -425,6 +430,12 @@ def get_eps_q_data(ranking_folder_path, stock_info):
                                         break
                                     avg += (eps_list[j] - eps_list[j+1]) / abs(eps_list[j+1])
                                 avg /= len(eps_list) - 1
+
+                        # tag
+                        if neg_count == 0:
+                            o["tags"].append("all_positive")
+                        if keep_growth and len(eps_list) >= 2:
+                            o["tags"].append("keep_growth")
 
                         o["neg_count"] = neg_count
                         o["avg_growth"] = avg
@@ -438,6 +449,7 @@ def get_eps_q_data(ranking_folder_path, stock_info):
                         "symbol": symbol,
                         "rank": i+1,
                         "rank_color": '',
+                        "tags": dt[i]["tags"],
                         "extra_info": "",
                         "link": f"https://finance.yahoo.com/quote/{symbol}/analysis",
                     }
