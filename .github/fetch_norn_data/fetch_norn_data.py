@@ -472,7 +472,7 @@ def get_eps_q_data(ranking_folder_path, stock_info):
 
                     output["data"].append(eps_data)
 
-                with open(ranking_folder_path / 'eps_growth.json', 'w',
+                with open(ranking_folder_path / 'eps.json', 'w',
                           encoding='utf-8') as f_it:
                     f_it.write(json.dumps(output, separators=(',', ':')))
 
