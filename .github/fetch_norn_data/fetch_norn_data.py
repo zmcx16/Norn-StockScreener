@@ -391,12 +391,12 @@ def get_recommendation_data(ranking_folder_path, stock_info):
     print('get_recommendation_data done')
 
 
-def get_eps_q_data(ranking_folder_path, stock_info):
+def get_eps_q_data(ranking_folder_path, stock_info, eps_config):
     try:
         # get eps q data
         param = {
             'code': afscreener_token,
-            'api': 'get-eps-q-data'
+            'api': eps_config['api']
         }
         encoded_args = urlencode(param)
         query_url = afscreener_url + '?' + encoded_args
@@ -408,12 +408,20 @@ def get_eps_q_data(ranking_folder_path, stock_info):
                 output = {'update_time': str(datetime.now()), 'data': []}
                 dt = []
                 for k in resp["data"]:
-                    if len(resp["data"][k]) > 0:
+                    eps_type = eps_config['type']
+                    if (eps_type == 0 and len(resp["data"][k]) > 0) or (eps_type == 1 and len(resp["data"][k]["quarterly"]) > 0):
                         o = {'eps': resp["data"][k], 'symbol': k, 'neg_count': 0, 'latest_growth': 0, 'avg_growth': 0,
                              'tags': []}
                         neg_count = 0
                         keep_growth = True
-                        eps_list = list(o["eps"].values())
+                        eps_list = []
+                        if eps_type == 0:
+                            eps_list = list(o["eps"].values())
+                        else:
+                            for q in o["eps"]["quarterly"].values():
+                                if q["actual"] != "-":
+                                    eps_list.append(q["actual"])
+
                         for i in range(len(eps_list)):
                             if eps_list[i] <= 0:
                                 neg_count += 1
@@ -424,7 +432,7 @@ def get_eps_q_data(ranking_folder_path, stock_info):
                                 if eps_list[i+1] != 0:
                                     o["latest_growth"] = (eps_list[i] - eps_list[i+1]) / abs(eps_list[i+1])
                                 avg = 0
-                                for j in range(len(o["eps"])-1):
+                                for j in range(len(eps_list)-1):
                                     if eps_list[j+1] == 0:
                                         avg = 0
                                         break
@@ -467,12 +475,17 @@ def get_eps_q_data(ranking_folder_path, stock_info):
 
                     eps_data["extra_info"] = \
                         f"Latest Growth: {dt[i]['latest_growth']:.2%}\n" \
-                        f"Avg Growth: {dt[i]['avg_growth']:.2%}\n " + \
-                        str(dt[i]['eps']).replace(',', '\n').replace('{', '').replace('}', '').replace("'", '')
+                        f"Avg Growth: {dt[i]['avg_growth']:.2%}\n "
+
+                    if eps_type == 0:
+                        eps_data["extra_info"] += str(dt[i]['eps']).replace(',', '\n').replace('{', '').replace('}', '').replace("'", '').rstrip()
+                    else:
+                        eps_data["extra_info"] += \
+                            json.dumps(dt[i]['eps']['quarterly'], indent=2).replace(',', '').replace('{', '').replace('}', '').replace('"', '').rstrip()
 
                     output["data"].append(eps_data)
 
-                with open(ranking_folder_path / 'eps.json', 'w',
+                with open(ranking_folder_path /  eps_config['output_name'], 'w',
                           encoding='utf-8') as f_it:
                     f_it.write(json.dumps(output, separators=(',', ':')))
 
@@ -507,10 +520,18 @@ def main():
     stock_info = get_stock_info()
     get_esg_data(ranking_folder_path, stock_info)
     get_recommendation_data(ranking_folder_path, stock_info)
-    get_eps_q_data(ranking_folder_path, stock_info)
+
+    eps_config = [
+        {'api': 'get-eps-q-data', 'output_name': 'eps_financials.json', 'type': 0},
+        {'api': 'get-eps-analysis-data', 'output_name': 'eps_analysis.json', 'type': 1},
+    ]
+    get_eps_q_data(ranking_folder_path, stock_info, eps_config[0])
+    get_eps_q_data(ranking_folder_path, stock_info, eps_config[1])
+
     update_get_market(market_folder_path, config)
     get_market_industry(norn_data_folder_path)
     calc_market_correlation(norn_data_folder_path, market_folder_path)
+
     print('all task done')
 
 

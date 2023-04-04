@@ -48,12 +48,20 @@ export const RankingDef = [
         data: "/norn-data/ranking/recommendation.json"
     },
     {
-        name: 'EPS_Growth',
-        display_name: 'Yahoo Finance - Earnings Growth',
+        name: 'EPS_Growth_Analysis',
+        display_name: 'Yahoo Finance - Earnings Growth (Analysis)',
         description: `Yahoo Finance Earnings Growth`,
         link: 'https://finance.yahoo.com',
         tags: EPSGrowthTagsDict,
-        data: "/norn-data/ranking/eps.json"
+        data: "/norn-data/ranking/eps_analysis.json"
+    },
+    {
+        name: 'EPS_Growth_Financials',
+        display_name: 'Yahoo Finance - Earnings Growth (Financials)',
+        description: `Yahoo Finance Earnings Growth`,
+        link: 'https://finance.yahoo.com',
+        tags: EPSGrowthTagsDict,
+        data: "/norn-data/ranking/eps_financials.json"
     },
     {
         name: 'Interbrand_BestGlobalBrands2021',
