@@ -9,6 +9,7 @@ import Select from '@mui/material/Select'
 import Tooltip from '@mui/material/Tooltip'
 import shortid from 'shortid'
 import useFetch from 'use-http'
+import Chip from '@mui/material/Chip'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
@@ -18,6 +19,7 @@ import { RankingDef } from '../../ranking/rankingDef'
 
 import commonStyle from '../common.module.scss'
 import rankingStyle from './ranking.module.scss'
+import { object } from 'prop-types'
 
 
 const Ranking = ({loadingAnimeRef}) => {
@@ -82,7 +84,7 @@ const Ranking = ({loadingAnimeRef}) => {
   const fetchStockInfoData = useFetch({ cachePolicy: 'no-cache' })
 
   const renderTable = (resp, ranking_data) => {
-    let output = ranking_data.map((value, index) => {
+    let output = ranking_data.reduce((result, value, index) => {
       let stockInfo = resp[value['symbol']]
       let o = {
         id: index,
@@ -115,8 +117,31 @@ const Ranking = ({loadingAnimeRef}) => {
       if ('rank_color' in value) {
         o['word_color'] = value['rank_color']
       }
-      return o
-    })
+
+      if ('tags' in value) {
+        let match_all = true
+        Object.entries(tagsRef.current).map(([tag_setting_k, tag_setting_v]) => {
+          if (tag_setting_v.enabe) {
+            let match_tag = false
+            value['tags'].forEach((v) => {
+              if (v == tag_setting_k) {
+                match_tag = true
+              }
+            })
+            if (!match_tag) {
+              match_all = false
+            }
+          }
+        })
+        if (match_all) {
+          result.push(o)
+        }   
+      } else {
+        // not tag criteria
+        result.push(o)
+      }
+      return result
+    }, [])
     setRankingData(output)
   }
 
@@ -152,6 +177,8 @@ const Ranking = ({loadingAnimeRef}) => {
   const [rankingData, setRankingData] = useState([])
   const [hideColState, setHideColState] = useState({})
   const [arg, setArg] = useState(0)
+  const [tags, setTags] = useState({})
+  const tagsRef = useRef({})
   
   useEffect(() => {
     // componentDidMount is here!
@@ -177,6 +204,14 @@ const Ranking = ({loadingAnimeRef}) => {
                 onChange={(event) => {
                   setArg(event.target.value)
                   renderRankingData(event.target.value)
+                  let tags_temp = {}
+                  Object.keys(RankingDef[event.target.value].tags).forEach((key) => {
+                    tags_temp[key] = {
+                      text: RankingDef[event.target.value].tags[key],
+                      enabe: false
+                    }
+                  })
+                  setTags(tags_temp)
                 }}
                 label={'Ranking Indicators'}
               >
@@ -192,6 +227,28 @@ const Ranking = ({loadingAnimeRef}) => {
                 <InfoIcon color="action"/>
               </IconButton>
             </Tooltip>
+            <div className={rankingStyle.tagContainer}>
+              {
+                Object.entries(tags).map(([key, value, index]) => {
+                  return <Chip
+                    key={shortid.generate()} 
+                    label={value.text}
+                    style={{
+                      margin: '3px 5px', 
+                      color: tags[key].enabe ? '#fff':'rgba(0, 0, 0, 0.87)',
+                      backgroundColor: tags[key].enabe ? '#ff5722' : '#e0e0e0'
+                    }}
+                    onClick={() => {
+                      let tags_temp = tags
+                      tags_temp[key].enabe = !tags_temp[key].enabe
+                      tagsRef.current = tags_temp
+                      setTags(tags_temp)
+                      renderRankingData(arg)
+                    }} 
+                  />
+                })
+              }
+            </div>
           </Grid>
         </Grid>
         <div className={rankingStyle.table}>
