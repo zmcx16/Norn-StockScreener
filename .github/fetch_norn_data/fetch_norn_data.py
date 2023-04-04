@@ -451,7 +451,7 @@ def get_eps_q_data(ranking_folder_path, stock_info):
                         "rank_color": '',
                         "tags": dt[i]["tags"],
                         "extra_info": "",
-                        "link": f"https://finance.yahoo.com/quote/{symbol}/analysis",
+                        "link": f"https://finance.yahoo.com/quote/{symbol}/financials",
                     }
                     if symbol in stock_info:
                         eps_data["name"] = stock_info[symbol][0]
