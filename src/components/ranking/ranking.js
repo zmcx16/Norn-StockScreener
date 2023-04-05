@@ -202,8 +202,6 @@ const Ranking = ({loadingAnimeRef}) => {
                 value={arg}
                 displayEmpty
                 onChange={(event) => {
-                  setArg(event.target.value)
-                  renderRankingData(event.target.value)
                   let tags_temp = {}
                   Object.keys(RankingDef[event.target.value].tags).forEach((key) => {
                     tags_temp[key] = {
@@ -211,7 +209,10 @@ const Ranking = ({loadingAnimeRef}) => {
                       enabe: false
                     }
                   })
+                  tagsRef.current = tags_temp
                   setTags(tags_temp)
+                  setArg(event.target.value)
+                  renderRankingData(event.target.value)
                 }}
                 label={'Ranking Indicators'}
               >
