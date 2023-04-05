@@ -459,7 +459,7 @@ def get_eps_q_data(ranking_folder_path, stock_info, eps_config):
                         "rank_color": '',
                         "tags": dt[i]["tags"],
                         "extra_info": "",
-                        "link": f"https://finance.yahoo.com/quote/{symbol}/financials",
+                        "link": eps_config['link'].replace("{symbol}", symbol)
                     }
                     if symbol in stock_info:
                         eps_data["name"] = stock_info[symbol][0]
@@ -522,8 +522,8 @@ def main():
     get_recommendation_data(ranking_folder_path, stock_info)
 
     eps_config = [
-        {'api': 'get-eps-q-data', 'output_name': 'eps_financials.json', 'type': 0},
-        {'api': 'get-eps-analysis-data', 'output_name': 'eps_analysis.json', 'type': 1},
+        {'api': 'get-eps-q-data', 'output_name': 'eps_financials.json', 'type': 0, 'link': 'https://finance.yahoo.com/quote/{symbol}/financials'},
+        {'api': 'get-eps-analysis-data', 'output_name': 'eps_analysis.json', 'type': 1, 'link': 'https://finance.yahoo.com/quote/{symbol}/analysis'},
     ]
     get_eps_q_data(ranking_folder_path, stock_info, eps_config[0])
     get_eps_q_data(ranking_folder_path, stock_info, eps_config[1])
