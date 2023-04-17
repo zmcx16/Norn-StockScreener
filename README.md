@@ -118,14 +118,32 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Share Change(6M), Share Change(1Y)
 
 # Sub Page
-  * Industry Market https://norn-stockscreener.zmcx16.moe/industry-market/)
-  * Industry Insiders (https://norn-stockscreener.zmcx16.moe/industry-insiders/)
-  * Options Valuation (https://norn-stockscreener.zmcx16.moe/options/)
-  * Ranking Indicators (https://norn-stockscreener.zmcx16.moe/ranking/)
-  * Google Trend Stocks (https://norn-stockscreener.zmcx16.moe/google-trend-stocks/)
-  * Investment Gurus (https://norn-stockscreener.zmcx16.moe/investment-gurus/)
-  * Stock Price Simulation (https://norn-stockscreener.zmcx16.moe/stock-price-simulation/)
-  * Market Correlation Matrix (https://norn-stockscreener.zmcx16.moe/market-correlation-matrix/)
+  <details><summary>Industry Market (https://norn-stockscreener.zmcx16.moe/industry-market/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-industry-market.png">
+  </blockquote></details>
+  <details><summary>Industry Insiders (https://norn-stockscreener.zmcx16.moe/industry-insiders/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-industry-insiders1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-industry-insiders2.png">
+  </blockquote></details>
+  <details><summary>Options Valuation (https://norn-stockscreener.zmcx16.moe/options/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-options1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-options2.png">
+  </blockquote></details>
+  <details><summary>Ranking Indicators (https://norn-stockscreener.zmcx16.moe/ranking/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-ranking.png">
+  </blockquote></details>
+  <details><summary>Google Trend Stocks (https://norn-stockscreener.zmcx16.moe/google-trend-stocks/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-google-trend-stocks.png">
+  </blockquote></details>
+  <details><summary>Investment Gurus (https://norn-stockscreener.zmcx16.moe/investment-gurus/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-investment-gurus.png">
+  </blockquote></details>
+  <details><summary>Stock Price Simulation (https://norn-stockscreener.zmcx16.moe/stock-price-simulation/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-stock-price-simulation.png">
+  </blockquote></details>
+  <details><summary>Market Correlation Matrix (https://norn-stockscreener.zmcx16.moe/market-correlation-matrix/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-market-correlation-matrix.png">
+  </blockquote></details>
 
 # Financial Data Source
   * Finviz (https://finviz.com)
