@@ -23,6 +23,7 @@
     "gatsby-plugin-sharp": "^2.14.4",
     "gatsby-source-filesystem": "^2.11.1",
     "gatsby-transformer-sharp": "^2.12.1",
+    "material-react-table": "^1.9.3",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
