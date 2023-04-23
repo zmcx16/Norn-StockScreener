@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 
 import useFetch from 'use-http'
 import MaterialReactTable from 'material-react-table'
 import Link from '@mui/material/Link'
 import Tooltip from '@mui/material/Tooltip'
+import SwapVertIcon from '@mui/icons-material/SwapVert'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { ThemeProvider } from '@mui/styles'
+import Button from '@mui/material/Button'
+import { createTheme } from '@mui/material/styles'
 
 import { FinvizUrl } from '../../common/common'
 import { GetDataByFetchObj, YahooFinanceUrl } from '../../common/reactUtils'
@@ -91,7 +96,7 @@ const CheckListTable = ({CheckListTableRef}) => {
   const checkListConfig = CheckListTableRef.current.getCheckListConfigRef()
   const stockData = CheckListTableRef.current.getStockDataRef()
 
-  const columns = [
+  const columns = useMemo(()=>[
     {
       accessorKey: "symbol",
       header: CheckListKey_Def["symbol"].name,
@@ -138,9 +143,9 @@ const CheckListTable = ({CheckListTableRef}) => {
         ),
       }
     }
-  }))
+  })), [])
 
-  const [, setColumnOrder] = useState(columns.map((c) => c.accessorKey))
+  const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.accessorKey))
 
   const [tableData, setTableData] = useState(checkListConfig["symbols"].map((symbol) => {
     let data = {"symbol": symbol}
@@ -159,51 +164,103 @@ const CheckListTable = ({CheckListTableRef}) => {
     }
     return data
   }))
+
+  const [enableRowSelection, setEnableRowSelection] = useState(true)
+  const [rowSelection, setRowSelection] = useState({})
+  const tableRef = useRef(null)
+
+  useEffect(() => {
+    const columnVisibility = tableRef.current.getState().columnVisibility;
+    if (enableRowSelection) {
+      tableRef.current.setColumnVisibility({...columnVisibility, 'mrt-row-select': true, 'mrt-row-actions': true, 'mrt-row-drag': false})
+    } else {
+      tableRef.current.setColumnVisibility({...columnVisibility, 'mrt-row-select': false, 'mrt-row-actions': true, 'mrt-row-drag': true})
+    }
+  }, [enableRowSelection])
+
+  const customTheme = createTheme({
+    palette: {
+      order: { 
+        backgroundColor: '#2196f3', color: '#fff'
+      },
+      delete: { 
+        backgroundColor: '#e53935', color: '#fff'
+      }
+    },
+  })
+
+  const updateTableData = (newTableData) => {
+    console.log(newTableData)
+    checkListConfig["symbols"] = newTableData.map((data) => data["symbol"])
+    console.log(checkListConfig["symbols"])
+    setTableData([...newTableData])
+  }
+
   return (
-    <MaterialReactTable
-      autoResetPageIndex={false}
-      columns={columns}
-      data={tableData}
-      enableRowOrdering
-      enableRowDragging
-      enableColumnOrdering
-      onColumnOrderChange={(order)=>{
-        let tmp = []
-        let orderTmp = order.filter(e => Object.keys(CheckListKey_Def).includes(e))
-        console.log(orderTmp)
-        orderTmp.forEach((key) => {
-          checkListConfig["list"].some((item, index) => {
-            if (item["name"] === key) {
-              tmp.push(item)
-              checkListConfig["list"].splice(index, 1)
-              return true
-            }
-            return false
+    <div className={commonStyle.defaultFont + ' ' + checklistgStyle.tableContainer}>
+      <ThemeProvider theme={customTheme}>
+        <div className={checklistgStyle.tableCmdPanel}>
+          <Button className={checklistgStyle.tableCmdBtn} variant="contained" style={customTheme.palette.order} startIcon={<SwapVertIcon />} onClick={() => {
+            setEnableRowSelection(!enableRowSelection)
+            setRowSelection({})
+          }}>{enableRowSelection ? 'Reorder' : 'Reordering'}</Button>
+          <Button className={checklistgStyle.tableCmdBtn} variant="contained" style={{...customTheme.palette.delete, ...{display: Object.keys(rowSelection).length === 0 ? 'none': 'inline-flex'}}} startIcon={<DeleteIcon />} onClick={() => {
+            let tmp = tableData
+            Object.keys(rowSelection).forEach((symbol) => {
+              tmp = tmp.filter((data) => data["symbol"] !== symbol)
+            })
+            updateTableData(tmp)
+          }}>{'Delete'}</Button>
+        </div>
+      </ThemeProvider>
+      <MaterialReactTable
+        tableInstanceRef={tableRef}
+        autoResetPageIndex={false}
+        columns={columns}
+        data={tableData}
+        enableRowSelection={enableRowSelection}
+        state={{ rowSelection }}
+        getRowId={(row) => row.symbol}
+        onRowSelectionChange={setRowSelection}
+        enableRowOrdering
+        enableRowDragging={!enableRowSelection}
+        enableColumnOrdering={!enableRowSelection}
+        columnOrder={columnOrder}
+        onColumnOrderChange={(order)=>{
+          let tmp = []
+          let orderTmp = order.filter(e => Object.keys(CheckListKey_Def).includes(e))
+          console.log(orderTmp)
+          orderTmp.forEach((key) => {
+            checkListConfig["list"].some((item, index) => {
+              if (item["name"] === key) {
+                tmp.push(item)
+                checkListConfig["list"].splice(index, 1)
+                return true
+              }
+              return false
+            })
           })
-        })
-        checkListConfig["list"] = tmp
-        console.log(checkListConfig["list"])
-        setColumnOrder([...order])
-      }}
-      enableSorting={false}
-      enableFilters={false}
-      muiTableBodyRowDragHandleProps={({ table }) => ({
-        onDragEnd: () => {
-          const { draggingRow, hoveredRow } = table.getState();
-          if (hoveredRow && draggingRow) {
-            tableData.splice(
-              hoveredRow.index,
-              0,
-              tableData.splice(draggingRow.index, 1)[0],
-            );
-            console.log(tableData)
-            checkListConfig["symbols"] = tableData.map((data) => data["symbol"])
-            console.log(checkListConfig["symbols"])
-            setTableData([...tableData]);
-          }
-        },
-      })}
-    />
+          checkListConfig["list"] = tmp
+          console.log(checkListConfig["list"])
+          setColumnOrder([...order])
+        }}
+        enableSorting={false}
+        enableFilters={false}
+        muiTableBodyRowDragHandleProps={({ table }) => ({
+          onDragEnd: () => {
+            const { draggingRow, hoveredRow } = table.getState();
+            if (hoveredRow && draggingRow) {
+              tableData.splice(
+                hoveredRow.index,
+                0,
+                tableData.splice(draggingRow.index, 1)[0],
+              );
+              updateTableData(tableData)
+            }
+          },
+        })}
+      />
+    </div>
   )
 }
 
