@@ -267,7 +267,7 @@ const ResultTable = ({ResultTableRef}) => {
   const containerRef = useRef()
 
   return (
-    <div className={resultTableStyle.container} ref={containerRef}>
+    <div className={resultTableStyle.container} ref={containerRef} style={{ height: 640, width: '100%' }}>
       {tableData}
     </div>
   )
