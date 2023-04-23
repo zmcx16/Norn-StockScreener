@@ -124,4 +124,20 @@ export const CheckpointsKeyList = Object.keys(ChecklistKey_Def).reduce((acc, key
 }, [])
 
 export const COOKIE_KEY_CHECKLISTS = "checklists"
-export const ChecklistTooltips = "This is a tooltip"
+export const ChecklistTooltipsUrl = "https://www.process.st/checklist/warren-buffets-investment-checklist/"
+export const ChecklistTooltips = 
+`Warren Buffet’s Investment Checklist:
+1. Record basic details of the company
+2. Is the business simple and understandable?
+3. Does the business have a consistent operating history?
+4. Does the business have favourable long-term prospects?
+5. Is the management rational with its capital?
+6. Is management candid with the shareholders?
+7. Does management resist the institutional imperative?
+8. Is the focus on Return On Equity?
+9. What is the rate of "owner earnings"?
+10. Is there a high profit margin?
+11. Has the company created at least one dollar of market value, for every dollar retained?
+12. What is the value of the business?
+13. Can it be purchased at a significant discount to its value?
+`

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 import useFetch from 'use-http'
-import Tooltip from '@mui/material/Tooltip'
 import InfoIcon from '@mui/icons-material/Info'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Button from '@mui/material/Button'
@@ -30,8 +29,8 @@ import Paper from '@mui/material/Paper'
 import shortid from 'shortid'
 import Cookies from 'universal-cookie'
 
-import { GetDataByFetchObj } from '../../common/reactUtils'
-import { ChecklistTooltips, DefaultGroupChecklist, COOKIE_KEY_CHECKLISTS } from '../../common/checklistDef'
+import { GetDataByFetchObj, NoMaxWidthTooltip } from '../../common/reactUtils'
+import { ChecklistTooltips, ChecklistTooltipsUrl, DefaultGroupChecklist, COOKIE_KEY_CHECKLISTS } from '../../common/checklistDef'
 import ModalWindow from '../modalWindow'
 import FormDialog from '../formDialog'
 import ChecklistTable from './checklistTable'
@@ -194,11 +193,11 @@ const Checklist = ({loadingAnimeRef}) => {
               }
             </Select>
           </FormControl>
-          <Tooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{ChecklistTooltips}</span>} >
-            <IconButton>
+          <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{ChecklistTooltips}</span>} >
+            <IconButton onClick={() => window.open(ChecklistTooltipsUrl, "_blank")}>
               <InfoIcon color="action"/>
             </IconButton>
-          </Tooltip>
+          </NoMaxWidthTooltip>
           <Paper
             component="form"
             sx={{ p: '6 16', display: 'flex', alignItems: 'center' }}
