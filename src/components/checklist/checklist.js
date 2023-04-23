@@ -39,7 +39,7 @@ import CheckpointPannel from './checkpointPannel'
 import commonStyle from '../common.module.scss'
 import checklistStyle from './checklist.module.scss'
 
-function CombineData(stock_info, eps_analysis, eps_financials) {
+function CombineData(stock_info, eps_analysis, eps_financials, esg, recomm) {
   let data = stock_info
   eps_analysis.forEach(element => {
     let symbol = element["symbol"]
@@ -55,6 +55,22 @@ function CombineData(stock_info, eps_analysis, eps_financials) {
       data[symbol]["eps_financials"] = element["tags"]
     } else {
       data[symbol] = {"eps_financials": element["tags"]}
+    }
+  })
+  esg.forEach(element => {
+    let symbol = element["symbol"]
+    if (symbol in data) {
+      data[symbol]["ESG_TotalEsg"] = element["totalEsg"]
+    } else {
+      data[symbol] = {"ESG_TotalEsg": element["totalEsg"]}
+    }
+  })
+  recomm.forEach(element => {
+    let symbol = element["symbol"]
+    if (symbol in data) {
+      data[symbol]["Recomm_RecommendationMean"] = element["recommendationMean"]
+    } else {
+      data[symbol] = {"Recomm_RecommendationMean": element["recommendationMean"]}
     }
   })
   return data
@@ -107,19 +123,22 @@ const Checklist = ({loadingAnimeRef}) => {
   const fetchStockInfoData = useFetch({ cachePolicy: 'no-cache' })
   const fetchEPSAnalysisData = useFetch({ cachePolicy: 'no-cache' })
   const fetchEPSFinancialsData = useFetch({ cachePolicy: 'no-cache' })
-
+  const fetchESGFinancialsData = useFetch({ cachePolicy: 'no-cache' })
+  const fetchRecommFinancialsData = useFetch({ cachePolicy: 'no-cache' })
   const fetchData = () => {
     loadingAnimeRef.current.setLoading(true)
     let fetch_data = [
       GetDataByFetchObj('/norn-data/stock/stat.json', fetchStockInfoData),
       GetDataByFetchObj('/norn-data/ranking/eps_analysis.json', fetchEPSAnalysisData),
-      GetDataByFetchObj('/norn-data/ranking/eps_financials.json', fetchEPSFinancialsData)
+      GetDataByFetchObj('/norn-data/ranking/eps_financials.json', fetchEPSFinancialsData),
+      GetDataByFetchObj('/norn-data/ranking/esg.json', fetchESGFinancialsData),
+      GetDataByFetchObj('/norn-data/ranking/recommendation.json', fetchRecommFinancialsData)
     ]
 
     Promise.all(fetch_data).then((allResponses) => {
       console.log(allResponses)
       if (allResponses.length === fetch_data.length) {
-        stockDataRef.current = CombineData(allResponses[0], allResponses[1]["data"], allResponses[2]["data"])
+        stockDataRef.current = CombineData(allResponses[0], allResponses[1]["data"], allResponses[2]["data"], allResponses[3]["data"], allResponses[4]["data"])
         console.log(stockDataRef.current)
         reloadChecklistTable()
       } else {

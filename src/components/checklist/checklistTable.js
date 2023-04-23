@@ -257,7 +257,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
       return {
         accessorKey: item.name,
         header: ChecklistKey_Def[item.name].name,
-        size: 100,
+        size: 110,
         Header: ({ column }) => (
           <Tooltip arrow title={
             <span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>
@@ -281,7 +281,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
       return {
         accessorKey: item.name,
         header: ChecklistKey_Def[item.name].name,
-        size: 100,
+        size: 110,
         Header: ({ column }) => (
           <Tooltip arrow title={
             <span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>

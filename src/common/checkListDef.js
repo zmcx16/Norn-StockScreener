@@ -153,7 +153,7 @@ export const ChecklistKey_Def = {
         }
     },
     "EPS next Y_%":{
-        "name": "EPS next Y_%",
+        "name": "EPS next Y",
         "type": "from_end",
         "description": "EPS growth next year",
         "checkpoint": true,
@@ -348,7 +348,7 @@ export const ChecklistKey_Def = {
         }
     },
     "ESG_TotalEsg":{
-        "name": "ESG_TotalEsg",
+        "name": "ESG",
         "type": "from_end",
         "description": "Sustainalytics total ESG risk score",
         "checkpoint": true,
@@ -361,7 +361,7 @@ export const ChecklistKey_Def = {
         }
     },
     "Recomm_RecommendationMean":{
-        "name": "Recomm_RecommendationMean",
+        "name": "Recommendation",
         "type": "from_end",
         "description": "Yahoo Finance recommendation rating",
         "checkpoint": true,
