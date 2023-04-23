@@ -4,7 +4,7 @@ export const FCDataTemplate = [
     name: "Market Cap",
     display_name: "Market Cap",
     type: 0,
-    tooltip: "market capitalization",
+    tooltip: "Market capitalization",
     args_items: ["Any (> $50 mln)", "$50 mln ~ $300 mln", "$300 mln ~ $2 bln", "$2 bln ~ $10 bln", "$10 bln ~ $200 bln", "> $300 mln", "> $2 bln", "> $10 bln", "> $200 bln", "< $300 mln", "< $2 bln", "< $10 bln", "< $200 bln"],
     default_index: 6
   },

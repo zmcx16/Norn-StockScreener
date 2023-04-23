@@ -9,6 +9,18 @@ export const ChecklistKey_Def = {
         "type": "score",
         "checkpoint": false,
     },
+    "Market Cap":{
+        "name": "Market Cap",
+        "type": "from_end",
+        "description": "Market capitalization",
+        "checkpoint": true,
+        "checkpoint_comp": {
+            "display_name": "Market Cap",
+            "display_format": "KMBT",
+            "args_items": ["Any (> $50 mln)", "$50 mln ~ $300 mln", "$300 mln ~ $2 bln", "$2 bln ~ $10 bln", "$10 bln ~ $200 bln", "> $300 mln", "> $2 bln", "> $10 bln", "> $200 bln", "< $300 mln", "< $2 bln", "< $10 bln", "< $200 bln"],
+            "default_index": 6
+        }
+    },
     "P/E":{
         "name": "P/E",
         "type": "from_end",

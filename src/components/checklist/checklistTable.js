@@ -8,14 +8,20 @@ import Img from 'gatsby-image'
 import { FinvizUrl } from '../../common/common'
 import { ChecklistKey_Def } from '../../common/checklistDef'
 import { EPSGrowthTagsDict } from '../../common/tagsDef'
+import { convertKMBT } from '../../common/utils'
 
 import commonStyle from '../common.module.scss'
 import checklistgTableStyle from './checklistTable.module.scss'
 
 
-function checkFromEnd(val, condition) {
+function checkFromEnd(val, condition, name) {
   let arg_from = condition["from"]
   let arg_end = condition["end"]
+
+  if (name == "Market Cap") {
+      val = val / 1000000
+  }
+
   if (arg_from != "" || arg_end != "")
   {
       let from = arg_from == "" ? 0 : arg_from
@@ -67,6 +73,8 @@ function prettyTags(val) {
 function displayCell(val, display_format) {
   if (display_format == "%") {
     return (val * 100).toFixed(2) + "%"
+  } else if (display_format == "KMBT") {
+    return convertKMBT(val, 2)
   }
   return val.toFixed(2)
 }
@@ -266,8 +274,8 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
           (
             cell.getValue() === "-" || cell.getValue() === -Number.MAX_VALUE || cell.getValue() === Number.MAX_VALUE || cell.getValue() === null || cell.getValue() === undefined || cell.getValue() === "Infinity" || cell.getValue() === 'NaN' ?
               <span>-</span> :
-              <span style={{fontWeight: 700, color: checkFromEnd(cell.getValue(), item.condition) ? 'green' : 'red' }}>
-                {checkFromEnd(cell.getValue(), item.condition) ? '✔' : '✘'}
+              <span style={{fontWeight: 700, color: checkFromEnd(cell.getValue(), item.condition, item.name) ? 'green' : 'red' }}>
+                {checkFromEnd(cell.getValue(), item.condition, item.name) ? '✔' : '✘'}
                 {" (" + displayCell(cell.getValue(), ChecklistKey_Def[item.name].checkpoint_comp.display_format) + ")"}
               </span>
           )
@@ -313,9 +321,9 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
         checklistConfig["list"].forEach((item) => {
           if (item.name in stockData[symbol]) {
             data[item.name] = stockData[symbol][item.name]
-            if (ChecklistKey_Def[item.name].type === "from_end" && checkFromEnd(stockData[symbol][item.name], item.condition)) {
+            if (ChecklistKey_Def[item.name].type === "from_end" && checkFromEnd(stockData[symbol][item.name], item.condition, item.name)) {
               data.score.pass += 1
-            } else if (ChecklistKey_Def[item.name].type === "tags" && checkTags(stockData[symbol][item.name], item.condition)) {
+            } else if (ChecklistKey_Def[item.name].type === "tags" && checkTags(stockData[symbol][item.name], item.condition, item.name)) {
               data.score.pass += 1
             }
             data.score.total += 1
