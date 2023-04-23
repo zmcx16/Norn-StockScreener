@@ -25,7 +25,7 @@ import shortid from 'shortid'
 
 import { EPSGrowthTagsDict } from '../../common/tagsDef'
 import { ChecklistKey_Def, CheckpointsKeyList } from '../../common/checklistDef'
-import { getFromEndVal } from '../../common/utils'
+import { getFromEndVal, isNumeric } from '../../common/utils'
 
 import checkpointPannelStyle from './checkpointPannel.module.scss'
 
@@ -128,10 +128,11 @@ function conditionToString(item) {
   }
 }
 
-const CheckpointPannel = ({ChecklistRef}) => {
+const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
   const [open, setOpen] = useState(false)
   const [checkPointSelect, setCheckPointSelect] = useState(0)
   const [checkPointComp, setCheckPointComp] = useState(<></>)
+  const checklistConfigListTempRef = useRef([...ChecklistRef.current.getChecklistConfigRef().list])
 
   const [setting, setSetting] = useState({
     checklistName: ""
@@ -141,6 +142,8 @@ const CheckpointPannel = ({ChecklistRef}) => {
     setSetting({
         checklistName: checklistName
     })
+    checklistConfigListTempRef.current = [...ChecklistRef.current.getChecklistConfigRef().list]
+    setCheckpointsComp(renderCheckpointsComp())
     setOpen(true)
   }
 
@@ -149,6 +152,11 @@ const CheckpointPannel = ({ChecklistRef}) => {
   }
 
   const handleConfirmClose = () => {
+    if (checklistConfigListTempRef.current.length === 0) {
+      modalWindowRef.current.popModalWindow(<div>Checklist is empty, please add at least one checkpoint.</div>)
+      return
+    }
+    ChecklistRef.current.saveChecklistConfigList(checklistConfigListTempRef.current)
     setOpen(false)
   }
 
@@ -179,7 +187,6 @@ const CheckpointPannel = ({ChecklistRef}) => {
         <div key={shortid.generate()}  className={checkpointPannelStyle.tagContainer} style={{display: ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "tags" ? 'block' : 'none'}}>
           {
             Object.entries(ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "tags" ? tags : {}).map(([key, value]) => {
-              console.log(tags)
               return <Chip
                 key={shortid.generate()} 
                 label={value.text}
@@ -206,13 +213,18 @@ const CheckpointPannel = ({ChecklistRef}) => {
     }
   }, [checkPointSelect, tags]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderCheckpointsComp = (val) => {
-    return val.map((item) => {
+  const renderCheckpointsComp = () => {
+    console.log(checklistConfigListTempRef.current)
+    return checklistConfigListTempRef.current.map((item, index) => {
+      console.log(item)
       return (
         <ListItem
           key={shortid.generate()}
           secondaryAction={
-            <IconButton sx={{ color: red[600] }} edge="end" aria-label="delete">
+            <IconButton sx={{ color: red[600] }} edge="end" aria-label="delete" onClick={() => {
+              checklistConfigListTempRef.current.splice(index, 1)
+              setCheckpointsComp(renderCheckpointsComp())
+            }} >
               <DeleteIcon />
             </IconButton>
           }
@@ -229,8 +241,7 @@ const CheckpointPannel = ({ChecklistRef}) => {
         </ListItem>
   )})}
 
-  console.log(ChecklistRef.current.getChecklistConfigRef())
-  const [checkpointsComp, setCheckpointsComp] = useState(renderCheckpointsComp(ChecklistRef.current.getChecklistConfigRef().list))
+  const [checkpointsComp, setCheckpointsComp] = useState(renderCheckpointsComp())
 
   return (
     <div>
@@ -273,9 +284,49 @@ const CheckpointPannel = ({ChecklistRef}) => {
               <div></div>
               <div className={checkpointPannelStyle.addCheckpointBtn}>
                 <IconButton sx={{ color: green['A700'] }} aria-label="addCheckpoint" style={{maxWidth: '70px', maxHeight: '70px', minWidth: '70px', minHeight: '70px'}} onClick={() => {
-                  if (ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "tags") {
-                    console.log(tags)
+                  let name = CheckpointsKeyList[checkPointSelect]
+                  let type = ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type
+                  if (checklistConfigListTempRef.current.some(e => e.name == name)) {
+                    modalWindowRef.current.popModalWindow(<div>Checkpoint {name} already exists</div>)
+                    return
+                  }          
+                  let checkpoint = {
+                    "name": name,
+                    "condition": {}
                   }
+                  
+                  if (type === "tags") {
+                    console.log(tags)
+                    checkpoint.condition = {
+                      "match_all": Object.keys(tags).reduce((acc, key) => {
+                        if (tags[key].enabe) {
+                          acc.push(key)
+                        }
+                        return acc
+                      }, [])
+                    }
+                    if (checkpoint.condition.match_all.length === 0) {
+                      modalWindowRef.current.popModalWindow(<div>At least one tag is required</div>)
+                      return
+                    }
+
+                  } else if (type === "from_end") {
+                    let fromEnd = filterCriteriaRef.current.getValue()
+                    if (fromEnd.from === "" && fromEnd.end === "") {
+                      modalWindowRef.current.popModalWindow(<div>From or End are required</div>)
+                      return
+                    }
+                    if ((fromEnd.from !== "" && !isNumeric(fromEnd.from)) || (fromEnd.end !== "" && !isNumeric(fromEnd.end))) {
+                      modalWindowRef.current.popModalWindow(<div>From and End must be float</div>)
+                      return
+                    }
+                    checkpoint.condition = {
+                      "from": fromEnd.from,
+                      "end": fromEnd.end
+                    }
+                  }
+                  checklistConfigListTempRef.current.push(checkpoint)
+                  setCheckpointsComp(renderCheckpointsComp())
                 }}>
                   <DoubleArrowIcon fontSize="inherit" style={{maxWidth: '50px', maxHeight: '50px', minWidth: '50px', minHeight: '50px'}} />
                 </IconButton>

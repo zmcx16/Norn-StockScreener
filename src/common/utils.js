@@ -10,6 +10,10 @@ export const isFloat = (n) => {
   return Number(n) === n && n % 1 !== 0
 }
 
+export const isNumeric = (n) => {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 export const convertKMBT = (n, precision) => {
   if (n < 1e3) return n;
   if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(precision) + "K";

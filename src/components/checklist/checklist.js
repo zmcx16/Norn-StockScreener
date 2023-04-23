@@ -6,7 +6,7 @@ import InfoIcon from '@mui/icons-material/Info'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import FolderIcon from '@mui/icons-material/Folder'
+import EditIcon from '@mui/icons-material/Edit'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import Menu from '@mui/material/Menu'
@@ -17,6 +17,9 @@ import Select from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import DeleteIcon from '@mui/icons-material/Delete'
+import InputIcon from '@mui/icons-material/Input'
+import OutputIcon from '@mui/icons-material/Output'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { ThemeProvider } from '@mui/styles'
 import { createTheme } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
@@ -25,7 +28,7 @@ import Paper from '@mui/material/Paper'
 import shortid from 'shortid'
 
 import { GetDataByFetchObj } from '../../common/reactUtils'
-import { ChecklistTooltips } from '../../common/checklistDef'
+import { ChecklistTooltips, DefaultGroupChecklist } from '../../common/checklistDef'
 import ModalWindow from '../modalWindow'
 import FormDialog from '../formDialog'
 import ChecklistTable from './checklistTable'
@@ -59,36 +62,8 @@ function CombineData(stock_info, eps_analysis, eps_financials) {
 const Checklist = ({loadingAnimeRef}) => {
 
   const stockDataRef = useRef({})
-  const [groupChecklist, setGroupChecklist] = useState([
-    {
-      "name": "Default Checklist",
-      "symbols": ["C", "WFC", "BAC", "AA", "CAAP", "ADUS"],
-      "list": [
-        { 
-          "name": "P/E", 
-          "condition": {"from": "", "end": "10"}
-        },
-        { 
-          "name": "eps_financials", 
-          "condition": {"match_all": ["all_positive"]}
-        },
-        { 
-          "name": "eps_analysis", 
-          "condition": {"match_all": ["all_positive", "keep_growth"]}
-        },
-        { 
-          "name": "P/E", 
-          "condition": {"from": "5", "end": "15"}
-        },
-        { 
-          "name": "P/E", 
-          "condition": {"from": "50", "end": ""}
-        },
-      ]
-    }
-  ])
+  const [groupChecklist, setGroupChecklist] = useState(DefaultGroupChecklist)
   const [groupSelect, setGroupSelect] = useState(0)
-
   const checklistConfigRef = useRef(groupChecklist[0])
 
   const modalWindowRef = useRef({
@@ -112,6 +87,7 @@ const Checklist = ({loadingAnimeRef}) => {
         setDisplayDeleteBtn(true)
       }
     },
+    saveChecklistConfigList: null,
     openCheckpointPannel: null,
     searchStockOnClick: null,
     reorderOnClick: null,
@@ -304,19 +280,76 @@ const Checklist = ({loadingAnimeRef}) => {
             </MenuItem>
             <MenuItem onClick={()=>{
               setSettingMenu(null)
+              ChecklistRef.current.saveChecklistConfigList = (newChecklistConfigList) => {
+                let newGroupChecklist = [...groupChecklist]
+                newGroupChecklist[groupSelect].list = newChecklistConfigList
+                setGroupChecklist(newGroupChecklist)
+                reloadChecklistTable()
+              }
               ChecklistRef.current.openCheckpointPannel(groupChecklist[groupSelect]["name"])
             }}>
               <ListItemIcon>
-                <FolderIcon fontSize="small" />
+                <EditIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText>Edit Checkpoints</ListItemText>
+            </MenuItem>
+            <label htmlFor="import-checklists-file">
+            <MenuItem>
+            <input
+              id="import-checklists-file"
+                  type="file"
+                  hidden
+                  onChange={(e)=>{
+                    Object.entries(e.target.files).forEach(([key, value]) => {
+                      var reader = new FileReader()
+                      reader.onload = (function (theFile) {
+                        return function (e) {
+                          let data = JSON.parse(e.target.result)
+                          checklistConfigRef.current = data[0]
+                          setSettingMenu(null)
+                          setGroupSelect(0)
+                          setGroupChecklist(data)
+                          reloadChecklistTable()
+                        }
+                      })(value)
+                      reader.readAsBinaryString(value)
+                      e.target.value = ''
+                    })
+                  }}
+                />
+              <ListItemIcon>
+                <InputIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Import Checklists</ListItemText>
+            </MenuItem>
+            </label>
+            <MenuItem onClick={()=>{
+              var aTag = document.createElement('a')
+              var blob = new Blob([JSON.stringify(groupChecklist)])
+              aTag.download = 'Norn-StockScreener_checklists.json'
+              aTag.href = URL.createObjectURL(blob)
+              aTag.click()
+              URL.revokeObjectURL(blob)
+            }}>
+              <ListItemIcon>
+                <OutputIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Export Checklists</ListItemText>
+            </MenuItem>
+            <MenuItem onClick={()=>{
+              
+            }}>
+              <ListItemIcon>
+                <RestartAltIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Reset Default</ListItemText>
             </MenuItem>
           </Menu>
         </div>
         {resultTable}
         <ModalWindow modalWindowRef={modalWindowRef} />
         <FormDialog formDialogRef={formDialogRef} />
-        <CheckpointPannel ChecklistRef={ChecklistRef} />
+        <CheckpointPannel ChecklistRef={ChecklistRef} modalWindowRef={modalWindowRef}/>
       </ThemeProvider>
     </div>
   )
