@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import MaterialReactTable from 'material-react-table'
 import Link from '@mui/material/Link'
 import Tooltip from '@mui/material/Tooltip'
+import { useStaticQuery, graphql } from 'gatsby'
+import Img from 'gatsby-image'
 
 import { FinvizUrl } from '../../common/common'
 import { ChecklistKey_Def } from '../../common/checklistDef'
@@ -70,6 +72,106 @@ function displayCell(val, display_format) {
 }
 
 const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
+  const bomb = useStaticQuery(graphql`
+    query {
+      bomb1: file(relativePath: { eq: "bomb1.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb2: file(relativePath: { eq: "bomb2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb3: file(relativePath: { eq: "bomb3.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb4: file(relativePath: { eq: "bomb4.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb5: file(relativePath: { eq: "bomb5.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb1_2: file(relativePath: { eq: "bomb1-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb2_2: file(relativePath: { eq: "bomb2-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb3_2: file(relativePath: { eq: "bomb3-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb4_2: file(relativePath: { eq: "bomb4-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      bomb5_2: file(relativePath: { eq: "bomb5-2.png" }){
+        childImageSharp {
+          fixed(width: 42) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+
+      finviz: file(relativePath: { eq: "finviz-favicon.png" }){
+        childImageSharp {
+          fixed(width: 32) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }
+      
+      yahoo: file(relativePath: { eq: "yahoo-favicon.png" }){
+        childImageSharp {
+          fixed(width: 32) {
+            ...GatsbyImageSharpFixed_noBase64
+          }
+        }  
+      }      
+    }
+  `)
+
   const checklistConfig = ChecklistRef.current.getChecklistConfigRef()
   const stockData = ChecklistRef.current.getStockDataRef()
   ChecklistRef.current.searchStockOnClick = () => {
@@ -109,11 +211,41 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
     {
       accessorKey: "symbol",
       header: ChecklistKey_Def["symbol"].name,
+      size: 100,
       enableColumnOrdering: false,
       Cell: ({ cell }) => (
         <Link href={ FinvizUrl + 'quote.ashx?t=' + cell.getValue()} target="_blank" rel="noreferrer noopener">
           <span>{cell.getValue()}</span>
         </Link>
+      ),
+    },
+    {
+      accessorKey: "score",
+      header: ChecklistKey_Def["score"].name,
+      muiTableHeadCellProps: {
+        align: 'center',
+      },
+      size: 100,
+      enableColumnOrdering: false,
+      Cell: ({ cell }) => (
+        <Tooltip arrow title={
+          <span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>
+            {cell.getValue().total === 0 ? 'None' : `Pass: ${cell.getValue().pass} | Total: ${cell.getValue().total}`}
+          </span>} >
+          <div className={checklistgTableStyle.score}>
+            <div></div>
+            <Img className={checklistgTableStyle.bombImg} fixed={
+              cell.getValue().total === 0 ? bomb.bomb3.childImageSharp.fixed :
+              (cell.getValue().pass * 1.0 / cell.getValue().total) < (1 / 5.0) ? bomb.bomb5.childImageSharp.fixed :
+              (cell.getValue().pass * 1.0 / cell.getValue().total) < (2 / 5.0) ? bomb.bomb4.childImageSharp.fixed :
+              (cell.getValue().pass * 1.0 / cell.getValue().total) <  (3 / 5.0) ? bomb.bomb3.childImageSharp.fixed :
+              (cell.getValue().pass * 1.0 / cell.getValue().total) < (4 / 5.0) ? bomb.bomb2.childImageSharp.fixed :
+              bomb.bomb1.childImageSharp.fixed
+            } fadeIn={false} />
+            <span style={{ fontSize: 18 }}>({cell.getValue().total === 0 ? "-"  : (cell.getValue().pass * 100 / cell.getValue().total).toFixed(0) + '%'})</span>
+            <div></div>
+          </div>
+        </Tooltip>
       ),
     }
   ].concat(checklistConfig["list"].map((item) => {
@@ -121,6 +253,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
       return {
         accessorKey: item.name,
         header: ChecklistKey_Def[item.name].name,
+        size: 100,
         Header: ({ column }) => (
           <Tooltip arrow title={
             <span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>
@@ -144,6 +277,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
       return {
         accessorKey: item.name,
         header: ChecklistKey_Def[item.name].name,
+        size: 100,
         Header: ({ column }) => (
           <Tooltip arrow title={
             <span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>
@@ -174,11 +308,17 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
 
   const genTableData = (symbols) => {
     return symbols.map((symbol) => {
-      let data = {"symbol": symbol}
+      let data = {symbol: symbol, score: {pass: 0, total: 0}}
       if (symbol in stockData) {
         checklistConfig["list"].forEach((item) => {
           if (item.name in stockData[symbol]) {
             data[item.name] = stockData[symbol][item.name]
+            if (ChecklistKey_Def[item.name].type === "from_end" && checkFromEnd(stockData[symbol][item.name], item.condition)) {
+              data.score.pass += 1
+            } else if (ChecklistKey_Def[item.name].type === "tags" && checkTags(stockData[symbol][item.name], item.condition)) {
+              data.score.pass += 1
+            }
+            data.score.total += 1
           } else { 
             data[item.name] = "-"
           }

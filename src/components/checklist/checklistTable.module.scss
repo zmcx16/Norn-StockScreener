@@ -2,3 +2,13 @@
   padding: 10px 0;
   width: 100%;
 }
+
+.score {
+  display: grid;
+  grid-template-columns: 1fr 50px 50px 1fr;;
+  align-items: center;
+}
+
+.bombImg {
+  top: -6px;
+}

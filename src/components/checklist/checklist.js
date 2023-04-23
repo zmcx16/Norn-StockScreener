@@ -5,6 +5,8 @@ import Tooltip from '@mui/material/Tooltip'
 import InfoIcon from '@mui/icons-material/Info'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Button from '@mui/material/Button'
+import { green, blue, lightBlue, amber, red, purple, blueGrey } from '@mui/material/colors'
+import SaveIcon from '@mui/icons-material/Save'
 import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import ListItemText from '@mui/material/ListItemText'
@@ -26,9 +28,10 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Paper from '@mui/material/Paper'
 import shortid from 'shortid'
+import Cookies from 'universal-cookie'
 
 import { GetDataByFetchObj } from '../../common/reactUtils'
-import { ChecklistTooltips, DefaultGroupChecklist } from '../../common/checklistDef'
+import { ChecklistTooltips, DefaultGroupChecklist, COOKIE_KEY_CHECKLISTS } from '../../common/checklistDef'
 import ModalWindow from '../modalWindow'
 import FormDialog from '../formDialog'
 import ChecklistTable from './checklistTable'
@@ -60,9 +63,17 @@ function CombineData(stock_info, eps_analysis, eps_financials) {
 
 
 const Checklist = ({loadingAnimeRef}) => {
+  const cookies = new Cookies()
+  if (!cookies.get(COOKIE_KEY_CHECKLISTS)){
+    cookies.set(COOKIE_KEY_CHECKLISTS, DefaultGroupChecklist, { 
+      path: '/',
+      expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
+      maxAge: 10 * 365 * 24 * 60 * 60,
+    })
+  }
 
   const stockDataRef = useRef({})
-  const [groupChecklist, setGroupChecklist] = useState(DefaultGroupChecklist)
+  const [groupChecklist, setGroupChecklist] = useState(cookies.get(COOKIE_KEY_CHECKLISTS))
   const [groupSelect, setGroupSelect] = useState(0)
   const checklistConfigRef = useRef(groupChecklist[0])
 
@@ -251,7 +262,7 @@ const Checklist = ({loadingAnimeRef}) => {
               formDialogRef.current.openDialog(true, "Create New Checklist", "To create the new checklist, please enter your new checklist name here.", "Confirm", "Cancel", "Checklist Name")
             }}>
               <ListItemIcon>
-                <AddIcon fontSize="small" />
+                <AddIcon sx={{ color: blueGrey[400] }} fontSize="small" />
               </ListItemIcon>
               <ListItemText>Create Checklist</ListItemText>
             </MenuItem>
@@ -274,7 +285,7 @@ const Checklist = ({loadingAnimeRef}) => {
               formDialogRef.current.openDialog(false, "Confirm Delete", `Are you sure you want to remove "${groupChecklist[groupSelect]["name"]}" checklist?`, "Confirm", "Cancel", "")
             }}>
               <ListItemIcon>
-                <DeleteIcon fontSize="small" />
+                <DeleteIcon sx={{ color: red[600] }} fontSize="small" />
               </ListItemIcon>
               <ListItemText>Delete Checklist</ListItemText>
             </MenuItem>
@@ -289,7 +300,7 @@ const Checklist = ({loadingAnimeRef}) => {
               ChecklistRef.current.openCheckpointPannel(groupChecklist[groupSelect]["name"])
             }}>
               <ListItemIcon>
-                <EditIcon fontSize="small" />
+                <EditIcon sx={{ color: amber[800] }} fontSize="small" />
               </ListItemIcon>
               <ListItemText>Edit Checkpoints</ListItemText>
             </MenuItem>
@@ -318,7 +329,7 @@ const Checklist = ({loadingAnimeRef}) => {
                   }}
                 />
               <ListItemIcon>
-                <InputIcon fontSize="small" />
+                <InputIcon sx={{ color: blue[600] }} fontSize="small" />
               </ListItemIcon>
               <ListItemText>Import Checklists</ListItemText>
             </MenuItem>
@@ -332,15 +343,32 @@ const Checklist = ({loadingAnimeRef}) => {
               URL.revokeObjectURL(blob)
             }}>
               <ListItemIcon>
-                <OutputIcon fontSize="small" />
+                <OutputIcon sx={{ color: green[600] }} fontSize="small" />
               </ListItemIcon>
               <ListItemText>Export Checklists</ListItemText>
             </MenuItem>
             <MenuItem onClick={()=>{
-              
+              cookies.set(COOKIE_KEY_CHECKLISTS, groupChecklist, { 
+                path: '/',
+                expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
+                maxAge: 10 * 365 * 24 * 60 * 60,
+              })
+              modalWindowRef.current.popModalWindow(<div>Saved cookies done</div>)
             }}>
               <ListItemIcon>
-                <RestartAltIcon fontSize="small" />
+                <SaveIcon sx={{ color: lightBlue[500] }}  fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Save Cookies</ListItemText>
+            </MenuItem>
+            <MenuItem onClick={()=>{
+              cookies.remove(COOKIE_KEY_CHECKLISTS, { path: '/' })
+              modalWindowRef.current.popModalWindow(<div>Reset default done, refresh the page now</div>)
+              if (typeof window !== 'undefined') {
+                window.location.reload(true)
+              }
+            }}>
+              <ListItemIcon>
+                <RestartAltIcon sx={{ color: purple[700] }}  fontSize="small" />
               </ListItemIcon>
               <ListItemText>Reset Default</ListItemText>
             </MenuItem>

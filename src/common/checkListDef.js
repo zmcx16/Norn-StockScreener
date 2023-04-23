@@ -4,6 +4,11 @@ export const ChecklistKey_Def = {
         "type": "symbol",
         "checkpoint": false,
     },
+    "score":{
+        "name": "Score",
+        "type": "score",
+        "checkpoint": false,
+    },
     "P/E":{
         "name": "P/E",
         "type": "from_end",
@@ -53,7 +58,7 @@ export const ChecklistKey_Def = {
         }
     },
     "eps_analysis":{
-        "name": "EPS Analysis",
+        "name": "EPS Anal",
         "type": "tags",
         "description": "EPS data from the Analysis",
         "checkpoint": true,
@@ -65,7 +70,7 @@ export const ChecklistKey_Def = {
         }
     },
     "eps_financials":{
-        "name": "EPS Financials",
+        "name": "EPS Fin",
         "type": "tags",
         "description": "EPS data from the Financial Statements",
         "checkpoint": true,
@@ -118,4 +123,5 @@ export const CheckpointsKeyList = Object.keys(ChecklistKey_Def).reduce((acc, key
     return acc
 }, [])
 
+export const COOKIE_KEY_CHECKLISTS = "checklists"
 export const ChecklistTooltips = "This is a tooltip"
