@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
+import { green, red, blueGrey } from '@mui/material/colors'
 import DialogTitle from '@mui/material/DialogTitle'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -11,11 +12,12 @@ import Avatar from '@mui/material/Avatar'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
-import FolderIcon from '@mui/icons-material/Folder'
+import ArticleIcon from '@mui/icons-material/Article';
 import ListItemText from '@mui/material/ListItemText'
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
 import Chip from '@mui/material/Chip'
 import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
@@ -23,8 +25,108 @@ import shortid from 'shortid'
 
 import { EPSGrowthTagsDict } from '../../common/tagsDef'
 import { ChecklistKey_Def, CheckpointsKeyList } from '../../common/checklistDef'
+import { getFromEndVal } from '../../common/utils'
 
 import checkpointPannelStyle from './checkpointPannel.module.scss'
+
+
+const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
+
+  // filterCriteriaRef API
+  filterCriteriaRef.current.getValue = () => {
+    return { name: name, from: valueFromRef.current.value, end: valueEndRef.current.value}
+  }
+
+  filterCriteriaRef.current.setValue = (value) => {
+    setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, value.from, value.end))
+  }
+  
+
+  // gen node
+  const genFromEndTextField = (inputFromRef, inputEndRef, FromValue, EndValue) => {
+
+    // add key to force re-render component
+    return <>
+      <form noValidate autoComplete="off">
+        <TextField key={shortid.generate()} className={checkpointPannelStyle.valueText} label="From" variant="outlined" defaultValue={FromValue} size="small" inputRef={inputFromRef} />
+      </form>
+      <div>-</div>
+      <form noValidate autoComplete="off">
+        <TextField key={shortid.generate()} className={checkpointPannelStyle.valueText} label="End" variant="outlined" defaultValue={EndValue} size="small" inputRef={inputEndRef} />
+      </form>
+    </>
+  }
+
+  // set arg value
+  const valueFromRef = useRef({ value: '' })
+  const valueEndRef = useRef({ value: '' })
+  const [valueFromEnd, setValueFromEnd] = useState(genFromEndTextField(valueFromRef, valueEndRef, '', ''))
+
+  // arg select
+  const { name, display_name, args_items, default_index } = dataTemplate
+  const [arg, setArg] = useState(default_index)
+
+  const renderValueFromEnd = (index) => {
+
+    const fromEnd = getFromEndVal(args_items[index])
+    setValueFromEnd(genFromEndTextField(valueFromRef, valueEndRef, fromEnd[0], fromEnd[1]))
+    setArg(index)
+  }
+
+
+  useEffect(() => {
+    // componentDidMount is here!
+    // componentDidUpdate is here!
+    renderValueFromEnd(default_index)
+    return () => {
+      // componentWillUnmount is here!
+    }
+  }, [])
+
+  return (
+    <> 
+      <div className={checkpointPannelStyle.argNodes}>
+        {display_name}
+        <FormControl size="small" variant="outlined" className={checkpointPannelStyle.argNodesSelect}>
+          <InputLabel htmlFor="arg-select">{name}</InputLabel>
+          <Select
+            native
+            value={arg}
+            displayEmpty
+            onChange={(event) => {
+              renderValueFromEnd(event.target.value)
+            }}
+            label={name}
+          >
+            {
+              args_items.map((value, index) => {
+                return <option key={shortid.generate()} index={index} value={index}>{value}</option>
+              })
+            }
+          </Select>
+        </FormControl>
+        <div></div>
+        {valueFromEnd}
+      </div>
+    </>
+  )
+}
+  
+function prettyTags(val) {
+  let pretty_tags = []
+  val.forEach((tag) => {
+    pretty_tags.push(EPSGrowthTagsDict[tag])
+  })
+  return pretty_tags.join(",\n")
+}
+
+function conditionToString(item) {
+  if (ChecklistKey_Def[item.name].type === "from_end") {
+    return `From: "${item.condition["from"]}" | End: "${item.condition["end"]}"`
+  } else if (ChecklistKey_Def[item.name].type === "tags") {
+    return "Full Match: " + prettyTags(item.condition["match_all"])
+  }
+}
 
 const CheckpointPannel = ({ChecklistRef}) => {
   const [open, setOpen] = useState(false)
@@ -50,6 +152,8 @@ const CheckpointPannel = ({ChecklistRef}) => {
     setOpen(false)
   }
 
+  const filterCriteriaRef = useRef({getValue: null})
+
   const [tags, setTags] = useState({})
   const tagsRef = useRef({})
 
@@ -59,11 +163,22 @@ const CheckpointPannel = ({ChecklistRef}) => {
     setCheckPointComp(
       <>
         <div style={{display: ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "from_end" ? 'block' : 'none'}}>
-          {"from_end"}
+          {
+            ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "from_end" ? 
+            <FilterCriteria style={{padding: '5px 0 0 0'}} key={shortid.generate()} filterCriteriaRef={filterCriteriaRef} dataTemplate={
+              {
+                "name": ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].name,
+                "display_name":  ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].checkpoint_comp.display_name,
+                "args_items": ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].checkpoint_comp.args_items,
+                "default_index": ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].checkpoint_comp.default_index
+              }
+            } />
+            : <></>
+          }
         </div>
         <div key={shortid.generate()}  className={checkpointPannelStyle.tagContainer} style={{display: ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "tags" ? 'block' : 'none'}}>
           {
-            Object.entries(ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "tags" ? tags : {}).map(([key, value, index]) => {
+            Object.entries(ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "tags" ? tags : {}).map(([key, value]) => {
               console.log(tags)
               return <Chip
                 key={shortid.generate()} 
@@ -90,6 +205,32 @@ const CheckpointPannel = ({ChecklistRef}) => {
       // componentWillUnmount is here!
     }
   }, [checkPointSelect, tags]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const renderCheckpointsComp = (val) => {
+    return val.map((item) => {
+      return (
+        <ListItem
+          key={shortid.generate()}
+          secondaryAction={
+            <IconButton sx={{ color: red[600] }} edge="end" aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
+          }
+          >
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: blueGrey[500] }}>
+              <ArticleIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={ChecklistKey_Def[item.name].checkpoint_comp.display_name}
+            secondary={conditionToString(item)}
+          />
+        </ListItem>
+  )})}
+
+  console.log(ChecklistRef.current.getChecklistConfigRef())
+  const [checkpointsComp, setCheckpointsComp] = useState(renderCheckpointsComp(ChecklistRef.current.getChecklistConfigRef().list))
 
   return (
     <div>
@@ -131,7 +272,7 @@ const CheckpointPannel = ({ChecklistRef}) => {
               </FormControl>
               <div></div>
               <div className={checkpointPannelStyle.addCheckpointBtn}>
-                <IconButton aria-label="addCheckpoint" style={{maxWidth: '70px', maxHeight: '70px', minWidth: '70px', minHeight: '70px'}} onClick={() => {
+                <IconButton sx={{ color: green['A700'] }} aria-label="addCheckpoint" style={{maxWidth: '70px', maxHeight: '70px', minWidth: '70px', minHeight: '70px'}} onClick={() => {
                   if (ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type === "tags") {
                     console.log(tags)
                   }
@@ -152,129 +293,11 @@ const CheckpointPannel = ({ChecklistRef}) => {
                       borderRadius: 1,
                       '& ul': { padding: 0 },
                   }}>
-                      <ListItem
-                      secondaryAction={
-                          <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                          </IconButton>
-                      }
-                      >
-                      <ListItemAvatar>
-                          <Avatar>
-                          <FolderIcon />
-                          </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                          primary="Single-line item"
-                          secondary="Secondary text"
-                      />
-                      </ListItem>
-                      <ListItem
-                      secondaryAction={
-                          <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                          </IconButton>
-                      }
-                      >
-                      <ListItemAvatar>
-                          <Avatar>
-                          <FolderIcon />
-                          </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                          primary="Single-line item"
-                          secondary="Secondary text"
-                      />
-                      </ListItem>
-                      <ListItem
-                      secondaryAction={
-                          <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                          </IconButton>
-                      }
-                      >
-                      <ListItemAvatar>
-                          <Avatar>
-                          <FolderIcon />
-                          </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                          primary="Single-line item"
-                          secondary="Secondary text"
-                      />
-                      </ListItem>
-                      <ListItem
-                      secondaryAction={
-                          <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                          </IconButton>
-                      }
-                      >
-                      <ListItemAvatar>
-                          <Avatar>
-                          <FolderIcon />
-                          </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                          primary="Single-line item"
-                          secondary="Secondary text"
-                      />
-                      </ListItem>
-                      <ListItem
-                      secondaryAction={
-                          <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                          </IconButton>
-                      }
-                      >
-                      <ListItemAvatar>
-                          <Avatar>
-                          <FolderIcon />
-                          </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                          primary="Single-line item"
-                          secondary="Secondary text"
-                      />
-                      </ListItem>
-                      <ListItem
-                      secondaryAction={
-                          <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                          </IconButton>
-                      }
-                      >
-                      <ListItemAvatar>
-                          <Avatar>
-                          <FolderIcon />
-                          </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                          primary="Single-line item"
-                          secondary="Secondary text"
-                      />
-                      </ListItem>
-                      <ListItem
-                      secondaryAction={
-                          <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                          </IconButton>
-                      }
-                      >
-                      <ListItemAvatar>
-                          <Avatar>
-                          <FolderIcon />
-                          </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                          primary="Single-line item"
-                          secondary="Secondary text"
-                      />
-                      </ListItem>
+                    {checkpointsComp}
                   </List>
               </div>
               <div className={checkpointPannelStyle.checkpointDescription}>
-                <Typography variant="h6">
+                <Typography variant="subtitle1">
                   {ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].description}
                 </Typography>
               </div>
@@ -284,8 +307,8 @@ const CheckpointPannel = ({ChecklistRef}) => {
             </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelClose}>{"Cancel"}</Button>
-          <Button onClick={handleConfirmClose}>{"Confirm"}</Button>
+          <Button size="large" style={{fontWeight: 600}} onClick={handleCancelClose}>{"Cancel"}</Button>
+          <Button size="large" style={{fontWeight: 600}} onClick={handleConfirmClose}>{"Confirm"}</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -10,6 +10,7 @@ export const ChecklistKey_Def = {
         "description": "Price to Earnings (TTM)",
         "checkpoint": true,
         "checkpoint_comp": {
+            "display_name": "P/E Ratio",
             "args_items": ["< 5", "< 10", "< 15", "< 20", "< 25", "< 30", "< 40", "< 50", "> 5", "> 10", "> 15", "> 20", "> 25", "> 30", "> 40", "> 50"],
             "default_index": 3
         }
@@ -20,8 +21,9 @@ export const ChecklistKey_Def = {
         "description": "EPS data from the Analysis",
         "checkpoint": true,
         "checkpoint_comp": {
+            "display_name": "EPS Analysis",
             "args_items": ["all_positive", "keep_growth"],
-            "default_selects": ["all_positive"]
+            "default_selects": ["all_positive", "keep_growth"]
         }
     },
     "eps_financials":{
@@ -30,8 +32,9 @@ export const ChecklistKey_Def = {
         "description": "EPS data from the Financial Statements",
         "checkpoint": true,
         "checkpoint_comp": {
+            "display_name": "EPS Financials",
             "args_items": ["all_positive", "keep_growth"],
-            "default_selects": ["all_positive", "keep_growth"]
+            "default_selects": ["all_positive"]
         }
     }
 }

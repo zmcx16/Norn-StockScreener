@@ -61,24 +61,24 @@ function checkFromEnd(val, condition) {
     })
     return pretty_tags.join(",\n")
   }
-  
 
 const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
 
     const checklistConfig = ChecklistRef.current.getChecklistConfigRef()
     const stockData = ChecklistRef.current.getStockDataRef()
-    ChecklistRef.current.searchStockOnClick = (value) => {
-      const symbols = ChecklistRef.current.getSearchStockRef().current.value.split(',').map((symbol) => symbol.trim())
+    ChecklistRef.current.searchStockOnClick = () => {
+      const symbols = ChecklistRef.current.getSearchStockRef().value.split(',').map((symbol) => symbol.trim())
       symbols.forEach((symbol) => {
           if (symbol === '') {
-          return
+            modalWindowRef.current.popModalWindow(<div>Please enter at least one stock symbol</div>)
+            return
           }
           if (checklistConfig["symbols"].includes(symbol)) {
-          modalWindowRef.current.popModalWindow(<div>{symbol} is already in the list</div>)
-          return
+            modalWindowRef.current.popModalWindow(<div>{symbol} is already in the list</div>)
+            return
           } else if (!(symbol in stockData)){
-          modalWindowRef.current.popModalWindow(<div>{symbol} is not found</div>)
-          return
+            modalWindowRef.current.popModalWindow(<div>{symbol} is not found</div>)
+            return
           }
           checklistConfig["symbols"].push(symbol)
           updateTableData(genTableData(checklistConfig["symbols"]) )

@@ -74,8 +74,16 @@ const Checklist = ({loadingAnimeRef}) => {
         },
         { 
           "name": "eps_analysis", 
-          "condition": {"match_all": ["all_positive"]}
-        }
+          "condition": {"match_all": ["all_positive", "keep_growth"]}
+        },
+        { 
+          "name": "P/E", 
+          "condition": {"from": "5", "end": "15"}
+        },
+        { 
+          "name": "P/E", 
+          "condition": {"from": "50", "end": ""}
+        },
       ]
     }
   ])
@@ -214,7 +222,9 @@ const Checklist = ({loadingAnimeRef}) => {
               inputProps={{ 'aria-label': 'search-us-stocks' }}
               inputRef={searchStockRef}
             />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => {}}>
+            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => {
+              ChecklistRef.current.searchStockOnClick()
+            }}>
               <SearchIcon />
             </IconButton>
           </Paper>

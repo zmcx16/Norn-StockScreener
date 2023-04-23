@@ -68,8 +68,8 @@ const FormDialog = ({formDialogRef}) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelClose}>{setting.cancelText}</Button>
-          <Button onClick={handleConfirmClose}>{setting.confirmText}</Button>
+          <Button style={{fontWeight: 600}} onClick={handleCancelClose}>{setting.cancelText}</Button>
+          <Button style={{fontWeight: 600}} onClick={handleConfirmClose}>{setting.confirmText}</Button>
         </DialogActions>
       </Dialog>
     </div>
