@@ -20,6 +20,7 @@ import shortid from 'shortid'
 import { GetDataByFetchObj } from '../../common/reactUtils'
 import { ChecklistTooltips } from '../../common/checklistDef'
 import ModalWindow from '../modalWindow'
+import FormDialog from '../formDialog'
 import ChecklistTable from './checklistTable'
 
 import commonStyle from '../common.module.scss'
@@ -116,9 +117,14 @@ const Checklist = ({loadingAnimeRef}) => {
 
   const [resultTable, setResultTable] = useState(<></>)
 
-  const [anchorEl, setAnchorEl] = useState(null)
   const [settingMenu, setSettingMenu] = useState(null)
   const openSettingMenu = Boolean(settingMenu)
+
+  const formDialogRef = useRef({
+    openDialog: null,
+    cancelCallback: null,
+    confirmCallback: null
+  })
 
   useEffect(() => {
     // componentDidMount is here!
@@ -175,10 +181,22 @@ const Checklist = ({loadingAnimeRef}) => {
           }}
         >
           <MenuItem onClick={()=>{
-            let tmp = [...groupChecklist, { "name": "New Checklist", "symbols": [], "list": [] }]
-            setGroupSelect(tmp.length - 1)
-            setGroupChecklist(tmp)
-            setSettingMenu(null)
+            formDialogRef.current.cancelCallback = ()=>{}
+            formDialogRef.current.confirmCallback = (inputData)=>{
+              if (inputData === "") {
+                modalWindowRef.current.popModalWindow(<div>Checklist name cannot be empty...</div>)
+                return
+              } else if (groupChecklist.some(x => x["name"] === inputData)) {
+                modalWindowRef.current.popModalWindow(<div>Checklist "{inputData}" already exist...</div>)
+                return
+              }
+
+              let tmp = [...groupChecklist, { "name": inputData, "symbols": [], "list": [] }]
+              setGroupSelect(tmp.length - 1)
+              setGroupChecklist(tmp)
+              setSettingMenu(null)
+            }
+            formDialogRef.current.openDialog(true, "Create New Checklist", "To create the new checklist, please enter your new checklist name here.", "Confirm", "Cancel", "Checklist Name")
           }}>
             <ListItemIcon>
               <AddIcon fontSize="small" />
@@ -186,11 +204,20 @@ const Checklist = ({loadingAnimeRef}) => {
             <ListItemText>Create Checklist</ListItemText>
           </MenuItem>
           <MenuItem onClick={()=>{
-            let tmp = [...groupChecklist]
-            tmp.splice(groupSelect, 1)
-            setGroupSelect(0)
-            setGroupChecklist(tmp)
-            setSettingMenu(null)
+            if (groupChecklist.length <= 1) {
+              modalWindowRef.current.popModalWindow(<div>Cannot delete the last checklist...</div>)
+              return
+            }
+            
+            formDialogRef.current.cancelCallback = ()=>{}
+            formDialogRef.current.confirmCallback = ()=>{
+              let tmp = [...groupChecklist]
+              tmp.splice(groupSelect, 1)
+              setGroupSelect(0)
+              setGroupChecklist(tmp)
+              setSettingMenu(null)
+            }
+            formDialogRef.current.openDialog(false, "Confirm Delete", `Are you sure you want to remove "${groupChecklist[groupSelect]["name"]}" checklist?`, "Confirm", "Cancel", "")
           }}>
             <ListItemIcon>
               <DeleteIcon fontSize="small" />
@@ -201,6 +228,7 @@ const Checklist = ({loadingAnimeRef}) => {
       </div>
       {resultTable}
       <ModalWindow modalWindowRef={modalWindowRef} />
+      <FormDialog formDialogRef={formDialogRef} />
     </div>
   )
 }
