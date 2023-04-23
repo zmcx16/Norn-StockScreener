@@ -405,7 +405,7 @@ export const FCDataTemplate = [
     name: "Beneish Model",
     display_name: "Beneish Model",
     type: 1,
-    tooltip: "Use financial ratios and eight variables to identify whether a company has manipulated its earnings",
+    tooltip: "Using financial ratios and eight variables to identify whether a company has manipulated its earnings",
     args_items: ["Any", "< -2.22", "< -1.78", "> -2.22", "> -1.78", "-2.22 ~ -1.78"],
     default_index: 0
   },

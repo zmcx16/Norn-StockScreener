@@ -14,13 +14,9 @@ import commonStyle from '../common.module.scss'
 import checklistgTableStyle from './checklistTable.module.scss'
 
 
-function checkFromEnd(val, condition, name) {
+function checkFromEnd(val, condition) {
   let arg_from = condition["from"]
   let arg_end = condition["end"]
-
-  if (name == "Market Cap") {
-      val = val / 1000000
-  }
 
   if (arg_from != "" || arg_end != "")
   {
@@ -274,8 +270,8 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
           (
             cell.getValue() === "-" || cell.getValue() === -Number.MAX_VALUE || cell.getValue() === Number.MAX_VALUE || cell.getValue() === null || cell.getValue() === undefined || cell.getValue() === "Infinity" || cell.getValue() === 'NaN' ?
               <span>-</span> :
-              <span style={{fontWeight: 700, color: checkFromEnd(cell.getValue(), item.condition, item.name) ? 'green' : 'red' }}>
-                {checkFromEnd(cell.getValue(), item.condition, item.name) ? '✔' : '✘'}
+              <span style={{fontWeight: 700, color: checkFromEnd(ChecklistKey_Def[item.name].checkpoint_comp.checkValConvertor(cell.getValue()), item.condition) ? 'green' : 'red' }}>
+                {checkFromEnd(ChecklistKey_Def[item.name].checkpoint_comp.checkValConvertor(cell.getValue()), item.condition) ? '✔' : '✘'}
                 {" (" + displayCell(cell.getValue(), ChecklistKey_Def[item.name].checkpoint_comp.display_format) + ")"}
               </span>
           )
@@ -321,9 +317,9 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
         checklistConfig["list"].forEach((item) => {
           if (item.name in stockData[symbol]) {
             data[item.name] = stockData[symbol][item.name]
-            if (ChecklistKey_Def[item.name].type === "from_end" && checkFromEnd(stockData[symbol][item.name], item.condition, item.name)) {
+            if (ChecklistKey_Def[item.name].type === "from_end" && checkFromEnd(ChecklistKey_Def[item.name].checkpoint_comp.checkValConvertor(stockData[symbol][item.name]), item.condition)) {
               data.score.pass += 1
-            } else if (ChecklistKey_Def[item.name].type === "tags" && checkTags(stockData[symbol][item.name], item.condition, item.name)) {
+            } else if (ChecklistKey_Def[item.name].type === "tags" && checkTags(stockData[symbol][item.name], item.condition)) {
               data.score.pass += 1
             }
             data.score.total += 1
