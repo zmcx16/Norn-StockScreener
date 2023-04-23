@@ -1,4 +1,4 @@
-export const CheckListKey_Def = {
+export const ChecklistKey_Def = {
     "symbol":{
         "name": "Symbol",
         "type": "symbol"
@@ -16,3 +16,5 @@ export const CheckListKey_Def = {
         "type": "tags"
     }
 }
+
+export const ChecklistTooltips = "This is a tooltip"

@@ -1,0 +1,16 @@
+.tableContainer {
+  padding: 10px 0;
+  width: 100%;
+}
+
+.tableCmdPanel {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: 300px 180px 1fr;
+  justify-items: left;
+  align-items: center;
+}
+
+.tableCmdBtn {
+  width: 140px;
+}

@@ -1,20 +1,26 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 
 import useFetch from 'use-http'
-import MaterialReactTable from 'material-react-table'
-import Link from '@mui/material/Link'
 import Tooltip from '@mui/material/Tooltip'
-import SwapVertIcon from '@mui/icons-material/SwapVert'
+import InfoIcon from '@mui/icons-material/Info'
+import SettingsIcon from '@mui/icons-material/Settings'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { ThemeProvider } from '@mui/styles'
 import Button from '@mui/material/Button'
-import { createTheme } from '@mui/material/styles'
+import IconButton from '@mui/material/IconButton'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import AddIcon from '@mui/icons-material/Add'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import InputLabel from '@mui/material/InputLabel'
+import shortid from 'shortid'
 
-import { FinvizUrl } from '../../common/common'
-import { GetDataByFetchObj, YahooFinanceUrl } from '../../common/reactUtils'
+import { GetDataByFetchObj } from '../../common/reactUtils'
+import { ChecklistTooltips } from '../../common/checklistDef'
 import ModalWindow from '../modalWindow'
-import { CheckListKey_Def } from '../../common/checkListDef'
-import { EPSGrowthTagsDict } from '../../common/tagsDef'
+import ChecklistTable from './checklistTable'
 
 import commonStyle from '../common.module.scss'
 import checklistgStyle from './checklist.module.scss'
@@ -40,258 +46,42 @@ function CombineData(stock_info, eps_analysis, eps_financials) {
   return data
 }
 
-function checkFromEnd(val, condition) {
-  let arg_from = condition["from"]
-  let arg_end = condition["end"]
-  if (arg_from != "" || arg_end != "")
-  {
-      let from = arg_from == "" ? 0 : arg_from
-      let end = arg_end == "" ? 0 : arg_end
-      if (arg_end != "" && val > end)
-      {
-          return false
-      }
-      else if (arg_from != "" && val < from)
-      {
-          return false
-      }
-  }
-  return true
-}
-
-function checkTags(val, condition) {
-  let match_all = true
-  condition["match_all"].every((item) => {
-    let match_tag = false
-    val.some((v) => {
-      if (v == item) {
-        match_tag = true
-        return true
-      }
-      return false
-    })
-    if (!match_tag) {
-      match_all = false
-      return false
-    }
-    return true
-  })
-
-  if (match_all) {
-    return true
-  }   
-  return false
-}
-
-function prettyTags(val) {
-  let pretty_tags = []
-  val.forEach((tag) => {
-    pretty_tags.push(EPSGrowthTagsDict[tag])
-  })
-  return pretty_tags.join(",\n")
-}
-
-const CheckListTable = ({CheckListTableRef}) => {
-
-  const checkListConfig = CheckListTableRef.current.getCheckListConfigRef()
-  const stockData = CheckListTableRef.current.getStockDataRef()
-
-  const columns = useMemo(()=>[
-    {
-      accessorKey: "symbol",
-      header: CheckListKey_Def["symbol"].name,
-      enableColumnOrdering: false,
-      Cell: ({ cell }) => (
-        <Link href={ FinvizUrl + 'quote.ashx?t=' + cell.getValue()} target="_blank" rel="noreferrer noopener">
-          <span>{cell.getValue()}</span>
-        </Link>
-      ),
-    }
-  ].concat(checkListConfig["list"].map((item) => {
-    if (CheckListKey_Def[item.name].type === "from_end") {
-      return {
-        accessorKey: item.name,
-        header: CheckListKey_Def[item.name].name,
-        Cell: ({ cell }) => (
-          (
-            cell.getValue() === "-" || cell.getValue() === -Number.MAX_VALUE || cell.getValue() === Number.MAX_VALUE || cell.getValue() === null || cell.getValue() === undefined || cell.getValue() === "Infinity" || cell.getValue() === 'NaN' ?
-              <span>-</span> :
-              <span style={{fontWeight: 700, color: checkFromEnd(cell.getValue(), item.condition) ? 'green' : 'red' }}>
-                {checkFromEnd(cell.getValue(), item.condition) ? '✔' : '✘'}
-                {" (" + cell.getValue().toFixed(2) + ")"}
-              </span>
-          )
-        ),
-      }
-    } else if (CheckListKey_Def[item.name].type === "tags") {
-      return {
-        accessorKey: item.name,
-        header: CheckListKey_Def[item.name].name,
-        Cell: ({ cell }) => (
-          (
-            cell.getValue() === null || cell.getValue() === undefined || cell.getValue() === "-" ?
-              <span>-</span> :
-              <span style={{fontWeight: 700, display: 'flex', color: checkTags(cell.getValue(), item.condition) ? 'green' : 'red' }}>
-                <Tooltip arrow title={
-                  <span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>
-                    {cell.getValue().length === 0 ? 'None' : prettyTags(cell.getValue())}
-                  </span>} >
-                  <div> {checkTags(cell.getValue(), item.condition) ? '✔' : '✘'}</div>
-                </Tooltip>
-              </span>
-          )
-        ),
-      }
-    }
-  })), [])
-
-  const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.accessorKey))
-
-  const [tableData, setTableData] = useState(checkListConfig["symbols"].map((symbol) => {
-    let data = {"symbol": symbol}
-    if (symbol in stockData) {
-      checkListConfig["list"].forEach((item) => {
-        if (item.name in stockData[symbol]) {
-          data[item.name] = stockData[symbol][item.name]
-        } else { 
-          data[item.name] = "-"
-        }
-      })
-    } else {
-      checkListConfig["list"].forEach((item) => {
-        data[item.name] = "-"
-      })
-    }
-    return data
-  }))
-
-  const [enableRowSelection, setEnableRowSelection] = useState(true)
-  const [rowSelection, setRowSelection] = useState({})
-  const tableRef = useRef(null)
-
-  useEffect(() => {
-    const columnVisibility = tableRef.current.getState().columnVisibility;
-    if (enableRowSelection) {
-      tableRef.current.setColumnVisibility({...columnVisibility, 'mrt-row-select': true, 'mrt-row-actions': true, 'mrt-row-drag': false})
-    } else {
-      tableRef.current.setColumnVisibility({...columnVisibility, 'mrt-row-select': false, 'mrt-row-actions': true, 'mrt-row-drag': true})
-    }
-  }, [enableRowSelection])
-
-  const customTheme = createTheme({
-    palette: {
-      order: { 
-        backgroundColor: '#2196f3', color: '#fff'
-      },
-      delete: { 
-        backgroundColor: '#e53935', color: '#fff'
-      }
-    },
-  })
-
-  const updateTableData = (newTableData) => {
-    console.log(newTableData)
-    checkListConfig["symbols"] = newTableData.map((data) => data["symbol"])
-    console.log(checkListConfig["symbols"])
-    setTableData([...newTableData])
-  }
-
-  return (
-    <div className={commonStyle.defaultFont + ' ' + checklistgStyle.tableContainer}>
-      <ThemeProvider theme={customTheme}>
-        <div className={checklistgStyle.tableCmdPanel}>
-          <Button className={checklistgStyle.tableCmdBtn} variant="contained" style={customTheme.palette.order} startIcon={<SwapVertIcon />} onClick={() => {
-            setEnableRowSelection(!enableRowSelection)
-            setRowSelection({})
-          }}>{enableRowSelection ? 'Reorder' : 'Reordering'}</Button>
-          <Button className={checklistgStyle.tableCmdBtn} variant="contained" style={{...customTheme.palette.delete, ...{display: Object.keys(rowSelection).length === 0 ? 'none': 'inline-flex'}}} startIcon={<DeleteIcon />} onClick={() => {
-            let tmp = tableData
-            Object.keys(rowSelection).forEach((symbol) => {
-              tmp = tmp.filter((data) => data["symbol"] !== symbol)
-            })
-            updateTableData(tmp)
-          }}>{'Delete'}</Button>
-        </div>
-      </ThemeProvider>
-      <MaterialReactTable
-        tableInstanceRef={tableRef}
-        autoResetPageIndex={false}
-        columns={columns}
-        data={tableData}
-        enableRowSelection={enableRowSelection}
-        state={{ rowSelection }}
-        getRowId={(row) => row.symbol}
-        onRowSelectionChange={setRowSelection}
-        enableRowOrdering
-        enableRowDragging={!enableRowSelection}
-        enableColumnOrdering={!enableRowSelection}
-        columnOrder={columnOrder}
-        onColumnOrderChange={(order)=>{
-          let tmp = []
-          let orderTmp = order.filter(e => Object.keys(CheckListKey_Def).includes(e))
-          console.log(orderTmp)
-          orderTmp.forEach((key) => {
-            checkListConfig["list"].some((item, index) => {
-              if (item["name"] === key) {
-                tmp.push(item)
-                checkListConfig["list"].splice(index, 1)
-                return true
-              }
-              return false
-            })
-          })
-          checkListConfig["list"] = tmp
-          console.log(checkListConfig["list"])
-          setColumnOrder([...order])
-        }}
-        enableSorting={false}
-        enableFilters={false}
-        muiTableBodyRowDragHandleProps={({ table }) => ({
-          onDragEnd: () => {
-            const { draggingRow, hoveredRow } = table.getState();
-            if (hoveredRow && draggingRow) {
-              tableData.splice(
-                hoveredRow.index,
-                0,
-                tableData.splice(draggingRow.index, 1)[0],
-              );
-              updateTableData(tableData)
-            }
-          },
-        })}
-      />
-    </div>
-  )
-}
 
 const Checklist = ({loadingAnimeRef}) => {
 
   const stockDataRef = useRef({})
-  const checkListConfigRef = useRef({
-    "symbols": ["C", "WFC", "BAC", "AA", "CAAP", "ADUS"],
-    "list": [
-      { 
-        "name": "P/E", 
-        "condition": {"from": "", "end": "10"}
-      },
-      { 
-        "name": "eps_financials", 
-        "condition": {"match_all": ["all_positive"]}
-      },
-      { 
-        "name": "eps_analysis", 
-        "condition": {"match_all": ["all_positive"]}
-      }
-    ]})
+  const [groupChecklist, setGroupChecklist] = useState([
+    {
+      "name": "Default Checklist",
+      "symbols": ["C", "WFC", "BAC", "AA", "CAAP", "ADUS"],
+      "list": [
+        { 
+          "name": "P/E", 
+          "condition": {"from": "", "end": "10"}
+        },
+        { 
+          "name": "eps_financials", 
+          "condition": {"match_all": ["all_positive"]}
+        },
+        { 
+          "name": "eps_analysis", 
+          "condition": {"match_all": ["all_positive"]}
+        }
+      ]
+    }
+  ])
+  const [groupSelect, setGroupSelect] = useState(0)
+
+  const checklistConfigRef = useRef(groupChecklist[0])
 
   const modalWindowRef = useRef({
     popModalWindow: null,
     popPureModal: null
   })
   
-  const CheckListTableRef = useRef({
+  const ChecklistTableRef = useRef({
     getStockDataRef: ()=>{ return stockDataRef.current },
-    getCheckListConfigRef: ()=>{ return checkListConfigRef.current }
+    getChecklistConfigRef: ()=>{ return checklistConfigRef.current }
   })
 
   const fetchStockInfoData = useFetch({ cachePolicy: 'no-cache' })
@@ -311,7 +101,7 @@ const Checklist = ({loadingAnimeRef}) => {
       if (allResponses.length === fetch_data.length) {
         stockDataRef.current = CombineData(allResponses[0], allResponses[1]["data"], allResponses[2]["data"])
         console.log(stockDataRef.current)
-        setResultTable(<CheckListTable CheckListTableRef={CheckListTableRef} />)
+        setResultTable(<ChecklistTable ChecklistTableRef={ChecklistTableRef} modalWindowRef={modalWindowRef} />)
       } else {
         console.error("fetchData some data failed")
         modalWindowRef.current.popModalWindow(<div>Get some data failed...</div>)
@@ -326,6 +116,10 @@ const Checklist = ({loadingAnimeRef}) => {
 
   const [resultTable, setResultTable] = useState(<></>)
 
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [settingMenu, setSettingMenu] = useState(null)
+  const openSettingMenu = Boolean(settingMenu)
+
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -338,6 +132,73 @@ const Checklist = ({loadingAnimeRef}) => {
 
   return (
     <div className={commonStyle.defaultFont + ' ' + checklistgStyle.container}>
+      <div className={commonStyle.defaultFont + ' ' + checklistgStyle.groupPannel}>
+        <FormControl size="small" variant="outlined" className={checklistgStyle.checklistSelect}>
+          <InputLabel htmlFor="arg-select">{'Checklists'}</InputLabel>
+          <Select
+            native
+            value={groupSelect}
+            displayEmpty
+            onChange={(event) => {
+              setGroupSelect(event.target.value)
+            }}
+            label={'Checklists'}
+          >
+            {
+              groupChecklist.map((value, index) => {
+                return <option key={shortid.generate()} index={index} value={index}>{value.name}</option>
+              })
+            }
+          </Select>
+        </FormControl>
+        <Tooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{ChecklistTooltips}</span>} >
+          <IconButton>
+            <InfoIcon color="action"/>
+          </IconButton>
+        </Tooltip>
+        <Button id="setting-button" 
+          aria-controls={openSettingMenu ? 'setting-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={openSettingMenu ? 'true' : undefined}
+          size="large" style={{fontWeight: 600}} startIcon={<SettingsIcon />} onClick={(event) => {
+            setSettingMenu(event.currentTarget)
+        }}>{'Setting'}</Button>
+        <Menu
+          id="setting-menu"
+          anchorEl={settingMenu}
+          open={openSettingMenu}
+          onClose={()=>{
+            setSettingMenu(null)
+          }}
+          MenuListProps={{
+            'aria-labelledby': 'setting-button',
+          }}
+        >
+          <MenuItem onClick={()=>{
+            let tmp = [...groupChecklist, { "name": "New Checklist", "symbols": [], "list": [] }]
+            setGroupSelect(tmp.length - 1)
+            setGroupChecklist(tmp)
+            setSettingMenu(null)
+          }}>
+            <ListItemIcon>
+              <AddIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Create Checklist</ListItemText>
+          </MenuItem>
+          <MenuItem onClick={()=>{
+            let tmp = [...groupChecklist]
+            tmp.splice(groupSelect, 1)
+            setGroupSelect(0)
+            setGroupChecklist(tmp)
+            setSettingMenu(null)
+          }}>
+            <ListItemIcon>
+              <DeleteIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Delete Checklist</ListItemText>
+          </MenuItem>
+        </Menu>
+      </div>
       {resultTable}
       <ModalWindow modalWindowRef={modalWindowRef} />
     </div>
