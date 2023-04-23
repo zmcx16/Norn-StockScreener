@@ -2,15 +2,6 @@ import React, { useState, useEffect, useRef, useMemo } from 'react'
 import MaterialReactTable from 'material-react-table'
 import Link from '@mui/material/Link'
 import Tooltip from '@mui/material/Tooltip'
-import SwapVertIcon from '@mui/icons-material/SwapVert'
-import DeleteIcon from '@mui/icons-material/Delete'
-import { ThemeProvider } from '@mui/styles'
-import Button from '@mui/material/Button'
-import { createTheme } from '@mui/material/styles'
-import InputBase from '@mui/material/InputBase'
-import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
-import Paper from '@mui/material/Paper'
 
 import { FinvizUrl } from '../../common/common'
 import { ChecklistKey_Def } from '../../common/checklistDef'
@@ -72,12 +63,43 @@ function checkFromEnd(val, condition) {
   }
   
 
-const ChecklistTable = ({ChecklistTableRef, modalWindowRef}) => {
+const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
 
-    const checklistConfig = ChecklistTableRef.current.getChecklistConfigRef()
-    const stockData = ChecklistTableRef.current.getStockDataRef()
-  
-    const columns = useMemo(()=>[
+    const checklistConfig = ChecklistRef.current.getChecklistConfigRef()
+    const stockData = ChecklistRef.current.getStockDataRef()
+    ChecklistRef.current.searchStockOnClick = (value) => {
+      const symbols = ChecklistRef.current.getSearchStockRef().current.value.split(',').map((symbol) => symbol.trim())
+      symbols.forEach((symbol) => {
+          if (symbol === '') {
+          return
+          }
+          if (checklistConfig["symbols"].includes(symbol)) {
+          modalWindowRef.current.popModalWindow(<div>{symbol} is already in the list</div>)
+          return
+          } else if (!(symbol in stockData)){
+          modalWindowRef.current.popModalWindow(<div>{symbol} is not found</div>)
+          return
+          }
+          checklistConfig["symbols"].push(symbol)
+          updateTableData(genTableData(checklistConfig["symbols"]) )
+          ChecklistRef.current.getSearchStockRef().value = ""
+      })
+    }
+    ChecklistRef.current.reorderOnClick = (newReordering, setReordering) => {
+      setEnableRowSelection(!newReordering)
+      setReordering(newReordering)
+      setRowSelection({})
+    }
+    ChecklistRef.current.deleteOnClick = () => {
+      let tmp = tableData
+      Object.keys(rowSelection).forEach((symbol) => {
+        tmp = tmp.filter((data) => data["symbol"] !== symbol)
+      })
+      updateTableData(tmp)
+      setRowSelection({})
+    }
+
+    const columns = [
       {
         accessorKey: "symbol",
         header: ChecklistKey_Def["symbol"].name,
@@ -140,7 +162,7 @@ const ChecklistTable = ({ChecklistTableRef, modalWindowRef}) => {
           ),
         }
       }
-    })), [])
+    }))
   
     const [columnOrder, setColumnOrder] = useState(columns.map((c) => c.accessorKey))
   
@@ -167,7 +189,6 @@ const ChecklistTable = ({ChecklistTableRef, modalWindowRef}) => {
     const [enableRowSelection, setEnableRowSelection] = useState(true)
     const [rowSelection, setRowSelection] = useState({})
     const tableRef = useRef(null)
-    const searchStockRef = useRef(null)
   
     useEffect(() => {
       const columnVisibility = tableRef.current.getState().columnVisibility;
@@ -176,74 +197,21 @@ const ChecklistTable = ({ChecklistTableRef, modalWindowRef}) => {
       } else {
         tableRef.current.setColumnVisibility({...columnVisibility, 'mrt-row-select': false, 'mrt-row-actions': true, 'mrt-row-drag': true})
       }
-    }, [enableRowSelection])
-  
-    const customTheme = createTheme({
-      palette: {
-        order: { 
-          backgroundColor: '#2196f3', color: '#fff'
-        },
-        delete: { 
-          backgroundColor: '#e53935', color: '#fff'
-        }
-      },
-    })
-  
+
+      console.log(rowSelection)
+      ChecklistRef.current.checklistTableRowSelectionChanged(rowSelection)
+
+    }, [enableRowSelection, rowSelection])
+
     const updateTableData = (newTableData) => {
       console.log(newTableData)
       checklistConfig["symbols"] = newTableData.map((data) => data["symbol"])
       console.log(checklistConfig["symbols"])
       setTableData([...newTableData])
     }
-  
+
     return (
       <div className={commonStyle.defaultFont + ' ' + checklistgTableStyle.tableContainer}>
-        <ThemeProvider theme={customTheme}>
-          <div className={checklistgTableStyle.tableCmdPanel}>
-            <Paper
-              component="form"
-              sx={{ p: '6 16', display: 'flex', alignItems: 'center' }}
-            >
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder='AAPL, BAC, KSS, ...'
-                inputProps={{ 'aria-label': 'search-us-stocks' }}
-                inputRef={searchStockRef}
-              />
-              <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => {
-                const symbols = searchStockRef.current.value.split(',').map((symbol) => symbol.trim())
-                symbols.forEach((symbol) => {
-                  if (symbol === '') {
-                    return
-                  }
-                  if (checklistConfig["symbols"].includes(symbol)) {
-                    modalWindowRef.current.popModalWindow(<div>{symbol} is already in the list</div>)
-                    return
-                  } else if (!(symbol in stockData)){
-                    modalWindowRef.current.popModalWindow(<div>{symbol} is not found</div>)
-                    return
-                  }
-                  checklistConfig["symbols"].push(symbol)
-                  updateTableData(genTableData(checklistConfig["symbols"]) )
-                  searchStockRef.current.value = ""
-                })
-              }}>
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-            <Button className={checklistgTableStyle.tableCmdBtn} size="large" variant="contained" style={customTheme.palette.order} startIcon={<SwapVertIcon />} onClick={() => {
-              setEnableRowSelection(!enableRowSelection)
-              setRowSelection({})
-            }}>{enableRowSelection ? 'Reorder' : 'Reordering'}</Button>
-            <Button className={checklistgTableStyle.tableCmdBtn} size="large" variant="contained" style={{...customTheme.palette.delete, ...{display: Object.keys(rowSelection).length === 0 ? 'none': 'inline-flex'}}} startIcon={<DeleteIcon />} onClick={() => {
-              let tmp = tableData
-              Object.keys(rowSelection).forEach((symbol) => {
-                tmp = tmp.filter((data) => data["symbol"] !== symbol)
-              })
-              updateTableData(tmp)
-            }}>{'Delete'}</Button>
-          </div>
-        </ThemeProvider>
         <MaterialReactTable
           tableInstanceRef={tableRef}
           autoResetPageIndex={false}

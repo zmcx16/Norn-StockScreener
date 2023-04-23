@@ -2,3 +2,29 @@
   padding: 10px 0;
   width: 100%;
 }
+
+.queryPannel {
+  padding: 15px 15px;
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 1fr 30px 70px 30px 1fr;
+  grid-template-rows: 50px 50px 70px 50px 50px;
+  grid-gap: 5px;
+}
+
+.checkpointSelect {
+  max-width: 200px;
+}
+
+.addCheckpointBtn {
+  grid-area: 3 / 3 / 3 / 3;
+  width: 100%;
+}
+
+.checkpointArgsBlock {
+  min-height: 300px;
+}
+
+.checkpointList {
+  grid-area: 1 / 5 / 2 / 5;
+}
