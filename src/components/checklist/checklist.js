@@ -1,11 +1,16 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import useFetch from 'use-http'
 import MaterialReactTable from 'material-react-table'
+import Link from '@mui/material/Link'
+import Tooltip from '@mui/material/Tooltip'
 
-import { GetDataByFetchObj } from '../../common/reactUtils'
+import { FinvizUrl } from '../../common/common'
+import { GetDataByFetchObj, YahooFinanceUrl } from '../../common/reactUtils'
 import ModalWindow from '../modalWindow'
 import { CheckListKey_Def } from '../../common/checkListDef'
+import { EPSGrowthTagsDict } from '../../common/tagsDef'
+
 import commonStyle from '../common.module.scss'
 import checklistgStyle from './checklist.module.scss'
 
@@ -30,36 +35,126 @@ function CombineData(stock_info, eps_analysis, eps_financials) {
   return data
 }
 
+function checkFromEnd(val, condition) {
+  let arg_from = condition["from"]
+  let arg_end = condition["end"]
+  if (arg_from != "" || arg_end != "")
+  {
+      let from = arg_from == "" ? 0 : arg_from
+      let end = arg_end == "" ? 0 : arg_end
+      if (arg_end != "" && val > end)
+      {
+          return false
+      }
+      else if (arg_from != "" && val < from)
+      {
+          return false
+      }
+  }
+  return true
+}
+
+function checkTags(val, condition) {
+  let match_all = true
+  condition["match_all"].every((item) => {
+    let match_tag = false
+    val.some((v) => {
+      if (v == item) {
+        match_tag = true
+        return true
+      }
+      return false
+    })
+    if (!match_tag) {
+      match_all = false
+      return false
+    }
+    return true
+  })
+
+  if (match_all) {
+    return true
+  }   
+  return false
+}
+
+function prettyTags(val) {
+  let pretty_tags = []
+  val.forEach((tag) => {
+    pretty_tags.push(EPSGrowthTagsDict[tag])
+  })
+  return pretty_tags.join(",\n")
+}
+
 const CheckListTable = ({CheckListTableRef}) => {
 
   const checkListConfig = CheckListTableRef.current.getCheckListConfigRef()
   const stockData = CheckListTableRef.current.getStockDataRef()
 
-  const columns = Object.keys(CheckListKey_Def).map((key) => {
-    return {
-      accessorKey: key,
-      header: CheckListKey_Def[key].name,
+  const columns = [
+    {
+      accessorKey: "symbol",
+      header: CheckListKey_Def["symbol"].name,
+      enableColumnOrdering: false,
+      Cell: ({ cell }) => (
+        <Link href={ FinvizUrl + 'quote.ashx?t=' + cell.getValue()} target="_blank" rel="noreferrer noopener">
+          <span>{cell.getValue()}</span>
+        </Link>
+      ),
     }
-  })
+  ].concat(checkListConfig["list"].map((item) => {
+    if (CheckListKey_Def[item.name].type === "from_end") {
+      return {
+        accessorKey: item.name,
+        header: CheckListKey_Def[item.name].name,
+        Cell: ({ cell }) => (
+          (
+            cell.getValue() === "-" || cell.getValue() === -Number.MAX_VALUE || cell.getValue() === Number.MAX_VALUE || cell.getValue() === null || cell.getValue() === undefined || cell.getValue() === "Infinity" || cell.getValue() === 'NaN' ?
+              <span>-</span> :
+              <span style={{fontWeight: 700, color: checkFromEnd(cell.getValue(), item.condition) ? 'green' : 'red' }}>
+                {checkFromEnd(cell.getValue(), item.condition) ? '✔' : '✘'}
+                {" (" + cell.getValue().toFixed(2) + ")"}
+              </span>
+          )
+        ),
+      }
+    } else if (CheckListKey_Def[item.name].type === "tags") {
+      return {
+        accessorKey: item.name,
+        header: CheckListKey_Def[item.name].name,
+        Cell: ({ cell }) => (
+          (
+            cell.getValue() === null || cell.getValue() === undefined || cell.getValue() === "-" ?
+              <span>-</span> :
+              <span style={{fontWeight: 700, display: 'flex', color: checkTags(cell.getValue(), item.condition) ? 'green' : 'red' }}>
+                <Tooltip arrow title={
+                  <span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center' }}>
+                    {cell.getValue().length === 0 ? 'None' : prettyTags(cell.getValue())}
+                  </span>} >
+                  <div> {checkTags(cell.getValue(), item.condition) ? '✔' : '✘'}</div>
+                </Tooltip>
+              </span>
+          )
+        ),
+      }
+    }
+  }))
 
-  const [, setColumnOrder] = useState([
-    'mrt-row-select',
-    ...columns.map((c) => c.accessorKey),
-  ])
+  const [, setColumnOrder] = useState(columns.map((c) => c.accessorKey))
 
   const [tableData, setTableData] = useState(checkListConfig["symbols"].map((symbol) => {
     let data = {"symbol": symbol}
     if (symbol in stockData) {
       checkListConfig["list"].forEach((item) => {
-        if (item in stockData[symbol]) {
-          data[item] = stockData[symbol][item]
+        if (item.name in stockData[symbol]) {
+          data[item.name] = stockData[symbol][item.name]
         } else { 
-          data[item] = "-"
+          data[item.name] = "-"
         }
       })
     } else {
       checkListConfig["list"].forEach((item) => {
-        data[item] = "-"
+        data[item.name] = "-"
       })
     }
     return data
@@ -70,11 +165,23 @@ const CheckListTable = ({CheckListTableRef}) => {
       columns={columns}
       data={tableData}
       enableRowOrdering
-      enableColumnOrdering 
       enableRowDragging
+      enableColumnOrdering
       onColumnOrderChange={(order)=>{
-        console.log(order)
-        checkListConfig["list"] = order.slice(1) // remove mrt-row-drag
+        let tmp = []
+        let orderTmp = order.filter(e => Object.keys(CheckListKey_Def).includes(e))
+        console.log(orderTmp)
+        orderTmp.forEach((key) => {
+          checkListConfig["list"].some((item, index) => {
+            if (item["name"] === key) {
+              tmp.push(item)
+              checkListConfig["list"].splice(index, 1)
+              return true
+            }
+            return false
+          })
+        })
+        checkListConfig["list"] = tmp
         console.log(checkListConfig["list"])
         setColumnOrder([...order])
       }}
@@ -104,9 +211,21 @@ const Checklist = ({loadingAnimeRef}) => {
 
   const stockDataRef = useRef({})
   const checkListConfigRef = useRef({
-    "symbols": ["C", "WFC", "BAC"],
-    "list": ["P/E", "eps_financials", "eps_financials"]
-  })
+    "symbols": ["C", "WFC", "BAC", "AA", "CAAP", "ADUS"],
+    "list": [
+      { 
+        "name": "P/E", 
+        "condition": {"from": "", "end": "10"}
+      },
+      { 
+        "name": "eps_financials", 
+        "condition": {"match_all": ["all_positive"]}
+      },
+      { 
+        "name": "eps_analysis", 
+        "condition": {"match_all": ["all_positive"]}
+      }
+    ]})
 
   const modalWindowRef = useRef({
     popModalWindow: null,

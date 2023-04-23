@@ -5,7 +5,7 @@ export const CheckListKey_Def = {
     },
     "P/E":{
         "name": "P/E",
-        "type": "number"
+        "type": "from_end"
     },
     "eps_analysis":{
         "name": "EPS Analysis",
