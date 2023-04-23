@@ -288,6 +288,7 @@ def get_esg_data(ranking_folder_path, stock_info):
                     if symbol in stock_info:
                         esg_data["name"] = stock_info[symbol][0]
 
+                    esg_data['totalEsg'] = dt[i]['totalEsg']
                     if dt[i]['totalEsg'] < 10:
                         esg_data['rank_color'] = "#00e676"
                     elif dt[i]['totalEsg'] < 20:
@@ -359,6 +360,7 @@ def get_recommendation_data(ranking_folder_path, stock_info):
                     if symbol in stock_info:
                         recomm_data["name"] = stock_info[symbol][0]
 
+                    recomm_data["recommendationMean"] = dt[i]['recommendationMean']
                     if dt[i]['recommendationMean'] <= 1.5:
                         recomm_data['rank_color'] = "#00e676"
                     elif dt[i]['recommendationMean'] <= 2.5:
