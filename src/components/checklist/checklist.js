@@ -27,10 +27,9 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Paper from '@mui/material/Paper'
 import shortid from 'shortid'
-import Cookies from 'universal-cookie'
 
 import { GetDataByFetchObj, NoMaxWidthTooltip } from '../../common/reactUtils'
-import { ChecklistTooltips, ChecklistTooltipsUrl, DefaultGroupChecklist, COOKIE_KEY_CHECKLISTS } from '../../common/checklistDef'
+import { ChecklistTooltips, ChecklistTooltipsUrl, DefaultGroupChecklist, LOCALSTORAGE_KEY_CHECKLISTS } from '../../common/checklistDef'
 import ModalWindow from '../modalWindow'
 import FormDialog from '../formDialog'
 import ChecklistTable from './checklistTable'
@@ -78,17 +77,15 @@ function CombineData(stock_info, eps_analysis, eps_financials, esg, recomm) {
 
 
 const Checklist = ({loadingAnimeRef}) => {
-  const cookies = new Cookies()
-  if (!cookies.get(COOKIE_KEY_CHECKLISTS)){
-    cookies.set(COOKIE_KEY_CHECKLISTS, DefaultGroupChecklist, { 
-      path: '/',
-      expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
-      maxAge: 10 * 365 * 24 * 60 * 60,
-    })
+  let defaultGroupChecklist = localStorage.getItem(LOCALSTORAGE_KEY_CHECKLISTS)
+  if (defaultGroupChecklist){
+    defaultGroupChecklist = JSON.parse(defaultGroupChecklist)
+  } else {
+    defaultGroupChecklist = DefaultGroupChecklist
   }
 
   const stockDataRef = useRef({})
-  const [groupChecklist, setGroupChecklist] = useState(cookies.get(COOKIE_KEY_CHECKLISTS))
+  const [groupChecklist, setGroupChecklist] = useState(defaultGroupChecklist)
   const [groupSelect, setGroupSelect] = useState(0)
   const checklistConfigRef = useRef(groupChecklist[0])
 
@@ -139,7 +136,6 @@ const Checklist = ({loadingAnimeRef}) => {
       console.log(allResponses)
       if (allResponses.length === fetch_data.length) {
         stockDataRef.current = CombineData(allResponses[0], allResponses[1]["data"], allResponses[2]["data"], allResponses[3]["data"], allResponses[4]["data"])
-        console.log(stockDataRef.current)
         reloadChecklistTable()
       } else {
         console.error("fetchData some data failed")
@@ -201,6 +197,7 @@ const Checklist = ({loadingAnimeRef}) => {
               onChange={(event) => {
                 checklistConfigRef.current = groupChecklist[event.target.value]
                 setGroupSelect(event.target.value)
+                ChecklistRef.current.reorderOnClick(false, setReordering)
                 reloadChecklistTable()
               }}
               label={'Checklists'}
@@ -366,20 +363,16 @@ const Checklist = ({loadingAnimeRef}) => {
               <ListItemText>Export Checklists</ListItemText>
             </MenuItem>
             <MenuItem onClick={()=>{
-              cookies.set(COOKIE_KEY_CHECKLISTS, groupChecklist, { 
-                path: '/',
-                expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
-                maxAge: 10 * 365 * 24 * 60 * 60,
-              })
-              modalWindowRef.current.popModalWindow(<div>Saved cookies done</div>)
+              localStorage.setItem(LOCALSTORAGE_KEY_CHECKLISTS, JSON.stringify(groupChecklist))
+              modalWindowRef.current.popModalWindow(<div>Saved local storage done</div>)
             }}>
               <ListItemIcon>
                 <SaveIcon sx={{ color: lightBlue[500] }}  fontSize="small" />
               </ListItemIcon>
-              <ListItemText>Save Cookies</ListItemText>
+              <ListItemText>Save Local Storage</ListItemText>
             </MenuItem>
             <MenuItem onClick={()=>{
-              cookies.remove(COOKIE_KEY_CHECKLISTS, { path: '/' })
+              localStorage.removeItem(LOCALSTORAGE_KEY_CHECKLISTS)
               modalWindowRef.current.popModalWindow(<div>Reset default done, refresh the page now</div>)
               if (typeof window !== 'undefined') {
                 window.location.reload(true)

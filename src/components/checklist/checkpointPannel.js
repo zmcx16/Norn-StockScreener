@@ -214,9 +214,7 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
   }, [checkPointSelect, tags]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderCheckpointsComp = () => {
-    console.log(checklistConfigListTempRef.current)
     return checklistConfigListTempRef.current.map((item, index) => {
-      console.log(item)
       return (
         <ListItem
           key={shortid.generate()}
@@ -296,7 +294,6 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
                   }
                   
                   if (type === "tags") {
-                    console.log(tags)
                     checkpoint.condition = {
                       "match_all": Object.keys(tags).reduce((acc, key) => {
                         if (tags[key].enabe) {

@@ -4,11 +4,13 @@ import Link from '@mui/material/Link'
 import Tooltip from '@mui/material/Tooltip'
 import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
+import shortid from 'shortid'
 
 import { FinvizUrl } from '../../common/common'
 import { ChecklistKey_Def } from '../../common/checklistDef'
 import { EPSGrowthTagsDict } from '../../common/tagsDef'
 import { convertKMBT } from '../../common/utils'
+import { RemoveInvalidWordingForMaterialReactTable } from '../../common/reactUtils'
 
 import commonStyle from '../common.module.scss'
 import checklistgTableStyle from './checklistTable.module.scss'
@@ -156,46 +158,33 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
             ...GatsbyImageSharpFixed_noBase64
           }
         }  
-      }
-
-      finviz: file(relativePath: { eq: "finviz-favicon.png" }){
-        childImageSharp {
-          fixed(width: 32) {
-            ...GatsbyImageSharpFixed_noBase64
-          }
-        }  
-      }
-      
-      yahoo: file(relativePath: { eq: "yahoo-favicon.png" }){
-        childImageSharp {
-          fixed(width: 32) {
-            ...GatsbyImageSharpFixed_noBase64
-          }
-        }  
-      }      
+      }   
     }
   `)
 
   const checklistConfig = ChecklistRef.current.getChecklistConfigRef()
   const stockData = ChecklistRef.current.getStockDataRef()
   ChecklistRef.current.searchStockOnClick = () => {
-    const symbols = ChecklistRef.current.getSearchStockRef().value.split(',').map((symbol) => symbol.trim())
+    const symbols = ChecklistRef.current.getSearchStockRef().value.split(',').map((symbol) => symbol.trim().toUpperCase())
+    let msgList = []
     symbols.forEach((symbol) => {
         if (symbol === '') {
-          modalWindowRef.current.popModalWindow(<div>Please enter at least one stock symbol</div>)
+          msgList.push(<div key={shortid.generate()}>Please enter at least one stock symbol</div>)
           return
         }
         if (checklistConfig["symbols"].includes(symbol)) {
-          modalWindowRef.current.popModalWindow(<div>{symbol} is already in the list</div>)
+          msgList.push(<div key={shortid.generate()}>{symbol} is already in the list</div>)
           return
         } else if (!(symbol in stockData)){
-          modalWindowRef.current.popModalWindow(<div>{symbol} is not found</div>)
+          msgList.push(<div key={shortid.generate()}>{symbol} is not found</div>)
           return
         }
         checklistConfig["symbols"].push(symbol)
         updateTableData(genTableData(checklistConfig["symbols"]) )
         ChecklistRef.current.getSearchStockRef().value = ""
     })
+    if (msgList.length > 0)
+      modalWindowRef.current.popModalWindow(<div>{msgList}</div>)
   }
   ChecklistRef.current.reorderOnClick = (newReordering, setReordering) => {
     setEnableRowSelection(!newReordering)
@@ -255,7 +244,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
   ].concat(checklistConfig["list"].map((item) => {
     if (ChecklistKey_Def[item.name].type === "from_end") {
       return {
-        accessorKey: item.name,
+        accessorKey: RemoveInvalidWordingForMaterialReactTable(item.name),
         header: ChecklistKey_Def[item.name].name,
         size: 110,
         Header: ({ column }) => (
@@ -279,7 +268,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
       }
     } else if (ChecklistKey_Def[item.name].type === "tags") {
       return {
-        accessorKey: item.name,
+        accessorKey: RemoveInvalidWordingForMaterialReactTable(item.name),
         header: ChecklistKey_Def[item.name].name,
         size: 110,
         Header: ({ column }) => (
@@ -315,8 +304,9 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
       let data = {symbol: symbol, score: {pass: 0, total: 0}}
       if (symbol in stockData) {
         checklistConfig["list"].forEach((item) => {
+          let accessorKey = RemoveInvalidWordingForMaterialReactTable(item.name)
           if (item.name in stockData[symbol]) {
-            data[item.name] = stockData[symbol][item.name]
+            data[accessorKey] = stockData[symbol][item.name]
             if (ChecklistKey_Def[item.name].type === "from_end" && checkFromEnd(ChecklistKey_Def[item.name].checkpoint_comp.checkValConvertor(stockData[symbol][item.name]), item.condition)) {
               data.score.pass += 1
             } else if (ChecklistKey_Def[item.name].type === "tags" && checkTags(stockData[symbol][item.name], item.condition)) {
@@ -324,12 +314,13 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
             }
             data.score.total += 1
           } else { 
-            data[item.name] = "-"
+            data[accessorKey] = "-"
           }
         })
       } else {
         checklistConfig["list"].forEach((item) => {
-          data[item.name] = "-"
+          let accessorKey = RemoveInvalidWordingForMaterialReactTable(item.name)
+          data[accessorKey] = "-"
         })
       }
       return data
@@ -372,6 +363,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
         enableRowOrdering
         enableColumnOrdering={!enableRowSelection}
         columnOrder={columnOrder}
+        enablePagination={true}
         onColumnOrderChange={(order)=>{
           let tmp = []
           let orderTmp = order.filter(e => Object.keys(ChecklistKey_Def).includes(e))
