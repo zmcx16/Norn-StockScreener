@@ -376,6 +376,8 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
         enableColumnOrdering={!enableRowSelection}
         columnOrder={columnOrder}
         enablePagination={true}
+        enableColumnActions={false}
+        enableHiding={false}
         onColumnOrderChange={(order)=>{
           let tmp = []
           let orderTmp = order.filter(e => Object.keys(ChecklistKey_Def).includes(e))
