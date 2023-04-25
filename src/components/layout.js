@@ -16,7 +16,11 @@ const Layout = ({ children} ) => {
 
   const cookies = new Cookies()
   if (!cookies.get(COOKIE_KEY_DARK_MODE)){
-    cookies.set(COOKIE_KEY_DARK_MODE, 0, { path: '/' })
+    cookies.set(COOKIE_KEY_DARK_MODE, 0, { 
+      path: '/',
+      expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
+      maxAge: 10 * 365 * 24 * 60 * 60,
+    })
   }
 
   const [isDarkMode, setIsDarkMode] = useState(true)

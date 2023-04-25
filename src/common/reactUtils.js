@@ -211,3 +211,8 @@ export const NoMaxWidthTooltip = styled(({ className, ...props }) => (
     maxWidth: 'none',
   },
 })
+
+
+export const RemoveInvalidWordingForMaterialReactTable = (key) => {
+  return key.replace('.', '')
+}

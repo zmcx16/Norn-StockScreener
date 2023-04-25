@@ -64,7 +64,11 @@ const Header = ({ isDarkMode, setIsDarkMode }) => {
 
   const switchDarkModeFunc = () => {
     let new_state = !isDarkMode
-    cookies.set(COOKIE_KEY_DARK_MODE, new_state?1:0, { path: '/' })
+    cookies.set(COOKIE_KEY_DARK_MODE, new_state?1:0, { 
+      path: '/',
+      expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
+      maxAge: 10 * 365 * 24 * 60 * 60,
+    })
     setIsDarkMode(new_state)
   }
 

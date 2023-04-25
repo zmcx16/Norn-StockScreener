@@ -143,7 +143,7 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
 
   const importSetting = (e) => {
     Object.entries(e.target.files).forEach(([key, value]) => {
-      var reader = new FileReader();
+      var reader = new FileReader()
       reader.onload = (function (theFile) {
         return function (e) {
           let data = JSON.parse(e.target.result)
@@ -179,12 +179,12 @@ const FilterContainer = ({ ResultTableRef, loadingAnimeRef }) => {
 
     let queryData = getCurrentSetting(filterCriteriaListRef, nornMinehunterRef, multiFactorRef, filterSectorsIndustriesRef)
 
-    var aTag = document.createElement('a');
-    var blob = new Blob([JSON.stringify(queryData)]);
-    aTag.download = 'Norn-StockScreener_setting.json';
-    aTag.href = URL.createObjectURL(blob);
-    aTag.click();
-    URL.revokeObjectURL(blob);
+    var aTag = document.createElement('a')
+    var blob = new Blob([JSON.stringify(queryData)])
+    aTag.download = 'Norn-StockScreener_setting.json'
+    aTag.href = URL.createObjectURL(blob)
+    aTag.click()
+    URL.revokeObjectURL(blob)
   }
 
 
