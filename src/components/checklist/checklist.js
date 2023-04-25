@@ -27,6 +27,7 @@ import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import Paper from '@mui/material/Paper'
 import shortid from 'shortid'
+import { isMobile } from 'react-device-detect'
 
 import { GetDataByFetchObj, NoMaxWidthTooltip } from '../../common/reactUtils'
 import { ChecklistTooltips, ChecklistTooltipsUrl, DefaultGroupChecklist, LOCALSTORAGE_KEY_CHECKLISTS } from '../../common/checklistDef'
@@ -191,211 +192,213 @@ const Checklist = ({loadingAnimeRef}) => {
   return (
     <div className={commonStyle.defaultFont + ' ' + checklistStyle.container}>
       <ThemeProvider theme={customTheme}>
-        <div className={commonStyle.defaultFont + ' ' + checklistStyle.groupPannel}>
-          <FormControl size="small" variant="outlined" className={checklistStyle.checklistSelect}>
-            <InputLabel htmlFor="checklists-select">{'Checklists'}</InputLabel>
-            <Select
-              native
-              value={groupSelect}
-              displayEmpty
-              onChange={(event) => {
-                checklistConfigRef.current = groupChecklist[event.target.value]
-                setGroupSelect(event.target.value)
-                ChecklistRef.current.reorderOnClick(false, setReordering)
-                reloadChecklistTable()
-              }}
-              label={'Checklists'}
+        <div>
+          <div className={commonStyle.defaultFont + ' ' + (isMobile ? checklistStyle.groupPannelMobile : checklistStyle.groupPannel)}>
+            <FormControl size="small" variant="outlined" className={checklistStyle.checklistSelect}>
+              <InputLabel htmlFor="checklists-select">{'Checklists'}</InputLabel>
+              <Select
+                native
+                value={groupSelect}
+                displayEmpty
+                onChange={(event) => {
+                  checklistConfigRef.current = groupChecklist[event.target.value]
+                  setGroupSelect(event.target.value)
+                  ChecklistRef.current.reorderOnClick(false, setReordering)
+                  reloadChecklistTable()
+                }}
+                label={'Checklists'}
+              >
+                {
+                  groupChecklist.map((value, index) => {
+                    return <option key={shortid.generate()} index={index} value={index}>{value.name}</option>
+                  })
+                }
+              </Select>
+            </FormControl>
+            <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{ChecklistTooltips}</span>} >
+              <IconButton onClick={() => window.open(ChecklistTooltipsUrl, "_blank")}>
+                <InfoIcon color="action"/>
+              </IconButton>
+            </NoMaxWidthTooltip>
+            <Paper
+              component="form"
+              sx={{ p: '6 16', display: 'flex', alignItems: 'center' }}
             >
-              {
-                groupChecklist.map((value, index) => {
-                  return <option key={shortid.generate()} index={index} value={index}>{value.name}</option>
-                })
-              }
-            </Select>
-          </FormControl>
-          <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{ChecklistTooltips}</span>} >
-            <IconButton onClick={() => window.open(ChecklistTooltipsUrl, "_blank")}>
-              <InfoIcon color="action"/>
-            </IconButton>
-          </NoMaxWidthTooltip>
-          <Paper
-            component="form"
-            sx={{ p: '6 16', display: 'flex', alignItems: 'center' }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder='AAPL, BAC, KSS, ...'
-              inputProps={{ 'aria-label': 'search-us-stocks' }}
-              inputRef={searchStockRef}
-            />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => {
-              ChecklistRef.current.searchStockOnClick()
-            }}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-          <Button className={checklistStyle.tableCmdBtn} size="large" variant="contained" style={customTheme.palette.order} startIcon={<SwapVertIcon />} onClick={() => {
-            ChecklistRef.current.reorderOnClick(!reordering, setReordering)
-          }}>{reordering ? 'Reordering' : 'Reorder'}</Button>
-          <div>
-            <Button className={checklistStyle.tableCmdBtn} size="large" variant="contained" style={{...customTheme.palette.delete, ...{display: displayDeleteBtn ? 'inline-flex': 'none'}}} startIcon={<DeleteIcon />} onClick={() => {
-              ChecklistRef.current.deleteOnClick()
-            }}>{'Delete'}</Button>
-          </div>
-          <Button id="setting-button" 
-            aria-controls={openSettingMenu ? 'setting-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={openSettingMenu ? 'true' : undefined}
-            size="large" style={{fontWeight: 600}} startIcon={<SettingsIcon />} onClick={(event) => {
-              setSettingMenu(event.currentTarget)
-          }}>{'Setting'}</Button>
-          <Menu
-            id="setting-menu"
-            anchorEl={settingMenu}
-            open={openSettingMenu}
-            onClose={()=>{
-              setSettingMenu(null)
-            }}
-            MenuListProps={{
-              'aria-labelledby': 'setting-button',
-            }}
-          >
-            <MenuItem onClick={()=>{
-              formDialogRef.current.cancelCallback = ()=>{}
-              formDialogRef.current.confirmCallback = (inputData)=>{
-                if (inputData === "") {
-                  modalWindowRef.current.popModalWindow(<div>Checklist name cannot be empty...</div>)
-                  return
-                } else if (groupChecklist.some(x => x["name"] === inputData)) {
-                  modalWindowRef.current.popModalWindow(<div>Checklist "{inputData}" already exist...</div>)
-                  return
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder='AAPL, BAC, KSS, ...'
+                inputProps={{ 'aria-label': 'search-us-stocks' }}
+                inputRef={searchStockRef}
+              />
+              <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => {
+                ChecklistRef.current.searchStockOnClick()
+              }}>
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+            <Button className={checklistStyle.tableCmdBtn} size="large" variant="contained" style={customTheme.palette.order} startIcon={<SwapVertIcon />} onClick={() => {
+              ChecklistRef.current.reorderOnClick(!reordering, setReordering)
+            }}>{reordering ? 'Reordering' : 'Reorder'}</Button>
+            <div>
+              <Button className={checklistStyle.tableCmdBtn} size="large" variant="contained" style={{...customTheme.palette.delete, ...{display: displayDeleteBtn ? 'inline-flex': 'none'}}} startIcon={<DeleteIcon />} onClick={() => {
+                ChecklistRef.current.deleteOnClick()
+              }}>{'Delete'}</Button>
+            </div>
+            <Button id="setting-button" 
+              aria-controls={openSettingMenu ? 'setting-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={openSettingMenu ? 'true' : undefined}
+              size="large" style={{fontWeight: 600}} startIcon={<SettingsIcon />} onClick={(event) => {
+                setSettingMenu(event.currentTarget)
+            }}>{'Setting'}</Button>
+            <Menu
+              id="setting-menu"
+              anchorEl={settingMenu}
+              open={openSettingMenu}
+              onClose={()=>{
+                setSettingMenu(null)
+              }}
+              MenuListProps={{
+                'aria-labelledby': 'setting-button',
+              }}
+            >
+              <MenuItem onClick={()=>{
+                formDialogRef.current.cancelCallback = ()=>{}
+                formDialogRef.current.confirmCallback = (inputData)=>{
+                  if (inputData === "") {
+                    modalWindowRef.current.popModalWindow(<div>Checklist name cannot be empty...</div>)
+                    return
+                  } else if (groupChecklist.some(x => x["name"] === inputData)) {
+                    modalWindowRef.current.popModalWindow(<div>Checklist "{inputData}" already exist...</div>)
+                    return
+                  }
+
+                  let tmp = [...groupChecklist, { "name": inputData, "symbols": [], "list": [] }]
+                  checklistConfigRef.current = tmp[tmp.length - 1]
+                  setGroupSelect(tmp.length - 1)
+                  setGroupChecklist(tmp)
+                  reloadChecklistTable()
+                }
+                setSettingMenu(null)
+                formDialogRef.current.openDialog(true, "Create New Checklist", "To create the new checklist, please enter your new checklist name here.", "Confirm", "Cancel", "Checklist Name")
+              }}>
+                <ListItemIcon>
+                  <AddIcon sx={{ color: blueGrey[400] }} fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Create Checklist</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={()=>{
+                formDialogRef.current.cancelCallback = ()=>{}
+                formDialogRef.current.confirmCallback = ()=>{
+                  let tmp = [...groupChecklist]
+                  tmp.splice(groupSelect, 1)
+                  checklistConfigRef.current = tmp[0]
+                  setGroupSelect(0)
+                  setGroupChecklist(tmp)
+                  reloadChecklistTable()
                 }
 
-                let tmp = [...groupChecklist, { "name": inputData, "symbols": [], "list": [] }]
-                checklistConfigRef.current = tmp[tmp.length - 1]
-                setGroupSelect(tmp.length - 1)
-                setGroupChecklist(tmp)
-                reloadChecklistTable()
-              }
-              setSettingMenu(null)
-              formDialogRef.current.openDialog(true, "Create New Checklist", "To create the new checklist, please enter your new checklist name here.", "Confirm", "Cancel", "Checklist Name")
-            }}>
-              <ListItemIcon>
-                <AddIcon sx={{ color: blueGrey[400] }} fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Create Checklist</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={()=>{
-              formDialogRef.current.cancelCallback = ()=>{}
-              formDialogRef.current.confirmCallback = ()=>{
-                let tmp = [...groupChecklist]
-                tmp.splice(groupSelect, 1)
-                checklistConfigRef.current = tmp[0]
-                setGroupSelect(0)
-                setGroupChecklist(tmp)
-                reloadChecklistTable()
-              }
-
-              setSettingMenu(null)
-              if (groupChecklist.length <= 1) {
-                modalWindowRef.current.popModalWindow(<div>Cannot delete the last checklist...</div>)
-                return
-              }
-              formDialogRef.current.openDialog(false, "Confirm Delete", `Are you sure you want to remove "${groupChecklist[groupSelect]["name"]}" checklist?`, "Confirm", "Cancel", "")
-            }}>
-              <ListItemIcon>
-                <DeleteIcon sx={{ color: red[600] }} fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Delete Checklist</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={()=>{
-              setSettingMenu(null)
-              ChecklistRef.current.saveChecklistConfigList = (newChecklistConfigList) => {
-                let newGroupChecklist = [...groupChecklist]
-                newGroupChecklist[groupSelect].list = newChecklistConfigList
-                setGroupChecklist(newGroupChecklist)
-                reloadChecklistTable()
-              }
-              ChecklistRef.current.openCheckpointPannel(groupChecklist[groupSelect]["name"])
-            }}>
-              <ListItemIcon>
-                <EditIcon sx={{ color: amber[800] }} fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Edit Checkpoints</ListItemText>
-            </MenuItem>
-            <label htmlFor="import-checklists-file">
-            <MenuItem>
-            <input
-              id="import-checklists-file"
-                  type="file"
-                  hidden
-                  onChange={(e)=>{
-                    Object.entries(e.target.files).forEach(([key, value]) => {
-                      var reader = new FileReader()
-                      reader.onload = (function (theFile) {
-                        return function (e) {
-                          let data = JSON.parse(e.target.result)
-                          checklistConfigRef.current = data[0]
-                          setSettingMenu(null)
-                          setGroupSelect(0)
-                          setGroupChecklist(data)
-                          reloadChecklistTable()
-                        }
-                      })(value)
-                      reader.readAsBinaryString(value)
-                      e.target.value = ''
-                    })
-                  }}
-                />
-              <ListItemIcon>
-                <InputIcon sx={{ color: blue[600] }} fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Import Checklists</ListItemText>
-            </MenuItem>
-            </label>
-            <MenuItem onClick={()=>{
-              setSettingMenu(null)
-              var aTag = document.createElement('a')
-              var blob = new Blob([JSON.stringify(groupChecklist)])
-              aTag.download = 'Norn-StockScreener_checklists.json'
-              aTag.href = URL.createObjectURL(blob)
-              aTag.click()
-              URL.revokeObjectURL(blob)
-            }}>
-              <ListItemIcon>
-                <OutputIcon sx={{ color: green[600] }} fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Export Checklists</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={()=>{
-              setSettingMenu(null)
-              if (typeof window !== 'undefined') {
-                window.localStorage.setItem(LOCALSTORAGE_KEY_CHECKLISTS, JSON.stringify(groupChecklist))
-                modalWindowRef.current.popModalWindow(<div>Saved local storage done</div>)
-              }
-            }}>
-              <ListItemIcon>
-                <SaveIcon sx={{ color: lightBlue[500] }}  fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Save Local Storage</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={()=>{
-              formDialogRef.current.cancelCallback = ()=>{}
-              formDialogRef.current.confirmCallback = ()=>{
+                setSettingMenu(null)
+                if (groupChecklist.length <= 1) {
+                  modalWindowRef.current.popModalWindow(<div>Cannot delete the last checklist...</div>)
+                  return
+                }
+                formDialogRef.current.openDialog(false, "Confirm Delete", `Are you sure you want to remove "${groupChecklist[groupSelect]["name"]}" checklist?`, "Confirm", "Cancel", "")
+              }}>
+                <ListItemIcon>
+                  <DeleteIcon sx={{ color: red[600] }} fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Delete Checklist</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={()=>{
+                setSettingMenu(null)
+                ChecklistRef.current.saveChecklistConfigList = (newChecklistConfigList) => {
+                  let newGroupChecklist = [...groupChecklist]
+                  newGroupChecklist[groupSelect].list = newChecklistConfigList
+                  setGroupChecklist(newGroupChecklist)
+                  reloadChecklistTable()
+                }
+                ChecklistRef.current.openCheckpointPannel(groupChecklist[groupSelect]["name"])
+              }}>
+                <ListItemIcon>
+                  <EditIcon sx={{ color: amber[800] }} fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Edit Checkpoints</ListItemText>
+              </MenuItem>
+              <label htmlFor="import-checklists-file">
+              <MenuItem>
+              <input
+                id="import-checklists-file"
+                    type="file"
+                    hidden
+                    onChange={(e)=>{
+                      Object.entries(e.target.files).forEach(([key, value]) => {
+                        var reader = new FileReader()
+                        reader.onload = (function (theFile) {
+                          return function (e) {
+                            let data = JSON.parse(e.target.result)
+                            checklistConfigRef.current = data[0]
+                            setSettingMenu(null)
+                            setGroupSelect(0)
+                            setGroupChecklist(data)
+                            reloadChecklistTable()
+                          }
+                        })(value)
+                        reader.readAsBinaryString(value)
+                        e.target.value = ''
+                      })
+                    }}
+                  />
+                <ListItemIcon>
+                  <InputIcon sx={{ color: blue[600] }} fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Import Checklists</ListItemText>
+              </MenuItem>
+              </label>
+              <MenuItem onClick={()=>{
+                setSettingMenu(null)
+                var aTag = document.createElement('a')
+                var blob = new Blob([JSON.stringify(groupChecklist)])
+                aTag.download = 'Norn-StockScreener_checklists.json'
+                aTag.href = URL.createObjectURL(blob)
+                aTag.click()
+                URL.revokeObjectURL(blob)
+              }}>
+                <ListItemIcon>
+                  <OutputIcon sx={{ color: green[600] }} fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Export Checklists</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={()=>{
+                setSettingMenu(null)
                 if (typeof window !== 'undefined') {
-                  window.localStorage.removeItem(LOCALSTORAGE_KEY_CHECKLISTS)
-                  window.location.reload(true)
+                  window.localStorage.setItem(LOCALSTORAGE_KEY_CHECKLISTS, JSON.stringify(groupChecklist))
+                  modalWindowRef.current.popModalWindow(<div>Saved local storage done</div>)
                 }
-              }
-              setSettingMenu(null)
-              formDialogRef.current.openDialog(false, "Confirm Reset Default", `Are you sure you want to reset default (Reset all data)?`, "Confirm", "Cancel", "")
-            }}>
-              <ListItemIcon>
-                <RestartAltIcon sx={{ color: purple[700] }}  fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Reset Default</ListItemText>
-            </MenuItem>
-          </Menu>
+              }}>
+                <ListItemIcon>
+                  <SaveIcon sx={{ color: lightBlue[500] }}  fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Save Local Storage</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={()=>{
+                formDialogRef.current.cancelCallback = ()=>{}
+                formDialogRef.current.confirmCallback = ()=>{
+                  if (typeof window !== 'undefined') {
+                    window.localStorage.removeItem(LOCALSTORAGE_KEY_CHECKLISTS)
+                    window.location.reload(true)
+                  }
+                }
+                setSettingMenu(null)
+                formDialogRef.current.openDialog(false, "Confirm Reset Default", `Are you sure you want to reset default (Reset all data)?`, "Confirm", "Cancel", "")
+              }}>
+                <ListItemIcon>
+                  <RestartAltIcon sx={{ color: purple[700] }}  fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Reset Default</ListItemText>
+              </MenuItem>
+            </Menu>
+          </div>
         </div>
         {resultTable}
         <ModalWindow modalWindowRef={modalWindowRef} />

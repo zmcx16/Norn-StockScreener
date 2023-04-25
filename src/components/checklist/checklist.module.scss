@@ -12,6 +12,15 @@
   align-items: center;
 }
 
+.groupPannelMobile {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 5px;
+  justify-items: left;
+  align-items: center;
+}
+
 .checklistSelect {
   margin: 10px 0px;
   width: 100%;
