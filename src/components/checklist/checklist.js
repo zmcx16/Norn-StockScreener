@@ -77,11 +77,15 @@ function CombineData(stock_info, eps_analysis, eps_financials, esg, recomm) {
 
 
 const Checklist = ({loadingAnimeRef}) => {
-  let defaultGroupChecklist = localStorage.getItem(LOCALSTORAGE_KEY_CHECKLISTS)
-  if (defaultGroupChecklist){
-    defaultGroupChecklist = JSON.parse(defaultGroupChecklist)
-  } else {
-    defaultGroupChecklist = DefaultGroupChecklist
+
+  let defaultGroupChecklist = []
+  if (typeof window !== 'undefined') {
+    defaultGroupChecklist = window.localStorage.getItem(LOCALSTORAGE_KEY_CHECKLISTS)   
+    if (defaultGroupChecklist){
+      defaultGroupChecklist = JSON.parse(defaultGroupChecklist)
+    } else {
+      defaultGroupChecklist = DefaultGroupChecklist
+    }
   }
 
   const stockDataRef = useRef({})
@@ -365,8 +369,10 @@ const Checklist = ({loadingAnimeRef}) => {
             </MenuItem>
             <MenuItem onClick={()=>{
               setSettingMenu(null)
-              localStorage.setItem(LOCALSTORAGE_KEY_CHECKLISTS, JSON.stringify(groupChecklist))
-              modalWindowRef.current.popModalWindow(<div>Saved local storage done</div>)
+              if (typeof window !== 'undefined') {
+                window.localStorage.setItem(LOCALSTORAGE_KEY_CHECKLISTS, JSON.stringify(groupChecklist))
+                modalWindowRef.current.popModalWindow(<div>Saved local storage done</div>)
+              }
             }}>
               <ListItemIcon>
                 <SaveIcon sx={{ color: lightBlue[500] }}  fontSize="small" />
@@ -376,8 +382,8 @@ const Checklist = ({loadingAnimeRef}) => {
             <MenuItem onClick={()=>{
               formDialogRef.current.cancelCallback = ()=>{}
               formDialogRef.current.confirmCallback = ()=>{
-                localStorage.removeItem(LOCALSTORAGE_KEY_CHECKLISTS)
                 if (typeof window !== 'undefined') {
+                  window.localStorage.removeItem(LOCALSTORAGE_KEY_CHECKLISTS)
                   window.location.reload(true)
                 }
               }

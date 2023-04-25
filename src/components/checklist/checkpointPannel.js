@@ -133,7 +133,7 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
   const [open, setOpen] = useState(false)
   const [checkPointSelect, setCheckPointSelect] = useState(0)
   const [checkPointComp, setCheckPointComp] = useState(<></>)
-  const checklistConfigListTempRef = useRef([...ChecklistRef.current.getChecklistConfigRef().list])
+  const checklistConfigListTempRef = useRef(ChecklistRef.current.getChecklistConfigRef() ? [...ChecklistRef.current.getChecklistConfigRef().list] : []) // workaround Gatsby build failed
 
   const [setting, setSetting] = useState({
     checklistName: ""
@@ -143,7 +143,7 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
     setSetting({
         checklistName: checklistName
     })
-    checklistConfigListTempRef.current = [...ChecklistRef.current.getChecklistConfigRef().list]
+    checklistConfigListTempRef.current = ChecklistRef.current.getChecklistConfigRef() ? [...ChecklistRef.current.getChecklistConfigRef().list] : [] // workaround Gatsby build failed
     setCheckpointsComp(renderCheckpointsComp())
     setOpen(true)
   }
