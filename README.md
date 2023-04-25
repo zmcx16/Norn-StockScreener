@@ -116,6 +116,10 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Share Change(6M), Share Change(1Y)
 
 # Sub Page
+  <details><summary>Investment Checklist (https://norn-stockscreener.zmcx16.moe/checklist/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-checklist1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-checklist2.png">
+  </blockquote></details>
   <details><summary>Industry Market (https://norn-stockscreener.zmcx16.moe/industry-market/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-industry-market.png">
   </blockquote></details>
