@@ -9,6 +9,11 @@ export const ChecklistKey_Def = {
         "type": "score",
         "checkpoint": false,
     },
+    "Close":{
+        "name": "Price",
+        "type": "price",
+        "checkpoint": false,
+    },
     "Market Cap":{
         "name": "Market Cap",
         "type": "from_end",
@@ -611,7 +616,7 @@ export const DefaultGroupChecklist = [
     },
     {
         "name": "Default All Checklist",
-        "symbols": ["AAPL", "BAC", "WFC", "INTC", "AMZN", "GOOG", "DHI"],
+        "symbols": ["PYPL", "DIS", "KSS"],
         "list": [
             { 
                 "name": "Market Cap", 

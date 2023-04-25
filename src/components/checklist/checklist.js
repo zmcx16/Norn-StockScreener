@@ -282,11 +282,6 @@ const Checklist = ({loadingAnimeRef}) => {
               <ListItemText>Create Checklist</ListItemText>
             </MenuItem>
             <MenuItem onClick={()=>{
-              if (groupChecklist.length <= 1) {
-                modalWindowRef.current.popModalWindow(<div>Cannot delete the last checklist...</div>)
-                return
-              }
-
               formDialogRef.current.cancelCallback = ()=>{}
               formDialogRef.current.confirmCallback = ()=>{
                 let tmp = [...groupChecklist]
@@ -296,7 +291,12 @@ const Checklist = ({loadingAnimeRef}) => {
                 setGroupChecklist(tmp)
                 reloadChecklistTable()
               }
+
               setSettingMenu(null)
+              if (groupChecklist.length <= 1) {
+                modalWindowRef.current.popModalWindow(<div>Cannot delete the last checklist...</div>)
+                return
+              }
               formDialogRef.current.openDialog(false, "Confirm Delete", `Are you sure you want to remove "${groupChecklist[groupSelect]["name"]}" checklist?`, "Confirm", "Cancel", "")
             }}>
               <ListItemIcon>
@@ -350,6 +350,7 @@ const Checklist = ({loadingAnimeRef}) => {
             </MenuItem>
             </label>
             <MenuItem onClick={()=>{
+              setSettingMenu(null)
               var aTag = document.createElement('a')
               var blob = new Blob([JSON.stringify(groupChecklist)])
               aTag.download = 'Norn-StockScreener_checklists.json'
@@ -363,6 +364,7 @@ const Checklist = ({loadingAnimeRef}) => {
               <ListItemText>Export Checklists</ListItemText>
             </MenuItem>
             <MenuItem onClick={()=>{
+              setSettingMenu(null)
               localStorage.setItem(LOCALSTORAGE_KEY_CHECKLISTS, JSON.stringify(groupChecklist))
               modalWindowRef.current.popModalWindow(<div>Saved local storage done</div>)
             }}>
@@ -372,11 +374,15 @@ const Checklist = ({loadingAnimeRef}) => {
               <ListItemText>Save Local Storage</ListItemText>
             </MenuItem>
             <MenuItem onClick={()=>{
-              localStorage.removeItem(LOCALSTORAGE_KEY_CHECKLISTS)
-              modalWindowRef.current.popModalWindow(<div>Reset default done, refresh the page now</div>)
-              if (typeof window !== 'undefined') {
-                window.location.reload(true)
+              formDialogRef.current.cancelCallback = ()=>{}
+              formDialogRef.current.confirmCallback = ()=>{
+                localStorage.removeItem(LOCALSTORAGE_KEY_CHECKLISTS)
+                if (typeof window !== 'undefined') {
+                  window.location.reload(true)
+                }
               }
+              setSettingMenu(null)
+              formDialogRef.current.openDialog(false, "Confirm Reset Default", `Are you sure you want to reset default (Reset all data)?`, "Confirm", "Cancel", "")
             }}>
               <ListItemIcon>
                 <RestartAltIcon sx={{ color: purple[700] }}  fontSize="small" />

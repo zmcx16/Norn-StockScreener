@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect }from 'react'
+import { flushSync } from 'react-dom'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -240,7 +241,7 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
   )})}
 
   const [checkpointsComp, setCheckpointsComp] = useState(renderCheckpointsComp())
-
+  const listCheckpointsRef = useRef()
   return (
     <div>
       <Dialog className={checkpointPannelStyle.container} open={open} onClose={handleCancelClose} fullWidth maxWidth="lg">
@@ -323,14 +324,22 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
                     }
                   }
                   checklistConfigListTempRef.current.push(checkpoint)
-                  setCheckpointsComp(renderCheckpointsComp())
+                  // wait until the DOM is updated with the new state
+                  flushSync(() => {
+                    setCheckpointsComp(renderCheckpointsComp())
+                  })
+
+                  const lastElement = listCheckpointsRef.current?.lastElementChild;
+                  if (lastElement) {
+                    lastElement.scrollIntoView({ behavior: "smooth" })
+                  }
                 }}>
                   <DoubleArrowIcon fontSize="inherit" style={{maxWidth: '50px', maxHeight: '50px', minWidth: '50px', minHeight: '50px'}} />
                 </IconButton>
               </div>
               <div></div>
               <div className={checkpointPannelStyle.checkpointList}>
-                  <List  sx={{
+                  <List ref={listCheckpointsRef} sx={{
                       width: '100%',
                       bgcolor: 'background.paper',
                       position: 'relative',
