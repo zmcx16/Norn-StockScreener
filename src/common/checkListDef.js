@@ -366,7 +366,7 @@ export const ChecklistKey_Def = {
         }
     },
     "Recomm_RecommendationMean":{
-        "name": "Recommendation",
+        "name": "Recommend",
         "type": "from_end",
         "description": "Yahoo Finance recommendation rating",
         "checkpoint": true,
