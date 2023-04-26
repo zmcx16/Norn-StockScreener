@@ -189,11 +189,18 @@ const Checklist = ({loadingAnimeRef}) => {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const [groupPannelStyle, setGroupPannelStyle] = useState(checklistStyle.groupPannel)
+  useEffect(() => {
+    setGroupPannelStyle(isMobile ? checklistStyle.groupPannelMobile : checklistStyle.groupPannel)
+    return () => {
+    }
+  }, [isMobile])
+
   return (
     <div className={commonStyle.defaultFont + ' ' + checklistStyle.container}>
       <ThemeProvider theme={customTheme}>
         <div>
-          <div className={isMobile ? checklistStyle.groupPannelMobile : checklistStyle.groupPannel}>
+          <div className={groupPannelStyle}>
             <FormControl size="small" variant="outlined" className={checklistStyle.checklistSelect}>
               <InputLabel htmlFor="checklists-select">{'Checklists'}</InputLabel>
               <Select
