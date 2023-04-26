@@ -23,6 +23,7 @@ import Chip from '@mui/material/Chip'
 import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
 import shortid from 'shortid'
+import { isMobile } from 'react-device-detect'
 
 import { EPSGrowthTagsDict } from '../../common/tagsDef'
 import { ChecklistKey_Def, CheckpointsKeyList } from '../../common/checklistDef'
@@ -49,9 +50,9 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
     // add key to force re-render component
     return <>
       <form noValidate autoComplete="off">
-        <TextField key={shortid.generate()} className={checkpointPannelStyle.valueText} label="From" variant="outlined" defaultValue={FromValue} size="small" inputRef={inputFromRef} />
+        <TextField key={shortid.generate()} style={{margin: isMobile ? '15px 0': ''}} className={checkpointPannelStyle.valueText} label="From" variant="outlined" defaultValue={FromValue} size="small" inputRef={inputFromRef} />
       </form>
-      <div>-</div>
+      <div style={{display: isMobile ? 'none': ''}}>-</div>
       <form noValidate autoComplete="off">
         <TextField key={shortid.generate()} className={checkpointPannelStyle.valueText} label="End" variant="outlined" defaultValue={EndValue} size="small" inputRef={inputEndRef} />
       </form>
@@ -86,8 +87,8 @@ const FilterCriteria = ({ filterCriteriaRef, dataTemplate }) => {
 
   return (
     <> 
-      <div className={checkpointPannelStyle.argNodes}>
-        {display_name}
+      <div className={ isMobile ? checkpointPannelStyle.argNodesMobile : checkpointPannelStyle.argNodes}>
+        { isMobile ? "" : display_name}
         <FormControl size="small" variant="outlined" className={checkpointPannelStyle.argNodesSelect}>
           <InputLabel htmlFor="arg-select">{name}</InputLabel>
           <Select
@@ -250,7 +251,7 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
           <DialogContentText>
             {"Add/Delete your checkpoints on this checklist"}
           </DialogContentText>
-            <div className={checkpointPannelStyle.queryPannel} >
+            <div className={ isMobile ? checkpointPannelStyle.queryPannelMobile : checkpointPannelStyle.queryPannel} >
               <FormControl size="small" variant="outlined" className={checkpointPannelStyle.checkpointSelect}>
               <InputLabel htmlFor="checkpoints-select">{'Checkpoints'}</InputLabel>
               <Select
@@ -281,8 +282,16 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
               </Select>
               </FormControl>
               <div></div>
+              <div className={ isMobile ? checkpointPannelStyle.checkpointDescriptionMobile : checkpointPannelStyle.checkpointDescription}>
+                <Typography variant="subtitle1">
+                  {ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].description}
+                </Typography>
+              </div>
+              <div className={checkpointPannelStyle.checkPointComp}>
+                {checkPointComp}
+              </div>
               <div className={checkpointPannelStyle.addCheckpointBtn}>
-                <IconButton sx={{ color: green['A700'] }} aria-label="addCheckpoint" style={{maxWidth: '70px', maxHeight: '70px', minWidth: '70px', minHeight: '70px'}} onClick={() => {
+                <IconButton sx={{ color: green['A700'] }} aria-label="addCheckpoint" style={{maxWidth: isMobile ? '100%' : '70px', maxHeight: '70px', minWidth: '70px', minHeight: '70px', width: isMobile ? '100%': ''}} onClick={() => {
                   let name = CheckpointsKeyList[checkPointSelect]
                   let type = ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].type
                   if (checklistConfigListTempRef.current.some(e => e.name == name)) {
@@ -352,14 +361,6 @@ const CheckpointPannel = ({ChecklistRef, modalWindowRef}) => {
                   }}>
                     {checkpointsComp}
                   </List>
-              </div>
-              <div className={checkpointPannelStyle.checkpointDescription}>
-                <Typography variant="subtitle1">
-                  {ChecklistKey_Def[CheckpointsKeyList[checkPointSelect]].description}
-                </Typography>
-              </div>
-              <div className={checkpointPannelStyle.checkPointComp}>
-                {checkPointComp}
               </div>
             </div>
         </DialogContent>

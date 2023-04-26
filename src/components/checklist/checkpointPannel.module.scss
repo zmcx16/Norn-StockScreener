@@ -12,6 +12,11 @@
   grid-gap: 5px;
 }
 
+.queryPannelMobile {
+  display: block;
+  padding: 15px 0 0 0;
+}
+
 .checkpointSelect {
   max-width: 200px;
 }
@@ -34,6 +39,11 @@
   grid-area: 2 / 1 / 2 / 2;
 }
 
+.checkpointDescriptionMobile {
+  padding: 10px 0;
+  grid-area: 2 / 1 / 2 / 2;
+}
+
 .checkPointComp {
   grid-area: 3 / 1 / 6 / 2;
 }
@@ -49,6 +59,10 @@
   align-items: center;
   gap: 5px;
   grid-template-columns: minmax(0, 140px) 140px 10px 80px 5px 80px;
+}
+
+.argNodesMobile {
+  display: block;
 }
 
 .display_name {

@@ -193,7 +193,7 @@ const Checklist = ({loadingAnimeRef}) => {
     <div className={commonStyle.defaultFont + ' ' + checklistStyle.container}>
       <ThemeProvider theme={customTheme}>
         <div>
-          <div className={commonStyle.defaultFont + ' ' + (isMobile ? checklistStyle.groupPannelMobile : checklistStyle.groupPannel)}>
+          <div className={isMobile ? checklistStyle.groupPannelMobile : checklistStyle.groupPannel}>
             <FormControl size="small" variant="outlined" className={checklistStyle.checklistSelect}>
               <InputLabel htmlFor="checklists-select">{'Checklists'}</InputLabel>
               <Select
