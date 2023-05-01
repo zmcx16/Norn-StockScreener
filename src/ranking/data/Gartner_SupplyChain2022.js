@@ -45,7 +45,7 @@ export const Gartner_SupplyChain2022 = [
     },
     {
         name: "Nestlé",
-        symbol: "SWX",
+        symbol: "NSRGY",
         rank: 8,
         link: NavZhEnUrl('https://zh.wikipedia.org/zh-tw/%E9%9B%80%E5%B7%A2', 'https://en.wikipedia.org/wiki/Nestl%C3%A9'),
     },
