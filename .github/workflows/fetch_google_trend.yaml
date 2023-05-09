@@ -2,7 +2,8 @@ name: FetchGoogleTrendData
 
 on:
   workflow_dispatch:
-
+  schedule:
+    - cron:  '50 8 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
