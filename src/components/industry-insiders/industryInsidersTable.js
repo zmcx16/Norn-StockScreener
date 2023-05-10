@@ -7,7 +7,7 @@ import useFetch from 'use-http'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { PercentField, ColorPercentField } from '../../common/reactUtils'
+import { PercentField, ColorPercentField } from '../../common/dataGridUtil'
 import { getUrl } from '../../common/utils'
 
 import industryInsidersTableStyle from './industryInsidersTable.module.scss'
@@ -151,7 +151,7 @@ const IndustryInsidersTable = ({ loadingAnimeRef }) => {
     <>
       <div className={industryInsidersTableStyle.container}>
         <div className={industryInsidersTableStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)

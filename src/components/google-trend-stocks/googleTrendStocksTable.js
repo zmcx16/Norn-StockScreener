@@ -9,7 +9,7 @@ import moment from 'moment'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import StockAndTrendDataChart from './stockAndTrendDataChart'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
 
 import googleTrendStocksTableStyle from './googleTrendStocksTable.module.scss'
 import '../muiTablePagination.css'
@@ -98,7 +98,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
 
   const genTableColTemplate = () => {
     return [
-      SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
+      SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
       trendDataField("week3", tableColList.Week3.text, 140, "week3", "week3" in hideColState ? hideColState["week3"] : tableColList['Week3'].hide),
       trendDataField("week3R", tableColList.Week3R.text, 140, "week3R", "week3R" in hideColState ? hideColState["week3R"] : tableColList['Week3R'].hide),
       trendDataField("month3", tableColList.Month3.text, 140, "month3", "month3" in hideColState ? hideColState["month3"] : tableColList['Month3'].hide),
@@ -297,7 +297,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
     <>
       <div className={googleTrendStocksTableStyle.container}>
         <div className={googleTrendStocksTableStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)

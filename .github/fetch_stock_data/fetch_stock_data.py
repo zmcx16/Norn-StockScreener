@@ -78,7 +78,7 @@ def get_stock_info():
                 else:
                     print('server err = {err}, msg = {msg}'.format(err=resp["ret"], msg=resp["err_msg"]))
             else:
-                printr('send_request failed: {ret}'.format(ret=ret))
+                print('send_request failed: {ret}'.format(ret=ret))
 
         except Exception:
             print('Generated an exception: {ex}, try next target.'.format(ex=traceback.format_exc()))
