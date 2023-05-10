@@ -4,6 +4,7 @@ export const ZacksUrl = "https://www.zacks.com/"
 export const InsidermonkeyUrl = "https://www.insidermonkey.com/"
 export const YahooFinanceEnUrl = "https://finance.yahoo.com/"
 export const YahooFinanceZhUrl = "https://hk.finance.yahoo.com/"
+export const FINRAShortInterestUrl = "https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data"
 
 export const NornStockScreenerUrl = "https://github.com/zmcx16/Norn-StockScreener"
 export const NornStockScreenerMobileUrl = "https://play.google.com/store/apps/details?id=moe.zmcx16.norn_stockscreener"
@@ -54,3 +55,5 @@ export const QueryNote =
 If you need a high-frequency query or occur query failed many times,
 try to build your server from Github source code as follow:
 ` + NornFinanceAPIServerGithub
+
+export const ShortStockDataSourceTooltip = `Short Data Source: FINRA Equity Short Interest Data`

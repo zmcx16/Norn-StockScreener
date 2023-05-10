@@ -166,7 +166,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
   const checklistConfig = ChecklistRef.current.getChecklistConfigRef()
   const stockData = ChecklistRef.current.getStockDataRef()
   ChecklistRef.current.searchStockOnClick = () => {
-    const symbols = ChecklistRef.current.getSearchStockRef().value.split(',').map((symbol) => symbol.trim().toUpperCase())
+    const symbols = ChecklistRef.current.getSearchStockRef().value.replaceAll("\"","").split(',').map((symbol) => symbol.trim().toUpperCase())
     let msgList = []
     symbols.forEach((symbol) => {
         if (symbol === '') {

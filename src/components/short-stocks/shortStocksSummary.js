@@ -1,16 +1,20 @@
 
 import React, { useState, useRef, useEffect } from 'react'
-import Typography from '@mui/material/Typography'
-import Link from '@mui/material/Link'
+import InputBase from '@mui/material/InputBase'
+import InfoIcon from '@mui/icons-material/Info'
+import SearchIcon from '@mui/icons-material/Search'
+import Paper from '@mui/material/Paper'
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import useFetch from 'use-http'
 import moment from 'moment'
+import { isMobile } from 'react-device-detect'
 
 import StockAndShortDataChart from './stockAndShortDataChart'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
+import { FINRAShortInterestUrl, ShortStockDataSourceTooltip } from '../../common/common'
 import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
 import { NoMaxWidthTooltip } from '../../common/reactUtils'
 
@@ -206,14 +210,14 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
 
   const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
   const fetchShortData = useFetch({ cachePolicy: 'no-cache' })
-  const renderShortStocksTable = ()=>{
+  const renderShortStocksTable = (config)=>{
     Promise.all([
       getData("/norn-data/stock/stat.json", fetchStockData),
       getData('/norn-data/stock-short/stat.json', fetchShortData),
     ]).then((allResponses) => {
       // console.log(allResponses)
       if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {      
-        let output = Object.keys(allResponses[1]["data"]).map((symbol, index) => {
+        let output = Object.keys(allResponses[1]["data"]).reduce((result, symbol, index) => {
           let stockInfo = allResponses[0][symbol]
           let value = allResponses[1]["data"][symbol]
           let o = {
@@ -246,8 +250,12 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
             perfYear: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Year'] !== '-' ? stockInfo['Perf Year'] : -Number.MAX_VALUE,
             perfYTD: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf YTD'] !== '-' ? stockInfo['Perf YTD'] : -Number.MAX_VALUE,
           }
-          return o
-        })
+
+          if(config.filter_symbols.length === 0 || config.filter_symbols.includes(symbol)) {
+            result.push(o)
+          }
+          return result
+        }, [])
         console.log(output)
         setRowData(output)
       } else {
@@ -265,20 +273,47 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
-    renderShortStocksTable()
+    renderShortStocksTable({filter_symbols: []})
     return () => {
       // componentWillUnmount is here!
     }
   }, [])
 
+  const [searchVal, setSearchVal] = useState("")
   function CustomToolbar() {
+    const searchStockRef = useRef(null)
     return (
       <GridToolbarContainer>
-        <Typography style={{paddingLeft: 5}} variant="subtitle1">Short Data Source: 
-          <Link href={"https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data"} target="_blank" rel="noreferrer noopener">
-            <span style={{paddingLeft: 10}}>FINRA Equity Short Interest Data</span>
-          </Link>
-        </Typography>
+        <Paper
+          component="form"
+          sx={{ p: '6 16', m: 1, display: 'flex', alignItems: 'center' }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            style={{width: isMobile ? 200 : 400}}
+            placeholder='Filter symbols: AAPL, BAC, KSS, ...'
+            inputProps={{ 'aria-label': 'search-us-stocks' }}
+            defaultValue={searchVal}
+            inputRef={searchStockRef}
+          />
+          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => {
+            let symbols = searchStockRef.current.value.replaceAll("\"","").split(',').map((symbol) => symbol.trim().toUpperCase())
+            console.log(symbols)
+            let config = {filter_symbols: []}
+            if (symbols.length !== 0 && symbols[0] !== '') {
+              config = {filter_symbols: symbols}
+            }
+            setSearchVal(searchStockRef.current.value)
+            renderShortStocksTable(config)
+          }}>
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+        <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{ShortStockDataSourceTooltip}</span>} >
+          <IconButton onClick={() => window.open(FINRAShortInterestUrl, "_blank")}>
+            <InfoIcon color="action"/>
+          </IconButton>
+        </NoMaxWidthTooltip>
       </GridToolbarContainer>
     );
   }
