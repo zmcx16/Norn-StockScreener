@@ -8,7 +8,7 @@ import { convertKMBT } from '../../common/utils'
 import { FinvizUrl } from '../../common/common'
 import { NMUrl } from '../../common/nm'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { ColorPercentField, YahooFinanceUrl } from '../../common/reactUtils'
+import { ColorPercentField, YahooFinanceUrl } from '../../common/dataGridUtil'
 
 import resultTableStyle from './resultTable.module.scss'
 import '../muiTablePagination.css'
@@ -131,7 +131,7 @@ const ResultTable = ({ResultTableRef}) => {
     // workaround When the vertical scrollbar appears, the horizontal scrollbar is shown as well
     // root cause: OSX/Xubuntu: 15px (default scrollbarSize value), Windows: 17px
     // https://gitmemory.com/issue/mui-org/material-ui-x/660/737896038
-    return <DataGrid rows={data} rowsPerPageOptions={[]} columns={tableHeaderTemplate} scrollbarSize={17} pageSize={20} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+    return <DataGrid rows={data} columns={tableHeaderTemplate} scrollbarSize={17} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
       let tempHideColState = hideColState
       tempHideColState[param['field']] = !param['isVisible']
       setHideColState(tempHideColState)

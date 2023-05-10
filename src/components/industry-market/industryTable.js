@@ -8,7 +8,7 @@ import useFetch from 'use-http'
 import ModalWindow from '../modalWindow'
 import IndustryMarketChart from './industryMarketChart'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { ColorPercentField } from '../../common/reactUtils'
+import { ColorPercentField } from '../../common/dataGridUtil'
 
 import industryTableStyle from './industryTable.module.scss'
 import '../muiTablePagination.css'

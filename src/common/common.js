@@ -4,6 +4,7 @@ export const ZacksUrl = "https://www.zacks.com/"
 export const InsidermonkeyUrl = "https://www.insidermonkey.com/"
 export const YahooFinanceEnUrl = "https://finance.yahoo.com/"
 export const YahooFinanceZhUrl = "https://hk.finance.yahoo.com/"
+export const FINRAShortInterestUrl = "https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data"
 
 export const NornStockScreenerUrl = "https://github.com/zmcx16/Norn-StockScreener"
 export const NornStockScreenerMobileUrl = "https://play.google.com/store/apps/details?id=moe.zmcx16.norn_stockscreener"
@@ -28,6 +29,7 @@ export const pageRouterTable = [
   { text: 'Ranking Indicators', path: '/ranking/' },
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
+  { text: 'Short Stocks Summary', path: '/short-stocks-summary/' },
   { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
 ]
@@ -53,3 +55,5 @@ export const QueryNote =
 If you need a high-frequency query or occur query failed many times,
 try to build your server from Github source code as follow:
 ` + NornFinanceAPIServerGithub
+
+export const ShortStockDataSourceTooltip = `Short Data Source: FINRA Equity Short Interest Data`

@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, KMBTField } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, KMBTField } from '../../common/dataGridUtil'
 import { getUrl } from '../../common/utils'
 
 import insidersTradeListTableStyle from './insidersTradeListTable.module.scss'
@@ -59,7 +59,7 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
                 ),
                 hide: 'date' in hideColState ? hideColState['date'] : false
             },
-            SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
+            SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
             {
                 field: 'transaction',
                 headerName: 'Transaction',
@@ -160,7 +160,7 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
         <>
             <div className={insidersTradeListTableStyle.container}>
                 <div className={insidersTradeListTableStyle.table}>
-                    <DataGrid rows={rowData} columns={genTableColTemplate()} rowsPerPageOptions={[]} autoPageSize={true} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+                    <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
                         let tempHideColState = hideColState
                         tempHideColState[param['field']] = !param['isVisible']
                         setHideColState(tempHideColState)
