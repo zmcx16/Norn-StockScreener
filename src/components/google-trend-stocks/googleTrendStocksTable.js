@@ -9,7 +9,7 @@ import moment from 'moment'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import StockAndTrendDataChart from './stockAndTrendDataChart'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
 
 import googleTrendStocksTableStyle from './googleTrendStocksTable.module.scss'
 import '../muiTablePagination.css'

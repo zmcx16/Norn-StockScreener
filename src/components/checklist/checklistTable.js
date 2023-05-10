@@ -11,6 +11,7 @@ import { ChecklistKey_Def } from '../../common/checklistDef'
 import { EPSGrowthTagsDict } from '../../common/tagsDef'
 import { convertKMBT } from '../../common/utils'
 import { RemoveInvalidWordingForMaterialReactTable, YahooFinanceUrl } from '../../common/reactUtils'
+import {SymbolNameField, PriceField } from '../../common/reactMaterialTableUtil'
 
 import commonStyle from '../common.module.scss'
 import checklistgTableStyle from './checklistTable.module.scss'
@@ -201,28 +202,8 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
   }
 
   const columns = [
-    {
-      accessorKey: "symbol",
-      header: ChecklistKey_Def["symbol"].name,
-      size: 100,
-      enableColumnOrdering: false,
-      Cell: ({ cell }) => (
-        <Link href={ FinvizUrl + 'quote.ashx?t=' + cell.getValue()} target="_blank" rel="noreferrer noopener">
-          <span>{cell.getValue()}</span>
-        </Link>
-      ),
-    },
-    {
-      accessorKey: "closeSymbol",
-      header: ChecklistKey_Def["Close"].name,
-      size: 90,
-      enableColumnOrdering: false,
-      Cell: ({ cell }) => (
-        <Link href={ YahooFinanceUrl + 'quote/' + cell.getValue().symbol} target="_blank" rel="noreferrer noopener">
-          <span>{cell.getValue().close}</span>
-        </Link>
-      ),
-    },
+    SymbolNameField('symbol', ChecklistKey_Def["symbol"].name, 100),
+    PriceField('close', ChecklistKey_Def["Close"].name, 90),
     {
       accessorKey: "score",
       header: ChecklistKey_Def["score"].name,
@@ -312,9 +293,8 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
 
   const genTableData = (symbols) => {
     return symbols.map((symbol) => {
-      let data = {symbol: symbol, score: {pass: 0, total: 0}, closeSymbol: {symbol: symbol, close: '-'}}
+      let data = {symbol: symbol, score: {pass: 0, total: 0}, close: stockData[symbol]["Close"]}
       if (symbol in stockData) {
-        data.closeSymbol.close = stockData[symbol]["Close"]
         checklistConfig["list"].forEach((item) => {
           let accessorKey = RemoveInvalidWordingForMaterialReactTable(item.name)
           if (item.name in stockData[symbol]) {

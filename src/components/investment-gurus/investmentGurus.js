@@ -6,7 +6,7 @@ import useFetch from 'use-http'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, KMBTField } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, KMBTField } from '../../common/dataGridUtil'
 import { FinvizUrl, DataromaUrl, ZacksUrl, InsidermonkeyUrl } from '../../common/common'
 
 import investmentGurusStyle from './investmentGurus.module.scss'

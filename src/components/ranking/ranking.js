@@ -14,7 +14,8 @@ import Chip from '@mui/material/Chip'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 
-import { GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/reactUtils'
+import { GetDataByFetchObj } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/dataGridUtil'
 import { RankingDef } from '../../ranking/rankingDef'
 
 import commonStyle from '../common.module.scss'

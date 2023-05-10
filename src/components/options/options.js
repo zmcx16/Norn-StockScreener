@@ -26,9 +26,9 @@ import DefaultDataGridTable from '../defaultDataGridTable'
 
 import { NornFinanceAPIServerDomain, QueryNote, NornFinanceAPIServerGithub } from '../../common/common'
 import { getRedLevel, getBlueLevel, workdayCount } from '../../common/utils'
-import { useInterval, GetDataByFetchObj, SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField, NoMaxWidthTooltip, NameWithLinkField } from '../../common/reactUtils'
+import { useInterval, GetDataByFetchObj, NoMaxWidthTooltip, YahooFinanceUrl } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField } from '../../common/dataGridUtil'
 import { Options_Def, SelfQuery_Def } from '../../common/optionsDef'
-import { YahooFinanceUrl } from '../../common/reactUtils'
 
 import MonteCarloChart from '../monteCarloChart'
 

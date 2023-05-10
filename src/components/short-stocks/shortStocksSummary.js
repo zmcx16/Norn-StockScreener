@@ -8,9 +8,9 @@ import useFetch from 'use-http'
 import moment from 'moment'
 
 import ModalWindow from '../modalWindow'
-import DefaultDataGridTable from '../defaultDataGridTable'
 import { FinvizUrl } from '../../common/common'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/reactUtils'
+import { YahooFinanceUrl } from '../../common/reactUtils'
+import {SymbolNameField, PriceField } from '../../common/reactMaterialTableUtil'
 
 import shortStocksSummaryStyle from './shortStocksSummary.module.scss'
 import '../muiTablePagination.css'
@@ -23,17 +23,8 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
   })
 
   const columns = useMemo(() => [
-    {
-      accessorKey: "symbol",
-      header: "Symbol",
-      size: 100,
-      enableColumnOrdering: false,
-      Cell: ({ cell }) => (
-        <Link href={ FinvizUrl + 'quote.ashx?t=' + cell.getValue()} target="_blank" rel="noreferrer noopener">
-          <span>{cell.getValue()}</span>
-        </Link>
-      ),
-    },
+    SymbolNameField('symbol', 'Symbol', 100),
+    PriceField('close', 'Price', 90),
   ], [])
 
   //optionally access the underlying virtualizer instance
@@ -54,15 +45,45 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
 
   const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
   const fetchShortData = useFetch({ cachePolicy: 'no-cache' })
-
   const renderShortStocksTable = ()=>{
-    setRowData([
-      {
-        symbol: 'AAPL',
+    Promise.all([
+      getData("/norn-data/stock/stat.json", fetchStockData),
+      getData('/norn-data/stock-short/stat.json', fetchShortData),
+    ]).then((allResponses) => {
+      // console.log(allResponses)
+      if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {      
+        let output = Object.keys(allResponses[1]["data"]).map((symbol) => {
+          let stockInfo = allResponses[0][symbol]
+          let value = allResponses[1]["data"][symbol]
+          let o = {
+            symbol: symbol,
+            close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
+            shortFloat: value['Short Float'] !== '-' ? value['Short Float'] : -Number.MAX_VALUE,
+            PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
+            PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
+            dividend: stockInfo !== undefined && stockInfo !== null && stockInfo['Dividend %'] !== '-' ? stockInfo['Dividend %'] : -Number.MAX_VALUE,
+            high52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W High'] !== '-' ? stockInfo['52W High'] : -Number.MAX_VALUE,
+            low52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W Low'] !== '-' ? stockInfo['52W Low'] : -Number.MAX_VALUE,
+            perfWeek: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Week'] !== '-' ? stockInfo['Perf Week'] : -Number.MAX_VALUE,
+            perfMonth: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Month'] !== '-' ? stockInfo['Perf Month'] : -Number.MAX_VALUE,
+            perfQuarter: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Quarter'] !== '-' ? stockInfo['Perf Quarter'] : -Number.MAX_VALUE,
+            perfHalfY: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Half Y'] !== '-' ? stockInfo['Perf Half Y'] : -Number.MAX_VALUE,
+            perfYear: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Year'] !== '-' ? stockInfo['Perf Year'] : -Number.MAX_VALUE,
+            perfYTD: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf YTD'] !== '-' ? stockInfo['Perf YTD'] : -Number.MAX_VALUE,
+          }
+          return o
+        })
+        console.log(output)
+        setRowData(output)
+      } else {
+        modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
       }
-    ])
+      loadingAnimeRef.current.setLoading(false)
+    }).catch(() => {
+      modalWindowRef.current.popModalWindow(<div>Can't get data</div>)
+      loadingAnimeRef.current.setLoading(false)
+    })
   }
-
 
   useEffect(() => {
     // componentDidMount is here!
@@ -96,7 +117,7 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
           enableBottomToolbar={false}
           enableColumnResizing
           enableColumnVirtualization
-          enableGlobalFilterModes
+          enableGlobalFilter={false}
           enablePagination={false}
           enablePinning
           enableRowNumbers

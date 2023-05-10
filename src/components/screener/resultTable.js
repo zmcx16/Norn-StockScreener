@@ -8,7 +8,7 @@ import { convertKMBT } from '../../common/utils'
 import { FinvizUrl } from '../../common/common'
 import { NMUrl } from '../../common/nm'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { ColorPercentField, YahooFinanceUrl } from '../../common/reactUtils'
+import { ColorPercentField, YahooFinanceUrl } from '../../common/dataGridUtil'
 
 import resultTableStyle from './resultTable.module.scss'
 import '../muiTablePagination.css'

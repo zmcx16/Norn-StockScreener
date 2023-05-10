@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, KMBTField } from '../../common/reactUtils'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, KMBTField } from '../../common/dataGridUtil'
 import { getUrl } from '../../common/utils'
 
 import insidersTradeListTableStyle from './insidersTradeListTable.module.scss'
