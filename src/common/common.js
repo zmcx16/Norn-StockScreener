@@ -28,6 +28,7 @@ export const pageRouterTable = [
   { text: 'Ranking Indicators', path: '/ranking/' },
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
+  { text: 'Short Stocks Summary', path: '/short-stocks-summary/' },
   { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
 ]
