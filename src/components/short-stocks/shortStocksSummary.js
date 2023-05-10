@@ -150,7 +150,7 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
                       val['shortFloat'] = parseInt(val['currentShortPositionQuantity'] / params.row['shsFloat'] * 10000, 10) / 100.0
                     } 
                     
-                    val['shortRatio'] = (val['currentShortPositionQuantity'] / val['averageDailyVolumeQuantity']).toFixed(2)
+                    val['shortRatio'] = parseInt(val['currentShortPositionQuantity'] / val['averageDailyVolumeQuantity'] * 100, 10) / 100.0
                   })
 
                   let allDateByKey = {}
