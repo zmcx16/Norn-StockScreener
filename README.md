@@ -140,8 +140,12 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   <details><summary>Investment Gurus (https://norn-stockscreener.zmcx16.moe/investment-gurus/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-investment-gurus.png">
   </blockquote></details>
-  <details><summary>Stock Price Simulation (https://norn-stockscreener.zmcx16.moe/stock-price-simulation/)</summary><blockquote>
-  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-stock-price-simulation.png">
+  <details><summary>Google Trend Stocks (https://norn-stockscreener.zmcx16.moe/google-trend-stocks/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-google-trend-stocks.png">
+  </blockquote></details>
+  <details><summary>Short Stocks Summary (https://norn-stockscreener.zmcx16.moe/short-stocks-summary/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-short-stock1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-short-stock2.png">
   </blockquote></details>
   <details><summary>Market Correlation Matrix (https://norn-stockscreener.zmcx16.moe/market-correlation-matrix/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-market-correlation-matrix.png">
@@ -160,6 +164,7 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Shares Outstanding History (https://sharesoutstandinghistory.com/)
   * Interbrand 2021 Best Global Brands (https://interbrand.com/best-global-brands/)
   * Clarivate 2022 Top 100 Global Innovators (https://clarivate.com/zh-hant/top-100-innovators/the-top-100/)
+  * FINRA (https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
 # Terms of Service
