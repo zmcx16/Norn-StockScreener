@@ -6,7 +6,9 @@ import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import useFetch from 'use-http'
+import moment from 'moment'
 
+import StockAndShortDataChart from './stockAndShortDataChart'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
@@ -128,6 +130,70 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
             size="small"
             aria-haspopup="true"
             onClick={() => {
+              Promise.all([
+                getData("/norn-data/stock/historical-quotes/" + params.row['symbol']+".json", fetchStockData),
+                getData("/norn-data/stock-short/historical-quotes/" + params.row['symbol']+".json", fetchShortData),
+              ]).then((allResponses) => {
+                // console.log(allResponses)
+                if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
+                  let startDate = new Date(Date.now() - 365*24*60*60*1000)
+                  if (allResponses[0].length > 0) {
+                    startDate = new Date(allResponses[0][allResponses[0].length-1].Date)
+                  }
+                  // add short float & ratio
+                  allResponses[1].forEach((val) => {
+                    if (params.row['shsFloat'] != -Number.MAX_VALUE) {
+                      val['shortFloat'] = parseInt(val['currentShortPositionQuantity'] / params.row['shsFloat'] * 10000, 10) / 100.0
+                    } 
+                    
+                    val['shortRatio'] = (val['currentShortPositionQuantity'] / val['averageDailyVolumeQuantity']).toFixed(2)
+                  })
+
+                  let allDateByKey = {}
+                  const convertData2DictByDate = (data, dateKey, key, valueKey) => {
+                    if (data && !Array.isArray(data)) {
+                      console.log("data is not array")
+                      return
+                    }
+
+                    data.forEach((val) => {
+                      let date = Date.parse(new Date(Date.parse(val[dateKey])).toLocaleDateString()) // align timezone
+                      if (date < startDate) {
+                        return
+                      }
+                      if (!(date in allDateByKey)) {
+                        allDateByKey[date] = {}
+                      }
+                      allDateByKey[date][key] = val[valueKey]
+                    })
+                  }
+                  convertData2DictByDate(allResponses[0], "Date", "close", "Close")
+                  convertData2DictByDate(allResponses[0], "Date", "volume", "Volume")
+                  convertData2DictByDate(allResponses[1], "settlementDate", "shortInterest", "currentShortPositionQuantity")
+                  convertData2DictByDate(allResponses[1], "settlementDate", "avgDailyVolume", "averageDailyVolumeQuantity")
+                  convertData2DictByDate(allResponses[1], "settlementDate", "shortFloat", "shortFloat")
+                  convertData2DictByDate(allResponses[1], "settlementDate", "shortRatio", "shortRatio")
+                  //console.log(allDateByKey)
+                  let allDataArray = []
+                  let targetKeys = ["close", "volume", "shortInterest", "avgDailyVolume", "shortFloat", "shortRatio"]
+                  Object.keys(allDateByKey).sort().forEach((key) => {
+                    let o = { Date: moment(parseInt(key)).format('MM/DD/YYYY') }
+                    targetKeys.forEach((val) => {
+                      if (val in allDateByKey[key]) {
+                        o[val] = allDateByKey[key][val]
+                      }
+                    })
+                    allDataArray.push(o)
+                  })
+                  console.log(allDataArray)
+                  const title = `${params.row['symbol']} (${allResponses[1][0]["issueName"]}) Chart`
+                  modalWindowRef.current.popModalWindow(<StockAndShortDataChart title={title} data={allDataArray} />)
+                } else {
+                  modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
+                }
+              }).catch(() => {
+                modalWindowRef.current.popModalWindow(<div>Can't draw stock price & short chart</div>)
+              })
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
