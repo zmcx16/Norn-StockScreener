@@ -25,8 +25,8 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
 
   const getTableColTemplate = (showColList) => {
     return Object.keys(showColList).map((key) => {
-      if (key === 'Symbol') {
-        return SymbolNameField(key, showColList[key].text, 130, key in hideColState ? hideColState[key] : showColList[key].hide)
+      if (key === 'symbol') {
+        return SymbolNameField(showColList[key].text, 130, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else if (key === 'GurusCount'){
         return {
           field: key, headerName: showColList[key].text, width: 170, type: 'number', hide: key in hideColState ? hideColState[key] : showColList[key].hide
@@ -105,7 +105,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
           let stockInfo = allResponses[0][symbol]
           let o = {
             id: index,
-            Symbol: symbol,
+            symbol: symbol,
             Close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
             PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
             PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
@@ -139,7 +139,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
         })
 
         showColListRef.current = {
-          Symbol: { hide: false, text: 'Symbol' },
+          symbol: { hide: false, text: 'Symbol' },
           Close: { hide: false, text: 'Price' },
           PE: { hide: false, text: 'P/E' },
           PB: { hide: false, text: 'P/B' },

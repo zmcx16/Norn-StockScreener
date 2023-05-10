@@ -1,94 +1,54 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
-import MaterialReactTable from 'material-react-table'
+
+import React, { useState, useRef, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
-import Link from '@mui/material/Link'
 import useFetch from 'use-http'
-import moment from 'moment'
 
 import ModalWindow from '../modalWindow'
-import { FinvizUrl } from '../../common/common'
-import { YahooFinanceUrl, NoMaxWidthTooltip } from '../../common/reactUtils'
-import {SymbolNameField, PriceField, PercentField, ColorGreenRedPercentField, PureFieldWithValueCheck } from '../../common/reactMaterialTableUtil'
+import DefaultDataGridTable from '../defaultDataGridTable'
+import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
+import { NoMaxWidthTooltip } from '../../common/reactUtils'
 
 import shortStocksSummaryStyle from './shortStocksSummary.module.scss'
 import '../muiTablePagination.css'
 
 const ShortStocksSummary = ({ loadingAnimeRef }) => {
 
+  const [hideColState, setHideColState] = useState({})
+
   const modalWindowRef = useRef({
     popModalWindow: null,
     popPureModal: null,
   })
 
-  const columns = useMemo(() => [
-    SymbolNameField('symbol', 'Symbol', 100),
-    PriceField('close', 'Price', 90),
-    {
-      accessorKey: 'shortFloat',
-      header: 'Short Float',
-      size: 110,
-      enableColumnOrdering: false,
-      Header: ({column}) => (
-        <Typography>{column.columnDef.header}</Typography>
-      ),
-      Cell: ({ cell, row }) => (
-        cell.getValue() === -Number.MAX_VALUE || cell.getValue() === Number.MAX_VALUE || cell.getValue()  === "-" || cell.getValue()  === null || cell.getValue()  === undefined || cell.getValue()  === "Infinity" || cell.getValue()  === 'NaN' ? <span>-</span> :
-        <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{
-          (row.original.shortInterest) + " / " + (row.original.shsFloat)
-        }</span>} >
-          <span>{(cell.getValue() * 100).toFixed(2) + "%"}</span>
-        </NoMaxWidthTooltip>
-      ),
-    },
-    {
-      accessorKey: 'shortRatio',
-      header: 'Short Ratio',
-      size: 110,
-      enableColumnOrdering: false,
-      Header: ({column}) => (
-        <Typography>{column.columnDef.header}</Typography>
-      ),
-      Cell: ({ cell, row }) => (
-        cell.getValue() === -Number.MAX_VALUE || cell.getValue() === Number.MAX_VALUE || cell.getValue()  === "-" || cell.getValue()  === null || cell.getValue()  === undefined || cell.getValue()  === "Infinity" || cell.getValue()  === 'NaN' ? <span>-</span> :
-        <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{
-          (row.original.shortInterest) + " / " + (row.original.shsFloat)
-        }</span>} >
-          <span>{cell.getValue().toFixed(2)}</span>
-        </NoMaxWidthTooltip>
-      ),
-    },
-    ColorGreenRedPercentField('SF0_5m', 'SF-15d', 110, -1, 2, "Short Float Latest 15 Days Changed (%)"),
-    ColorGreenRedPercentField('SF1m', 'SF-30d', 110, -1, 2, "Short Float Latest 30 Days Changed (%)"),
-    ColorGreenRedPercentField('SF1_5m', 'SF-45d', 110, -1, 2, "Short Float Latest 45 Days Changed (%)"),
-    ColorGreenRedPercentField('SF0_5y', 'SF-6mo', 110, -1, 2, "Short Float Latest 6 Months Changed (%)"),
-    ColorGreenRedPercentField('SF1y', 'SF-1yr', 110, -1, 2, "Short Float Latest 1 Years Changed (%)"),
-    ColorGreenRedPercentField('SR0_5m', 'SR-15d', 110, -1, 2, "Short Ratio Latest 15 Days Changed (%)"),
-    ColorGreenRedPercentField('SR1m', 'SR-30d', 110, -1, 2, "Short Ratio Latest 30 Days Changed (%)"),
-    ColorGreenRedPercentField('SR1_5m', 'SR-45d', 110, -1, 2, "Short Ratio Latest 45 Days Changed (%)"),
-    ColorGreenRedPercentField('SR0_5y', 'SR-6mo', 110, -1, 2, "Short Ratio Latest 6 Months Changed (%)"),
-    ColorGreenRedPercentField('SR1y', 'SR-1yr', 110, -1, 2, "Short Ratio Latest 1 Years Changed (%)"),
-    PureFieldWithValueCheck('PE', 'P/E', 110, 2),
-    PureFieldWithValueCheck('PB', 'P/B', 110, 2),
-    PercentField('dividend', 'Dividend %', 110, 2),
-    PercentField('high52', '52W High', 110, 2),
-    PercentField('low52', '52W Low', 110, 2),
-    ColorGreenRedPercentField('perfWeek', 'Perf Week', 110, 1, 2),
-    ColorGreenRedPercentField('perfMonth', 'Perf Month', 110, 1, 2),
-    ColorGreenRedPercentField('perfQuarter', 'Perf Quarter', 110, 1, 2),
-    ColorGreenRedPercentField('perfHalfY', 'Perf Half Y', 110, 1, 2),
-    ColorGreenRedPercentField('perfYear', 'Perf Year', 110, 1, 2),
-    ColorGreenRedPercentField('perfYTD', 'Perf YTD', 110, 1, 2),
-  ], [])
-
-  //optionally access the underlying virtualizer instance
-  const rowVirtualizerInstanceRef = useRef(null)
-  const [rowData, setRowData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [sorting, setSorting] = useState([])
+  const tableColList = {
+    Close: { hide: false, text: 'Price' },
+    ShortFloat: { hide: false, text: 'Short Float' },
+    ShortRatio: { hide: false, text: 'Short Ratio' },
+    SF0_5m: { hide: false, text: 'SF-15d' },
+    SF1m: { hide: false, text: 'SF-30d' },
+    SF1_5m: { hide: false, text: 'SF-45d' },
+    SF0_5y: { hide: true, text: 'SF-6mo' },
+    SF1y: { hide: true, text: 'SF-1yr' },
+    SR0_5m: { hide: false, text: 'SR-15d' },
+    SR1m: { hide: false, text: 'SR-30d' },
+    SR1_5m: { hide: false, text: 'SR-45d' },
+    SR0_5y: { hide: true, text: 'SR-6mo' },
+    SR1y: { hide: true, text: 'SR-1yr' },
+    PE: { hide: false, text: 'P/E' },
+    PB: { hide: false, text: 'P/B' },
+    Dividend: { hide: false, text: 'Dividend %' },
+    High52: { hide: false, text: '52W High' },
+    Low52: { hide: false, text: '52W Low' },
+    PerfWeek: { hide: false, text: 'Perf Week' },
+    PerfMonth: { hide: false, text: 'Perf Month' },
+    PerfQuarter: { hide: false, text: 'Perf Quarter' },
+    PerfHalfY: { hide: false, text: 'Perf Half Y' },
+    PerfYear: { hide: false, text: 'Perf Year' },
+    PerfYTD: { hide: false, text: 'Perf YTD' },
+    Chart: { hide: false, text: 'Chart' },
+  }
 
   const getData = async (url, fetchObj) => {
     const resp_data = await fetchObj.get(url)
@@ -100,6 +60,82 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
     }
   }
 
+  const genTableColTemplate = () => {
+    return [
+      SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
+      PriceField('close', tableColList.Close.text, 110, 'close' in hideColState ? hideColState['close'] : tableColList['Close'].hide, null, "yahoo"),
+      {
+        field: "shortFloat",
+        headerName: 'Short Float',
+        width: 110,
+        type: 'number',
+        renderCell: (params) => (
+          params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN'  ?
+            <span>-</span> :
+            <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{
+              (params.row["shortInterest"]) + " / " + (params.row["shsFloat"])
+            }</span>} >
+              <span>{(params.value * 100).toFixed(2) + "%"}</span>
+            </NoMaxWidthTooltip>
+        ),
+        hide: "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide
+      },
+      {
+        field: "shortRatio",
+        headerName: 'Short Ratio',
+        width: 110,
+        type: 'number',
+        renderCell: (params) => (
+          params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN'  ?
+            <span>-</span> :
+            <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{
+              (params.row["shortInterest"]) + " / " + (params.row["shsFloat"])
+            }</span>} >
+              <span>{(params.value * 100).toFixed(2)}</span>
+            </NoMaxWidthTooltip>
+        ),
+        hide: "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide
+      },
+      ColorPercentField("SF0_5m", tableColList.SF0_5m.text, 150, 2, "SF0_5m" in hideColState ? hideColState["SF0_5m"] : tableColList['SF0_5m'].hide, 500, 'Short Float Latest 15 Days Changed (%)', -1),
+      ColorPercentField("SF1m", tableColList.SF1m.text, 150, 2, "SF1m" in hideColState ? hideColState["SF1m"] : tableColList['SF1m'].hide, 500, 'Short Float Latest 30 Days Changed (%)', -1),
+      ColorPercentField("SF1_5m", tableColList.SF1_5m.text, 150, 2, "SF1_5m" in hideColState ? hideColState["SF1_5m"] : tableColList['SF1_5m'].hide, 500, 'Short Float Latest 45 Days Changed (%)', -1),
+      ColorPercentField("SF0_5y", tableColList.SF0_5y.text, 150, 2, "SF0_5y" in hideColState ? hideColState["SF0_5y"] : tableColList['SF0_5y'].hide, 500, 'Short Float Latest 6 Months Changed (%)', -1),
+      ColorPercentField("SF1y", tableColList.SF1y.text, 150, 2, "SF1y" in hideColState ? hideColState["SF1y"] : tableColList['SF1y'].hide, 500, 'Short Float Latest 1 Years Changed (%)', -1),
+      ColorPercentField("SR0_5m", tableColList.SR0_5m.text, 150, 2, "SR0_5m" in hideColState ? hideColState["SR0_5m"] : tableColList['SR0_5m'].hide, 500, 'Short Ratio Latest 15 Days Changed (%)', -1),
+      ColorPercentField("SR1m", tableColList.SR1m.text, 150, 2, "SR1m" in hideColState ? hideColState["SR1m"] : tableColList['SR1m'].hide, 500, 'Short Ratio Latest 30 Days Changed (%)', -1),
+      ColorPercentField("SR1_5m", tableColList.SR1_5m.text, 150, 2, "SR1_5m" in hideColState ? hideColState["SR1_5m"] : tableColList['SR1_5m'].hide, 500, 'Short Ratio Latest 45 Days Changed (%)', -1),
+      ColorPercentField("SR0_5y", tableColList.SR0_5y.text, 150, 2, "SR0_5y" in hideColState ? hideColState["SR0_5y"] : tableColList['SR0_5y'].hide, 500, 'Short Ratio Latest 6 Months Changed (%)', -1),
+      ColorPercentField("SR1y", tableColList.SR1y.text, 150, 2, "SR1y" in hideColState ? hideColState["SR1y"] : tableColList['SR1y'].hide, 500, 'Short Ratio Latest 1 Years Changed (%)', -1),
+      PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
+      PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
+      PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
+      PercentField("high52", tableColList.High52.text, 150, "high52" in hideColState ? hideColState["high52"] : tableColList['High52'].hide),
+      PercentField("low52", tableColList.Low52.text, 150, "low52" in hideColState ? hideColState["low52"] : tableColList['Low52'].hide),
+      ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, "perfWeek" in hideColState ? hideColState["perfWeek"] : tableColList['PerfWeek'].hide, 500),
+      ColorPercentField("perfMonth", tableColList.PerfMonth.text, 150, 2, "perfMonth" in hideColState ? hideColState["perfMonth"] : tableColList['PerfMonth'].hide, 500),
+      ColorPercentField("perfQuarter", tableColList.PerfQuarter.text, 150, 2, "perfQuarter" in hideColState ? hideColState["perfQuarter"] : tableColList['PerfQuarter'].hide, 500),
+      ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, "perfHalfY" in hideColState ? hideColState["perfHalfY"] : tableColList['PerfHalfY'].hide, 500),
+      ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, "perfYear" in hideColState ? hideColState["perfYear"] : tableColList['PerfYear'].hide, 500),
+      ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, "perfYTD" in hideColState ? hideColState["perfYTD"] : tableColList['PerfYTD'].hide, 500),
+      {
+        field: 'Chart',
+        headerName: tableColList.Chart.text,
+        width: 130,
+        renderCell: (params) => (
+          <IconButton
+            size="small"
+            aria-haspopup="true"
+            onClick={() => {
+            }}
+          >
+            <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
+          </IconButton>
+        ),
+        hide: 'Chart' in hideColState ? hideColState['Chart'] : tableColList['Chart'].hide
+      },
+    ]
+  }
+
   const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
   const fetchShortData = useFetch({ cachePolicy: 'no-cache' })
   const renderShortStocksTable = ()=>{
@@ -109,10 +145,11 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
     ]).then((allResponses) => {
       // console.log(allResponses)
       if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {      
-        let output = Object.keys(allResponses[1]["data"]).map((symbol) => {
+        let output = Object.keys(allResponses[1]["data"]).map((symbol, index) => {
           let stockInfo = allResponses[0][symbol]
           let value = allResponses[1]["data"][symbol]
           let o = {
+            id: index,
             symbol: symbol,
             close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
             shsFloat: value['Shs Float'] !== '-' ? value['Shs Float'] : -Number.MAX_VALUE,
@@ -144,7 +181,7 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
           return o
         })
         console.log(output)
-        setRowData(output.slice(10))
+        setRowData(output)
       } else {
         modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
       }
@@ -155,56 +192,27 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
     })
   }
 
+  const [rowData, setRowData] = useState([])
+
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
-    if (typeof window !== 'undefined') {
-      renderShortStocksTable()
-      setIsLoading(false)
-    }
+    renderShortStocksTable()
     return () => {
       // componentWillUnmount is here!
     }
   }, [])
 
-  useEffect(() => {
-    //scroll to the top of the table when the sorting changes
-    try {
-      if (rowVirtualizerInstanceRef.current?.scrollToIndex) {
-        rowVirtualizerInstanceRef.current.scrollToIndex(0)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }, [sorting])
-
   return (
     <>
       <div className={shortStocksSummaryStyle.container}>
-        <MaterialReactTable
-          columns={columns}
-          data={rowData} 
-          enableBottomToolbar={false}
-          enableColumnResizing
-          enableColumnVirtualization
-          enableGlobalFilter={false}
-          enablePagination={false}
-          enablePinning
-          enableRowNumbers
-          enableRowVirtualization
-          muiTableContainerProps={{ sx: { maxHeight: '600px' } }}
-          onSortingChange={setSorting}
-          state={{ isLoading, sorting }}
-          rowVirtualizerInstanceRef={rowVirtualizerInstanceRef} //optional
-          rowVirtualizerProps={{ overscan: 5 }} //optionally customize the row virtualizer
-          columnVirtualizerProps={{ overscan: 2 }} //optionally customize the column virtualizer
-          renderTopToolbarCustomActions={() => 
-          <Typography style={{top: 5, position: 'relative'}} variant="subtitle1">Short Data Source: 
-            <Link href={"https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data"} target="_blank" rel="noreferrer noopener">
-              <span style={{paddingLeft: 10}}>FINRA Equity Short Interest Data</span>
-            </Link>
-          </Typography>}
-        />
+        <div className={shortStocksSummaryStyle.table}>
+          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+            let tempHideColState = hideColState
+            tempHideColState[param['field']] = !param['isVisible']
+            setHideColState(tempHideColState)
+          }}/>
+        </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />
     </>

@@ -156,7 +156,7 @@ const Options = ({loadingAnimeRef}) => {
 
   const genTableColTemplate = () => {
     return [
-      SymbolNameField('symbol', 'Symbol', 115, 'symbol' in hideColState ? hideColState['symbol'] : false),
+      SymbolNameField('Symbol', 115, 'symbol' in hideColState ? hideColState['symbol'] : false),
       OptionPriceField("stockPrice", tableColList.StockPrice.text, 125, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide, "stock"),
       PercentField("stockShortFloat", tableColList.StockShortFloat.text, 115, "stockShortFloat" in hideColState ? hideColState["stockShortFloat"] : tableColList['StockShortFloat'].hide),
       {

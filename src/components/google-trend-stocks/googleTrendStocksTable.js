@@ -98,7 +98,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
 
   const genTableColTemplate = () => {
     return [
-      SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
+      SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
       trendDataField("week3", tableColList.Week3.text, 140, "week3", "week3" in hideColState ? hideColState["week3"] : tableColList['Week3'].hide),
       trendDataField("week3R", tableColList.Week3R.text, 140, "week3R", "week3R" in hideColState ? hideColState["week3R"] : tableColList['Week3R'].hide),
       trendDataField("month3", tableColList.Month3.text, 140, "month3", "month3" in hideColState ? hideColState["month3"] : tableColList['Month3'].hide),

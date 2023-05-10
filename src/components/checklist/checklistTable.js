@@ -202,7 +202,7 @@ const ChecklistTable = ({ChecklistRef, modalWindowRef}) => {
   }
 
   const columns = [
-    SymbolNameField('symbol', ChecklistKey_Def["symbol"].name, 100),
+    SymbolNameField(ChecklistKey_Def["symbol"].name, 100),
     PriceField('close', ChecklistKey_Def["Close"].name, 90),
     {
       accessorKey: "score",

@@ -9,9 +9,9 @@ import { convertKMBT } from './utils'
 // export const YahooFinanceUrl = NavZhEnUrl(YahooFinanceZhUrl, YahooFinanceEnUrl)
 export const YahooFinanceUrl = YahooFinanceEnUrl
 
-export function SymbolNameField(field, headerName, width, description = null) {
+export function SymbolNameField(headerName, width, description = null) {
   return {
-    accessorKey: field,
+    accessorKey: "symbol",
     header: headerName,
     size: width,
     enableColumnOrdering: false,

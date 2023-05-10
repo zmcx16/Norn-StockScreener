@@ -59,7 +59,7 @@ const InsidersTradeListTable = ({ loadingAnimeRef }) => {
                 ),
                 hide: 'date' in hideColState ? hideColState['date'] : false
             },
-            SymbolNameField('symbol', 'Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
+            SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
             {
                 field: 'transaction',
                 headerName: 'Transaction',

@@ -90,7 +90,7 @@ export function KMBTField(field, headerName, width, valueFixed, hide, descriptio
   return output
 }
 
-export function ColorPercentField(field, headerName, width, valueFixed, hide, fontWeight, description = null){
+export function ColorPercentField(field, headerName, width, valueFixed, hide, fontWeight, description = null, flag=1){
   let output = {
     field: field,
     headerName: headerName,
@@ -99,7 +99,7 @@ export function ColorPercentField(field, headerName, width, valueFixed, hide, fo
     renderCell: (params) => (
       params.value === '-' || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
         <span>-</span> :
-        <span style={{ fontWeight: fontWeight, color: Math.sign(parseFloat(params.value)) === 1 ? 'green' : Math.sign(parseFloat(params.value)) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(valueFixed) + "%"}</span>
+        <span style={{ fontWeight: fontWeight, color: Math.sign(parseFloat(params.value)*flag) === 1 ? 'green' : Math.sign(parseFloat(params.value)*flag) === -1 ? 'red' : '' }}>{Math.sign(parseFloat(params.value)) === 1 ? '+' : ''}{(params.value * 100).toFixed(valueFixed) + "%"}</span>
     ),
     hide: hide
   }
@@ -110,13 +110,32 @@ export function ColorPercentField(field, headerName, width, valueFixed, hide, fo
   return output
 }
 
-export function SymbolNameField(field, headerName, width, hide, description = null, source="") {
+export function SymbolNameField(headerName, width, hide, description = null, source="") {
+  let output = {
+    field: "symbol",
+    headerName: headerName,
+    width: width,
+    renderCell: (params) => (
+      <Link href={ source=="yahoo" ? YahooFinanceUrl + 'quote/' + params.value : FinvizUrl + 'quote.ashx?t=' + params.value} target="_blank" rel="noreferrer noopener">
+        <span>{params.value}</span>
+      </Link>
+    ),
+    hide: hide
+  }
+  
+  if (description != null) {
+    output['description'] = description
+  }
+  return output
+}
+
+export function PriceField(field, headerName, width, hide, description = null, source="") {
   let output = {
     field: field,
     headerName: headerName,
     width: width,
     renderCell: (params) => (
-      <Link href={ source=="yahoo" ? YahooFinanceUrl + 'quote/' + params.value : FinvizUrl + 'quote.ashx?t=' + params.value} target="_blank" rel="noreferrer noopener">
+      <Link href={ source=="yahoo" ? YahooFinanceUrl + 'quote/' + params.row["symbol"] : FinvizUrl + 'quote.ashx?t=' +  params.row["symbol"] } target="_blank" rel="noreferrer noopener">
         <span>{params.value}</span>
       </Link>
     ),
