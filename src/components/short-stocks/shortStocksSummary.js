@@ -1,6 +1,8 @@
 
 import React, { useState, useRef, useEffect } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
+import Typography from '@mui/material/Typography'
+import Link from '@mui/material/Link'
+import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import useFetch from 'use-http'
@@ -203,15 +205,29 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
     }
   }, [])
 
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <Typography style={{paddingLeft: 5}} variant="subtitle1">Short Data Source: 
+          <Link href={"https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data"} target="_blank" rel="noreferrer noopener">
+            <span style={{paddingLeft: 10}}>FINRA Equity Short Interest Data</span>
+          </Link>
+        </Typography>
+      </GridToolbarContainer>
+    );
+  }
+
   return (
     <>
       <div className={shortStocksSummaryStyle.container}>
+
         <div className={shortStocksSummaryStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: CustomToolbar}} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)
-          }}/>
+          }}
+          />
         </div>
       </div>
       <ModalWindow modalWindowRef={modalWindowRef} />
