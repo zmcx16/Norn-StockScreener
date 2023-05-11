@@ -99,7 +99,7 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
             <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{
               (params.row["shortInterest"]) + " / " + (params.row["shsFloat"])
             }</span>} >
-              <span>{(params.value * 100).toFixed(2)}</span>
+              <span>{(params.value).toFixed(2)}</span>
             </NoMaxWidthTooltip>
         ),
         hide: "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide
