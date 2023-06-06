@@ -5,14 +5,15 @@ export const InsidermonkeyUrl = "https://www.insidermonkey.com/"
 export const YahooFinanceEnUrl = "https://finance.yahoo.com/"
 export const YahooFinanceZhUrl = "https://hk.finance.yahoo.com/"
 export const FINRAShortInterestUrl = "https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data"
-
+export const GoogleTrendsUrl = "https://trends.google.com.tw/trends"
 export const NornStockScreenerUrl = "https://github.com/zmcx16/Norn-StockScreener"
 export const NornStockScreenerMobileUrl = "https://play.google.com/store/apps/details?id=moe.zmcx16.norn_stockscreener"
 export const zmcx16ProjectUrl = "https://project.zmcx16.moe"
 export const zmcx16BlogUrl = "https://blog.zmcx16.moe"
-
 export const NSSServerUrl = "https://zmcx16.moe"
 export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
+export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
+export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
@@ -44,11 +45,7 @@ But, there will come a day when it is discovered by somebody,
 And only those who should obtain it will be able to find it.
 That is all.
 `
-
 export const kanbanText = `Filter, shortlist stock from the market`
-
-export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
-export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
 
 export const QueryNote = 
 `The Self-Query API server is a free & lightweight server. 
@@ -57,3 +54,4 @@ try to build your server from Github source code as follow:
 ` + NornFinanceAPIServerGithub
 
 export const ShortStockDataSourceTooltip = `Short Data Source: FINRA Equity Short Interest Data`
+export const GoogleTrendsTooltip = `See how Google Trends is being used across the world, by newsrooms, charities, and more.`

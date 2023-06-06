@@ -8,6 +8,7 @@ import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import { SymbolNameField, PureFieldWithValueCheck, PercentField, KMBTField } from '../../common/dataGridUtil'
 import { FinvizUrl, DataromaUrl, ZacksUrl, InsidermonkeyUrl } from '../../common/common'
+import SearchGridToolbar from '../searchGridToolbar'
 
 import investmentGurusStyle from './investmentGurus.module.scss'
 import '../muiTablePagination.css'
@@ -92,7 +93,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
       return null
     }
   }
-  const getGurusData = () => {
+  const renderGurusData = (config)=>{
     Promise.all([
       getData("/norn-data/stock/stat.json", fetchStockData),
       getData('/norn-data/gurus/gurus-table.json', fetchGurusData),
@@ -101,7 +102,7 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
       if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
         let gurus_data = allResponses[1]["data"]
         let manager_list = allResponses[1]["manager_list"]
-        let output = Object.keys(gurus_data).map((symbol, index) => {
+        let output = Object.keys(gurus_data).reduce((result, symbol, index) => {
           let stockInfo = allResponses[0][symbol]
           let o = {
             id: index,
@@ -135,8 +136,12 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
           })
           o.GurusCount = gurus_count
           o.GurusValue = gurus_value
-          return o
-        })
+
+          if(config.filter_symbols.length === 0 || config.filter_symbols.includes(symbol)) {
+            result.push(o)
+          }
+          return result
+        }, [])
 
         showColListRef.current = {
           symbol: { hide: false, text: 'Symbol' },
@@ -177,11 +182,12 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
   const [dataRefDesc, setDataRefDesc] = useState(<></>)
 
   const [rowData, setRowData] = useState([])
+  const [searchVal, setSearchVal] = useState("")
 
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
-    getGurusData()
+    renderGurusData({filter_symbols: []})
 
     return () => {
       // componentWillUnmount is here!
@@ -195,7 +201,13 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
           {dataRefDesc}
         </div>
         <div className={investmentGurusStyle.table}>
-          <DataGrid rows={rowData} columns={tableCol} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={tableCol} components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: ()=>{
+            return <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={renderGurusData} 
+              info={{
+                placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
+              }}
+            />
+          }}} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)

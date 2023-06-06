@@ -10,6 +10,8 @@ import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import StockAndTrendDataChart from './stockAndTrendDataChart'
 import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
+import SearchGridToolbar from '../searchGridToolbar'
+import { GoogleTrendsUrl, GoogleTrendsTooltip } from '../../common/common'
 
 import googleTrendStocksTableStyle from './googleTrendStocksTable.module.scss'
 import '../muiTablePagination.css'
@@ -217,21 +219,22 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
   const fetchGoogleTrendData = useFetch({ cachePolicy: 'no-cache' })
 
-  const getGoogleTrendTable = ()=>{
+  const renderGoogleTrendTable = (config)=>{
     Promise.all([
       getData("/norn-data/stock/stat.json", fetchStockData),
       getData('/norn-data/google-trend/stat.json', fetchGoogleTrendData),
     ]).then((allResponses) => {
       // console.log(allResponses)
       if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {      
-        let output = allResponses[1].map((value, index) => {
-          let stockInfo = allResponses[0][value['symbol']]
+        let output = allResponses[1].reduce((result, value, index) => {
+          let symbol = value['symbol']
+          let stockInfo = allResponses[0][symbol]
           const getRatio = (val, avg) => {
             return avg === 0 ? 0 : val / avg
           }
           let o = {
             id: index,
-            symbol: value['symbol'],
+            symbol: symbol,
             keyword: value['keyword'],
             week3: value['week-3'],
             week3R: getRatio(value['week-3'], value['week-avg']) ,
@@ -269,8 +272,13 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
           }
           o.avg = [o.week3, o.month3, o.month7, o.month14, o.quarter7, o.quarter14, o.quarter21, o.year14, o.year21].reduce((a, b) => a + b, 0) / 9.0
           o.avgR = [o.week3R, o.month3R, o.month7R, o.month14R, o.quarter7R, o.quarter14R, o.quarter21R, o.year14R, o.year21R].reduce((a, b) => a + b, 0) / 9.0
-          return o
-        })
+          
+          if(config.filter_symbols.length === 0 || config.filter_symbols.includes(symbol)) {
+            result.push(o)
+          }
+          return result
+        }, [])
+
         setRowData(output)
       } else {
         modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
@@ -283,11 +291,12 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
   }
 
   const [rowData, setRowData] = useState([])
+  const [searchVal, setSearchVal] = useState("")
 
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
-    getGoogleTrendTable()
+    renderGoogleTrendTable({filter_symbols: []})
     return () => {
       // componentWillUnmount is here!
     }
@@ -297,7 +306,17 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
     <>
       <div className={googleTrendStocksTableStyle.container}>
         <div className={googleTrendStocksTableStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={genTableColTemplate()}  components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: ()=>{
+            return <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={renderGoogleTrendTable} 
+              info={{
+                placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
+                tooltip: {
+                  text: GoogleTrendsTooltip,
+                  link: GoogleTrendsUrl
+                }
+              }}
+            />
+          }}} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)

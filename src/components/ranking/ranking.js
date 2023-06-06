@@ -17,6 +17,7 @@ import DefaultDataGridTable from '../defaultDataGridTable'
 import { GetDataByFetchObj } from '../../common/reactUtils'
 import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/dataGridUtil'
 import { RankingDef } from '../../ranking/rankingDef'
+import SearchGridToolbar from '../searchGridToolbar'
 
 import commonStyle from '../common.module.scss'
 import rankingStyle from './ranking.module.scss'
@@ -84,14 +85,15 @@ const Ranking = ({loadingAnimeRef}) => {
   const fetchRankingData = useFetch({ cachePolicy: 'no-cache' })
   const fetchStockInfoData = useFetch({ cachePolicy: 'no-cache' })
 
-  const renderTable = (resp, ranking_data) => {
+  const renderTable = (resp, ranking_data, config) => {
     let output = ranking_data.reduce((result, value, index) => {
-      let stockInfo = resp[value['symbol']]
+      let symbol = value['symbol']
+      let stockInfo = resp[symbol]
       let o = {
         id: index,
         rank: value['rank'],
         name: value['name'],
-        symbol: value['symbol'],
+        symbol: symbol,
         link: value['link'],
         marketCap: stockInfo !== undefined && stockInfo !== null && stockInfo['Market Cap'] !== '-' ? stockInfo['Market Cap'] : -Number.MAX_VALUE,
         close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
@@ -119,34 +121,36 @@ const Ranking = ({loadingAnimeRef}) => {
         o['word_color'] = value['rank_color']
       }
 
-      if ('tags' in value) {
-        let match_all = true
-        Object.entries(tagsRef.current).map(([tag_setting_k, tag_setting_v]) => {
-          if (tag_setting_v.enabe) {
-            let match_tag = false
-            value['tags'].forEach((v) => {
-              if (v == tag_setting_k) {
-                match_tag = true
+      if (config.filter_symbols.length === 0 || config.filter_symbols.includes(symbol)) {
+        if ('tags' in value) {
+          let match_all = true
+          Object.entries(tagsRef.current).map(([tag_setting_k, tag_setting_v]) => {
+            if (tag_setting_v.enabe) {
+              let match_tag = false
+              value['tags'].forEach((v) => {
+                if (v == tag_setting_k) {
+                  match_tag = true
+                }
+              })
+              if (!match_tag) {
+                match_all = false
               }
-            })
-            if (!match_tag) {
-              match_all = false
             }
-          }
-        })
-        if (match_all) {
+          })
+          if (match_all) {
+            result.push(o)
+          }   
+        } else {
+          // not tag criteria
           result.push(o)
-        }   
-      } else {
-        // not tag criteria
-        result.push(o)
+        }
       }
       return result
     }, [])
     setRankingData(output)
   }
 
-  const renderRankingData = (selectIndex) => {
+  const renderRankingData = (selectIndex, config) => {
     loadingAnimeRef.current.setLoading(true)
     let fetch_data = [
       GetDataByFetchObj('/norn-data/stock/stat.json', fetchStockInfoData)
@@ -162,7 +166,7 @@ const Ranking = ({loadingAnimeRef}) => {
         if (allResponses.length === 2) { // get data by url
           data = allResponses[1]["data"]
         }
-        renderTable(allResponses[0], data)
+        renderTable(allResponses[0], data, config)
       } else {
         console.error("renderRankingData some data failed")
         modalWindowRef.current.popModalWindow(<div>Get some data failed...</div>)
@@ -180,11 +184,12 @@ const Ranking = ({loadingAnimeRef}) => {
   const [arg, setArg] = useState(0)
   const [tags, setTags] = useState({})
   const tagsRef = useRef({})
-  
+  const [searchVal, setSearchVal] = useState("")
+
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
-    renderRankingData(0)
+    renderRankingData(0, {filter_symbols: []})
 
     return () => {
       // componentWillUnmount is here!
@@ -213,7 +218,7 @@ const Ranking = ({loadingAnimeRef}) => {
                   tagsRef.current = tags_temp
                   setTags(tags_temp)
                   setArg(event.target.value)
-                  renderRankingData(event.target.value)
+                  renderRankingData(event.target.value, {filter_symbols: []})
                 }}
                 label={'Ranking Indicators'}
               >
@@ -245,7 +250,7 @@ const Ranking = ({loadingAnimeRef}) => {
                       tags_temp[key].enabe = !tags_temp[key].enabe
                       tagsRef.current = tags_temp
                       setTags(tags_temp)
-                      renderRankingData(arg)
+                      renderRankingData(arg, {filter_symbols: []})
                     }} 
                   />
                 })
@@ -254,7 +259,15 @@ const Ranking = ({loadingAnimeRef}) => {
           </Grid>
         </Grid>
         <div className={rankingStyle.table}>
-          <DataGrid rows={rankingData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, }} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rankingData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: ()=>{
+            return <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={(config)=>{
+              renderRankingData(arg, config)
+            }}
+              info={{
+                placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
+              }}
+            />
+          }}} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)

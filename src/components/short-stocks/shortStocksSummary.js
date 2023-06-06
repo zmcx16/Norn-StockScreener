@@ -1,22 +1,17 @@
 
 import React, { useState, useRef, useEffect } from 'react'
-import InputBase from '@mui/material/InputBase'
-import InfoIcon from '@mui/icons-material/Info'
-import SearchIcon from '@mui/icons-material/Search'
-import Paper from '@mui/material/Paper'
-import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import useFetch from 'use-http'
 import moment from 'moment'
-import { isMobile } from 'react-device-detect'
 
 import StockAndShortDataChart from './stockAndShortDataChart'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
+import SearchGridToolbar from '../searchGridToolbar'
 import { FINRAShortInterestUrl, ShortStockDataSourceTooltip } from '../../common/common'
 import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
-import { NoMaxWidthTooltip } from '../../common/reactUtils'
 
 import shortStocksSummaryStyle from './shortStocksSummary.module.scss'
 import '../muiTablePagination.css'
@@ -269,7 +264,7 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
   }
 
   const [rowData, setRowData] = useState([])
-
+  const [searchVal, setSearchVal] = useState("")
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -279,51 +274,22 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
     }
   }, [])
 
-  const [searchVal, setSearchVal] = useState("")
-  function CustomToolbar() {
-    const searchStockRef = useRef(null)
-    return (
-      <GridToolbarContainer>
-        <Paper
-          component="form"
-          sx={{ p: '6 16', m: 1, display: 'flex', alignItems: 'center' }}
-        >
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            style={{width: isMobile ? 200 : 400}}
-            placeholder='Filter symbols: AAPL, BAC, KSS, ...'
-            inputProps={{ 'aria-label': 'search-us-stocks' }}
-            defaultValue={searchVal}
-            inputRef={searchStockRef}
-          />
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => {
-            let symbols = searchStockRef.current.value.replaceAll("\"","").split(',').map((symbol) => symbol.trim().toUpperCase())
-            console.log(symbols)
-            let config = {filter_symbols: []}
-            if (symbols.length !== 0 && symbols[0] !== '') {
-              config = {filter_symbols: symbols}
-            }
-            setSearchVal(searchStockRef.current.value)
-            renderShortStocksTable(config)
-          }}>
-            <SearchIcon />
-          </IconButton>
-        </Paper>
-        <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}>{ShortStockDataSourceTooltip}</span>} >
-          <IconButton onClick={() => window.open(FINRAShortInterestUrl, "_blank")}>
-            <InfoIcon color="action"/>
-          </IconButton>
-        </NoMaxWidthTooltip>
-      </GridToolbarContainer>
-    );
-  }
-
   return (
     <>
       <div className={shortStocksSummaryStyle.container}>
 
         <div className={shortStocksSummaryStyle.table}>
-          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: CustomToolbar}} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+          <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: ()=>{
+            return <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={renderShortStocksTable} 
+              info={{
+                placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
+                tooltip: {
+                  text: ShortStockDataSourceTooltip,
+                  link: FINRAShortInterestUrl
+                }
+              }}
+            />
+          }}} disableSelectionOnClick onColumnVisibilityChange={(param) => {
             let tempHideColState = hideColState
             tempHideColState[param['field']] = !param['isVisible']
             setHideColState(tempHideColState)
