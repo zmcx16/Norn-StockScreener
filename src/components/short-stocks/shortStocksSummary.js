@@ -12,6 +12,7 @@ import DefaultDataGridTable from '../defaultDataGridTable'
 import SearchGridToolbar from '../searchGridToolbar'
 import { FINRAShortInterestUrl, ShortStockDataSourceTooltip } from '../../common/common'
 import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
+import { NoMaxWidthTooltip } from '../../common/reactUtils'
 
 import shortStocksSummaryStyle from './shortStocksSummary.module.scss'
 import '../muiTablePagination.css'
@@ -61,6 +62,75 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
     else {
       return null
     }
+  }
+
+  const renderShowChart = (symbol, shsFloat)=> {
+    console.log(symbol)
+    console.log(shsFloat)
+    Promise.all([
+      getData("/norn-data/stock/historical-quotes/" + symbol+".json", fetchStockData),
+      getData("/norn-data/stock-short/historical-quotes/" + symbol+".json", fetchShortData),
+    ]).then((allResponses) => {
+      // console.log(allResponses)
+      if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
+        let startDate = new Date(Date.now() - 365*24*60*60*1000)
+        if (allResponses[0].length > 0) {
+          startDate = new Date(allResponses[0][allResponses[0].length-1].Date)
+        }
+        // add short float & ratio
+        allResponses[1].forEach((val) => {
+          if (shsFloat != -Number.MAX_VALUE) {
+            val['shortFloat'] = parseInt(val['currentShortPositionQuantity'] / shsFloat * 10000, 10) / 100.0
+          } 
+          
+          val['shortRatio'] = parseInt(val['currentShortPositionQuantity'] / val['averageDailyVolumeQuantity'] * 100, 10) / 100.0
+        })
+
+        let allDateByKey = {}
+        const convertData2DictByDate = (data, dateKey, key, valueKey) => {
+          if (data && !Array.isArray(data)) {
+            console.log("data is not array")
+            return
+          }
+
+          data.forEach((val) => {
+            let date = Date.parse(new Date(Date.parse(val[dateKey])).toLocaleDateString()) // align timezone
+            if (date < startDate) {
+              return
+            }
+            if (!(date in allDateByKey)) {
+              allDateByKey[date] = {}
+            }
+            allDateByKey[date][key] = val[valueKey]
+          })
+        }
+        convertData2DictByDate(allResponses[0], "Date", "close", "Close")
+        convertData2DictByDate(allResponses[0], "Date", "volume", "Volume")
+        convertData2DictByDate(allResponses[1], "settlementDate", "shortInterest", "currentShortPositionQuantity")
+        convertData2DictByDate(allResponses[1], "settlementDate", "avgDailyVolume", "averageDailyVolumeQuantity")
+        convertData2DictByDate(allResponses[1], "settlementDate", "shortFloat", "shortFloat")
+        convertData2DictByDate(allResponses[1], "settlementDate", "shortRatio", "shortRatio")
+        //console.log(allDateByKey)
+        let allDataArray = []
+        let targetKeys = ["close", "volume", "shortInterest", "avgDailyVolume", "shortFloat", "shortRatio"]
+        Object.keys(allDateByKey).sort().forEach((key) => {
+          let o = { Date: moment(parseInt(key)).format('MM/DD/YYYY') }
+          targetKeys.forEach((val) => {
+            if (val in allDateByKey[key]) {
+              o[val] = allDateByKey[key][val]
+            }
+          })
+          allDataArray.push(o)
+        })
+        console.log(allDataArray)
+        const title = `${symbol} (${allResponses[1][0]["issueName"]}) Chart`
+        modalWindowRef.current.popModalWindow(<StockAndShortDataChart title={title} data={allDataArray} />)
+      } else {
+        modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
+      }
+    }).catch(() => {
+      modalWindowRef.current.popModalWindow(<div>Can't draw stock price & short chart</div>)
+    })
   }
 
   const genTableColTemplate = () => {
@@ -128,71 +198,8 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
           <IconButton
             size="small"
             aria-haspopup="true"
-            onClick={() => {
-              Promise.all([
-                getData("/norn-data/stock/historical-quotes/" + params.row['symbol']+".json", fetchStockData),
-                getData("/norn-data/stock-short/historical-quotes/" + params.row['symbol']+".json", fetchShortData),
-              ]).then((allResponses) => {
-                // console.log(allResponses)
-                if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
-                  let startDate = new Date(Date.now() - 365*24*60*60*1000)
-                  if (allResponses[0].length > 0) {
-                    startDate = new Date(allResponses[0][allResponses[0].length-1].Date)
-                  }
-                  // add short float & ratio
-                  allResponses[1].forEach((val) => {
-                    if (params.row['shsFloat'] != -Number.MAX_VALUE) {
-                      val['shortFloat'] = parseInt(val['currentShortPositionQuantity'] / params.row['shsFloat'] * 10000, 10) / 100.0
-                    } 
-                    
-                    val['shortRatio'] = parseInt(val['currentShortPositionQuantity'] / val['averageDailyVolumeQuantity'] * 100, 10) / 100.0
-                  })
-
-                  let allDateByKey = {}
-                  const convertData2DictByDate = (data, dateKey, key, valueKey) => {
-                    if (data && !Array.isArray(data)) {
-                      console.log("data is not array")
-                      return
-                    }
-
-                    data.forEach((val) => {
-                      let date = Date.parse(new Date(Date.parse(val[dateKey])).toLocaleDateString()) // align timezone
-                      if (date < startDate) {
-                        return
-                      }
-                      if (!(date in allDateByKey)) {
-                        allDateByKey[date] = {}
-                      }
-                      allDateByKey[date][key] = val[valueKey]
-                    })
-                  }
-                  convertData2DictByDate(allResponses[0], "Date", "close", "Close")
-                  convertData2DictByDate(allResponses[0], "Date", "volume", "Volume")
-                  convertData2DictByDate(allResponses[1], "settlementDate", "shortInterest", "currentShortPositionQuantity")
-                  convertData2DictByDate(allResponses[1], "settlementDate", "avgDailyVolume", "averageDailyVolumeQuantity")
-                  convertData2DictByDate(allResponses[1], "settlementDate", "shortFloat", "shortFloat")
-                  convertData2DictByDate(allResponses[1], "settlementDate", "shortRatio", "shortRatio")
-                  //console.log(allDateByKey)
-                  let allDataArray = []
-                  let targetKeys = ["close", "volume", "shortInterest", "avgDailyVolume", "shortFloat", "shortRatio"]
-                  Object.keys(allDateByKey).sort().forEach((key) => {
-                    let o = { Date: moment(parseInt(key)).format('MM/DD/YYYY') }
-                    targetKeys.forEach((val) => {
-                      if (val in allDateByKey[key]) {
-                        o[val] = allDateByKey[key][val]
-                      }
-                    })
-                    allDataArray.push(o)
-                  })
-                  console.log(allDataArray)
-                  const title = `${params.row['symbol']} (${allResponses[1][0]["issueName"]}) Chart`
-                  modalWindowRef.current.popModalWindow(<StockAndShortDataChart title={title} data={allDataArray} />)
-                } else {
-                  modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
-                }
-              }).catch(() => {
-                modalWindowRef.current.popModalWindow(<div>Can't draw stock price & short chart</div>)
-              })
+            onClick={()=>{
+              renderShowChart(params.row["symbol"], params.row["shsFloat"])
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
@@ -205,7 +212,7 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
 
   const fetchStockData = useFetch({ cachePolicy: 'no-cache' })
   const fetchShortData = useFetch({ cachePolicy: 'no-cache' })
-  const renderShortStocksTable = (config)=>{
+  const renderShortStocksTable = (config, showChart)=>{
     Promise.all([
       getData("/norn-data/stock/stat.json", fetchStockData),
       getData('/norn-data/stock-short/stat.json', fetchShortData),
@@ -253,6 +260,9 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
         }, [])
         console.log(output)
         setRowData(output)
+        if (showChart) {
+          renderShowChart(output[0]["symbol"], output[0]["shsFloat"])
+        }
       } else {
         modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
       }
@@ -268,7 +278,17 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
-    renderShortStocksTable({filter_symbols: []})
+    let config = {filter_symbols: []}
+    let showChart = false
+    if (typeof window !== 'undefined') {
+      const queryParameters = new URLSearchParams(window.location.search)
+      let symbol = queryParameters.get("symbol")
+      if (symbol) {
+        config = {filter_symbols: [symbol]}
+      }
+      showChart = queryParameters.get("showChart") === "true"
+    }
+    renderShortStocksTable(config, showChart)
     return () => {
       // componentWillUnmount is here!
     }
@@ -277,10 +297,11 @@ const ShortStocksSummary = ({ loadingAnimeRef }) => {
   return (
     <>
       <div className={shortStocksSummaryStyle.container}>
-
         <div className={shortStocksSummaryStyle.table}>
           <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: ()=>{
-            return <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={renderShortStocksTable} 
+            return <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={(config)=>{
+              renderShortStocksTable(config, false)
+            }} 
               info={{
                 placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
                 tooltip: {
