@@ -27,7 +27,7 @@ import DefaultDataGridTable from '../defaultDataGridTable'
 import { NornFinanceAPIServerDomain, QueryNote, NornFinanceAPIServerGithub } from '../../common/common'
 import { getRedLevel, getBlueLevel, workdayCount } from '../../common/utils'
 import { useInterval, GetDataByFetchObj, NoMaxWidthTooltip, YahooFinanceUrl } from '../../common/reactUtils'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField } from '../../common/dataGridUtil'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ColorPosGreenNegRedField, ShortFloatLinkWithShowChartField } from '../../common/dataGridUtil'
 import { Options_Def, SelfQuery_Def } from '../../common/optionsDef'
 
 import MonteCarloChart from '../monteCarloChart'
@@ -158,7 +158,7 @@ const Options = ({loadingAnimeRef}) => {
     return [
       SymbolNameField('Symbol', 115, 'symbol' in hideColState ? hideColState['symbol'] : false),
       OptionPriceField("stockPrice", tableColList.StockPrice.text, 125, 2, "stockPrice" in hideColState ? hideColState["stockPrice"] : tableColList['StockPrice'].hide, "stock"),
-      PercentField("stockShortFloat", tableColList.StockShortFloat.text, 115, "stockShortFloat" in hideColState ? hideColState["stockShortFloat"] : tableColList['StockShortFloat'].hide),
+      ShortFloatLinkWithShowChartField("stockShortFloat", tableColList.StockShortFloat.text, 115, "stockShortFloat" in hideColState ? hideColState["stockShortFloat"] : tableColList['StockShortFloat'].hide),
       {
         field: 'expiryDate',
         headerName: tableColList.ExpiryDate.text,
