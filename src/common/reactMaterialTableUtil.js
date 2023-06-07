@@ -4,7 +4,6 @@ import Link from '@mui/material/Link'
 
 import { NoMaxWidthTooltip } from './reactUtils'
 import { FinvizUrl, YahooFinanceEnUrl } from './common'
-import { convertKMBT } from './utils'
 
 // export const YahooFinanceUrl = NavZhEnUrl(YahooFinanceZhUrl, YahooFinanceEnUrl)
 export const YahooFinanceUrl = YahooFinanceEnUrl

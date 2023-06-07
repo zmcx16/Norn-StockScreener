@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
 
-import { FinvizUrl, YahooFinanceEnUrl } from './common'
+import { FinvizUrl, YahooFinanceEnUrl, ShortSummaryRelLink } from './common'
 import { NoMaxWidthTooltip } from './reactUtils'
 import { convertKMBT } from './utils'
 
@@ -169,6 +169,27 @@ export function NameWithLinkField(field, headerName, width, linkKey, hide, align
   return output
 }
 
+export function ShortFloatLinkWithShowChartField(field, headerName, width, hide, description = null) {
+  let output = {
+    field: field,
+    headerName: headerName,
+    width: width,
+    type: 'number',
+    renderCell: (params) => (
+      params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN'  ?
+      <span>-</span> :      
+      <Link href={ShortSummaryRelLink + "?symbol=" + params.row["symbol"] + "&showChart=true"} target="_blank" rel="noreferrer noopener">
+        <span>{(params.value * 100).toFixed(2) + "%"}</span>
+      </Link>
+    ),
+    hide: hide
+  }
+  
+  if (description != null) {
+    output['description'] = description
+  }
+  return output
+}
 
 export function ColorNumberWithExtraInfoField(field, headerName, width, valueFixed, hide, description = null) {
   let output = {

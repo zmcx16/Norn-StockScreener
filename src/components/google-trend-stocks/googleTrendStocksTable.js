@@ -9,7 +9,7 @@ import moment from 'moment'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import StockAndTrendDataChart from './stockAndTrendDataChart'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, ShortFloatLinkWithShowChartField } from '../../common/dataGridUtil'
 import SearchGridToolbar from '../searchGridToolbar'
 import { GoogleTrendsUrl, GoogleTrendsTooltip } from '../../common/common'
 
@@ -140,7 +140,7 @@ const GoogleTrendStocksTable = ({ loadingAnimeRef }) => {
         hide: 'avgR' in hideColState ? hideColState['avgR'] : tableColList['AvgR'].hide
       },
       PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, "close" in hideColState ? hideColState["close"] : tableColList['Close'].hide),
-      PercentField("shortFloat", tableColList.ShortFloat.text, 150, "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide),
+      ShortFloatLinkWithShowChartField("shortFloat", tableColList.ShortFloat.text, 150, "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide),
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
       PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),

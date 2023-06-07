@@ -6,7 +6,7 @@ import useFetch from 'use-http'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, KMBTField } from '../../common/dataGridUtil'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, KMBTField, ShortFloatLinkWithShowChartField } from '../../common/dataGridUtil'
 import { FinvizUrl, DataromaUrl, ZacksUrl, InsidermonkeyUrl } from '../../common/common'
 import SearchGridToolbar from '../searchGridToolbar'
 
@@ -35,8 +35,10 @@ const InvestmentGurus = ({ loadingAnimeRef }) => {
       } else if (key === 'Close' || key === 'PE' || key === 'PB') {
         return PureFieldWithValueCheck(key, showColList[key].text, 110, 2, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else if (key === 'Dividend' || key === 'High52' || key === 'Low52' || 
-        key === 'PerfWeek' || key === 'PerfMonth' || key === 'PerfQuarter' || key === 'PerfHalfY' || key === 'PerfYear' || key === 'PerfYTD' || key === 'ShortFloat') {
+        key === 'PerfWeek' || key === 'PerfMonth' || key === 'PerfQuarter' || key === 'PerfHalfY' || key === 'PerfYear' || key === 'PerfYTD') {
         return PercentField(key, showColList[key].text, 150, key in hideColState ? hideColState[key] : showColList[key].hide)
+      } else if (key === 'ShortFloat') {
+        return ShortFloatLinkWithShowChartField(key, showColList[key].text, 110, 2, key in hideColState ? hideColState[key] : showColList[key].hide)
       } else {
         return KMBTField(key, showColList[key].text, 150, 2, key in hideColState ? hideColState[key] : showColList[key].hide)
       }

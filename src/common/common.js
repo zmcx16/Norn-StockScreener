@@ -14,6 +14,7 @@ export const NSSServerUrl = "https://zmcx16.moe"
 export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
 export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
 export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
+export const ShortSummaryRelLink = "/short-stocks-summary/"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 

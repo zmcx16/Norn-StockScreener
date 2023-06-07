@@ -15,7 +15,7 @@ import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 
 import { GetDataByFetchObj } from '../../common/reactUtils'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/dataGridUtil'
+import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, ShortFloatLinkWithShowChartField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/dataGridUtil'
 import { RankingDef } from '../../ranking/rankingDef'
 import SearchGridToolbar from '../searchGridToolbar'
 
@@ -71,7 +71,7 @@ const Ranking = ({loadingAnimeRef}) => {
       ColorPercentField("perfHalfY", tableColList.PerfHalfY.text, 150, 2, "perfHalfY" in hideColState ? hideColState["perfHalfY"] : tableColList['PerfHalfY'].hide, 500),
       ColorPercentField("perfYear", tableColList.PerfYear.text, 150, 2, "perfYear" in hideColState ? hideColState["perfYear"] : tableColList['PerfYear'].hide, 500),
       ColorPercentField("perfYTD", tableColList.PerfYTD.text, 150, 2, "perfYTD" in hideColState ? hideColState["perfYTD"] : tableColList['PerfYTD'].hide, 500),
-      PercentField("shortFloat", tableColList.ShortFloat.text, 150, "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide),
+      ShortFloatLinkWithShowChartField("shortFloat", tableColList.ShortFloat.text, 150, "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide),
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
       PureFieldWithValueCheck("PS", tableColList.PS.text, 110, 2, "PS" in hideColState ? hideColState["PS"] : tableColList['PS'].hide),
