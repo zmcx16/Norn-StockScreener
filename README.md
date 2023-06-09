@@ -7,6 +7,7 @@
 ![Build Badge](https://github.com/zmcx16/Norn-StockScreener/workflows/FetchInsidersdData/badge.svg)
 ![Build Badge](https://github.com/zmcx16/Norn-StockScreener/workflows/FetchGoogleTrendData/badge.svg)
 ![Build Badge](https://github.com/zmcx16/Norn-StockScreener/workflows/FetchGurusData/badge.svg)
+![Build Badge](https://github.com/zmcx16/Norn-StockScreener/workflows/ParseESGdData/badge.svg)
 
 Norn-StockScreener is an US stock screener. You can use it to scan and filter instruments based on market cap, dividend yield, ROE... base argument to get your target stocks, it also support some popular investment master's stock tactics to find valuable stocks. 
 
