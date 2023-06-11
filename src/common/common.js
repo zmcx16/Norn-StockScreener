@@ -32,6 +32,7 @@ export const pageRouterTable = [
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
   { text: 'Short Stocks Summary', path: '/short-stocks-summary/' },
+  { text: 'ESG Stocks Summary', path: '/esg-stocks-summary/' },
   { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
 ]
