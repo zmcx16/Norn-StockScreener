@@ -2,19 +2,21 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
+import Link from '@mui/material/Link'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import useFetch from 'use-http'
 import moment from 'moment'
 
+import { ESGLink, ESGTooltip } from '../../common/common'
 import StockAndESGDataChart from './stockAndESGDataChart'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import SearchGridToolbar from '../searchGridToolbar'
-import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
-import { NoMaxWidthTooltip } from '../../common/reactUtils'
+import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField, ShortFloatLinkWithShowChartField, YahooFinanceUrl } from '../../common/dataGridUtil'
 
 import esgStocksSummaryStyle from './esgStocksSummary.module.scss'
 import '../muiTablePagination.css'
+
 
 const ESGStocksSummary = ({ loadingAnimeRef }) => {
 
@@ -27,8 +29,22 @@ const ESGStocksSummary = ({ loadingAnimeRef }) => {
 
   const tableColList = {
     Close: { hide: false, text: 'Price' },
+    PeerGroup: { hide: true, text: 'Type' },
+    ESGLatest: { hide: false, text: 'ESG Latest' },
+    ESGAvg1Yr: { hide: false, text: 'ESG Avg 1Yr' },
+    ESGAvg3Yr: { hide: false, text: 'ESG Avg 3Yr' },
+    ESGAvg5Yr: { hide: false, text: 'ESG Avg 5Yr' },
+    ESGPeerLatest: { hide: false, text: 'Peer Latest' },
+    ESGPeerAvg1Yr: { hide: false, text: 'Peer Avg 1Yr' },
+    ESGPeerAvg3Yr: { hide: false, text: 'Peer Avg 3Yr' },
+    ESGPeerAvg5Yr: { hide: false, text: 'Peer Avg 5Yr' },
+    RatioLatest: { hide: false, text: 'Ratio Latest' },
+    RatioAvg1Yr: { hide: false, text: 'Ratio Avg 1Yr' },
+    RatioAvg3Yr: { hide: false, text: 'Ratio Avg 3Yr' },
+    RatioAvg5Yr: { hide: false, text: 'Ratio Avg 5Yr' },
     PE: { hide: false, text: 'P/E' },
     PB: { hide: false, text: 'P/B' },
+    ShortFloat: { hide: false, text: 'Short Float' },
     Dividend: { hide: false, text: 'Dividend %' },
     High52: { hide: false, text: '52W High' },
     Low52: { hide: false, text: '52W Low' },
@@ -68,12 +84,59 @@ const ESGStocksSummary = ({ loadingAnimeRef }) => {
     })
   }
 
+  const ESGRatioField = (field, headerName, width, hide, description = null) => {
+    let output = {
+      field: field,
+      headerName: headerName,
+      width: width,
+      type: 'number',
+      renderCell: (params) => (
+        params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
+          <span>-</span> :
+          <span style={{ fontWeight: 500, color: parseFloat(params.value) < 1 ? 'green' : parseFloat(params.value) >= -1 ? 'red' : '' }}>{params.value}</span>
+      ),
+      hide: hide
+    }
+    
+    if (description != null) {
+      output['description'] = description
+    }
+    return output
+  }
+
   const genTableColTemplate = () => {
     return [
       SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
       PriceField('close', tableColList.Close.text, 110, 'close' in hideColState ? hideColState['close'] : tableColList['Close'].hide, null, "yahoo"),
+      { field: 'peerGroup', headerName: 'PeerGroup', width: 155, hide: 'peerGroup' in hideColState ? hideColState['peerGroup'] : tableColList['PeerGroup'].hide },
+      {
+        field: "ESGLatest",
+        headerName: tableColList.ESGLatest.text,
+        width: 110,
+        type: 'number',
+        renderCell: (params) => (
+          params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
+            <span>-</span> :
+            <Link href={ YahooFinanceUrl + 'quote/' + params.row["symbol"] + '/sustainability'} target="_blank" rel="noreferrer noopener">
+              <span>{params.value.toFixed(2)}</span>
+            </Link>
+        ),
+        hide: "ESGLatest" in hideColState ? hideColState["ESGLatest"] : tableColList['ESGLatest'].hide
+      },
+      PureFieldWithValueCheck("ESGAvg1Yr", tableColList.ESGAvg1Yr.text, 110, 2, "ESGAvg1Yr" in hideColState ? hideColState["ESGAvg1Yr"] : tableColList['ESGAvg1Yr'].hide),
+      PureFieldWithValueCheck("ESGAvg3Yr", tableColList.ESGAvg3Yr.text, 110, 2, "ESGAvg3Yr" in hideColState ? hideColState["ESGAvg3Yr"] : tableColList['ESGAvg3Yr'].hide),
+      PureFieldWithValueCheck("ESGAvg5Yr", tableColList.ESGAvg5Yr.text, 110, 2, "ESGAvg5Yr" in hideColState ? hideColState["ESGLatest"] : tableColList['ESGAvg5Yr'].hide),
+      PureFieldWithValueCheck("ESGPeerLatest", tableColList.ESGPeerLatest.text, 110, 2, "ESGPeerLatest" in hideColState ? hideColState["ESGPeerLatest"] : tableColList['ESGPeerLatest'].hide),
+      PureFieldWithValueCheck("ESGPeerAvg1Yr", tableColList.ESGPeerAvg1Yr.text, 110, 2, "ESGPeerAvg1Yr" in hideColState ? hideColState["ESGPeerAvg1Yr"] : tableColList['ESGPeerAvg1Yr'].hide),
+      PureFieldWithValueCheck("ESGPeerAvg3Yr", tableColList.ESGPeerAvg3Yr.text, 110, 2, "ESGPeerAvg3Yr" in hideColState ? hideColState["ESGPeerAvg3Yr"] : tableColList['ESGPeerAvg3Yr'].hide),
+      PureFieldWithValueCheck("ESGPeerAvg5Yr", tableColList.ESGPeerAvg5Yr.text, 110, 2, "ESGPeerAvg5Yr" in hideColState ? hideColState["ESGPeerAvg5Yr"] : tableColList['ESGPeerAvg5Yr'].hide),
+      ESGRatioField("ratioLatest", tableColList.RatioLatest.text, 110, "ratioLatest" in hideColState ? hideColState["ratioLatest"] : tableColList['RatioLatest'].hide, "ESG Ratio Latest (ESG Latest / ESG Peer Latest)"),
+      ESGRatioField("ratioAvg1Yr", tableColList.RatioAvg1Yr.text, 110, "ratioAvg1Yr" in hideColState ? hideColState["ratioAvg1Yr"] : tableColList['RatioAvg1Yr'].hide, "ESG Ratio Avg 1Yr (ESG Avg 1Yr / ESG Peer Avg 1Yr)"),
+      ESGRatioField("ratioAvg3Yr", tableColList.RatioAvg3Yr.text, 110, "ratioAvg3Yr" in hideColState ? hideColState["ratioAvg3Yr"] : tableColList['RatioAvg3Yr'].hide, "ESG Ratio Avg 3Yr (ESG Avg 3Yr / ESG Peer Avg 3Yr)"),
+      ESGRatioField("ratioAvg5Yr", tableColList.RatioAvg5Yr.text, 110, "ratioAvg5Yr" in hideColState ? hideColState["ratioAvg5Yr"] : tableColList['RatioAvg5Yr'].hide, "ESG Ratio Avg 5Yr (ESG Avg 5Yr / ESG Peer Avg 5Yr)"),
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
+      ShortFloatLinkWithShowChartField("shortFloat", tableColList.ShortFloat.text, 150, "shortFloat" in hideColState ? hideColState["shortFloat"] : tableColList['ShortFloat'].hide),
       PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
       PercentField("high52", tableColList.High52.text, 150, "high52" in hideColState ? hideColState["high52"] : tableColList['High52'].hide),
       PercentField("low52", tableColList.Low52.text, 150, "low52" in hideColState ? hideColState["low52"] : tableColList['Low52'].hide),
@@ -119,8 +182,22 @@ const ESGStocksSummary = ({ loadingAnimeRef }) => {
             id: index,
             symbol: symbol,
             close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
+            peerGroup: 'peerGroup' in value && value['peerGroup'] !== '-' ? value['peerGroup'] : '-',
+            ESGLatest: 'esg-latest' in value && value['esg-latest'] !== '-' ? value['esg-latest'] : -Number.MAX_VALUE,
+            ESGAvg1Yr: 'esg-avg-1yr' in value && value['esg-avg-1yr'] !== '-' ? value['esg-avg-1yr'] : -Number.MAX_VALUE,
+            ESGAvg3Yr: 'esg-avg-3yr' in value && value['esg-avg-3yr'] !== '-' ? value['esg-avg-3yr'] : -Number.MAX_VALUE,
+            ESGAvg5Yr: 'esg-avg-5yr' in value && value['esg-avg-5yr'] !== '-' ? value['esg-avg-5yr'] : -Number.MAX_VALUE,
+            ESGPeerLatest: 'esg-peer-latest' in value && value['esg-peer-latest'] !== '-' ? value['esg-peer-latest'] : -Number.MAX_VALUE,
+            ESGPeerAvg1Yr: 'esg-peer-avg-1yr' in value && value['esg-peer-avg-1yr'] !== '-' ? value['esg-peer-avg-1yr'] : -Number.MAX_VALUE,
+            ESGPeerAvg3Yr: 'esg-peer-avg-3yr' in value && value['esg-peer-avg-3yr'] !== '-' ? value['esg-peer-avg-3yr'] : -Number.MAX_VALUE,
+            ESGPeerAvg5Yr: 'esg-peer-avg-5yr' in value && value['esg-peer-avg-5yr'] !== '-' ? value['esg-peer-avg-5yr'] : -Number.MAX_VALUE,
+            ratioLatest: 'ratio-latest' in value && value['ratio-latest'] !== '-' ? value['ratio-latest'] : -Number.MAX_VALUE,
+            ratioAvg1Yr: 'ratio-avg-1yr' in value && value['ratio-avg-1yr'] !== '-' ? value['ratio-avg-1yr'] : -Number.MAX_VALUE,
+            ratioAvg3Yr: 'ratio-avg-3yr' in value && value['ratio-avg-3yr'] !== '-' ? value['ratio-avg-3yr'] : -Number.MAX_VALUE,
+            ratioAvg5Yr: 'ratio-avg-5yr' in value && value['ratio-avg-5yr'] !== '-' ? value['ratio-avg-5yr'] : -Number.MAX_VALUE,
             PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
             PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
+            shortFloat: stockInfo !== undefined && stockInfo !== null && stockInfo['Short Float'] !== '-' ? stockInfo['Short Float'] : -Number.MAX_VALUE,
             dividend: stockInfo !== undefined && stockInfo !== null && stockInfo['Dividend %'] !== '-' ? stockInfo['Dividend %'] : -Number.MAX_VALUE,
             high52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W High'] !== '-' ? stockInfo['52W High'] : -Number.MAX_VALUE,
             low52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W Low'] !== '-' ? stockInfo['52W Low'] : -Number.MAX_VALUE,
@@ -183,6 +260,10 @@ const ESGStocksSummary = ({ loadingAnimeRef }) => {
             }} 
               info={{
                 placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
+                tooltip: {
+                  text: ESGTooltip,
+                  link: ESGLink
+                }
               }}
             />
           }}} disableSelectionOnClick onColumnVisibilityChange={(param) => {

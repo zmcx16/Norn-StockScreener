@@ -15,6 +15,7 @@ export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
 export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
 export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
 export const ShortSummaryRelLink = "/short-stocks-summary/"
+export const ESGLink = 'https://www.sustainalytics.com/esg-ratings'
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
@@ -57,3 +58,4 @@ try to build your server from Github source code as follow:
 
 export const ShortStockDataSourceTooltip = `Short Data Source: FINRA Equity Short Interest Data`
 export const GoogleTrendsTooltip = `See how Google Trends is being used across the world, by newsrooms, charities, and more.`
+export const ESGTooltip = `ESG Risk Ratings available for sustainability risk management. Identify, understand and manage your environmental, social and governance risks.`
