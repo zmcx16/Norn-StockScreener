@@ -68,14 +68,57 @@ const ESGStocksSummary = ({ loadingAnimeRef }) => {
   }
 
   const renderShowChart = (symbol)=> {
-    console.log(symbol)
     Promise.all([
-      getData("/norn-data/stock/historical-quotes/" + symbol+".json", fetchStockData),
       getData("/norn-data/esg/data/esgChart/" + symbol+".json", fetchESGData),
     ]).then((allResponses) => {
       // console.log(allResponses)
-      if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
-        modalWindowRef.current.popModalWindow(<StockAndESGDataChart title={""} data={[]} />)
+      if (allResponses.length === 1 && allResponses[0] !== null) {
+        let startDate = new Date(Date.now() - 365*5*24*60*60*1000)
+        if (startDate < new Date(2020,1,1)) {  // The ESG score benchmark was modified on 2020/01/01
+          startDate = new Date(2020,1,1)
+        }
+        let allDateByKey = {}
+        const convertESGData2DictByDate = (timestamps, datas, key) => {
+          if ((timestamps && !Array.isArray(timestamps)) || (datas && !Array.isArray(datas))) {
+            console.log("timestamp or data is not array")
+            return
+          }
+          timestamps.forEach((timestamp, index) => {
+            let date = Date.parse(new Date(timestamp*1000).toLocaleDateString()) // align timezone
+            if (date < startDate) {
+              return
+            }
+            if (!(date in allDateByKey)) {
+              allDateByKey[date] = {}
+            }
+            allDateByKey[date][key] = datas[index]
+          })
+        }
+        let esgData = allResponses[0]["data"]["esgChart"]["result"][0]
+        let peerGroup = esgData["peerGroup"]
+        let esgDict = {}
+        esgDict[symbol + "_esgScore"] = {timestamps: esgData["symbolSeries"]["timestamp"], datas: esgData["symbolSeries"]["esgScore"]}
+        esgDict[peerGroup + "_esgScore"] = {timestamps: esgData["peerSeries"]["timestamp"], datas: esgData["peerSeries"]["esgScore"]}
+
+        Object.keys(esgDict).forEach((key) => {
+          convertESGData2DictByDate(esgDict[key].timestamps, esgDict[key].datas, key)
+        })
+
+        console.log(allDateByKey)
+        let allDataArray = []
+        let targetKeys = Object.keys(esgDict)
+        console.log(targetKeys)
+        Object.keys(allDateByKey).sort().forEach((key) => {
+          let o = { Date: moment(parseInt(key)).format('MM/DD/YYYY') }
+          targetKeys.forEach((val) => {
+            if (val in allDateByKey[key]) {
+              o[val] = allDateByKey[key][val]
+            }
+          })
+          allDataArray.push(o)
+        })
+        console.log(allDataArray)
+        modalWindowRef.current.popModalWindow(<StockAndESGDataChart symbol={symbol} peerGroup={peerGroup} data={allDataArray} />)
       } else {
         modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
       }
