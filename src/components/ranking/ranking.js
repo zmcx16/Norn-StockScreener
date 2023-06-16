@@ -21,7 +21,6 @@ import SearchGridToolbar from '../searchGridToolbar'
 
 import commonStyle from '../common.module.scss'
 import rankingStyle from './ranking.module.scss'
-import { object } from 'prop-types'
 
 
 const Ranking = ({loadingAnimeRef}) => {

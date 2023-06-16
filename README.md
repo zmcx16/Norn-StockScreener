@@ -148,6 +148,13 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-short-stock1.png">
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-short-stock2.png">
   </blockquote></details>
+  <details><summary>ESG Stocks Summary (https://norn-stockscreener.zmcx16.moe/esg-stocks-summary/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-esg1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-esg2.png">
+  </blockquote></details>
+  <details><summary>Stock Price Simulation (https://norn-stockscreener.zmcx16.moe/stock-price-simulation/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-stock-simulation.png">
+  </blockquote></details>
   <details><summary>Market Correlation Matrix (https://norn-stockscreener.zmcx16.moe/market-correlation-matrix/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-market-correlation-matrix.png">
   </blockquote></details>

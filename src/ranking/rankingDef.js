@@ -1,3 +1,4 @@
+import { ESGLink, ESGTooltip } from '../common/common'
 import { NavZhEnUrl } from '../common/utils'
 import { EPSGrowthTagsDict } from '../common/tagsDef'
 import { interbrand_BestGlobalBrands2022 } from './data/interbrand_BestGlobalBrands2022'
@@ -34,8 +35,8 @@ export const RankingDef = [
     {
         name: 'ESG_Sustainalytics',
         display_name: 'Sustainalytics - Company ESG Risk Ratings',
-        description: `ESG Risk Ratings available for sustainability risk management. Identify, understand and manage your environmental, social and governance risks.`,
-        link: 'https://www.sustainalytics.com/esg-ratings',
+        description: ESGTooltip,
+        link: ESGLink,
         tags: {},
         data: "/norn-data/ranking/esg.json"
     },
