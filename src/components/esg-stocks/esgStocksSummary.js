@@ -91,7 +91,13 @@ const ESGStocksSummary = ({ loadingAnimeRef }) => {
             if (!(date in allDateByKey)) {
               allDateByKey[date] = {}
             }
-            allDateByKey[date][key] = datas[index]
+
+            let data = datas[index]
+            if (typeof data === "number") {
+              data = parseFloat(data.toFixed(2))
+            }
+            // convert to float
+            allDateByKey[date][key] = data
           })
         }
         let esgData = allResponses[0]["data"]["esgChart"]["result"][0]
