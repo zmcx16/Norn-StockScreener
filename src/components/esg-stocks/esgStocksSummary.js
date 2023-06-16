@@ -98,8 +98,13 @@ const ESGStocksSummary = ({ loadingAnimeRef }) => {
         let peerGroup = esgData["peerGroup"]
         let esgDict = {}
         esgDict[symbol + "_esgScore"] = {timestamps: esgData["symbolSeries"]["timestamp"], datas: esgData["symbolSeries"]["esgScore"]}
+        esgDict[symbol + "_governanceScore"] = {timestamps: esgData["symbolSeries"]["timestamp"], datas: esgData["symbolSeries"]["governanceScore"]}
+        esgDict[symbol + "_environmentScore"] = {timestamps: esgData["symbolSeries"]["timestamp"], datas: esgData["symbolSeries"]["environmentScore"]}
+        esgDict[symbol + "_socialScore"] = {timestamps: esgData["symbolSeries"]["timestamp"], datas: esgData["symbolSeries"]["socialScore"]}
         esgDict[peerGroup + "_esgScore"] = {timestamps: esgData["peerSeries"]["timestamp"], datas: esgData["peerSeries"]["esgScore"]}
-
+        esgDict[peerGroup + "_governanceScore"] = {timestamps: esgData["peerSeries"]["timestamp"], datas: esgData["peerSeries"]["governanceScore"]}
+        esgDict[peerGroup + "_environmentScore"] = {timestamps: esgData["peerSeries"]["timestamp"], datas: esgData["peerSeries"]["environmentScore"]}
+        esgDict[peerGroup + "_socialScore"] = {timestamps: esgData["peerSeries"]["timestamp"], datas: esgData["peerSeries"]["socialScore"]} 
         Object.keys(esgDict).forEach((key) => {
           convertESGData2DictByDate(esgDict[key].timestamps, esgDict[key].datas, key)
         })
