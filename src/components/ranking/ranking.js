@@ -15,7 +15,7 @@ import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 
 import { GetDataByFetchObj } from '../../common/reactUtils'
-import { SymbolNameField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, ShortFloatLinkWithShowChartField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/dataGridUtil'
+import { SymbolNameWithDetailLinkField, PureFieldWithValueCheck, PercentField, ColorPercentField, NameWithLinkField, ShortFloatLinkWithShowChartField, KMBTField, ColorNumberWithExtraInfoField } from '../../common/dataGridUtil'
 import { RankingDef } from '../../ranking/rankingDef'
 import SearchGridToolbar from '../searchGridToolbar'
 
@@ -59,7 +59,7 @@ const Ranking = ({loadingAnimeRef}) => {
       ColorNumberWithExtraInfoField("rank", tableColList.Rank.text, 90, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
       //PureFieldWithValueCheck("rank", tableColList.Rank.text, 60, 0, "rank" in hideColState ? hideColState["rank"] : tableColList['Rank'].hide),
       NameWithLinkField('name', 'Name', 150, 'link', 'name' in hideColState ? hideColState['name'] : tableColList['Name'].hide, 'left'),
-      SymbolNameField('Symbol', 110, 'symbol' in hideColState ? hideColState['symbol'] : tableColList['Symbol'].hide, null, "yahoo"),
+      SymbolNameWithDetailLinkField('Symbol', 110, 'symbol' in hideColState ? hideColState['symbol'] : tableColList['Symbol'].hide, null, "yahoo", RankingDef[arg].symbol_detail),
       KMBTField("marketCap", tableColList.MarketCap.text, 130, 2, "marketCap" in hideColState ? hideColState["marketCap"] : tableColList['MarketCap'].hide),
       PureFieldWithValueCheck("close", tableColList.Close.text, 110, 2, "close" in hideColState ? hideColState["close"] : tableColList['Close'].hide),
       PercentField("high52", tableColList.High52.text, 150, "high52" in hideColState ? hideColState["high52"] : tableColList['High52'].hide),

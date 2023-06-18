@@ -1,6 +1,8 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
 import Link from '@mui/material/Link'
+import IconButton from '@mui/material/IconButton'
+import TravelExploreIcon from '@mui/icons-material/TravelExplore'
 
 import { FinvizUrl, YahooFinanceEnUrl, ShortSummaryRelLink } from './common'
 import { NoMaxWidthTooltip } from './reactUtils'
@@ -111,14 +113,29 @@ export function ColorPercentField(field, headerName, width, valueFixed, hide, fo
 }
 
 export function SymbolNameField(headerName, width, hide, description = null, source="") {
+  return SymbolNameWithDetailLinkField(headerName, width, hide, description, source, "")
+}
+
+export function SymbolNameWithDetailLinkField(headerName, width, hide, description = null, source="", detail_link="") {
+  let show_detail_link = detail_link !== ""
+  
   let output = {
     field: "symbol",
     headerName: headerName,
+    align: show_detail_link ? 'right' : 'left',
     width: width,
     renderCell: (params) => (
-      <Link href={ source=="yahoo" ? YahooFinanceUrl + 'quote/' + params.value : FinvizUrl + 'quote.ashx?t=' + params.value} target="_blank" rel="noreferrer noopener">
-        <span>{params.value}</span>
-      </Link>
+      <>
+        <Link href={ source=="yahoo" ? YahooFinanceUrl + 'quote/' + params.value : FinvizUrl + 'quote.ashx?t=' + params.value} target="_blank" rel="noreferrer noopener">
+          <span>{params.value}</span>
+        </Link>
+        {
+          show_detail_link ?       
+          <IconButton onClick={() => window.open(detail_link.replace("{symbol}", params.value), "_blank")}>
+            <TravelExploreIcon color="action"/>
+          </IconButton> : <></>   
+        }
+      </>
     ),
     hide: hide
   }

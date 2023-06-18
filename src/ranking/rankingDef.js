@@ -14,7 +14,8 @@ export const RankingDef = [
         description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,
         link: 'https://interbrand.com/best-global-brands/',
         tags: {},
-        data: interbrand_BestGlobalBrands2022
+        data: interbrand_BestGlobalBrands2022,
+        symbol_detail: ''
     },    
     {
         name: 'Clarivate_GlobalInnovators2023',
@@ -22,7 +23,8 @@ export const RankingDef = [
         description: `Clarivate is a global leader in providing trusted insights and analytics to accelerate the pace of innovation. The vision is to improve the way the world creates, protects and advances innovation.`,
         link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/top-100-innovators/?clv-award-year=2023', 'https://clarivate.com/top-100-innovators/top-100-innovators/?clv-award-year=2023'),
         tags: {},
-        data: Clarivate_GlobalInnovators2023
+        data: Clarivate_GlobalInnovators2023,
+        symbol_detail: ''
     },
     {
         name: 'Gartner_SupplyChain2022',
@@ -30,7 +32,8 @@ export const RankingDef = [
         description: `Gartner provides actionable insights, guidance, and tools that enable faster, smarter decisions and stronger performance on an organization’s mission-critical priorities.`,
         link: 'https://www.gartner.com/en/supply-chain/research/supply-chain-top-25',
         tags: {},
-        data: Gartner_SupplyChain2022
+        data: Gartner_SupplyChain2022,
+        symbol_detail: ''
     },
     {
         name: 'ESG_Sustainalytics',
@@ -38,7 +41,8 @@ export const RankingDef = [
         description: ESGTooltip,
         link: ESGLink,
         tags: {},
-        data: "/norn-data/ranking/esg.json"
+        data: "/norn-data/ranking/esg.json",
+        symbol_detail: '/esg-stocks-summary/?symbol={symbol}&showChart=true'
     },
     {
         name: 'YahooFinance_Recommendation',
@@ -46,7 +50,8 @@ export const RankingDef = [
         description: `Yahoo Finance Stock Analyst Ratings.`,
         link: 'https://finance.yahoo.com',
         tags: {},
-        data: "/norn-data/ranking/recommendation.json"
+        data: "/norn-data/ranking/recommendation.json",
+        symbol_detail: ''
     },
     {
         name: 'EPS_Growth_Analysis',
@@ -54,7 +59,8 @@ export const RankingDef = [
         description: `Yahoo Finance Earnings Growth`,
         link: 'https://finance.yahoo.com',
         tags: EPSGrowthTagsDict,
-        data: "/norn-data/ranking/eps_analysis.json"
+        data: "/norn-data/ranking/eps_analysis.json",
+        symbol_detail: ''
     },
     {
         name: 'EPS_Growth_Financials',
@@ -62,7 +68,8 @@ export const RankingDef = [
         description: `Yahoo Finance Earnings Growth`,
         link: 'https://finance.yahoo.com',
         tags: EPSGrowthTagsDict,
-        data: "/norn-data/ranking/eps_financials.json"
+        data: "/norn-data/ranking/eps_financials.json",
+        symbol_detail: ''
     },
     {
         name: 'Interbrand_BestGlobalBrands2021',
@@ -70,7 +77,8 @@ export const RankingDef = [
         description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,
         link: 'https://interbrand.com/best-global-brands/',
         tags: {},
-        data: interbrand_BestGlobalBrands2021
+        data: interbrand_BestGlobalBrands2021,
+        symbol_detail: ''
     },
     {
         name: 'Clarivate_GlobalInnovators2022',
@@ -78,6 +86,7 @@ export const RankingDef = [
         description: `Clarivate is a global leader in providing trusted insights and analytics to accelerate the pace of innovation. The vision is to improve the way the world creates, protects and advances innovation.`,
         link: NavZhEnUrl('https://clarivate.com/zh-hant/top-100-innovators/top-100-innovators/?clv-award-year=2022', 'https://clarivate.com/top-100-innovators/top-100-innovators/?clv-award-year=2022'),
         tags: {},
-        data: Clarivate_GlobalInnovators2022
+        data: Clarivate_GlobalInnovators2022,
+        symbol_detail: ''
     },
   ]
