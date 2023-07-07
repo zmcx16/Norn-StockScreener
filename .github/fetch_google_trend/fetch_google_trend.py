@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 google_trend_api_list = os.environ.get("GOOGLE_TREND_API_LIST", "")
 afscreener_url = os.environ.get("AF_URL", "")
 afscreener_token = os.environ.get("AF_TOKEN", "")
-DELAY_TIME_SEC = 10
+DELAY_TIME_SEC = 20
 RETRY_THRESHOLD = 5
 
 class GoogleAPIThread(threading.Thread):
