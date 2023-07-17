@@ -16,6 +16,7 @@ export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
 export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"
 export const ShortSummaryRelLink = "/short-stocks-summary/"
 export const ESGLink = 'https://www.sustainalytics.com/esg-ratings'
+export const DividendChampionsUrl = "https://moneyzine.com/investments/dividend-champions/"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
@@ -33,6 +34,7 @@ export const pageRouterTable = [
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
   { text: 'Short Stocks Summary', path: '/short-stocks-summary/' },
+  { text: 'Dividend Champions', path: '/dividend-champions/' },
   { text: 'ESG Stocks Summary', path: '/esg-stocks-summary/' },
   { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
@@ -59,3 +61,8 @@ try to build your server from Github source code as follow:
 export const ShortStockDataSourceTooltip = `Short Data Source: FINRA Equity Short Interest Data`
 export const GoogleTrendsTooltip = `See how Google Trends is being used across the world, by newsrooms, charities, and more.`
 export const ESGTooltip = `ESG Risk Ratings available for sustainability risk management. Identify, understand and manage your environmental, social and governance risks.`
+export const DividendChampionsTooltip = 
+`Dividend Champions are companies that have increased their dividend every year for the past 25 years.
+Contenders have increased their dividend for the past 10 years, and Challengers the past five years.
+The idea for the spreadsheet was created in 2008 by Dave Fish (deceased in 2018),
+and is now available and updated every Friday afternoon at Dividend Radar.`
