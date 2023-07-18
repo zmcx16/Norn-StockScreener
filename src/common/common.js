@@ -66,3 +66,5 @@ export const DividendChampionsTooltip =
 Contenders have increased their dividend for the past 10 years, and Challengers the past five years.
 The idea for the spreadsheet was created in 2008 by Dave Fish (deceased in 2018),
 and is now available and updated every Friday afternoon at Dividend Radar.`
+export const DividendDRGDescription = 
+`Dividend Growth: CAGRs are calculated using trailing twelve months`

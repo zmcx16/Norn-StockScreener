@@ -5,14 +5,14 @@ import IconButton from '@mui/material/IconButton'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import useFetch from 'use-http'
 import moment from 'moment'
+import Link from '@mui/material/Link'
 
 import DividendChart from './dividendChart'
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import SearchGridToolbar from '../searchGridToolbar'
-import { DividendChampionsUrl, DividendChampionsTooltip } from '../../common/common'
+import { DividendChampionsUrl, DividendChampionsTooltip, DividendDRGDescription } from '../../common/common'
 import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
-import { NoMaxWidthTooltip } from '../../common/reactUtils'
 
 import dividendChampionsStyle from './dividendChampions.module.scss'
 import '../muiTablePagination.css'
@@ -32,6 +32,13 @@ const DividendChampions = ({ loadingAnimeRef }) => {
     PE: { hide: false, text: 'P/E' },
     PB: { hide: false, text: 'P/B' },
     Dividend: { hide: false, text: 'Dividend %' },
+    AvgYield5Y: { hide: false, text: 'Dividend %(5Y)' },
+    NoYears: { hide: false, text: 'No Years' },
+    DGR1Y: { hide: false, text: 'DGR 1Y' },
+    DGR3Y: { hide: false, text: 'DGR 3Y' },
+    DGR5Y: { hide: false, text: 'DGR 5Y' },
+    DGR10Y: { hide: false, text: 'DGR 10Y' },
+    ExDividendDate: { hide: false, text: 'Ex-Dividend Date' },
     High52: { hide: false, text: '52W High' },
     Low52: { hide: false, text: '52W Low' },
     PerfWeek: { hide: false, text: 'Perf Week' },
@@ -77,6 +84,24 @@ const DividendChampions = ({ loadingAnimeRef }) => {
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
       PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
+      PercentField("avgYield5Y", tableColList.AvgYield5Y.text, 150, "avgYield5Y" in hideColState ? hideColState["avgYield5Y"] : tableColList['AvgYield5Y'].hide),
+      PureFieldWithValueCheck("noYears", tableColList.NoYears.text, 110, 0, "noYears" in hideColState ? hideColState["noYears"] : tableColList['NoYears'].hide),
+      ColorPercentField("DGR1Y", tableColList.DGR1Y.text, 150, 2, "DGR1Y" in hideColState ? hideColState["DGR1Y"] : tableColList['DGR1Y'].hide, DividendDRGDescription),
+      ColorPercentField("DGR3Y", tableColList.DGR3Y.text, 150, 2, "DGR3Y" in hideColState ? hideColState["DGR3Y"] : tableColList['DGR3Y'].hide, DividendDRGDescription),
+      ColorPercentField("DGR5Y", tableColList.DGR5Y.text, 150, 2, "DGR5Y" in hideColState ? hideColState["DGR5Y"] : tableColList['DGR5Y'].hide, DividendDRGDescription),
+      ColorPercentField("DGR10Y", tableColList.DGR10Y.text, 150, 2, "DGR10Y" in hideColState ? hideColState["DGR10Y"] : tableColList['DGR10Y'].hide, DividendDRGDescription),
+      {
+        field: 'exDividendDate',
+        headerName: tableColList.ExDividendDate.text,
+        width: 130,
+        renderCell: (params) => (
+          'exDividendLink' in params.row && params.row['exDividendLink'] != "" && params.row['exDividendLink'] != "-" ?       
+          <Link href={params.row['exDividendLink']} target="_blank" rel="noreferrer noopener">
+            <span style={{color: params.row['exDividendDateColor']}}>{params.value}</span>
+          </Link> : <span>{params.value}</span>
+        ),
+        hide: 'exDividendDate' in hideColState ? hideColState['exDividendDate'] : tableColList['ExDividendDate'].hide
+      },
       PercentField("high52", tableColList.High52.text, 150, "high52" in hideColState ? hideColState["high52"] : tableColList['High52'].hide),
       PercentField("low52", tableColList.Low52.text, 150, "low52" in hideColState ? hideColState["low52"] : tableColList['Low52'].hide),
       ColorPercentField("perfWeek", tableColList.PerfWeek.text, 150, 2, "perfWeek" in hideColState ? hideColState["perfWeek"] : tableColList['PerfWeek'].hide, 500),
@@ -130,7 +155,15 @@ const DividendChampions = ({ loadingAnimeRef }) => {
             close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
             PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
             PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
-            dividend: stockInfo !== undefined && stockInfo !== null && stockInfo['Dividend %'] !== '-' ? stockInfo['Dividend %'] : -Number.MAX_VALUE,
+            dividend: championsValue !== undefined && championsValue !== null && championsValue['Div Yield'] !== '-' ? championsValue['Div Yield'] / 100.0 : -Number.MAX_VALUE,
+            noYears: championsValue !== undefined && championsValue !== null && championsValue['No Years'] !== '-' ? championsValue['No Years'] : -Number.MAX_VALUE,
+            avgYield5Y: championsValue !== undefined && championsValue !== null && championsValue['5Y Avg Yield'] !== '-' ? championsValue['5Y Avg Yield'] / 100.0 : -Number.MAX_VALUE,
+            DGR1Y: championsValue !== undefined && championsValue !== null && championsValue['DGR 1Y'] !== '-' ? championsValue['DGR 1Y'] / 100.0 : -Number.MAX_VALUE,
+            DGR3Y: championsValue !== undefined && championsValue !== null && championsValue['DGR 3Y'] !== '-' ? championsValue['DGR 3Y'] / 100.0 : -Number.MAX_VALUE,
+            DGR5Y: championsValue !== undefined && championsValue !== null && championsValue['DGR 5Y'] !== '-' ? championsValue['DGR 5Y'] / 100.0 : -Number.MAX_VALUE,
+            DGR10Y: championsValue !== undefined && championsValue !== null && championsValue['DGR 10Y'] !== '-' ? championsValue['DGR 10Y'] / 100.0 : -Number.MAX_VALUE,
+            exDividendLink: dividendDate["link"],
+            exDividendDate: dividendDate["ex_dividend_date"],
             high52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W High'] !== '-' ? stockInfo['52W High'] : -Number.MAX_VALUE,
             low52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W Low'] !== '-' ? stockInfo['52W Low'] : -Number.MAX_VALUE,
             perfWeek: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Week'] !== '-' ? stockInfo['Perf Week'] : -Number.MAX_VALUE,
