@@ -68,7 +68,23 @@ const DividendChampions = ({ loadingAnimeRef }) => {
       // console.log(allResponses)
       if (allResponses.length === 1 && allResponses[0] !== null) {
         const title = `${symbol} Chart`
-        modalWindowRef.current.popModalWindow(<DividendChart title={title} data={[]} />)
+        let dividendCloseData = []
+        let closeVolumeData = []
+        allResponses[0]["data"].forEach(e => {
+          if ("Dividends" in e) {
+            dividendCloseData.push({
+              Date: e["date"],
+              EstimateDividendsYield: parseFloat((e["Dividends"] * 100 * 4 / e["Close"]).toFixed(2)),
+              Dividends: e["Dividends"],
+            })
+          }
+          closeVolumeData.push({
+            Date: e["date"],
+            Close: parseFloat(e["Close"].toFixed(2)),
+            Volume: e["Volume"],
+          })
+        })
+        modalWindowRef.current.popModalWindow(<DividendChart title={title} dividendCloseData={dividendCloseData} closeVolumeData={closeVolumeData} />)
       } else {
         modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
       }
