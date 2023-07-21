@@ -61,7 +61,6 @@ const DividendChampions = ({ loadingAnimeRef }) => {
   }
 
   const renderShowChart = (symbol, payoutsYear)=> {
-    console.log(symbol)
     Promise.all([
       getData("/norn-data/dividend/historical-quotes/" + symbol+".json", fetchShortData),
     ]).then((allResponses) => {
@@ -102,10 +101,10 @@ const DividendChampions = ({ loadingAnimeRef }) => {
       PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
       PercentField("avgYield5Y", tableColList.AvgYield5Y.text, 150, "avgYield5Y" in hideColState ? hideColState["avgYield5Y"] : tableColList['AvgYield5Y'].hide),
       PureFieldWithValueCheck("noYears", tableColList.NoYears.text, 110, 0, "noYears" in hideColState ? hideColState["noYears"] : tableColList['NoYears'].hide),
-      ColorPercentField("DGR1Y", tableColList.DGR1Y.text, 150, 2, "DGR1Y" in hideColState ? hideColState["DGR1Y"] : tableColList['DGR1Y'].hide, DividendDRGDescription),
-      ColorPercentField("DGR3Y", tableColList.DGR3Y.text, 150, 2, "DGR3Y" in hideColState ? hideColState["DGR3Y"] : tableColList['DGR3Y'].hide, DividendDRGDescription),
-      ColorPercentField("DGR5Y", tableColList.DGR5Y.text, 150, 2, "DGR5Y" in hideColState ? hideColState["DGR5Y"] : tableColList['DGR5Y'].hide, DividendDRGDescription),
-      ColorPercentField("DGR10Y", tableColList.DGR10Y.text, 150, 2, "DGR10Y" in hideColState ? hideColState["DGR10Y"] : tableColList['DGR10Y'].hide, DividendDRGDescription),
+      ColorPercentField("DGR1Y", tableColList.DGR1Y.text, 150, 2, "DGR1Y" in hideColState ? hideColState["DGR1Y"] : tableColList['DGR1Y'].hide, 500, DividendDRGDescription),
+      ColorPercentField("DGR3Y", tableColList.DGR3Y.text, 150, 2, "DGR3Y" in hideColState ? hideColState["DGR3Y"] : tableColList['DGR3Y'].hide, 500, DividendDRGDescription),
+      ColorPercentField("DGR5Y", tableColList.DGR5Y.text, 150, 2, "DGR5Y" in hideColState ? hideColState["DGR5Y"] : tableColList['DGR5Y'].hide, 500, DividendDRGDescription),
+      ColorPercentField("DGR10Y", tableColList.DGR10Y.text, 150, 2, "DGR10Y" in hideColState ? hideColState["DGR10Y"] : tableColList['DGR10Y'].hide, 500, DividendDRGDescription),
       {
         field: 'exDividendDate',
         headerName: tableColList.ExDividendDate.text,
