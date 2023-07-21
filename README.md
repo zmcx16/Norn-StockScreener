@@ -148,6 +148,10 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-short-stock1.png">
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-short-stock2.png">
   </blockquote></details>
+  <details><summary>Dividend Champions (https://norn-stockscreener.zmcx16.moe/dividend-champions/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-dividend1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-dividend2.png">
+  </blockquote></details>
   <details><summary>ESG Stocks Summary (https://norn-stockscreener.zmcx16.moe/esg-stocks-summary/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-esg1.png">
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-esg2.png">
@@ -170,9 +174,11 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Zacks (https://www.zacks.com/)
   * Insider Monkey (https://www.insidermonkey.com/)
   * Shares Outstanding History (https://sharesoutstandinghistory.com/)
-  * Interbrand 2021 Best Global Brands (https://interbrand.com/best-global-brands/)
-  * Clarivate 2022 Top 100 Global Innovators (https://clarivate.com/zh-hant/top-100-innovators/the-top-100/)
+  * Interbrand Best Global Brands (https://interbrand.com/best-global-brands/)
+  * Clarivate Top 100 Global Innovators (https://clarivate.com/zh-hant/top-100-innovators/the-top-100/)
   * FINRA (https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data)
+  * Moneyzine - Latest Dividend Champions List (https://moneyzine.com/investments/dividend-champions/)
+  * Dividend.com - EX-DATE (https://www.dividend.com/)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
 # Terms of Service
