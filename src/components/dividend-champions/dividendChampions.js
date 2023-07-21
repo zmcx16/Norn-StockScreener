@@ -60,7 +60,7 @@ const DividendChampions = ({ loadingAnimeRef }) => {
     }
   }
 
-  const renderShowChart = (symbol)=> {
+  const renderShowChart = (symbol, payoutsYear)=> {
     console.log(symbol)
     Promise.all([
       getData("/norn-data/dividend/historical-quotes/" + symbol+".json", fetchShortData),
@@ -74,7 +74,7 @@ const DividendChampions = ({ loadingAnimeRef }) => {
           if ("Dividends" in e) {
             dividendCloseData.push({
               Date: e["date"],
-              EstimateDividendsYield: parseFloat((e["Dividends"] * 100 * 4 / e["Close"]).toFixed(2)),
+              EstimateDividendsYield: parseFloat((e["Dividends"] * 100 * payoutsYear / e["Close"]).toFixed(2)),
               Dividends: e["Dividends"],
             })
           }
@@ -135,7 +135,7 @@ const DividendChampions = ({ loadingAnimeRef }) => {
             size="small"
             aria-haspopup="true"
             onClick={()=>{
-              renderShowChart(params.row["symbol"])
+              renderShowChart(params.row["symbol"], params.row["payoutsYear"])
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
@@ -180,6 +180,7 @@ const DividendChampions = ({ loadingAnimeRef }) => {
             DGR10Y: championsValue !== undefined && championsValue !== null && championsValue['DGR 10Y'] !== '-' ? championsValue['DGR 10Y'] / 100.0 : -Number.MAX_VALUE,
             exDividendLink: dividendDate["link"],
             exDividendDate: dividendDate["ex_dividend_date"],
+            payoutsYear: championsValue !== undefined && championsValue !== null && championsValue['Payouts/ Year'] !== '-' ? championsValue['Payouts/ Year'] : 4,
             high52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W High'] !== '-' ? stockInfo['52W High'] : -Number.MAX_VALUE,
             low52: stockInfo !== undefined && stockInfo !== null && stockInfo['52W Low'] !== '-' ? stockInfo['52W Low'] : -Number.MAX_VALUE,
             perfWeek: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Week'] !== '-' ? stockInfo['Perf Week'] : -Number.MAX_VALUE,
@@ -198,7 +199,7 @@ const DividendChampions = ({ loadingAnimeRef }) => {
         console.log(output)
         setRowData(output)
         if (showChart) {
-          renderShowChart(output[0]["symbol"])
+          renderShowChart(output[0]["symbol"], output[0]["payoutsYear"])
         }
       } else {
         modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
