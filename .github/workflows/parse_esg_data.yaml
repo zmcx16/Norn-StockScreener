@@ -1,4 +1,4 @@
-name: ParseESGdData
+name: ParseESGData
 
 on:
   workflow_dispatch:
