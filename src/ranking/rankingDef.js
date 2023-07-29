@@ -1,6 +1,6 @@
 import { ESGLink, ESGTooltip } from '../common/common'
 import { NavZhEnUrl } from '../common/utils'
-import { EPSGrowthTagsDict } from '../common/tagsDef'
+import { EPSGrowthTagsDict, EmployeesTagsDict } from '../common/tagsDef'
 import { interbrand_BestGlobalBrands2022 } from './data/interbrand_BestGlobalBrands2022'
 import { interbrand_BestGlobalBrands2021 } from './data/interbrand_BestGlobalBrands2021'
 import { Clarivate_GlobalInnovators2023 } from './data/Clarivate_GlobalInnovators2023'
@@ -70,6 +70,15 @@ export const RankingDef = [
         tags: EPSGrowthTagsDict,
         data: "/norn-data/ranking/eps_financials.json",
         symbol_detail: ''
+    },
+    {
+        name: 'Employees_Growth',
+        display_name: 'Macrotrends - Employees Growth',
+        description: `Macrotrends - Employees Growth`,
+        link: 'https://www.macrotrends.net/',
+        tags: EmployeesTagsDict,
+        data: "/norn-data/ranking/employees.json",
+        symbol_detail: 'https://www.macrotrends.net/stocks/charts/{symbol}//number-of-employees'
     },
     {
         name: 'Interbrand_BestGlobalBrands2021',
