@@ -78,7 +78,7 @@ export const RankingDef = [
         link: 'https://www.macrotrends.net/',
         tags: EmployeesTagsDict,
         data: "/norn-data/ranking/employees.json",
-        symbol_detail: 'https://www.macrotrends.net/stocks/charts/{symbol}//number-of-employees'
+        symbol_detail: 'https://finviz.com/quote.ashx?t={symbol}'
     },
     {
         name: 'Interbrand_BestGlobalBrands2021',
