@@ -13,4 +13,5 @@ export const EmployeesTagsDict = {
   "employees_over_1000": "Employees Over 1000",
   "employees_over_5000": "Employees Over 5000",
   "employees_over_10000": "Employees Over 10000",
+  "latest_growth_over_avg": "Latest Growth Over Average",
 }
