@@ -178,6 +178,7 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   * Clarivate Top 100 Global Innovators (https://clarivate.com/zh-hant/top-100-innovators/the-top-100/)
   * FINRA (https://www.finra.org/finra-data/browse-catalog/equity-short-interest/data)
   * Moneyzine - Latest Dividend Champions List (https://moneyzine.com/investments/dividend-champions/)
+  * Macrotrends - Number of Employees (https://www.macrotrends.net/)
   * Dividend.com - EX-DATE (https://www.dividend.com/)
   * Norn-Minehunter (https://norn-minehunter.zmcx16.moe)
 
