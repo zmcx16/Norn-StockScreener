@@ -1,0 +1,51 @@
+name: FetchOptionPcrData
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '50 1 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - uses: actions/cache@v2
+      name: Configure pip caching
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Copy github ci files to ci-folder
+      run: |-
+        cp -r ./.github/fetch_option_pcr_data ./ci-folder
+    - name: Checkout gh-pages branch
+      run: |-
+        git checkout gh-pages
+    - name: Install Python dependencies
+      run: |
+        python -m pip install -r ./ci-folder/requirements.txt
+    - name: Fetch insiders data
+      run: |-
+        python ./ci-folder/fetch_option_pcr_data.py
+    - name: Delete ci-folder
+      run: |-
+        rm -rf ./ci-folder
+    - name: Add norn-data and push it
+      run: |-
+        git config --global user.name "zmcx16-bot"
+        git config --global user.email "zmcx16-bot@zmcx16.moe"
+        git config --global pull.ff only
+        git pull
+        git reset --soft HEAD~1
+        git add ./norn-data/options/\* && git commit -m "updated website & option pcr data"
+        git push -f
