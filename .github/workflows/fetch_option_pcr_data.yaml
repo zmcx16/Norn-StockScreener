@@ -47,5 +47,5 @@ jobs:
         git config --global pull.ff only
         git pull
         git reset --soft HEAD~1
-        git add ./norn-data/options/\* && git commit -m "updated website & option pcr data"
+        git add ./norn-data/\* && git commit -m "updated website & option pcr data"
         git push -f
