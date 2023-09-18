@@ -48,5 +48,5 @@ jobs:
         git config --global pull.ff only
         git pull
         git reset --soft HEAD~1
-        git add ./norn-data/google-trend/\* && git commit -m "updated website & google-trend-data"
+        git add ./norn-data/\* && git commit -m "updated website & google-trend-data"
         git push -f
