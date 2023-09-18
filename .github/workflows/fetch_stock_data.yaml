@@ -50,7 +50,7 @@ jobs:
         git config --global pull.ff only
         git pull
         git reset --soft HEAD~1
-        git add ./norn-data/stock/\* && git commit -m "updated website & stock-data"
+        git add ./norn-data/\* && git commit -m "updated website & stock-data"
         git push -f
     - name: Checkout zmcx16.github.io
       uses: actions/checkout@master
