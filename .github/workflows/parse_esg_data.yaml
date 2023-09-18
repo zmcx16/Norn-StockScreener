@@ -60,5 +60,5 @@ jobs:
         git config --global pull.ff only
         git pull
         git reset --soft HEAD~1
-        git add ./norn-data/esg/\* && git commit -m "updated website & esg-data"
+        git add ./norn-data/\* && git commit -m "updated website & esg-data"
         git push -f
