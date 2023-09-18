@@ -50,5 +50,5 @@ jobs:
         git config --global pull.ff only
         git pull
         git reset --soft HEAD~1
-        git add ./norn-data/insiders/\* && git commit -m "updated website & insiders-data"
+        git add ./norn-data/\* && git commit -m "updated website & insiders-data"
         git push -f
