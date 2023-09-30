@@ -2,11 +2,11 @@ import React, { useRef } from 'react'
 import { StylesProvider } from '@mui/styles'
 
 import Layout from '../components/layout'
-import Options from '../components/options/options'
+import PCRSummary from '../components/options/pcr/pcrSummary'
 import LoadingAnime from '../components/loadingAnime'
 import SEO from '../components/seo'
 
-const OptionsPage = () => {
+const OptionsPCRPage = () => {
 
   const loadingAnimeRef = useRef({
     getLoading: null,
@@ -17,11 +17,11 @@ const OptionsPage = () => {
     <StylesProvider injectFirst>
       <SEO />
       <Layout >
-        <Options loadingAnimeRef={loadingAnimeRef} />
+        <PCRSummary loadingAnimeRef={loadingAnimeRef} />
       </Layout>
       <LoadingAnime loadingAnimeRef={loadingAnimeRef} />
     </StylesProvider>
   )
 }
 
-export default OptionsPage
+export default OptionsPCRPage
