@@ -29,7 +29,8 @@ export const pageRouterTable = [
   { text: 'Investment Checklist', path: '/checklist/' },
   { text: 'Industry Market', path: '/industry-market/' },
   { text: 'Industry Insiders', path: '/industry-insiders/' },
-  { text: 'Options Valuation', path: '/options/' },
+  { text: 'Options Valuation', path: '/options-valuation/' },
+  { text: 'Options Put Call Ratio', path: '/options-pcr/' },
   { text: 'Ranking Indicators', path: '/ranking/' },
   { text: 'Google Trend Stocks', path: '/google-trend-stocks/' },
   { text: 'Investment Gurus', path: '/investment-gurus/' },
@@ -68,3 +69,4 @@ The idea for the spreadsheet was created in 2008 by Dave Fish (deceased in 2018)
 and is now available and updated every Friday afternoon at Dividend Radar.`
 export const DividendDRGDescription = 
 `Dividend Growth: CAGRs are calculated using trailing twelve months`
+export const PCRTooltip = `Put-Call Ratio (PCR) Data Source: Yahoo Finance (Data range: 365 days)`
