@@ -128,9 +128,13 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-industry-insiders1.png">
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-industry-insiders2.png">
   </blockquote></details>
-  <details><summary>Options Valuation (https://norn-stockscreener.zmcx16.moe/options/)</summary><blockquote>
+  <details><summary>Options Valuation (https://norn-stockscreener.zmcx16.moe/options-valuation/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-options1.png">
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-options2.png">
+  </blockquote></details>
+  <details><summary>Options Put-Call Ratio (https://norn-stockscreener.zmcx16.moe/options-pcr/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-options-pcr1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-options-pcr2.png">
   </blockquote></details>
   <details><summary>Ranking Indicators (https://norn-stockscreener.zmcx16.moe/ranking/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-ranking.png">
