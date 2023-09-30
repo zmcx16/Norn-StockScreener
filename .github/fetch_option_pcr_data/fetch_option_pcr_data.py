@@ -35,15 +35,23 @@ def calc_summary(all_data):
     latest_date =  datetime.strptime(all_data[0]['update_time'], '%Y-%m-%d')
     latest_pcr = {
         'PCR_OpenInterest': all_data[0]['data']['PCR_OpenInterest'],
-        'PCR_Volume': all_data[0]['data']['PCR_Volume']
+        'PCR_Volume': all_data[0]['data']['PCR_Volume'],
+        'Calls_LatestTotalVol': all_data[0]['data']['calls']['totalVolume'],
+        'Puts_LatestTotalVol': all_data[0]['data']['puts']['totalVolume'],
+        'Calls_LatestTotalOI': all_data[0]['data']['calls']['totalOpenInterest'],
+        'Puts_LatestTotalOI': all_data[0]['data']['puts']['totalOpenInterest'],
     }
     output = {
         'PCR_OpenInterest_Latest': latest_pcr['PCR_OpenInterest'],
         'PCR_Volume_Latest': latest_pcr['PCR_Volume'],
+        'Calls_LatestTotalVol': latest_pcr['Calls_LatestTotalVol'],
+        'Puts_LatestTotalVol': latest_pcr['Puts_LatestTotalVol'],
+        'Calls_LatestTotalOI': latest_pcr['Calls_LatestTotalOI'],
+        'Puts_LatestTotalOI': latest_pcr['Puts_LatestTotalOI'],
         'PCR_OpenInterest_Week': 0,
         'PCR_Volume_Week': 0,
         'PCR_OpenInterest_Month': 0,
-        'PCR_Volume_Month': 0
+        'PCR_Volume_Month': 0,
     }
 
     for i in range(1, len(all_data)):
