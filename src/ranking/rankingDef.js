@@ -1,6 +1,7 @@
 import { ESGLink, ESGTooltip } from '../common/common'
 import { NavZhEnUrl } from '../common/utils'
 import { EPSGrowthTagsDict, EmployeesTagsDict } from '../common/tagsDef'
+import { interbrand_BestGlobalBrands2023 } from './data/interbrand_BestGlobalBrands2023'
 import { interbrand_BestGlobalBrands2022 } from './data/interbrand_BestGlobalBrands2022'
 import { interbrand_BestGlobalBrands2021 } from './data/interbrand_BestGlobalBrands2021'
 import { Clarivate_GlobalInnovators2023 } from './data/Clarivate_GlobalInnovators2023'
@@ -9,14 +10,14 @@ import { Gartner_SupplyChain2022 } from './data/Gartner_SupplyChain2022'
 
 export const RankingDef = [
     {
-        name: 'interbrand_BestGlobalBrands2022',
-        display_name: 'Interbrand - Best Global Brands (2022)',
+        name: 'interbrand_BestGlobalBrands2023',
+        display_name: 'Interbrand - Best Global Brands (2023)',
         description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,
         link: 'https://interbrand.com/best-global-brands/',
         tags: {},
-        data: interbrand_BestGlobalBrands2022,
+        data: interbrand_BestGlobalBrands2023,
         symbol_detail: ''
-    },    
+    }, 
     {
         name: 'Clarivate_GlobalInnovators2023',
         display_name: 'Clarivate - Top 100 Global Innovators (2023)',
@@ -79,6 +80,15 @@ export const RankingDef = [
         tags: EmployeesTagsDict,
         data: "/norn-data/ranking/employees.json",
         symbol_detail: 'https://finviz.com/quote.ashx?t={symbol}'
+    },
+    {
+        name: 'interbrand_BestGlobalBrands2022',
+        display_name: 'Interbrand - Best Global Brands (2022)',
+        description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,
+        link: 'https://interbrand.com/best-global-brands/',
+        tags: {},
+        data: interbrand_BestGlobalBrands2022,
+        symbol_detail: ''
     },
     {
         name: 'Interbrand_BestGlobalBrands2021',
