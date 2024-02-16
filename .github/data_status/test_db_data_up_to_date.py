@@ -22,8 +22,8 @@ if __name__ == "__main__":
     NORN_SCREENER_REPORT_STATUS_URL = "https://zmcx16.moe/stock-minehunter/api/task/get-norn-screen-report-status"
 
     LAST_UPDATE_TIME_SEC_THRESHOLD = 86400
-    LAST_UPDATE_TIME_CNT_THRESHOLD = 3000
-    REPORT_STATUS_THRESHOLD = 3000
+    LAST_UPDATE_TIME_CNT_THRESHOLD = 2500
+    REPORT_STATUS_THRESHOLD = 2500
 
     TACTIC_LIST = ["BenjaminGraham_v1",
                 "HarryBurnIII_v1",
