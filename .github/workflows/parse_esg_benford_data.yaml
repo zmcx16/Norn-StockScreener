@@ -1,4 +1,4 @@
-name: ParseESGData
+name: ParseESGAndBenfordData
 
 on:
   workflow_dispatch:
@@ -37,13 +37,15 @@ jobs:
         path: ./.github/Norn-Finance-API-Server
         ref: data
         fetch-depth: 0
-    - name: Delete old esg data
+    - name: Delete old esg & Benford data
       run: |-
         rm -rf ./norn-data/esg
-    - name: Copy esg data from Norn-Finance-API-Server
+        rm -f ./norn-data/stock-benford-law.json
+    - name: Copy esg & benford data from Norn-Finance-API-Server
       run: |-
         mkdir -p ./norn-data/esg/data
         cp -r ./.github/Norn-Finance-API-Server/data-output/esgChart ./norn-data/esg/data
+        cp ./.github/Norn-Finance-API-Server/data-output/stock-benford-law.json ./norn-data
     - name: Install Python dependencies
       run: |
         python -m pip install -r ./ci-folder/requirements.txt
