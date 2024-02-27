@@ -160,6 +160,10 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-esg1.png">
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-esg2.png">
   </blockquote></details>
+  <details><summary>Stock Benford's Law (https://norn-stockscreener.zmcx16.moe/stock-benford-law/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-benford-law1.png">
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-benford-law2.png">
+  </blockquote></details>
   <details><summary>Stock Price Simulation (https://norn-stockscreener.zmcx16.moe/stock-price-simulation/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-stock-simulation.png">
   </blockquote></details>
