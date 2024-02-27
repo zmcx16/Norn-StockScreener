@@ -17,6 +17,7 @@ export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Financ
 export const ShortSummaryRelLink = "/short-stocks-summary/"
 export const ESGLink = 'https://www.sustainalytics.com/esg-ratings'
 export const DividendChampionsUrl = "https://moneyzine.com/investments/dividend-champions/"
+export const BenfordLawUrl = "https://www.learndatasci.com/glossary/benfords-law/"
 
 export const argSetValueBackgroundColor = 'rgba(144,238,144, 0.5)'
 
@@ -37,6 +38,7 @@ export const pageRouterTable = [
   { text: 'Short Stocks Summary', path: '/short-stocks-summary/' },
   { text: 'Dividend Champions', path: '/dividend-champions/' },
   { text: 'ESG Stocks Summary', path: '/esg-stocks-summary/' },
+  { text: "Stock Benford's Law", path: '/stock-benford-law/' },
   { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
 ]
@@ -70,3 +72,5 @@ and is now available and updated every Friday afternoon at Dividend Radar.`
 export const DividendDRGDescription = 
 `Dividend Growth: CAGRs are calculated using trailing twelve months`
 export const PCRTooltip = `Put-Call Ratio (PCR) Data Source: Yahoo Finance (Data range: 365 days)`
+export const BenfordLawTooltip = `Benford's Law, a statistical phenomenon, asserts that in various datasets, smaller first digits (1, 2, 3) occur more frequently than larger ones. Applied to financial data, it can aid in detecting anomalies and potential fraud.
+While Benford's Law is a valuable tool, it is not foolproof. It serves as a red flag, prompting further scrutiny rather than offering definitive proof of fraud. Used alongside other forensic accounting techniques, it enhances the effectiveness of financial statement analysis.`

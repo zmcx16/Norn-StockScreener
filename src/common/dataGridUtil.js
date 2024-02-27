@@ -12,7 +12,7 @@ import { convertKMBT } from './utils'
 export const YahooFinanceUrl = YahooFinanceEnUrl
 
 
-export function PureFieldWithValueCheck(field, headerName, width, valueFixed, hide, description = null) {
+export function PureFieldWithValueCheck(field, headerName, width, valueFixed, hide, description = null, toExponential = false) {
   let output = {
     field: field,
     headerName: headerName,
@@ -20,7 +20,9 @@ export function PureFieldWithValueCheck(field, headerName, width, valueFixed, hi
     type: 'number',
     renderCell: (params) => (
       params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ?
-        <span>-</span> :
+        <span>-</span> : 
+        toExponential ? 
+        <span>{params.value.toExponential(valueFixed)}</span> : 
         <span>{params.value.toFixed(valueFixed)}</span>
     ),
     hide: hide
