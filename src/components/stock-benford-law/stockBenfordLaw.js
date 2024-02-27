@@ -58,8 +58,8 @@ const StockBenfordLaw = ({ loadingAnimeRef }) => {
     }
   }
 
-  const renderShowChart = (symbol, data)=> {
-    modalWindowRef.current.popModalWindow(<StockBenfordLawChart title={`${symbol} Chart`} />)
+  const renderShowChart = (symbol, chartData, SSEData)=> {
+    modalWindowRef.current.popModalWindow(<StockBenfordLawChart title={`${symbol} Chart`} chartData={chartData} SSEData={SSEData}/>)
   }
 
   const genTableColTemplate = () => {
@@ -91,7 +91,7 @@ const StockBenfordLaw = ({ loadingAnimeRef }) => {
             size="small"
             aria-haspopup="true"
             onClick={()=>{
-              renderShowChart(params.row["symbol"])
+              renderShowChart(params.row["symbol"], params.row["chartData"], params.row["SSEData"])
             }}
           >
             <BarChartSharpIcon color="primary" style={{ fontSize: 40 }} />
@@ -111,6 +111,7 @@ const StockBenfordLaw = ({ loadingAnimeRef }) => {
     ]).then((allResponses) => {
       //console.log(allResponses)
       if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
+        let benfordProbs = allResponses[1]["benfordDigitProbs"]
         let output = Object.keys(allResponses[1]["data"]).reduce((result, symbol, index) => {
           let stockInfo = allResponses[0][symbol]
           let benfordData = allResponses[1]["data"][symbol]["data"]["stockDigitProbsSSE"]
@@ -118,7 +119,63 @@ const StockBenfordLaw = ({ loadingAnimeRef }) => {
           let lastYearSSE = "benfordSSE" in benfordData["lastYear"] ? benfordData["lastYear"]["benfordSSE"] : undefined
           let allQuartersSSE = "benfordSSE" in benfordData["allQuarters"] ? benfordData["allQuarters"]["benfordSSE"] : undefined
           let allYearsSSE = "benfordSSE" in benfordData["allYears"] ? benfordData["allYears"]["benfordSSE"] : undefined
-          let allQuartersYearsSSE = "benfordSSE" in benfordData["allYears"] ? benfordData["allYears"]["benfordSSE"] : undefined
+          let allQuartersYearsSSE = "benfordSSE" in benfordData["allQuartersYears"] ? benfordData["allQuartersYears"]["benfordSSE"] : undefined
+          
+          const genChartData = (d, valid) => {
+            let chartData = []
+            for (let i = 0; i < 9; i++) {
+              chartData.push({
+                name: `${i + 1}`,
+                dataProbs: valid ? parseInt(d["prob"][i] * 10000, 10) / 100.0 : 0,
+                benfordProbs: parseInt(benfordProbs[i] * 10000, 10) / 100.0
+              })
+            }
+            return chartData
+          }    
+          const genChartTitle = (title, d, sse) => {
+            let n = "No Data"
+            let sseText = "N/A"
+            if (sse !== undefined) {
+              n = d.reduce((a,b)=>a+b)
+              sseText = sse.toExponential(3)
+            }
+            return `[${title}] n=${n}, SSE=${sseText}`
+          }
+
+          let chartData = {
+            "lastQuarter" : {
+              "data": genChartData(benfordData["lastQuarter"], lastQuarterSSE !== undefined),
+              "title": genChartTitle("Last Quarter", benfordData["lastQuarter"]["count"], lastQuarterSSE)
+            },
+            "lastYear": {
+              "data": genChartData(benfordData["lastYear"], lastYearSSE !== undefined),
+              "title": genChartTitle("Last Year", benfordData["lastYear"]["count"], lastYearSSE)
+            },
+            "allQuarters": {
+              "data": genChartData(benfordData["allQuarters"], allQuartersSSE !== undefined),
+              "title": genChartTitle("All Quarters", benfordData["allQuarters"]["count"], allQuartersSSE)
+            },
+            "allYears": {
+              "data": genChartData(benfordData["allYears"], allYearsSSE !== undefined),
+              "title": genChartTitle("All Years", benfordData["allYears"]["count"], allYearsSSE)
+            },
+            "allQuartersYears": {
+              "data": genChartData(benfordData["allQuartersYears"], allQuartersYearsSSE !== undefined),
+              "title": genChartTitle("All Q & Y", benfordData["allQuartersYears"]["count"], allQuartersYearsSSE)
+            },
+          }
+
+          let SSEData = [
+            {
+              "name": "Financial Statement SSE",
+              "lastQuarterSSE": lastQuarterSSE !== undefined ? lastQuarterSSE.toExponential(3) : 0,
+              "lastYearSSE": lastYearSSE !== undefined ? lastYearSSE.toExponential(3) : 0,
+              "allQuartersSSE": allQuartersSSE !== undefined ? allQuartersSSE.toExponential(3) : 0,
+              "allYearsSSE": allYearsSSE !== undefined ? allYearsSSE.toExponential(3) : 0,
+              "allQuartersYearsSSE": allQuartersYearsSSE !== undefined ? allQuartersYearsSSE.toExponential(3) : 0,
+            },
+          ]
+          console.log(SSEData)
           let o = {
             id: index,
             symbol: symbol,
@@ -139,6 +196,8 @@ const StockBenfordLaw = ({ loadingAnimeRef }) => {
             perfHalfY: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Half Y'] !== '-' ? stockInfo['Perf Half Y'] : -Number.MAX_VALUE,
             perfYear: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Year'] !== '-' ? stockInfo['Perf Year'] : -Number.MAX_VALUE,
             perfYTD: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf YTD'] !== '-' ? stockInfo['Perf YTD'] : -Number.MAX_VALUE,
+            chartData: chartData,
+            SSEData: SSEData,
           }
 
           if(config.filter_symbols.length === 0 || config.filter_symbols.includes(symbol)) {
@@ -149,7 +208,7 @@ const StockBenfordLaw = ({ loadingAnimeRef }) => {
         console.log(output)
         setRowData(output)
         if (showChart) {
-          renderShowChart(output[0]["symbol"])
+          renderShowChart(output[0]["symbol"], output[0]["chartData"], output[0]["SSEData"])
         }
       } else {
         modalWindowRef.current.popModalWindow(<div>Load some data failed</div>)
