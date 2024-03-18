@@ -16,7 +16,7 @@ afscreener_url = os.environ.get(
 afscreener_token = os.environ.get("AF_TOKEN", "")
 DELAY_TIME_SEC = 1
 RETRY_FAILED_DELAY = 20
-RETRY_CNT = 5
+RETRY_CNT = 3
 
 
 def is_float(value):
@@ -27,10 +27,10 @@ def is_float(value):
         return False
 
 
-def send_request(url):
+def send_request(url, headers):
     for r in range(RETRY_CNT):
         try:
-            res = requests.get(url)
+            res = requests.get(url, headers=headers)
             res.raise_for_status()
         except Exception as ex:
             print('Generated an exception: {ex}'.format(ex=ex))
@@ -96,7 +96,14 @@ def get_stock_1y_data_from_marketwatch(symbol):
     query_url = "https://www.marketwatch.com/investing/stock/" + symbol + "/downloaddatapartial?startdate=" + start_date + "&enddate=" + end_date + "&daterange=d30&frequency=p1d&csvdownload=true&downloadpartial=false&newdates=false"
 
     try:
-        ret, content = send_request(query_url)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+            'Referer': 'https://www.marketwatch.com/',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'en-US,en;q=0.8',
+        }
+        ret, content = send_request(query_url, headers)
         if ret == 0:
             # print(content)
             lines = content.splitlines()
