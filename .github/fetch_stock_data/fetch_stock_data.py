@@ -143,6 +143,8 @@ def get_stock_1y_data_from_yahoo(symbol):
                  "Close": row["Close"], "Volume": row["Volume"]}
             output.append(d)
 
+        # reserve order
+        output.reverse()
         return output
     except Exception as ex:
         print('Generated an exception: {ex}'.format(ex=ex))
