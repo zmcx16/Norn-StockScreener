@@ -7,6 +7,7 @@ import requests
 import traceback
 import csv
 import time
+import yfinance as yf
 from urllib.parse import urlencode
 from datetime import datetime, timedelta
 
@@ -88,6 +89,8 @@ def get_stock_info():
     sys.exit(1)
 
 
+"""
+# marketwatch.com already add bot detection
 def get_stock_1y_data_from_marketwatch(symbol):
     now = datetime.now()
     one_year_ago = now - timedelta(days=365)
@@ -123,6 +126,24 @@ def get_stock_1y_data_from_marketwatch(symbol):
         else:
             print('send_request failed: {ret}'.format(ret=ret))
 
+    except Exception as ex:
+        print('Generated an exception: {ex}'.format(ex=ex))
+
+    return None
+"""
+
+def get_stock_1y_data_from_yahoo(symbol):
+    try:
+        stock = yf.Ticker(symbol)
+        hist = stock.history(period="1y")
+        # convert to [{"Date":"03/05/2024","Open":143.0,"High":146.4,"Low":143.0,"Close":144.35,"Volume":2586730.0}...]
+        output = []
+        for index, row in hist.iterrows():
+            d = {"Date": index.strftime("%m/%d/%Y"), "Open": row["Open"], "High": row["High"], "Low": row["Low"],
+                 "Close": row["Close"], "Volume": row["Volume"]}
+            output.append(d)
+
+        return output
     except Exception as ex:
         print('Generated an exception: {ex}'.format(ex=ex))
 
@@ -231,7 +252,8 @@ def main():
     stock_stat = {}
     stock_hl_pv = {}
     for symbol in stock_info:
-        stock_data = get_stock_1y_data_from_marketwatch(symbol)
+        # stock_data = get_stock_1y_data_from_marketwatch(symbol)
+        stock_data = get_stock_1y_data_from_yahoo(symbol)
         if stock_data and len(stock_data) > 0:
             stock_stat[symbol] = {"Close": stock_data[0]["Close"], "P/E": "-", "P/B": "-", "Dividend %": "-", "52W High": "-", "52W Low": "-",
                                   "Perf Week": "-", "Perf Month": "-", "Perf Quarter": "-", "Perf Half Y": "-", "Perf Year": "-", "Perf YTD": "-"}
