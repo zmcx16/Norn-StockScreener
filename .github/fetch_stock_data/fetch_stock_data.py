@@ -70,7 +70,7 @@ def get_stock_info():
 
     for retry_i in range(RETRY_CNT):
         try:
-            ret, content = send_request(query_url)
+            ret, content = send_request(query_url, {})
             if ret == 0:
                 resp = json.loads(content)
                 if resp["ret"] == 0:
