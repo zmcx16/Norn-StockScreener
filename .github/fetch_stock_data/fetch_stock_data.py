@@ -245,6 +245,8 @@ def main():
     # get stock info
     if args.input == "":
         stock_info = get_stock_info()
+        with open(stock_folder_path / 'info.json', 'w', encoding='utf-8') as f:
+            f.write(json.dumps(stock_info, separators=(',', ':')))
     else:
         stock_info = args.input.split(",")
 
