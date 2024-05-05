@@ -166,7 +166,7 @@ def get_stock_base_info():
                             "Target Price", "Perf Week", "Perf Month", "Perf Quarter", "Perf Half Y", "Perf Year",
                             "Perf YTD", "Short Float", "Forward P/E", "Insider Trans", "PEG", "EPS this Y", "Inst Trans", "EPS next Y_%",
                             "Quick Ratio", "Gross Margin", "Current Ratio", "Oper. Margin", "Debt/Eq", "EPS Q/Q", "Profit Margin",
-                            "LT Debt/Eq", "SMA20", "SMA50", "SMA200", "Sales Q/Q" 
+                            "LT Debt/Eq", "SMA20", "SMA50", "SMA200", "Sales Q/Q", "Recom", "P/FCF"
                             ]}))
         if ret == 0:
             if resp["ret"] == 0:
