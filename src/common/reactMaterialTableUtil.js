@@ -52,7 +52,7 @@ export function PriceField(field, headerName, width, description = null) {
     Cell: ({ cell, row }) => (
       cell.getValue() === -Number.MAX_VALUE || cell.getValue() === Number.MAX_VALUE || cell.getValue()  === "-" || cell.getValue()  === null || cell.getValue()  === undefined || cell.getValue()  === "Infinity" || cell.getValue()  === 'NaN' ? <span>-</span> :
       <Link href={ YahooFinanceUrl + 'quote/' + row.original.symbol} target="_blank" rel="noreferrer noopener">
-        <span>{cell.getValue()}</span>
+        <span>{cell.getValue().toFixed(2)}</span>
       </Link>
     ),
   }
