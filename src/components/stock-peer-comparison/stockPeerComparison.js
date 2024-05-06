@@ -4,14 +4,14 @@ import { DataGrid } from '@mui/x-data-grid'
 import ListAltIcon from '@mui/icons-material/ListAlt'
 import IconButton from '@mui/material/IconButton'
 import useFetch from 'use-http'
-import moment from 'moment'
-import Link from '@mui/material/Link'
+import Typography from '@mui/material/Typography'
 
 import ModalWindow from '../modalWindow'
 import DefaultDataGridTable from '../defaultDataGridTable'
 import SearchGridToolbar from '../searchGridToolbar'
 import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
 import { getUrl } from '../../common/utils'
+import { NoMaxWidthTooltip } from '../../common/reactUtils'
 
 import stockPeerComparisonStyle from './stockPeerComparison.module.scss'
 import '../muiTablePagination.css'
@@ -24,10 +24,19 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
     popModalWindow: null,
     popPureModal: null,
   })
-
-
   const tableColList = {
     Close: { hide: false, text: 'Price' },
+    PEP: { hide: false, text: 'P/E Peer' },
+    FwdPEP: { hide: false, text: 'Forward P/E Peer' },
+    PEGP: { hide: false, text: 'PEG Peer' },
+    PSP: { hide: false, text: 'P/S Peer' },
+    PBP: { hide: false, text: 'P/B Peer' },
+    PCP: { hide: false, text: 'P/C Peer' },
+    PFCFP: { hide: false, text: 'P/FCF Peer' },
+    DividendP: { hide: false, text: 'Dividend % Peer' },
+    FloatShortP: { hide: false, text: 'Float Short Peer' },
+    RecomP: { hide: false, text: 'Recommend Peer' },
+    BtrThnAvg: { hide: false, text: 'Btr Thn Avg' },
     PE: { hide: false, text: 'P/E' },
     PB: { hide: false, text: 'P/B' },
     Dividend: { hide: false, text: 'Dividend %' },
@@ -52,10 +61,35 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
     }
   }
 
+  const PeerField = (field, headerName, width, valueFixed, hide, stockField, industryField, flag, description = null) => {
+    let output = {
+      field: field,
+      headerName: headerName,
+      width: width,
+      type: 'number',
+      renderCell: (params) => (
+        (!(stockField in params.row) || (params.row[stockField] === "-" || params.row[stockField] === -Number.MAX_VALUE || params.row[stockField] === Number.MAX_VALUE || params.row[stockField] === null || params.row[stockField] === undefined || params.row[stockField] === "Infinity" || params.row[stockField] === 'NaN')) || 
+        (!(industryField in params.row) || (params.row[industryField] === "-" || params.row[industryField] === -Number.MAX_VALUE || params.row[industryField] === Number.MAX_VALUE || params.row[industryField] === null || params.row[industryField] === undefined || params.row[industryField] === "Infinity" || params.row[industryField] === 'NaN')) ? 
+        <Typography sx={{ fontWeight: 600, color: 'unset' }} >-</Typography>
+        :
+        <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}> {`Stock: ${params.row[stockField]} | Industry: ${params.row[industryField]}`}</span>} >
+          <Typography sx={{ fontWeight: 600, color: Math.sign(parseFloat((params.row[stockField] - params.row[industryField]) * flag)) === 1 ? 'green' : Math.sign(parseFloat((params.row[stockField] - params.row[industryField]) * flag)) === -1 ? 'red' : ''}} style={{cursor: 'pointer'}}>{(params.row[stockField] / params.row[industryField]).toFixed(valueFixed)}</Typography>
+        </NoMaxWidthTooltip>
+      ),
+      hide: hide
+    }
+    
+    if (description != null) {
+      output['description'] = description
+    }
+    return output
+  }
+
   const genTableColTemplate = () => {
     return [
       SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
       PriceField('close', tableColList.Close.text, 110, 'close' in hideColState ? hideColState['close'] : tableColList['Close'].hide, null, "yahoo"),
+      PeerField('PEP', tableColList.PEP.text, 110, 2, 'PEP' in hideColState ? hideColState['PEP'] : tableColList['PEP'].hide, "PE", "PE_I", -1, "P/E Peer (Stock / Industry)"),
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
       PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
@@ -87,20 +121,40 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
 
   const fetchStockNameIndustrySectorData = useFetch({ cachePolicy: 'no-cache' })
   const fetchStockStatData = useFetch({ cachePolicy: 'no-cache' })
+  const fetchIndustryStatData = useFetch({ cachePolicy: 'no-cache' })
   const renderStockPeerComparisonTable = (config)=>{
     Promise.all([
       getData("/norn-data/stock/stat.json", fetchStockStatData),
       getData("/norn-data/stock/info.json", fetchStockNameIndustrySectorData),
+      getData("/norn-data/indusrty-table.json", fetchIndustryStatData),
     ]).then((allResponses) => {
       //console.log(allResponses)
-      if (allResponses.length === 2 && allResponses[0] !== null && allResponses[1] !== null) {
+      if (allResponses.length === 3 && allResponses[0] !== null && allResponses[1] !== null && allResponses[2] !== null) {
+        let industryDict = allResponses[2]["data"].reduce((result, val) => {
+          result[val["Industry"]] = {
+            'P/E': val['P/E'],
+            'Fwd P/E': val['Fwd P/E'],
+            'PEG': val['PEG'],
+            'P/S': val['P/S'],
+            'P/B': val['P/B'],
+            'P/C': val['P/C'],
+            'P/FCF': val['P/FCF'],
+            'Dividend': val['Dividend'],
+            'Float Short': val['Float Short'],
+            'Recom': val['Recom']
+          }
+          return result
+        }, {})
+        console.log(industryDict)
         let output = Object.keys(allResponses[1]).reduce((result, symbol, index) => {
           let stockInfo = allResponses[0][symbol]
           let industry = allResponses[1][symbol][1]
+          let industryStat = industryDict[industry]
           let o = {
             id: index,
             symbol: symbol,
             industry: industry,
+            PE_I: industryStat !== undefined && industryStat !== null && industryStat['P/E'] !== '-' ? industryStat['P/E'] : -Number.MAX_VALUE,
             close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
             PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
             PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
