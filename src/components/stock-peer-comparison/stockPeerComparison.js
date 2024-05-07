@@ -27,7 +27,7 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
   const tableColList = {
     Close: { hide: false, text: 'Price' },
     PEP: { hide: false, text: 'P/E Peer' },
-    FwdPEP: { hide: false, text: 'Forward P/E Peer' },
+    FwdPEP: { hide: false, text: 'Fwd P/E Peer' },
     PEGP: { hide: false, text: 'PEG Peer' },
     PSP: { hide: false, text: 'P/S Peer' },
     PBP: { hide: false, text: 'P/B Peer' },
@@ -61,6 +61,10 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
     }
   }
 
+  const calcPeerSign = (stock, industry, flag) => {
+    return Math.sign(parseFloat((stock -industry) * flag))
+  }
+
   const PeerField = (field, headerName, width, valueFixed, hide, stockField, industryField, flag, description = null) => {
     let output = {
       field: field,
@@ -68,15 +72,14 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
       width: width,
       type: 'number',
       renderCell: (params) => (
-        (!(stockField in params.row) || (params.row[stockField] === "-" || params.row[stockField] === -Number.MAX_VALUE || params.row[stockField] === Number.MAX_VALUE || params.row[stockField] === null || params.row[stockField] === undefined || params.row[stockField] === "Infinity" || params.row[stockField] === 'NaN')) || 
-        (!(industryField in params.row) || (params.row[industryField] === "-" || params.row[industryField] === -Number.MAX_VALUE || params.row[industryField] === Number.MAX_VALUE || params.row[industryField] === null || params.row[industryField] === undefined || params.row[industryField] === "Infinity" || params.row[industryField] === 'NaN')) ? 
+        params.value === "-" || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ? 
         <Typography sx={{ fontWeight: 600, color: 'unset' }} >-</Typography>
         :
         <NoMaxWidthTooltip arrow title={<span style={{ fontSize: '14px', whiteSpace: 'pre-line', lineHeight: '20px', textAlign: 'center'}}> {`Stock: ${params.row[stockField]} | Industry: ${params.row[industryField]}`}</span>} >
-          <Typography sx={{ fontWeight: 600, color: Math.sign(parseFloat((params.row[stockField] - params.row[industryField]) * flag)) === 1 ? 'green' : Math.sign(parseFloat((params.row[stockField] - params.row[industryField]) * flag)) === -1 ? 'red' : ''}} style={{cursor: 'pointer'}}>{(params.row[stockField] / params.row[industryField]).toFixed(valueFixed)}</Typography>
+          <Typography sx={{ fontWeight: 600, color: calcPeerSign(params.row[stockField], params.row[industryField], flag) === 1 ? 'green' : calcPeerSign(params.row[stockField], params.row[industryField], flag) === -1 ? 'red' : ''}} style={{cursor: 'pointer'}}>{params.value.toFixed(valueFixed)}</Typography>
         </NoMaxWidthTooltip>
       ),
-      hide: hide
+      hide: hide,
     }
     
     if (description != null) {
@@ -90,6 +93,7 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
       SymbolNameField('Symbol', 130, 'symbol' in hideColState ? hideColState['symbol'] : false),
       PriceField('close', tableColList.Close.text, 110, 'close' in hideColState ? hideColState['close'] : tableColList['Close'].hide, null, "yahoo"),
       PeerField('PEP', tableColList.PEP.text, 110, 2, 'PEP' in hideColState ? hideColState['PEP'] : tableColList['PEP'].hide, "PE", "PE_I", -1, "P/E Peer (Stock / Industry)"),
+      PeerField('FwdPEP', tableColList.FwdPEP.text, 110, 2, 'FwdPEP' in hideColState ? hideColState['FwdPEP'] : tableColList['FwdPEP'].hide, "FwdPE", "FwdPE_I", -1, "Forward P/E Peer (Stock / Industry)"),
       PureFieldWithValueCheck("PE", tableColList.PE.text, 110, 2, "PE" in hideColState ? hideColState["PE"] : tableColList['PE'].hide),
       PureFieldWithValueCheck("PB", tableColList.PB.text, 110, 2, "PB" in hideColState ? hideColState["PB"] : tableColList['PB'].hide),
       PercentField("dividend", tableColList.Dividend.text, 150, "dividend" in hideColState ? hideColState["dividend"] : tableColList['Dividend'].hide),
@@ -153,8 +157,6 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
           let o = {
             id: index,
             symbol: symbol,
-            industry: industry,
-            PE_I: industryStat !== undefined && industryStat !== null && industryStat['P/E'] !== '-' ? industryStat['P/E'] : -Number.MAX_VALUE,
             close: stockInfo !== undefined && stockInfo !== null && stockInfo['Close'] !== '-' ? stockInfo['Close'] : -Number.MAX_VALUE,
             PE: stockInfo !== undefined && stockInfo !== null && stockInfo['P/E'] !== '-' ? stockInfo['P/E'] : Number.MAX_VALUE,
             PB: stockInfo !== undefined && stockInfo !== null && stockInfo['P/B'] !== '-' ? stockInfo['P/B'] : Number.MAX_VALUE,
@@ -167,7 +169,15 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
             perfHalfY: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Half Y'] !== '-' ? stockInfo['Perf Half Y'] : -Number.MAX_VALUE,
             perfYear: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf Year'] !== '-' ? stockInfo['Perf Year'] : -Number.MAX_VALUE,
             perfYTD: stockInfo !== undefined && stockInfo !== null && stockInfo['Perf YTD'] !== '-' ? stockInfo['Perf YTD'] : -Number.MAX_VALUE,
+            // hidden field
+            industry: industry,
+            PE_I: industryStat !== undefined && industryStat !== null && industryStat['P/E'] !== '-' ? industryStat['P/E'] : Number.MAX_VALUE,
+            FwdPE: stockInfo !== undefined && stockInfo !== null && stockInfo['Forward P/E'] !== '-' ? stockInfo['Forward P/E'] : Number.MAX_VALUE, 
+            FwdPE_I: industryStat !== undefined && industryStat !== null && industryStat['Fwd P/E'] !== '-' ? industryStat['Fwd P/E'] : Number.MAX_VALUE,
           }
+          o['PEP'] = o['PE'] != Number.MAX_VALUE && o['PE_I'] != Number.MAX_VALUE ? o['PE'] / o['PE_I'] : Number.MAX_VALUE
+          o['FwdPEP'] = o['FwdPE'] != Number.MAX_VALUE && o['FwdPE_I'] != Number.MAX_VALUE ? o['FwdPE'] / o['FwdPE_I'] : Number.MAX_VALUE
+
           if((config.filter_symbols.length === 0 && config.filter_industries.length === 0) || config.filter_symbols.includes(symbol) || config.filter_industries.includes(industry)) {
             result.push(o)
           }
