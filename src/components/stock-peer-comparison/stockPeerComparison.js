@@ -1,8 +1,13 @@
 
 import React, { useState, useRef, useEffect } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import ListAltIcon from '@mui/icons-material/ListAlt'
+import Box from '@mui/material/Box'
+import { createTheme } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/styles'
 import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
+import SearchIcon from '@mui/icons-material/Search'
 import useFetch from 'use-http'
 import Typography from '@mui/material/Typography'
 
@@ -12,9 +17,21 @@ import SearchGridToolbar from '../searchGridToolbar'
 import { SymbolNameField, PriceField, PureFieldWithValueCheck, PercentField, ColorPercentField } from '../../common/dataGridUtil'
 import { getUrl } from '../../common/utils'
 import { NoMaxWidthTooltip } from '../../common/reactUtils'
+import FactorPannel from './factorPannel'
 
 import stockPeerComparisonStyle from './stockPeerComparison.module.scss'
 import '../muiTablePagination.css'
+import { Margin } from '@mui/icons-material'
+
+
+const customTheme = createTheme({
+  palette: {
+    applyPeer: { 
+      backgroundColor: '#43a047', color: '#fff'
+    },
+  },
+})
+
 
 const StockPeerComparison = ({ loadingAnimeRef }) => {
 
@@ -24,6 +41,11 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
     popModalWindow: null,
     popPureModal: null,
   })
+  
+  const factorPannelRef = useRef({
+    getValue: null
+  })
+
   const tableColList = {
     Close: { hide: false, text: 'Price' },
     PEP: { hide: false, text: 'P/E Peer' },
@@ -198,6 +220,7 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
 
   const [rowData, setRowData] = useState([])
   const [searchVal, setSearchVal] = useState("")
+  
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -224,14 +247,27 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
       <div className={stockPeerComparisonStyle.container}>
         <div className={stockPeerComparisonStyle.table}>
           <DataGrid rows={rowData} columns={genTableColTemplate()} components={{ NoRowsOverlay: DefaultDataGridTable, Toolbar: ()=>{
-            return <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={(config)=>{
-              renderStockPeerComparisonTable(config)
-              }} 
-              info={{
-                placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
-              }}
+            return (<GridToolbarContainer>
+              <div className={stockPeerComparisonStyle.cmdPanel}>
+              <SearchGridToolbar searchVal={searchVal} setSearchVal={setSearchVal} clickCallback={(config)=>{
+                renderStockPeerComparisonTable(config)
+                }} 
+                info={{
+                  placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
+                }}
               />
-            }}} disableSelectionOnClick onColumnVisibilityChange={(param) => {
+              <FactorPannel factorPannelRef={factorPannelRef}/>
+              <div></div>
+              <ThemeProvider theme={customTheme}>
+              <Box display="flex" justify="flex-end">
+                <Button size="small" style={customTheme.palette.applyPeer} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
+                  }}>{'Apply Peer'}</Button>
+              </Box>
+              </ThemeProvider>
+              </div>
+            </GridToolbarContainer>)
+            }}} 
+            disableSelectionOnClick onColumnVisibilityChange={(param) => {
               let tempHideColState = hideColState
               tempHideColState[param['field']] = !param['isVisible']
               setHideColState(tempHideColState)
