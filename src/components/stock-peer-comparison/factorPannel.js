@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Chip from '@mui/material/Chip'
 import { createTheme } from '@mui/material/styles'
 
-import { PeerTemplate } from '../../common/peer'
+import { PeerTemplate, COOKIE_KEY_FACTOR_PANNEL } from '../../common/peer'
+import Cookies from 'universal-cookie'
 
 import factorPannelStyle from './factorPannel.module.scss'
 
 const FactorPannel = ({ factorPannelRef }) => {
+  const cookies = new Cookies()
 
   // factorPannelRef API
   factorPannelRef.current.getValue = () => {
@@ -35,7 +37,12 @@ const FactorPannel = ({ factorPannelRef }) => {
 
   // tactic
   const [tactic, setTactic] = useState(PeerTemplate.tactics.reduce((accumulator, currentValue)=>{
-    accumulator[currentValue.type] = currentValue.enable
+    let cookie_t = cookies.get(COOKIE_KEY_FACTOR_PANNEL)
+    if (!cookie_t) {
+      accumulator[currentValue.type] = currentValue.enable
+    } else {
+      accumulator[currentValue.type] = cookie_t.tactics[currentValue.type]
+    }
     return accumulator
   }, {}))
 
@@ -76,6 +83,11 @@ const FactorPannel = ({ factorPannelRef }) => {
                 let tactic_t = { ...tactic }
                 tactic_t[value.type] = !tactic_t[value.type]
                 setTactic(tactic_t)
+                cookies.set(COOKIE_KEY_FACTOR_PANNEL, { tactics: tactic_t }, { 
+                  path: '/',
+                  expires: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
+                  maxAge: 10 * 365 * 24 * 60 * 60,
+                })
               }} />
           )
         })}

@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import ListAltIcon from '@mui/icons-material/ListAlt'
 import Box from '@mui/material/Box'
@@ -36,6 +36,7 @@ const customTheme = createTheme({
 const StockPeerComparison = ({ loadingAnimeRef }) => {
 
   const [hideColState, setHideColState] = useState({})
+  const [tactic, setTactic] = useState({})
 
   const modalWindowRef = useRef({
     popModalWindow: null,
@@ -200,6 +201,9 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
           o['PEP'] = o['PE'] != Number.MAX_VALUE && o['PE_I'] != Number.MAX_VALUE ? o['PE'] / o['PE_I'] : Number.MAX_VALUE
           o['FwdPEP'] = o['FwdPE'] != Number.MAX_VALUE && o['FwdPE_I'] != Number.MAX_VALUE ? o['FwdPE'] / o['FwdPE_I'] : Number.MAX_VALUE
 
+          if(!("filter_industries" in config)) {
+            config["filter_industries"] = []
+          }
           if((config.filter_symbols.length === 0 && config.filter_industries.length === 0) || config.filter_symbols.includes(symbol) || config.filter_industries.includes(industry)) {
             result.push(o)
           }
@@ -220,7 +224,7 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
 
   const [rowData, setRowData] = useState([])
   const [searchVal, setSearchVal] = useState("")
-  
+ 
   useEffect(() => {
     // componentDidMount is here!
     // componentDidUpdate is here!
@@ -256,11 +260,13 @@ const StockPeerComparison = ({ loadingAnimeRef }) => {
                   placeholder: 'Filter symbols: AAPL, BAC, KSS, ...',
                 }}
               />
-              <FactorPannel factorPannelRef={factorPannelRef}/>
+              <FactorPannel factorPannelRef={factorPannelRef} />
               <div></div>
               <ThemeProvider theme={customTheme}>
               <Box display="flex" justify="flex-end">
                 <Button size="small" style={customTheme.palette.applyPeer} variant="contained" color="primary" startIcon={<SearchIcon />} onClick={() => {
+                  console.log(tactic)
+                  setTactic({})
                   }}>{'Apply Peer'}</Button>
               </Box>
               </ThemeProvider>

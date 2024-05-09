@@ -1,3 +1,5 @@
+export const COOKIE_KEY_FACTOR_PANNEL = 'factor_pannel'
+
 export const PeerTemplate = {
   tactics: [
     {
