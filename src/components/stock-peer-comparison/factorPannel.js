@@ -7,14 +7,26 @@ import Cookies from 'universal-cookie'
 
 import factorPannelStyle from './factorPannel.module.scss'
 
+export const GetTacticFromCookie = () => {
+  const cookies = new Cookies()
+  let cookie_t = cookies.get(COOKIE_KEY_FACTOR_PANNEL)
+  let ret = PeerTemplate.tactics.reduce((accumulator, currentValue)=>{
+    if (!cookie_t) {
+      accumulator[currentValue.type] = currentValue.enable
+    } else {
+      accumulator[currentValue.type] = cookie_t.tactics[currentValue.type]
+    }
+    return accumulator
+  }, {})
+  return ret
+}
+
 const FactorPannel = ({ factorPannelRef }) => {
   const cookies = new Cookies()
 
   // factorPannelRef API
   factorPannelRef.current.getValue = () => {
-    return { 
-      tactics: tactic,
-    }
+    return tactic
   }
 
   factorPannelRef.current.setValue = (Setting) => {
@@ -36,15 +48,7 @@ const FactorPannel = ({ factorPannelRef }) => {
   }
 
   // tactic
-  const [tactic, setTactic] = useState(PeerTemplate.tactics.reduce((accumulator, currentValue)=>{
-    let cookie_t = cookies.get(COOKIE_KEY_FACTOR_PANNEL)
-    if (!cookie_t) {
-      accumulator[currentValue.type] = currentValue.enable
-    } else {
-      accumulator[currentValue.type] = cookie_t.tactics[currentValue.type]
-    }
-    return accumulator
-  }, {}))
+  const [tactic, setTactic] = useState(GetTacticFromCookie())
 
   // tactic color
   let tacticsColor = {

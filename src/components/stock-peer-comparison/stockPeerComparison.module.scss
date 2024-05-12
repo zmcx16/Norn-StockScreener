@@ -10,13 +10,26 @@
   margin: 0 1px 10px 1px;
 }
 
-.cmdPanel {
-  padding: 10px;
+@mixin cmdPanelTemplate {
+  padding-right: 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
   justify-items: left;
   align-items: center;
+  gap: 5px;
 }
+
+.cmdPanelMobile {
+  @include cmdPanelTemplate;
+  padding: 10px;
+  grid-template-columns: 1fr;
+}
+
+.cmdPanel {
+  @include cmdPanelTemplate;
+  grid-template-columns: 480px 1fr 0px auto;
+  width: 100vw;
+}
+
 
 .table{
   height: 800px;
