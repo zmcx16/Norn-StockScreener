@@ -155,7 +155,7 @@ export function PriceField(field, headerName, width, hide, description = null, s
     width: width,
     renderCell: (params) => (
       <Link href={ source=="yahoo" ? YahooFinanceUrl + 'quote/' + params.row["symbol"] : FinvizUrl + 'quote.ashx?t=' +  params.row["symbol"] } target="_blank" rel="noreferrer noopener">
-        <span>{params.value === '-' || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ? '-' : params.value}</span>
+        <span>{params.value === '-' || params.value === -Number.MAX_VALUE || params.value === Number.MAX_VALUE || params.value === null || params.value === undefined || params.value === "Infinity" || params.value === 'NaN' ? '-' : params.value.toFixed(2)}</span>
       </Link>
     ),
     hide: hide
