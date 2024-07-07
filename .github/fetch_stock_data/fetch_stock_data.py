@@ -280,7 +280,7 @@ def main():
         symbol = info["symbol"]
         if symbol in stock_stat:
             for key in info:
-                if key != "symbol":
+                if key != "symbol" and key != "Close":
                     stock_stat[symbol][key] = info[key]
     
     with open(stock_folder_path / 'stat.json', 'w', encoding='utf-8') as f:
