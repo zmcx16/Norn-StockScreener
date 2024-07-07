@@ -3,7 +3,7 @@ import sys
 import pathlib
 import argparse
 import json
-import numbers
+import math
 import requests
 import traceback
 import time
@@ -258,7 +258,7 @@ def main():
     for symbol in stock_info:
         # stock_data = get_stock_1y_data_from_marketwatch(symbol)
         stock_data = get_stock_1y_data_from_yahoo(symbol)
-        if stock_data and len(stock_data) > 0 and isinstance(stock_data[0]["Close"], numbers.Number):
+        if stock_data and len(stock_data) > 0 and not math.isnan(stock_data[0]["Close"]):
             stock_stat[symbol] = {"Close": stock_data[0]["Close"], "P/E": "-", "P/B": "-", "Dividend %": "-", "52W High": "-", "52W Low": "-",
                                   "Perf Week": "-", "Perf Month": "-", "Perf Quarter": "-", "Perf Half Y": "-", "Perf Year": "-", "Perf YTD": "-"}
             with open(stock_historical_folder_path / (symbol + '.json'), 'w', encoding='utf-8') as f:
@@ -280,7 +280,7 @@ def main():
         symbol = info["symbol"]
         if symbol in stock_stat:
             for key in info:
-                if key != "symbol" and key != "Close":
+                if key != "symbol":
                     stock_stat[symbol][key] = info[key]
     
     with open(stock_folder_path / 'stat.json', 'w', encoding='utf-8') as f:
