@@ -3,9 +3,9 @@ import sys
 import pathlib
 import argparse
 import json
+import numbers
 import requests
 import traceback
-import csv
 import time
 import yfinance as yf
 from urllib.parse import urlencode
@@ -258,7 +258,7 @@ def main():
     for symbol in stock_info:
         # stock_data = get_stock_1y_data_from_marketwatch(symbol)
         stock_data = get_stock_1y_data_from_yahoo(symbol)
-        if stock_data and len(stock_data) > 0:
+        if stock_data and len(stock_data) > 0 and isinstance(stock_data[0]["Close"], numbers.Number):
             stock_stat[symbol] = {"Close": stock_data[0]["Close"], "P/E": "-", "P/B": "-", "Dividend %": "-", "52W High": "-", "52W Low": "-",
                                   "Perf Week": "-", "Perf Month": "-", "Perf Quarter": "-", "Perf Half Y": "-", "Perf Year": "-", "Perf YTD": "-"}
             with open(stock_historical_folder_path / (symbol + '.json'), 'w', encoding='utf-8') as f:
