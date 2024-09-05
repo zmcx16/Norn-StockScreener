@@ -71,7 +71,7 @@ export const FCDataTemplate = [
     default_index: 0
   },
   {
-    name: "EPS next Y",
+    name: "EPS next Y_%", // prevent conflict with "EPS next Y"
     display_name: "EPS next Y",
     type: 0,
     tooltip: "EPS growth next year",
