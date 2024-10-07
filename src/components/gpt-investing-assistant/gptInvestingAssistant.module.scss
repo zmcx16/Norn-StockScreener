@@ -1,0 +1,40 @@
+.container {
+  padding: 10px 0;
+  width: 100%;
+}
+
+.analysisSelect {
+  margin: 10px 0px;
+  max-width: 340px;
+}
+
+.queryPannel {
+  border: 1px solid darkcyan;
+  border-radius: 10px;
+  padding: 10px 5px 20px 5px;
+  margin: 10px 0;
+}
+
+.parameterTitle {
+  padding-left: 15px;
+}
+
+.parameterBlock {
+  padding: 10px;
+}
+
+.valueText {
+  width: 100%;
+}
+
+.queryBtn {
+  width: 160px;
+}
+
+.queryBtnMobile {
+  width: 100%;
+}
+
+.gptResponse {
+  margin: 10px 0px;
+}

@@ -39,6 +39,7 @@ export const pageRouterTable = [
   { text: 'Dividend Champions', path: '/dividend-champions/' },
   { text: 'ESG Stocks Summary', path: '/esg-stocks-summary/' },
   { text: 'Stock Peer Comparsion', path: '/stock-peer-comparison/'},
+  { text: 'GPT Investing Assistant', path: '/gpt-investing-assistant/' },
   { text: "Stock Benford's Law", path: '/stock-benford-law/' },
   { text: 'Stock Price Simulation', path: '/stock-price-simulation/' },
   { text: 'Market Correlation Matrix', path: '/market-correlation-matrix/' },
