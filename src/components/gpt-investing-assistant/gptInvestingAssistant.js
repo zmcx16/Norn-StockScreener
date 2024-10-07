@@ -51,7 +51,13 @@ const GPTResponse = ({GPTResponseRef, loadingAnimeRef}) => {
       } else {
         modalWindowRef.current.popModalWindow(<h2>Get GPT Response Failed, ret={resp_data['ret']}</h2>)
       }
-    }else {
+    }else if (response.status === 401) {
+      if ('ret' in resp_data && resp_data['ret'] === -100) {
+        modalWindowRef.current.popModalWindow(<h2>Invalid OPENAI API KEY</h2>)
+      } else {
+        modalWindowRef.current.popModalWindow(<h2>Unauthorized</h2>)
+      }
+    } else {
       modalWindowRef.current.popModalWindow(<h2>Get GPT Response Failed.</h2>)
     }
     loadingAnimeRef.current.setLoading(false)
