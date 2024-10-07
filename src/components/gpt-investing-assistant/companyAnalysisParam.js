@@ -104,7 +104,7 @@ const StatisticsComponent = ({ statisticsRef }) => {
         {
           CompanyAnalysisFiltersDef.map((value, index) => {
             return (
-              <MenuItem key={shortid.generate()} value={index}>
+              <MenuItem key={index} value={index}>
                 <Checkbox checked={statisticsArg.includes(index)} />
                 <ListItemText primary={value.display_name} />
               </MenuItem>)
@@ -145,7 +145,7 @@ const GurusComponent = ({ gurusRef }) => {
           {
             CompanyAnalysisGurusDef.map((value, index) => {
               return (
-                <MenuItem key={shortid.generate()} value={index}>
+                <MenuItem key={index} value={index}>
                   <Checkbox checked={gurusArg.includes(index)} />
                   <ListItemText primary={value.name} />
                 </MenuItem>)
@@ -180,15 +180,15 @@ const CompanyAnalysisParam = ({GPTResponseRef}) => {
     <div className={gptInvestingAssistantStyle.queryPannel}>
       <div className={gptInvestingAssistantStyle.parameterBlock}>
         <Grid container spacing={2}>
-          <Grid item md={1} xs={12} key={shortid.generate()}>
+          <Grid item md={1} xs={12}>
             <form noValidate autoComplete="off">
               <TextField className={gptInvestingAssistantStyle.valueText} label={"Symbol"} variant="outlined" defaultValue={"DIS"} size="small" inputRef={symbolInputRef} />
             </form>
           </Grid>
-          <Grid item md={4} xs={12} key={shortid.generate()}>
+          <Grid item md={4} xs={12}>
             <ModelComponent modelInputRef={modelInputRef} />
           </Grid>
-          <Grid item md={6} xs={12} key={shortid.generate()}>
+          <Grid item md={6} xs={12}>
             <form noValidate autoComplete="off">
               <TextField className={gptInvestingAssistantStyle.valueText} label={"OpenAI API Key"} variant="outlined" defaultValue={""} size="small" inputRef={openAIAPIKeyInputRef} />
             </form>
@@ -221,10 +221,10 @@ const CompanyAnalysisParam = ({GPTResponseRef}) => {
               </ThemeProvider>
             </Box>
           </Grid>
-          <Grid item md={12} xs={12} key={shortid.generate()}>
+          <Grid item md={12} xs={12}>
             <StatisticsComponent statisticsRef={statisticsRef} />
           </Grid>
-          <Grid item md={12} xs={12} key={shortid.generate()}>
+          <Grid item md={12} xs={12}>
             <GurusComponent gurusRef={gurusRef} />
           </Grid>
         </Grid>
