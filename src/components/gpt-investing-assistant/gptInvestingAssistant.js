@@ -10,6 +10,7 @@ import Box from '@mui/material/Box'
 import shortid from 'shortid'
 import useFetch from 'use-http'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 import CompanyAnalysisParam from './companyAnalysisParam'
 import { AnalysisSelectDef, CompanyAnalysisGPTResponseExample } from '../../common/gptdef'
@@ -20,62 +21,58 @@ import commonStyle from '../common.module.scss'
 import gptInvestingAssistantStyle from './gptInvestingAssistant.module.scss'
 
 
-const GPTResponse = ({GPTResponseRef}) => {
-  const drawGPTResponse = (isExample, data) => {
-    return <div className={gptInvestingAssistantStyle.gptResponse}>
-      <Box component="div" sx={{ border: 1, borderColor: 'primary.main', borderRadius: 1, padding: "0px 20px"}}>
-        <div style={{opacity: isExample ? 0.5 : 1 }}>
-          <ReactMarkdown >{data}</ReactMarkdown>
-        </div>
-      </Box>
-    </div>  
-  }
-  const [gptResponse, setGPTResponse] = useState(drawGPTResponse(true, CompanyAnalysisGPTResponseExample))
-  GPTResponseRef.current.renderGPTResponse = (data) => {
-    setGPTResponse(drawGPTResponse(false, data))
-  } 
-  return gptResponse
-}
-
-const GPTInvestingAssistant = ({loadingAnimeRef}) => {
-
-  const { post, response } = useFetch(NSSServerUrl)
+const GPTResponse = ({GPTResponseRef, loadingAnimeRef}) => {
   const modalWindowRef = useRef({
     popModalWindow: null,
     popPureModal: null,
   })
-  const GPTResponseRef = useRef({
-    renderGPTResponse: null,
-  })
+  const { post, response } = useFetch(NSSServerUrl)
+  const drawGPTResponse = (isExample, data) => {
+    return <div className={gptInvestingAssistantStyle.gptResponse}>
+      <Box component="div" sx={{ border: 1, borderColor: 'primary.main', borderRadius: 1, padding: "0px 20px"}}>
+        <div style={{opacity: isExample ? 0.5 : 1 }}>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{data}</ReactMarkdown>
+        </div>
+      </Box>
+      <ModalWindow modalWindowRef={modalWindowRef} />
+    </div>  
+  }
 
-  const GPTInvestingAssistantRef = useRef({
-    RequestGPTAPI: async (api, body)=>{
-      loadingAnimeRef.current.setLoading(true)
-      console.log(api, body)
-      const resp_data = await post(api, body)
-      if (response.ok) {
-        console.log(resp_data)
-        if (resp_data['ret'] === 0){
-          if ('data' in resp_data && 'contents' in resp_data['data']) {
-            GPTResponseRef.current.renderGPTResponse(resp_data['data']['contents'].join('\n\n'))
-          }
-        } else {
-          modalWindowRef.current.popModalWindow(<h2>Get GPT Response Failed, ret={resp_data['ret']}</h2>)
+  GPTResponseRef.current.RequestGPTAPI = async (api, body) => {
+    loadingAnimeRef.current.setLoading(true)
+    console.log(api, body)
+    const resp_data = await post(api, body)
+    if (response.ok) {
+      console.log(resp_data)
+      if (resp_data['ret'] === 0){
+        if ('data' in resp_data && 'contents' in resp_data['data']) {
+          setGPTResponse(drawGPTResponse(false, resp_data['data']['contents'].join('\n\n')))
         }
-      }else {
-        modalWindowRef.current.popModalWindow(<h2>Get GPT Response Failed.</h2>)
+      } else {
+        modalWindowRef.current.popModalWindow(<h2>Get GPT Response Failed, ret={resp_data['ret']}</h2>)
       }
-      loadingAnimeRef.current.setLoading(false)
+    }else {
+      modalWindowRef.current.popModalWindow(<h2>Get GPT Response Failed.</h2>)
     }
+    loadingAnimeRef.current.setLoading(false)
+  }
+
+  const [gptResponse, setGPTResponse] = useState(drawGPTResponse(true, CompanyAnalysisGPTResponseExample))
+  return gptResponse
+}
+
+const GPTInvestingAssistant = ({loadingAnimeRef}) => {
+  const GPTResponseRef = useRef({
+    RequestGPTAPI: null,
   })
 
-  const [paramPannel, setParamPannel] = useState(<CompanyAnalysisParam GPTInvestingAssistantRef={GPTInvestingAssistantRef} />)
+  const [paramPannel, setParamPannel] = useState(<></>)
 
   const renderPage = (selectIndex) => {
     loadingAnimeRef.current.setLoading(false)
     switch (selectIndex) {
       case 0:
-        setParamPannel(<CompanyAnalysisParam GPTInvestingAssistantRef={GPTInvestingAssistantRef} />)
+        setParamPannel(<CompanyAnalysisParam GPTResponseRef={GPTResponseRef} />)
         break
       default:
         break
@@ -126,9 +123,8 @@ const GPTInvestingAssistant = ({loadingAnimeRef}) => {
           </Grid>
         </Grid>
         {paramPannel}
-        <GPTResponse GPTResponseRef={GPTResponseRef} />
+        <GPTResponse GPTResponseRef={GPTResponseRef} loadingAnimeRef={loadingAnimeRef} />
       </div>
-      <ModalWindow modalWindowRef={modalWindowRef} />
     </div>
   )
 }
