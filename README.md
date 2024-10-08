@@ -163,6 +163,9 @@ Android APP (TWA): https://play.google.com/store/apps/details?id=moe.zmcx16.norn
   <details><summary>Stock Peer Comparison (https://norn-stockscreener.zmcx16.moe/stock-peer-comparison/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-stock-peer-comparison.png">
   </blockquote></details>
+  <details><summary>GPT Investing Assistant (https://norn-stockscreener.zmcx16.moe/gpt-investing-assistant/)</summary><blockquote>
+  <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-gpt-investing-assistant1.png">
+  </blockquote></details>
   <details><summary>Stock Benford's Law (https://norn-stockscreener.zmcx16.moe/stock-benford-law/)</summary><blockquote>
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-benford-law1.png">
   <img src="https://github.com/zmcx16/Norn-StockScreener/blob/master/demo/demo-benford-law2.png">
