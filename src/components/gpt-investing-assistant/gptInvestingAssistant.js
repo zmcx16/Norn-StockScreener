@@ -14,7 +14,7 @@ import remarkGfm from 'remark-gfm'
 
 import CompanyAnalysisParam from './companyAnalysisParam'
 import { AnalysisSelectDef, CompanyAnalysisGPTResponseExample } from '../../common/gptdef'
-import { NSSServerUrl } from '../../common/common'
+import { NSSServerDNSOnlyUrl } from '../../common/common'
 import ModalWindow from '../modalWindow'
 
 import commonStyle from '../common.module.scss'
@@ -26,7 +26,7 @@ const GPTResponse = ({GPTResponseRef, loadingAnimeRef}) => {
     popModalWindow: null,
     popPureModal: null,
   })
-  const { post, response } = useFetch(NSSServerUrl)
+  const { post, response } = useFetch(NSSServerDNSOnlyUrl)
   const drawGPTResponse = (isExample, data) => {
     return <div className={gptInvestingAssistantStyle.gptResponse}>
       <Box component="div" sx={{ border: 1, borderColor: 'primary.main', borderRadius: 1, padding: "0px 20px"}}>
