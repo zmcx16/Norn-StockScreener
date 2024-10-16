@@ -35,7 +35,6 @@ const CallPutComponent = ({callPutRef}) => {
         name="call-put-radio-buttons-group"
         value={value}
         onChange={(event) => {
-          console.log(event.target.value)
           setValue(event.target.value)
         }}
       >
