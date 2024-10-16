@@ -30,8 +30,8 @@ export const MenuProps = {
   },
 }
 
-export const DatePickerComponent = ({ datePickerRef, label }) => {
-  const [value, setValue] = useState(dayjs(new Date()))
+export const DatePickerComponent = ({ datePickerRef, label, defaultDate }) => {
+  const [value, setValue] = useState(dayjs(defaultDate))
   datePickerRef.current.getValue = () => {
     return dayjs(value).format('YYYY-MM-DD')
   }

@@ -35,6 +35,7 @@ const CallPutComponent = ({callPutRef}) => {
         name="call-put-radio-buttons-group"
         value={value}
         onChange={(event) => {
+          console.log(event.target.value)
           setValue(event.target.value)
         }}
       >
@@ -59,6 +60,15 @@ const OptionValuationAnalysisParam = ({GPTResponseRef}) => {
   const valuationDataRef = useRef(OptionValuationAnalysisDef.map((value, index) => {return value.default ? index : -1}).filter((value) => {return value !== -1}))
 
   const openAIAPIKeyInputRef = useRef(null)
+
+  const nextFriday = () => {
+    let date = new Date()
+    date.setDate(date.getDate() + (12 - date.getDay()) % 7)
+    if (date.getDate() <= new Date().getDate()) {
+      date.setDate(date.getDate() + 7)
+    }
+    return date
+  }
 
   return (
     <div className={gptInvestingAssistantStyle.queryPannel}>
@@ -101,7 +111,7 @@ const OptionValuationAnalysisParam = ({GPTResponseRef}) => {
                   } else if (body.data.api_key === '') {
                     modalWindowRef.current.popModalWindow(<h2>[Invalid] OpenAI API Key is empty.</h2>)
                     return
-                  } else if (body.data.option_type !== 'put ' && body.data.option_type !== 'call') {
+                  } else if (body.data.option_type !== 'put' && body.data.option_type !== 'call') {
                     modalWindowRef.current.popModalWindow(<h2>[Invalid] Option Type is invalid.</h2>)
                     return
                   } else if (!IsValidDateYYYYDashMMDashDD(body.data.expiration_date)) {
@@ -117,7 +127,7 @@ const OptionValuationAnalysisParam = ({GPTResponseRef}) => {
             </Box>
           </Grid>
           <Grid item md={2} xs={12}>          
-            <DatePickerComponent datePickerRef={expirationDateRef} label={"Expiration Date"} />
+            <DatePickerComponent datePickerRef={expirationDateRef} label={"Expiration Date"} defaultDate={nextFriday()} />
           </Grid>
           <Grid item md={2} xs={12}>   
             <form noValidate autoComplete="off" style={{paddingLeft:"5px", width: "inherit"}}>

@@ -13,7 +13,8 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 import CompanyAnalysisParam from './companyAnalysisParam'
-import { AnalysisSelectDef } from '../../common/gptdef'
+import OptionValuationAnalysisParam from './optionValuationAnalysisParam'
+import { AnalysisSelectDef } from '../../common/gpt/commonDef'
 import { NSSServerDNSOnlyUrl } from '../../common/common'
 import ModalWindow from '../modalWindow'
 
@@ -27,7 +28,7 @@ const GPTResponse = ({ GPTResponseRef, loadingAnimeRef, defaultOutput }) => {
     popPureModal: null,
   })
   //const { post, response } = useFetch(NSSServerDNSOnlyUrl)
-  const { post, response } = useFetch("https://zmcx16.moe")
+  const { post, response } = useFetch("https://localhost:44305")
 
   const drawGPTResponse = (isExample, data) => {
     return (

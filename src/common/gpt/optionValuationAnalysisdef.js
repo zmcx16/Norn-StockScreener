@@ -4,52 +4,52 @@ export const OptionValuationAnalysisAPI = "/api/task/do-ai-option-valuation-anal
 export const OptionValuationAnalysisDef = [
   {
     name: 'BSM_EWMAHisVol',
-    display_name: 'BSM_EWMAHisVol',
+    display_name: 'Black Scholes Merton EWMA Historical Volatility',
     default: true,
   },
   {
     name: 'MC_EWMAHisVol',
-    display_name: 'MC_EWMAHisVol',
+    display_name: 'Monte Carlo EWMA Historical Volatility',
     default: true,
   },
   {
     name: 'BT_EWMAHisVol',
-    display_name: 'BT_EWMAHisVol',
+    display_name: 'Binomial Tree EWMA Historical Volatility',
     default: true,
   },
   {
     name: 'KellyCriterion',
-    display_name: 'KellyCriterion',
+    display_name: 'Kelly Criterion',
     default: true,
   },
   {
     name: 'exerciseProbability',
-    display_name: 'exerciseProbability',
+    display_name: 'Probability of Exercise of Option',
     default: true,
   },
   {
     name: 'delta',
-    display_name: 'delta',
+    display_name: 'Delta',
     default: true,
   },
   {
     name: 'gamma',
-    display_name: 'gamma',
+    display_name: 'Gamma',
     default: true,
   },
   {
     name: 'vega',
-    display_name: 'vega',
+    display_name: 'Vega',
     default: true,
   },
   {
     name: 'theta',
-    display_name: 'theta',
+    display_name: 'Theta',
     default: true,
   },
   {
     name: 'rho',
-    display_name: 'rho',
+    display_name: 'Rho',
     default: true,
   },
 ]
