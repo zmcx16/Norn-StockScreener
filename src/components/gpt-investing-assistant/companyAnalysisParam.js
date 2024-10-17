@@ -14,105 +14,14 @@ import { blue } from '@mui/material/colors'
 import Box from '@mui/material/Box'
 import { createTheme } from '@mui/material/styles'
 import { ThemeProvider } from '@mui/styles'
-import shortid from 'shortid'
 import { isMobile } from 'react-device-detect'
 
-import { CompanyAnalysisAPI, GPTModelSelectDef, CompanyAnalysisFiltersDef, CompanyAnalysisGurusDef } from '../../common/gptdef'
+import { CompanyAnalysisAPI, CompanyAnalysisFiltersDef, CompanyAnalysisGurusDef } from '../../common/gpt/companyAnalysisdef'
+import { ModelComponent, FiltersComponent, MenuProps } from './commonParam'
 import ModalWindow from '../modalWindow'
 
 import gptInvestingAssistantStyle from './gptInvestingAssistant.module.scss'
 
-
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 13.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-}
-
-const ModelComponent = ({ modelInputRef }) => {
-  const [modelArg, setModelArg] = useState(0);
-  const [modelInputValue, setModelInputValue] = useState(GPTModelSelectDef[0]);
-
-  const handleModelChange = (event) => {
-    const selectedModel = GPTModelSelectDef[event.target.value];
-    setModelArg(event.target.value);
-    setModelInputValue(selectedModel);
-  }
-
-  const renderModelInput = (value) => {
-    return (
-      <form noValidate autoComplete="off" style={{ paddingLeft: "5px", width: "inherit" }}>
-        <TextField
-          className={gptInvestingAssistantStyle.valueText}
-          placeholder="Select or type the model name"
-          label={"GPT Model"}
-          variant="outlined"
-          value={value}
-          onChange={(e) => setModelInputValue(e.target.value)}
-          size="small"
-          inputRef={modelInputRef}
-        />
-      </form>
-    )
-  }
-
-  return (
-    <div style={{ display: "inline-flex", width: "100%" }}>
-      <FormControl size="small" variant="outlined" style={{ minWidth: "150px" }}>
-        <InputLabel htmlFor="modelArg-select">{'Model Name'}</InputLabel>
-        <Select
-          native
-          value={modelArg}
-          displayEmpty
-          onChange={handleModelChange}
-          label={'Model Name'}
-        >
-          {GPTModelSelectDef.map((value, index) => (
-            <option key={shortid.generate()} index={index} value={index}>
-              {value}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-      {renderModelInput(modelInputValue)} 
-    </div>
-  )
-}
-
-const StatisticsComponent = ({ statisticsRef }) => {
-  const [statisticsArg, setStatisticsArg] = useState(statisticsRef.current)
-  return (
-    <FormControl size="small" variant="outlined" style={{width:"100%"}}>
-      <InputLabel htmlFor="statisticsArg-select">{'Key Statistics'}</InputLabel>
-      <Select
-        value={statisticsArg}
-        multiple
-        onChange={(event) => {
-          statisticsRef.current = event.target.value
-          setStatisticsArg(event.target.value)
-        }}
-        label={'Key Statistics'}
-        input={<OutlinedInput label="Key Statistics" />}
-        renderValue={(selected) => selected.map((value) => CompanyAnalysisFiltersDef[value].display_name).join(', ')}
-        MenuProps={MenuProps}
-      >
-        {
-          CompanyAnalysisFiltersDef.map((value, index) => {
-            return (
-              <MenuItem key={index} value={index}>
-                <Checkbox checked={statisticsArg.includes(index)} />
-                <ListItemText primary={value.display_name} />
-              </MenuItem>)
-          })
-        }
-      </Select>
-    </FormControl>)
-}
 
 const GurusComponent = ({ gurusRef }) => {
   const [gurusArg, setGurusArg] = useState(CompanyAnalysisGurusDef.map((value, index) => {return value.default ? index : -1}).filter((value) => {return value !== -1}))
@@ -222,7 +131,7 @@ const CompanyAnalysisParam = ({GPTResponseRef}) => {
             </Box>
           </Grid>
           <Grid item md={12} xs={12}>
-            <StatisticsComponent statisticsRef={statisticsRef} />
+            <FiltersComponent filtersRef={statisticsRef} filterName="Key Statistics" filtersDef={CompanyAnalysisFiltersDef} />
           </Grid>
           <Grid item md={12} xs={12}>
             <GurusComponent gurusRef={gurusRef} />
