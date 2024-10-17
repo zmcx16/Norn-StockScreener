@@ -1,5 +1,4 @@
-//export const OptionValuationAnalysisAPI = "/stock-minehunter/api/task/do-ai-option-valuation-analysis"
-export const OptionValuationAnalysisAPI = "/api/task/do-ai-option-valuation-analysis"
+export const OptionValuationAnalysisAPI = "/stock-minehunter/api/task/do-ai-option-valuation-analysis"
 
 export const OptionValuationAnalysisDef = [
   {

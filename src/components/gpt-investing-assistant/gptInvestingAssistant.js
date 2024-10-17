@@ -27,8 +27,7 @@ const GPTResponse = ({ GPTResponseRef, loadingAnimeRef, defaultOutput }) => {
     popModalWindow: null,
     popPureModal: null,
   })
-  //const { post, response } = useFetch(NSSServerDNSOnlyUrl)
-  const { post, response } = useFetch("https://localhost:44305")
+  const { post, response } = useFetch(NSSServerDNSOnlyUrl)
 
   const drawGPTResponse = (isExample, data) => {
     return (
