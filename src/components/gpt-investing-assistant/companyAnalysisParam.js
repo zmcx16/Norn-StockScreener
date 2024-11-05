@@ -125,7 +125,7 @@ const CompanyAnalysisParam = ({GPTResponseRef}) => {
                     modalWindowRef.current.popModalWindow(<h2>[Invalid] OpenAI API Key is empty.</h2>)
                     return
                   }
-                  GPTResponseRef.current.RequestGPTAPI(CompanyAnalysisAPI, body)
+                  GPTResponseRef.current.requestGPTAPI(CompanyAnalysisAPI, body)
                 }}>{'Analysis'}</Button>
               </ThemeProvider>
             </Box>

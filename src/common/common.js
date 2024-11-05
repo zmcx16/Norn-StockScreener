@@ -11,7 +11,6 @@ export const NornStockScreenerMobileUrl = "https://play.google.com/store/apps/de
 export const zmcx16ProjectUrl = "https://project.zmcx16.moe"
 export const zmcx16BlogUrl = "https://blog.zmcx16.moe"
 export const NSSServerUrl = "https://zmcx16.moe"
-export const NSSServerDNSOnlyUrl = "https://dns-only.zmcx16.moe"
 export const NSSDoQueryAPI = "/stock-minehunter/api/task/do-norn-screen"
 export const NornFinanceAPIServerDomain = "norn-finance.zmcx16.moe"
 export const NornFinanceAPIServerGithub = "https://github.com/zmcx16/Norn-Finance-API-Server"

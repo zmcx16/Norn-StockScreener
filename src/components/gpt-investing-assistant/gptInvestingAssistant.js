@@ -15,7 +15,7 @@ import remarkGfm from 'remark-gfm'
 import CompanyAnalysisParam from './companyAnalysisParam'
 import OptionValuationAnalysisParam from './optionValuationAnalysisParam'
 import { AnalysisSelectDef } from '../../common/gpt/commonDef'
-import { NSSServerDNSOnlyUrl } from '../../common/common'
+import { NSSServerUrl } from '../../common/common'
 import ModalWindow from '../modalWindow'
 
 import commonStyle from '../common.module.scss'
@@ -27,7 +27,7 @@ const GPTResponse = ({ GPTResponseRef, loadingAnimeRef, defaultOutput }) => {
     popModalWindow: null,
     popPureModal: null,
   })
-  const { post, response } = useFetch(NSSServerDNSOnlyUrl)
+  const { post, response } = useFetch(NSSServerUrl)
 
   const drawGPTResponse = (isExample, data) => {
     return (
