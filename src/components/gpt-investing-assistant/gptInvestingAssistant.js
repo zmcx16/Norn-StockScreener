@@ -65,15 +65,19 @@ const GPTResponse = ({ GPTResponseRef, loadingAnimeRef, defaultOutput }) => {
             )
           }
         } else if ("ret" in resp_data && resp_data["ret"] === -100) {
-          modalWindowRef.current.popModalWindow(<h2>Invalid OPENAI API KEY</h2>);
+          modalWindowRef.current.popModalWindow(<h2>Invalid OPENAI API KEY</h2>)
         } else if ("ret" in resp_data && resp_data["ret"] === -200) {
-          modalWindowRef.current.popModalWindow(<h2>Norn Finance Server API error</h2>);
+          modalWindowRef.current.popModalWindow(<h2>Norn Finance Server API error</h2>)
         } else if ("ret" in resp_data && resp_data["ret"] === -300) {
           modalWindowRef.current.popModalWindow(<h2>No Data</h2>)
         } else {
-          modalWindowRef.current.popModalWindow(
-            <h2>Get GPT Response Failed. ({response.status})</h2>
-          );
+          let err_msg = ""
+          if ("err_msg" in resp_data) {
+            err_msg = resp_data["err_msg"]
+            modalWindowRef.current.popModalWindow(
+              <h2>Get GPT Response Failed. ({response.status}), err message={err_msg}</h2>
+            )
+          }
         }
         loadingAnimeRef.current.setLoading(false)
       },
