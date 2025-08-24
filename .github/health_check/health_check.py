@@ -123,6 +123,7 @@ if __name__ == "__main__":
                 print(f"[do-norn-screen] Received {len(resp['data'])} results.")
         except Exception as ex:
             print('Generated an exception: {ex}, try next target.'.format(ex=ex))
+            sys.exit(-5)
             
     # test report status by Azure Pipeline to reduce server memory loading
     """
