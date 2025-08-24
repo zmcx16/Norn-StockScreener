@@ -25,7 +25,7 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Install Python dependencies
       run: |
-        python -m pip install -r ./.github/data_status/requirements.txt
+        python -m pip install -r ./.github/health_check/requirements.txt
     - name: health check
       run: |-
         python ./.github/health_check/health_check.py
