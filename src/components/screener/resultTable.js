@@ -211,7 +211,8 @@ const ResultTable = ({ResultTableRef}) => {
           <span style={{ fontSize: 18 }}>({(params.value === "NaN" || params.value === "Infinity" ||  params.value === -Number.MAX_VALUE) ? "NaN" : params.value.toFixed(2)})</span>
         </div>
       ), 
-      hide: 'beneish_score' in hideColState ? hideColState['beneish_score'] : isMobile
+      //hide: 'beneish_score' in hideColState ? hideColState['beneish_score'] : isMobile
+      hide: true // hide this column for now until fix the beneish model
     },
     {
       field: 'risk',
