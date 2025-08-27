@@ -524,11 +524,11 @@ def main():
     get_recommendation_data(ranking_folder_path, stock_info)
 
     eps_config = [
-        {'api': 'get-eps-q-data', 'output_name': 'eps_financials.json', 'type': 0, 'link': 'https://finance.yahoo.com/quote/{symbol}/financials'},
+        # {'api': 'get-eps-q-data', 'output_name': 'eps_financials.json', 'type': 0, 'link': 'https://finance.yahoo.com/quote/{symbol}/financials'},
         {'api': 'get-eps-analysis-data', 'output_name': 'eps_analysis.json', 'type': 1, 'link': 'https://finance.yahoo.com/quote/{symbol}/analysis'},
     ]
     get_eps_q_data(ranking_folder_path, stock_info, eps_config[0])
-    get_eps_q_data(ranking_folder_path, stock_info, eps_config[1])
+    # get_eps_q_data(ranking_folder_path, stock_info, eps_config[1])
 
     update_get_market(market_folder_path, config)
     get_market_industry(norn_data_folder_path)
