@@ -232,9 +232,9 @@ Growth +16%`,
         name: "J.P. Morgan",
         symbol: "JPM",
         rank: 25,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 1 place
+`Rank up 1 place
 Growth +5%`,
         link: "https://interbrand.com/best-global-brands/j-p-morgan/",
     },
@@ -242,9 +242,9 @@ Growth +5%`,
         name: "Honda",
         symbol: "HMC",
         rank: 26,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 1 place
+`Rank up 1 place
 Growth +9%`,
         link: "https://interbrand.com/best-global-brands/honda/",
     },
@@ -272,9 +272,9 @@ Growth +6%`,
         name: "Allianz",
         symbol: "ALV.DE",
         rank: 29,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 2 places
+`Rank up 2 places
 Growth +13%`,
         link: "https://interbrand.com/best-global-brands/allianz/",
     },
@@ -282,9 +282,9 @@ Growth +13%`,
         name: "Hyundai",
         symbol: "HYMTF",
         rank: 30,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 2 places
+`Rank up 2 places
 Growth +13%`,
         link: "https://interbrand.com/best-global-brands/hyundai/",
     },
@@ -322,9 +322,9 @@ Growth +6%`,
         name: "Sony",
         symbol: "SONY",
         rank: 34,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 2 places
+`Rank up 2 places
 Growth +9%`,
         link: "https://interbrand.com/best-global-brands/sony/",
     },
@@ -362,9 +362,9 @@ Growth -30%`,
         name: "Netflix",
         symbol: "NFLX",
         rank: 38,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 1 place
+`Rank up 1 place
 Growth +10%`,
         link: "https://interbrand.com/best-global-brands/netflix/",
     },
@@ -401,9 +401,9 @@ Growth -10%`,
         name: "Zara",
         symbol: "IDEXF",
         rank: 42,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
+`Rank up 1 place
 Growth +8%`,
         link: "https://interbrand.com/best-global-brands/zara/",
     },
@@ -421,9 +421,9 @@ Growth +7%`,
         name: "Airbnb",
         symbol: "ABNB",
         rank: 44,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 2 places
+`Rank up 2 places
 Growth +6%`,
         link: "https://interbrand.com/best-global-brands/airbnb/",
     },
@@ -470,9 +470,9 @@ Growth +2%`,
         name: "Volkswagen",
         symbol: "VWAGY",
         rank: 49,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
+`Rank up 1 place
 Growth +9%`,
         link: "https://interbrand.com/best-global-brands/volkswagen/",
     },
@@ -520,9 +520,9 @@ Growth +9%`,
         name: "Pampers",
         symbol: "PG",
         rank: 54,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
+`Rank up 1 place
 Growth +5%`,
         link: "https://interbrand.com/best-global-brands/pampers/",
     },
@@ -630,9 +630,9 @@ Growth +6%`,
         name: "Spotify",
         symbol: "SPOT",
         rank: 65,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 4 places
+`Rank up 4 places
 Growth +12%`,
         link: "https://interbrand.com/best-global-brands/spotify/",
     },
@@ -779,9 +779,9 @@ Growth -10%`,
         name: "Corona",
         symbol: "STZ",
         rank: 80,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
+`Rank up 1 place
 Growth +8%`,
         link: "https://interbrand.com/best-global-brands/corona/",
     },
@@ -917,9 +917,9 @@ Growth +4%`,
         name: "Nespresso",
         symbol: "NSRGY",
         rank: 94,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 4 places
+`Rank up 4 places
 Growth +9%`,
         link: "https://interbrand.com/best-global-brands/nespresso/",
     },
