@@ -1,7 +1,7 @@
 export const interbrand_BestGlobalBrands2024 = [
     {
         name: "Apple",
-        symbol: "",
+        symbol: "AAPL",
         rank: 1,
         extra_info:
 `Rank unchanged\nGrowth -3%`,
@@ -9,7 +9,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Microsoft",
-        symbol: "",
+        symbol: "MSFT",
         rank: 2,
         extra_info:
 `Rank unchanged\nGrowth +11%`,
@@ -17,7 +17,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Amazon",
-        symbol: "",
+        symbol: "AMZN",
         rank: 3,
         extra_info:
 `Rank unchanged\nGrowth +8%`,
@@ -25,7 +25,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Google",
-        symbol: "",
+        symbol: "GOOGL",
         rank: 4,
         extra_info:
 `Rank unchanged\nGrowth +12%`,
@@ -33,7 +33,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Samsung",
-        symbol: "",
+        symbol: "-",
         rank: 5,
         extra_info:
 `Rank unchanged\nGrowth +10%`,
@@ -41,7 +41,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Toyota",
-        symbol: "",
+        symbol: "TM",
         rank: 6,
         extra_info:
 `Rank unchanged\nGrowth +13%`,
@@ -49,7 +49,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Coca-Cola",
-        symbol: "",
+        symbol: "KO",
         rank: 7,
         rank_color: '#4caf50',
         extra_info:
@@ -58,7 +58,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Mercedes-Benz",
-        symbol: "",
+        symbol: "MBGAF",
         rank: 8,
         rank_color: '#f44336',
         extra_info:
@@ -67,7 +67,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "McDonald’s",
-        symbol: "",
+        symbol: "MCD",
         rank: 9,
         rank_color: '#4caf50',
         extra_info:
@@ -76,7 +76,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "BMW",
-        symbol: "",
+        symbol: "BMWYY",
         rank: 10,
         extra_info:
 `Rank unchanged\nGrowth +2%`,
@@ -84,7 +84,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Louis Vuitton",
-        symbol: "",
+        symbol: "LVMUY",
         rank: 11,
         rank_color: '#4CAF50',
         extra_info:
@@ -93,7 +93,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Tesla",
-        symbol: "",
+        symbol: "TSLA",
         rank: 12,
         extra_info:
 `Rank unchanged\nGrowth -9%`,
@@ -101,7 +101,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Cisco",
-        symbol: "",
+        symbol: "CSCO",
         rank: 13,
         rank_color: '#4caf50',
         extra_info:
@@ -110,7 +110,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Nike",
-        symbol: "",
+        symbol: "NKE",
         rank: 14,
         rank_color: '#f44336',
         extra_info:
@@ -119,7 +119,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Instagram",
-        symbol: "",
+        symbol: "META",
         rank: 15,
         rank_color: '#4caf50',
         extra_info:
@@ -128,7 +128,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Disney",
-        symbol: "",
+        symbol: "DIS",
         rank: 16,
         rank_color: '#f44336',
         extra_info:
@@ -137,7 +137,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Adobe",
-        symbol: "",
+        symbol: "ADBE",
         rank: 17,
         extra_info:
 `Rank unchanged\nGrowth +12%`,
@@ -145,7 +145,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Oracle",
-        symbol: "",
+        symbol: "ORCL",
         rank: 18,
         rank_color: '#4caf50',
         extra_info:
@@ -154,7 +154,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "IBM",
-        symbol: "",
+        symbol: "IBM",
         rank: 19,
         rank_color: '#f44336',
         extra_info:
@@ -163,7 +163,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "SAP",
-        symbol: "",
+        symbol: "SAP",
         rank: 20,
         extra_info:
 `Rank unchanged\nGrowth +11%`,
@@ -171,7 +171,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Facebook",
-        symbol: "",
+        symbol: "META",
         rank: 21,
         extra_info:
 `Rank unchanged\nGrowth +10%`,
@@ -179,7 +179,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Hermès",
-        symbol: "",
+        symbol: "HESAY",
         rank: 22,
         rank_color: '#4caf50',
         extra_info:
@@ -188,7 +188,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Chanel",
-        symbol: "",
+        symbol: "-",
         rank: 23,
         rank_color: '#f44336',
         extra_info:
@@ -197,7 +197,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "YouTube",
-        symbol: "",
+        symbol: "GOOGL",
         rank: 24,
         rank_color: '#4caf50',
         extra_info:
@@ -206,7 +206,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "J.P. Morgan",
-        symbol: "",
+        symbol: "JPM",
         rank: 25,
         rank_color: '#4caf50',
         extra_info:
@@ -215,7 +215,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Honda",
-        symbol: "",
+        symbol: "HMC",
         rank: 26,
         rank_color: '#4caf50',
         extra_info:
@@ -224,7 +224,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "American Express",
-        symbol: "",
+        symbol: "AXP",
         rank: 27,
         rank_color: '#4caf50',
         extra_info:
@@ -233,7 +233,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "IKEA",
-        symbol: "",
+        symbol: "-",
         rank: 28,
         rank_color: '#4caf50',
         extra_info:
@@ -242,7 +242,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Allianz",
-        symbol: "",
+        symbol: "ALIZY",
         rank: 29,
         rank_color: '#4caf50',
         extra_info:
@@ -251,7 +251,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Hyundai",
-        symbol: "",
+        symbol: "HYMTF",
         rank: 30,
         rank_color: '#4caf50',
         extra_info:
@@ -260,7 +260,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Accenture",
-        symbol: "",
+        symbol: "ACN",
         rank: 31,
         rank_color: '#f44336',
         extra_info:
@@ -269,7 +269,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Visa",
-        symbol: "",
+        symbol: "V",
         rank: 32,
         rank_color: '#4CAF50',
         extra_info:
@@ -278,7 +278,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Pepsi",
-        symbol: "",
+        symbol: "PEP",
         rank: 33,
         rank_color: '#4caf50',
         extra_info:
@@ -287,7 +287,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Sony",
-        symbol: "",
+        symbol: "SONY",
         rank: 34,
         rank_color: '#4caf50',
         extra_info:
@@ -296,7 +296,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "UPS",
-        symbol: "",
+        symbol: "UPS",
         rank: 35,
         rank_color: '#f44336',
         extra_info:
@@ -305,7 +305,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Nvidia",
-        symbol: "",
+        symbol: "NVDA",
         rank: 36,
         rank_color: '#ffc107',
         extra_info:
@@ -314,7 +314,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Intel",
-        symbol: "",
+        symbol: "INTC",
         rank: 37,
         rank_color: '#f44336',
         extra_info:
@@ -323,7 +323,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Netflix",
-        symbol: "",
+        symbol: "NFLX",
         rank: 38,
         rank_color: '#4caf50',
         extra_info:
@@ -332,7 +332,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "MasterCard",
-        symbol: "",
+        symbol: "MA",
         rank: 39,
         rank_color: '#4caf50',
         extra_info:
@@ -341,7 +341,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "PayPal",
-        symbol: "",
+        symbol: "PYPL",
         rank: 40,
         extra_info:
 `Rank unchanged\nGrowth +3%`,
@@ -349,7 +349,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Gucci",
-        symbol: "",
+        symbol: "PPRUY",
         rank: 41,
         rank_color: '#f44336',
         extra_info:
@@ -358,7 +358,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Zara",
-        symbol: "",
+        symbol: "IDEXY",
         rank: 42,
         rank_color: '#4caf50',
         extra_info:
@@ -367,7 +367,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Porsche",
-        symbol: "",
+        symbol: "POAHY",
         rank: 43,
         rank_color: '#4CAF50',
         extra_info:
@@ -376,7 +376,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Airbnb",
-        symbol: "",
+        symbol: "ABNB",
         rank: 44,
         rank_color: '#4caf50',
         extra_info:
@@ -385,7 +385,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Audi",
-        symbol: "",
+        symbol: "VWAGY",
         rank: 45,
         extra_info:
 `Rank unchanged\nGrowth +6%`,
@@ -393,7 +393,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Salesforce",
-        symbol: "",
+        symbol: "CRM",
         rank: 46,
         rank_color: '#f44336',
         extra_info:
@@ -402,7 +402,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "GE",
-        symbol: "",
+        symbol: "GE",
         rank: 47,
         rank_color: '#4caf50',
         extra_info:
@@ -411,7 +411,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "AXA",
-        symbol: "",
+        symbol: "AXAHY",
         rank: 48,
         rank_color: '#f44336',
         extra_info:
@@ -420,7 +420,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Volkswagen",
-        symbol: "",
+        symbol: "VWAGY",
         rank: 49,
         rank_color: '#4caf50',
         extra_info:
@@ -429,7 +429,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Siemens",
-        symbol: "",
+        symbol: "SIEGY",
         rank: 50,
         rank_color: '#4CAF50',
         extra_info:
@@ -438,7 +438,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "adidas",
-        symbol: "",
+        symbol: "ADDYY",
         rank: 51,
         rank_color: '#f44336',
         extra_info:
@@ -447,7 +447,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Starbucks",
-        symbol: "",
+        symbol: "SBUX",
         rank: 52,
         rank_color: '#f44336',
         extra_info:
@@ -456,7 +456,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "L’Oréal Paris",
-        symbol: "",
+        symbol: "LRLCY",
         rank: 53,
         rank_color: '#4CAF50',
         extra_info:
@@ -465,7 +465,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Pampers",
-        symbol: "",
+        symbol: "PG",
         rank: 54,
         rank_color: '#4caf50',
         extra_info:
@@ -474,7 +474,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Citi",
-        symbol: "",
+        symbol: "C",
         rank: 55,
         rank_color: '#4CAF50',
         extra_info:
@@ -483,7 +483,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Ford",
-        symbol: "",
+        symbol: "F",
         rank: 56,
         rank_color: '#f44336',
         extra_info:
@@ -492,7 +492,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Goldman Sachs",
-        symbol: "",
+        symbol: "GS",
         rank: 57,
         rank_color: '#f44336',
         extra_info:
@@ -501,7 +501,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "LEGO",
-        symbol: "",
+        symbol: "-",
         rank: 58,
         rank_color: '#4caf50',
         extra_info:
@@ -510,7 +510,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Nissan",
-        symbol: "",
+        symbol: "NSANY",
         rank: 59,
         rank_color: '#4CAF50',
         extra_info:
@@ -519,7 +519,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "H&M",
-        symbol: "",
+        symbol: "HNNMY",
         rank: 60,
         rank_color: '#f44336',
         extra_info:
@@ -528,7 +528,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Nescafé",
-        symbol: "",
+        symbol: "NSRGY",
         rank: 61,
         rank_color: '#f44336',
         extra_info:
@@ -537,7 +537,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Ferrari",
-        symbol: "",
+        symbol: "RACE",
         rank: 62,
         rank_color: '#00e676',
         extra_info:
@@ -546,7 +546,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "eBay",
-        symbol: "",
+        symbol: "EBAY",
         rank: 63,
         rank_color: '#f44336',
         extra_info:
@@ -555,7 +555,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "HSBC",
-        symbol: "",
+        symbol: "HSBC",
         rank: 64,
         rank_color: '#4caf50',
         extra_info:
@@ -564,7 +564,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Spotify",
-        symbol: "",
+        symbol: "SPOT",
         rank: 65,
         rank_color: '#4CAF50',
         extra_info:
@@ -573,7 +573,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Morgan Stanley",
-        symbol: "",
+        symbol: "MS",
         rank: 66,
         extra_info:
 `Rank unchanged\nGrowth +9%`,
@@ -581,7 +581,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Budweiser",
-        symbol: "",
+        symbol: "BUD",
         rank: 67,
         rank_color: '#f44336',
         extra_info:
@@ -590,7 +590,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "HP",
-        symbol: "",
+        symbol: "HPQ",
         rank: 68,
         rank_color: '#f44336',
         extra_info:
@@ -599,7 +599,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Philips",
-        symbol: "",
+        symbol: "PHG",
         rank: 69,
         rank_color: '#f44336',
         extra_info:
@@ -608,7 +608,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Nintendo",
-        symbol: "",
+        symbol: "NTDOY",
         rank: 70,
         rank_color: '#4caf50',
         extra_info:
@@ -617,7 +617,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Nestlé",
-        symbol: "",
+        symbol: "NSRGY",
         rank: 71,
         rank_color: '#f44336',
         extra_info:
@@ -626,7 +626,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Colgate",
-        symbol: "",
+        symbol: "CL",
         rank: 72,
         rank_color: '#4caf50',
         extra_info:
@@ -635,7 +635,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Cartier",
-        symbol: "",
+        symbol: "CFRUY",
         rank: 73,
         rank_color: '#4caf50',
         extra_info:
@@ -644,7 +644,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Dior",
-        symbol: "",
+        symbol: "CHDRY",
         rank: 74,
         rank_color: '#4caf50',
         extra_info:
@@ -653,7 +653,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Gillette",
-        symbol: "",
+        symbol: "PG",
         rank: 75,
         rank_color: '#f44336',
         extra_info:
@@ -662,7 +662,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Santander",
-        symbol: "",
+        symbol: "SAN",
         rank: 76,
         rank_color: '#4caf50',
         extra_info:
@@ -671,7 +671,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "LinkedIn",
-        symbol: "",
+        symbol: "MSFT",
         rank: 77,
         rank_color: '#4CAF50',
         extra_info:
@@ -680,7 +680,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Uber",
-        symbol: "",
+        symbol: "UBER",
         rank: 78,
         rank_color: '#ffc107',
         extra_info:
@@ -689,7 +689,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "3M",
-        symbol: "",
+        symbol: "MMM",
         rank: 79,
         rank_color: '#f44336',
         extra_info:
@@ -698,7 +698,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Corona",
-        symbol: "",
+        symbol: "BUD",
         rank: 80,
         rank_color: '#4caf50',
         extra_info:
@@ -707,7 +707,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Caterpillar",
-        symbol: "",
+        symbol: "CAT",
         rank: 81,
         rank_color: '#4caf50',
         extra_info:
@@ -716,7 +716,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Danone",
-        symbol: "",
+        symbol: "DANOY",
         rank: 82,
         rank_color: '#f44336',
         extra_info:
@@ -725,7 +725,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Prada",
-        symbol: "",
+        symbol: "PRDSY",
         rank: 83,
         rank_color: '#4CAF50',
         extra_info:
@@ -734,7 +734,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "FedEx",
-        symbol: "",
+        symbol: "FDX",
         rank: 84,
         rank_color: '#f44336',
         extra_info:
@@ -743,7 +743,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Kellogg’s",
-        symbol: "",
+        symbol: "K",
         rank: 85,
         rank_color: '#f44336',
         extra_info:
@@ -752,7 +752,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Kia",
-        symbol: "",
+        symbol: "KIMTF",
         rank: 86,
         rank_color: '#4caf50',
         extra_info:
@@ -761,7 +761,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Xiaomi",
-        symbol: "",
+        symbol: "XIACY",
         rank: 87,
         extra_info:
 `Rank unchanged\nGrowth +10%`,
@@ -769,7 +769,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "DHL",
-        symbol: "",
+        symbol: "DPW.DE",
         rank: 88,
         rank_color: '#f44336',
         extra_info:
@@ -778,7 +778,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Tiffany & Co.",
-        symbol: "",
+        symbol: "LVMUY",
         rank: 89,
         extra_info:
 `Rank unchanged\nGrowth +4%`,
@@ -786,7 +786,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Sephora",
-        symbol: "",
+        symbol: "LVMUY",
         rank: 90,
         rank_color: '#00e676',
         extra_info:
@@ -795,7 +795,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Pandora",
-        symbol: "",
+        symbol: "PNDZF",
         rank: 91,
         rank_color: '#ffc107',
         extra_info:
@@ -804,7 +804,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Hewlett Packard Enterprise",
-        symbol: "",
+        symbol: "HPE",
         rank: 92,
         rank_color: '#f44336',
         extra_info:
@@ -813,7 +813,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Huawei",
-        symbol: "",
+        symbol: "-",
         rank: 93,
         rank_color: '#f44336',
         extra_info:
@@ -822,7 +822,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Nespresso",
-        symbol: "",
+        symbol: "NSRGY",
         rank: 94,
         rank_color: '#4CAF50',
         extra_info:
@@ -831,7 +831,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "KFC",
-        symbol: "",
+        symbol: "YUM",
         rank: 95,
         extra_info:
 `Rank unchanged\nGrowth +4%`,
@@ -839,7 +839,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Range Rover",
-        symbol: "",
+        symbol: "JLR",
         rank: 96,
         rank_color: '#ffc107',
         extra_info:
@@ -848,7 +848,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "LG Electronics",
-        symbol: "",
+        symbol: "-",
         rank: 97,
         rank_color: '#ffc107',
         extra_info:
@@ -857,7 +857,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Panasonic",
-        symbol: "",
+        symbol: "PCRFY",
         rank: 98,
         rank_color: '#f44336',
         extra_info:
@@ -866,7 +866,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Jordan",
-        symbol: "",
+        symbol: "NKE",
         rank: 99,
         rank_color: '#ffc107',
         extra_info:
@@ -875,7 +875,7 @@ export const interbrand_BestGlobalBrands2024 = [
     },
     {
         name: "Heineken",
-        symbol: "",
+        symbol: "HEINY",
         rank: 100,
         rank_color: '#f44336',
         extra_info:
