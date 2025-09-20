@@ -1,985 +1,885 @@
 export const interbrand_BestGlobalBrands2024 = [
     {
         name: "Apple",
-        symbol: "AAPL",
+        symbol: "",
         rank: 1,
-        extra_info: 
-`Rank unchanged
-Growth -3%`,
+        extra_info:
+`Rank unchanged\nGrowth -3%`,
         link: "https://interbrand.com/best-global-brands/apple/",
     },
     {
         name: "Microsoft",
-        symbol: "MSFT",
+        symbol: "",
         rank: 2,
-        extra_info: 
-`Rank unchanged
-Growth +11%`,
+        extra_info:
+`Rank unchanged\nGrowth +11%`,
         link: "https://interbrand.com/best-global-brands/microsoft/",
     },
     {
         name: "Amazon",
-        symbol: "AMZN",
+        symbol: "",
         rank: 3,
-        extra_info: 
-`Rank unchanged
-Growth +8%`,
+        extra_info:
+`Rank unchanged\nGrowth +8%`,
         link: "https://interbrand.com/best-global-brands/amazon/",
     },
     {
         name: "Google",
-        symbol: "GOOG",
+        symbol: "",
         rank: 4,
-        extra_info: 
-`Rank unchanged
-Growth +12%`,
+        extra_info:
+`Rank unchanged\nGrowth +12%`,
         link: "https://interbrand.com/best-global-brands/google/",
     },
     {
         name: "Samsung",
-        symbol: "SSNLF",
+        symbol: "",
         rank: 5,
-        extra_info: 
-`Rank unchanged
-Growth +10%`,
+        extra_info:
+`Rank unchanged\nGrowth +10%`,
         link: "https://interbrand.com/best-global-brands/samsung/",
     },
     {
         name: "Toyota",
-        symbol: "TM",
+        symbol: "",
         rank: 6,
-        extra_info: 
-`Rank unchanged
-Growth +13%`,
+        extra_info:
+`Rank unchanged\nGrowth +13%`,
         link: "https://interbrand.com/best-global-brands/toyota/",
     },
     {
         name: "Coca-Cola",
-        symbol: "KO",
+        symbol: "",
         rank: 7,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +5%`,
+`Rank up 1 place\nGrowth +5%`,
         link: "https://interbrand.com/best-global-brands/coca-cola/",
     },
     {
         name: "Mercedes-Benz",
-        symbol: "DMLRY",
+        symbol: "",
         rank: 8,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth -4%`,
+`Rank down 1 place\nGrowth -4%`,
         link: "https://interbrand.com/best-global-brands/mercedes-benz/",
     },
     {
-        name: "McDonald's",
-        symbol: "MCD",
+        name: "McDonald’s",
+        symbol: "",
         rank: 9,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +4%`,
+`Rank up 2 places\nGrowth +4%`,
         link: "https://interbrand.com/best-global-brands/mcdonalds/",
     },
     {
         name: "BMW",
-        symbol: "BMWYY",
+        symbol: "",
         rank: 10,
         extra_info:
-`Rank unchanged
-Growth +2%`,
+`Rank unchanged\nGrowth +2%`,
         link: "https://interbrand.com/best-global-brands/bmw/",
     },
     {
         name: "Louis Vuitton",
-        symbol: "LVMUY",
+        symbol: "",
         rank: 11,
         rank_color: '#4CAF50',
         extra_info:
-`Rank up 3 places
-Growth +9%`,
+`Rank up 3 places\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/louis-vuitton/",
     },
     {
         name: "Tesla",
-        symbol: "TSLA",
+        symbol: "",
         rank: 12,
         extra_info:
-`Rank unchanged
-Growth -9%`,
+`Rank unchanged\nGrowth -9%`,
         link: "https://interbrand.com/best-global-brands/tesla/",
     },
     {
         name: "Cisco",
-        symbol: "CSCO",
+        symbol: "",
         rank: 13,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +5%`,
+`Rank up 2 places\nGrowth +5%`,
         link: "https://interbrand.com/best-global-brands/cisco/",
     },
     {
         name: "Nike",
-        symbol: "NKE",
+        symbol: "",
         rank: 14,
         rank_color: '#f44336',
         extra_info:
-`Rank down 5 places
-Growth -5%`,
+`Rank down 5 places\nGrowth -5%`,
         link: "https://interbrand.com/best-global-brands/nike/",
     },
     {
         name: "Instagram",
-        symbol: "META",
+        symbol: "",
         rank: 15,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +15%`,
+`Rank up 1 place\nGrowth +15%`,
         link: "https://interbrand.com/best-global-brands/instagram/",
     },
     {
         name: "Disney",
-        symbol: "DIS",
+        symbol: "",
         rank: 16,
         rank_color: '#f44336',
         extra_info:
-`Rank down 3 places
-Growth -11%`,
+`Rank down 3 places\nGrowth -11%`,
         link: "https://interbrand.com/best-global-brands/disney/",
     },
     {
         name: "Adobe",
-        symbol: "ADBE",
+        symbol: "",
         rank: 17,
         extra_info:
-`Rank unchanged
-Growth +12%`,
+`Rank unchanged\nGrowth +12%`,
         link: "https://interbrand.com/best-global-brands/adobe/",
     },
     {
         name: "Oracle",
-        symbol: "ORCL",
+        symbol: "",
         rank: 18,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +9%`,
+`Rank up 1 place\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/oracle/",
     },
     {
         name: "IBM",
-        symbol: "IBM",
+        symbol: "",
         rank: 19,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +7%`,
+`Rank down 1 place\nGrowth +7%`,
         link: "https://interbrand.com/best-global-brands/ibm/",
     },
     {
         name: "SAP",
-        symbol: "SAP",
+        symbol: "",
         rank: 20,
         extra_info:
-`Rank unchanged
-Growth +11%`,
+`Rank unchanged\nGrowth +11%`,
         link: "https://interbrand.com/best-global-brands/sap/",
     },
     {
         name: "Facebook",
-        symbol: "META",
+        symbol: "",
         rank: 21,
         extra_info:
-`Rank unchanged
-Growth +10%`,
+`Rank unchanged\nGrowth +10%`,
         link: "https://interbrand.com/best-global-brands/facebook/",
     },
     {
         name: "Hermès",
-        symbol: "HESAY",
+        symbol: "",
         rank: 22,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +15%`,
+`Rank up 1 place\nGrowth +15%`,
         link: "https://interbrand.com/best-global-brands/hermes/",
     },
     {
         name: "Chanel",
-        symbol: "-",
+        symbol: "",
         rank: 23,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +7%`,
+`Rank down 1 place\nGrowth +7%`,
         link: "https://interbrand.com/best-global-brands/chanel/",
     },
     {
         name: "YouTube",
-        symbol: "GOOG",
+        symbol: "",
         rank: 24,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +16%`,
+`Rank up 1 place\nGrowth +16%`,
         link: "https://interbrand.com/best-global-brands/youtube/",
     },
     {
         name: "J.P. Morgan",
-        symbol: "JPM",
+        symbol: "",
         rank: 25,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +5%`,
+`Rank up 1 place\nGrowth +5%`,
         link: "https://interbrand.com/best-global-brands/j-p-morgan/",
     },
     {
         name: "Honda",
-        symbol: "HMC",
+        symbol: "",
         rank: 26,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +9%`,
+`Rank up 1 place\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/honda/",
     },
     {
         name: "American Express",
-        symbol: "AXP",
+        symbol: "",
         rank: 27,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +11%`,
+`Rank up 1 place\nGrowth +11%`,
         link: "https://interbrand.com/best-global-brands/american-express/",
     },
     {
         name: "IKEA",
-        symbol: "-",
+        symbol: "",
         rank: 28,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +6%`,
+`Rank up 1 place\nGrowth +6%`,
         link: "https://interbrand.com/best-global-brands/ikea/",
     },
     {
         name: "Allianz",
-        symbol: "ALV.DE",
+        symbol: "",
         rank: 29,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +13%`,
+`Rank up 2 places\nGrowth +13%`,
         link: "https://interbrand.com/best-global-brands/allianz/",
     },
     {
         name: "Hyundai",
-        symbol: "HYMTF",
+        symbol: "",
         rank: 30,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +13%`,
+`Rank up 2 places\nGrowth +13%`,
         link: "https://interbrand.com/best-global-brands/hyundai/",
     },
     {
         name: "Accenture",
-        symbol: "ACN",
+        symbol: "",
         rank: 31,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +3%`,
+`Rank down 1 place\nGrowth +3%`,
         link: "https://interbrand.com/best-global-brands/accenture/",
     },
     {
         name: "Visa",
-        symbol: "V",
+        symbol: "",
         rank: 32,
         rank_color: '#4CAF50',
         extra_info:
-`Rank up 5 places
-Growth +13%`,
+`Rank up 5 places\nGrowth +13%`,
         link: "https://interbrand.com/best-global-brands/visa/",
     },
     {
         name: "Pepsi",
-        symbol: "PEP",
+        symbol: "",
         rank: 33,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +6%`,
+`Rank up 2 places\nGrowth +6%`,
         link: "https://interbrand.com/best-global-brands/pepsi/",
     },
     {
         name: "Sony",
-        symbol: "SONY",
+        symbol: "",
         rank: 34,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +9%`,
+`Rank up 2 places\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/sony/",
     },
     {
         name: "UPS",
-        symbol: "UPS",
+        symbol: "",
         rank: 35,
         rank_color: '#f44336',
         extra_info:
-`Rank down 2 places
-Growth -2%`,
+`Rank down 2 places\nGrowth -2%`,
         link: "https://interbrand.com/best-global-brands/ups/",
     },
     {
         name: "Nvidia",
-        symbol: "NVDA",
+        symbol: "",
         rank: 36,
         rank_color: '#ffc107',
         extra_info:
-`Rank New
-Growth New`,
+`Rank New\nGrowth New`,
         link: "https://interbrand.com/best-global-brands/nvidia/",
     },
     {
         name: "Intel",
-        symbol: "INTC",
+        symbol: "",
         rank: 37,
         rank_color: '#f44336',
         extra_info:
-`Rank down 13 places
-Growth -30%`,
+`Rank down 13 places\nGrowth -30%`,
         link: "https://interbrand.com/best-global-brands/intel/",
     },
     {
         name: "Netflix",
-        symbol: "NFLX",
+        symbol: "",
         rank: 38,
-        rank_color: '#4CAF50',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +10%`,
+`Rank up 1 place\nGrowth +10%`,
         link: "https://interbrand.com/best-global-brands/netflix/",
     },
     {
-        name: "Mastercard",
-        symbol: "MA",
+        name: "MasterCard",
+        symbol: "",
         rank: 39,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +8%`,
+`Rank up 2 places\nGrowth +8%`,
         link: "https://interbrand.com/best-global-brands/mastercard/",
     },
     {
         name: "PayPal",
-        symbol: "PYPL",
+        symbol: "",
         rank: 40,
         extra_info:
-`Rank unchanged
-Growth +3%`,
+`Rank unchanged\nGrowth +3%`,
         link: "https://interbrand.com/best-global-brands/paypal/",
     },
     {
         name: "Gucci",
-        symbol: "KER.PA",
+        symbol: "",
         rank: 41,
         rank_color: '#f44336',
         extra_info:
-`Rank down 7 places
-Growth -10%`,
+`Rank down 7 places\nGrowth -10%`,
         link: "https://interbrand.com/best-global-brands/gucci/",
     },
     {
         name: "Zara",
-        symbol: "IDEXF",
+        symbol: "",
         rank: 42,
         rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +8%`,
+`Rank up 1 place\nGrowth +8%`,
         link: "https://interbrand.com/best-global-brands/zara/",
     },
     {
         name: "Porsche",
-        symbol: "POAHY",
+        symbol: "",
         rank: 43,
-        rank_color: '#00e676',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank up 4 places
-Growth +7%`,
+`Rank up 4 places\nGrowth +7%`,
         link: "https://interbrand.com/best-global-brands/porsche/",
     },
     {
         name: "Airbnb",
-        symbol: "ABNB",
+        symbol: "",
         rank: 44,
         rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +6%`,
+`Rank up 2 places\nGrowth +6%`,
         link: "https://interbrand.com/best-global-brands/airbnb/",
     },
     {
         name: "Audi",
-        symbol: "AUDVF",
+        symbol: "",
         rank: 45,
         extra_info:
-`Rank unchanged
-Growth +6%`,
+`Rank unchanged\nGrowth +6%`,
         link: "https://interbrand.com/best-global-brands/audi/",
     },
     {
         name: "Salesforce",
-        symbol: "CRM",
+        symbol: "",
         rank: 46,
         rank_color: '#f44336',
         extra_info:
-`Rank down 8 places
-Growth -7%`,
+`Rank down 8 places\nGrowth -7%`,
         link: "https://interbrand.com/best-global-brands/salesforce/",
     },
     {
         name: "GE",
-        symbol: "GE",
+        symbol: "",
         rank: 47,
-        rank_color: '#00e676',
+        rank_color: '#4caf50',
         extra_info:
-`Rank up 2 places
-Growth +12%`,
+`Rank up 2 places\nGrowth +12%`,
         link: "https://interbrand.com/best-global-brands/ge/",
     },
     {
         name: "AXA",
-        symbol: "CS.PA",
+        symbol: "",
         rank: 48,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth +2%`,
+`Rank down 4 places\nGrowth +2%`,
         link: "https://interbrand.com/best-global-brands/axa/",
     },
     {
         name: "Volkswagen",
-        symbol: "VWAGY",
+        symbol: "",
         rank: 49,
         rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +9%`,
+`Rank up 1 place\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/volkswagen/",
     },
     {
         name: "Siemens",
-        symbol: "SIEGY",
+        symbol: "",
         rank: 50,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 3 places
-Growth +9%`,
+`Rank up 3 places\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/siemens/",
     },
     {
         name: "adidas",
-        symbol: "ADS.DE",
+        symbol: "",
         rank: 51,
         rank_color: '#f44336',
         extra_info:
-`Rank down 9 places
-Growth -6%`,
+`Rank down 9 places\nGrowth -6%`,
         link: "https://interbrand.com/best-global-brands/adidas/",
     },
     {
         name: "Starbucks",
-        symbol: "SBUX",
+        symbol: "",
         rank: 52,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth -1%`,
+`Rank down 4 places\nGrowth -1%`,
         link: "https://interbrand.com/best-global-brands/starbucks/",
     },
     {
-        name: "L'Oréal Paris",
-        symbol: "OR.PA",
+        name: "L’Oréal Paris",
+        symbol: "",
         rank: 53,
-        rank_color: '#00e676',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank up 4 places
-Growth +9%`,
+`Rank up 4 places\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/loreal/",
     },
     {
         name: "Pampers",
-        symbol: "PG",
+        symbol: "",
         rank: 54,
         rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +5%`,
+`Rank up 1 place\nGrowth +5%`,
         link: "https://interbrand.com/best-global-brands/pampers/",
     },
     {
         name: "Citi",
-        symbol: "C",
+        symbol: "",
         rank: 55,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 3 places
-Growth +6%`,
+`Rank up 3 places\nGrowth +6%`,
         link: "https://interbrand.com/best-global-brands/citi/",
     },
     {
         name: "Ford",
-        symbol: "F",
+        symbol: "",
         rank: 56,
         rank_color: '#f44336',
         extra_info:
-`Rank down 5 places
-Growth -3%`,
+`Rank down 5 places\nGrowth -3%`,
         link: "https://interbrand.com/best-global-brands/ford/",
     },
     {
         name: "Goldman Sachs",
-        symbol: "GS",
+        symbol: "",
         rank: 57,
         rank_color: '#f44336',
         extra_info:
-`Rank down 3 places
-Growth +1%`,
+`Rank down 3 places\nGrowth +1%`,
         link: "https://interbrand.com/best-global-brands/goldman-sachs/",
     },
     {
         name: "LEGO",
-        symbol: "-",
+        symbol: "",
         rank: 58,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 5 places
-Growth +7%`,
+`Rank up 1 place\nGrowth +7%`,
         link: "https://interbrand.com/best-global-brands/lego/",
     },
     {
         name: "Nissan",
-        symbol: "NSANY",
+        symbol: "",
         rank: 59,
-        rank_color: '#00e676',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank up 4 places
-Growth +10%`,
+`Rank up 4 places\nGrowth +10%`,
         link: "https://interbrand.com/best-global-brands/nissan/",
     },
     {
         name: "H&M",
-        symbol: "HM-B.ST",
+        symbol: "",
         rank: 60,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth 0%`,
+`Rank down 4 places\nGrowth +0%`,
         link: "https://interbrand.com/best-global-brands/hm/",
     },
     {
         name: "Nescafé",
-        symbol: "NSRGY",
+        symbol: "",
         rank: 61,
         rank_color: '#f44336',
         extra_info:
-`Rank down 9 places
-Growth -9%`,
+`Rank down 9 places\nGrowth -9%`,
         link: "https://interbrand.com/best-global-brands/nescafe/",
     },
     {
         name: "Ferrari",
-        symbol: "RACE",
+        symbol: "",
         rank: 62,
         rank_color: '#00e676',
         extra_info:
-`Rank up 8 places
-Growth +21%`,
+`Rank up 8 places\nGrowth +21%`,
         link: "https://interbrand.com/best-global-brands/ferrari/",
     },
     {
         name: "eBay",
-        symbol: "EBAY",
+        symbol: "",
         rank: 63,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +1%`,
+`Rank down 1 place\nGrowth +1%`,
         link: "https://interbrand.com/best-global-brands/ebay/",
     },
     {
         name: "HSBC",
-        symbol: "HSBC",
+        symbol: "",
         rank: 64,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
-Growth +6%`,
+`Rank up 1 place\nGrowth +6%`,
         link: "https://interbrand.com/best-global-brands/hsbc/",
     },
     {
         name: "Spotify",
-        symbol: "SPOT",
+        symbol: "",
         rank: 65,
-        rank_color: '#4caf50',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank up 4 places
-Growth +12%`,
+`Rank up 4 places\nGrowth +12%`,
         link: "https://interbrand.com/best-global-brands/spotify/",
     },
     {
         name: "Morgan Stanley",
-        symbol: "MS",
+        symbol: "",
         rank: 66,
         extra_info:
-`Rank unchanged
-Growth +9%`,
+`Rank unchanged\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/morgan-stanley/",
     },
     {
         name: "Budweiser",
-        symbol: "BUD",
+        symbol: "",
         rank: 67,
         rank_color: '#f44336',
         extra_info:
-`Rank down 6 places
-Growth -8%`,
+`Rank down 6 places\nGrowth -8%`,
         link: "https://interbrand.com/best-global-brands/budweiser/",
     },
     {
         name: "HP",
-        symbol: "HPQ",
+        symbol: "",
         rank: 68,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth -2%`,
+`Rank down 4 places\nGrowth -2%`,
         link: "https://interbrand.com/best-global-brands/hp/",
     },
     {
         name: "Philips",
-        symbol: "PHG",
+        symbol: "",
         rank: 69,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +2%`,
+`Rank down 1 place\nGrowth +2%`,
         link: "https://interbrand.com/best-global-brands/philips/",
     },
     {
         name: "Nintendo",
-        symbol: "NTDOY",
+        symbol: "",
         rank: 70,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
-Growth +9%`,
+`Rank up 1 place\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/nintendo/",
     },
     {
         name: "Nestlé",
-        symbol: "NSRGY",
+        symbol: "",
         rank: 71,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth -1%`,
+`Rank down 4 places\nGrowth -1%`,
         link: "https://interbrand.com/best-global-brands/nestle/",
     },
     {
         name: "Colgate",
-        symbol: "CL",
+        symbol: "",
         rank: 72,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
-Growth +3%`,
+`Rank up 1 place\nGrowth +3%`,
         link: "https://interbrand.com/best-global-brands/colgate/",
     },
     {
         name: "Cartier",
-        symbol: "-",
+        symbol: "",
         rank: 73,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
-Growth +7%`,
+`Rank up 1 place\nGrowth +7%`,
         link: "https://interbrand.com/best-global-brands/cartier/",
     },
     {
         name: "Dior",
-        symbol: "CDI.PA",
+        symbol: "",
         rank: 74,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 2 places
-Growth +8%`,
+`Rank up 2 places\nGrowth +8%`,
         link: "https://interbrand.com/best-global-brands/dior/",
     },
     {
         name: "Gillette",
-        symbol: "PG",
+        symbol: "",
         rank: 75,
         rank_color: '#f44336',
         extra_info:
-`Rank down 3 places
-Growth -3%`,
+`Rank down 3 places\nGrowth -3%`,
         link: "https://interbrand.com/best-global-brands/gillette/",
     },
     {
         name: "Santander",
-        symbol: "SAN",
+        symbol: "",
         rank: 76,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 1 place
-Growth +5%`,
+`Rank up 1 place\nGrowth +5%`,
         link: "https://interbrand.com/best-global-brands/santander/",
     },
     {
         name: "LinkedIn",
-        symbol: "MSFT",
+        symbol: "",
         rank: 77,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 3 places
-Growth +11%`,
+`Rank up 3 places\nGrowth +11%`,
         link: "https://interbrand.com/best-global-brands/linkedin/",
     },
     {
         name: "Uber",
-        symbol: "UBER",
+        symbol: "",
         rank: 78,
         rank_color: '#ffc107',
         extra_info:
-`Rank New
-Growth New`,
+`Rank New\nGrowth New`,
         link: "https://interbrand.com/best-global-brands/uber/",
     },
     {
         name: "3M",
-        symbol: "MMM",
+        symbol: "",
         rank: 79,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth -10%`,
+`Rank down 4 places\nGrowth -10%`,
         link: "https://interbrand.com/best-global-brands/3m/",
     },
     {
         name: "Corona",
-        symbol: "STZ",
+        symbol: "",
         rank: 80,
         rank_color: '#4caf50',
         extra_info:
-`Rank up 1 place
-Growth +8%`,
+`Rank up 1 place\nGrowth +8%`,
         link: "https://interbrand.com/best-global-brands/corona/",
     },
     {
         name: "Caterpillar",
-        symbol: "CAT",
+        symbol: "",
         rank: 81,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 2 places
-Growth +8%`,
+`Rank up 2 places\nGrowth +8%`,
         link: "https://interbrand.com/best-global-brands/caterpillar/",
     },
     {
         name: "Danone",
-        symbol: "BN.PA",
+        symbol: "",
         rank: 82,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth -8%`,
+`Rank down 4 places\nGrowth -8%`,
         link: "https://interbrand.com/best-global-brands/danone/",
     },
     {
         name: "Prada",
-        symbol: "PRDSY",
+        symbol: "",
         rank: 83,
-        rank_color: '#f44336',
+        rank_color: '#4CAF50',
         extra_info:
-`Rank down 3 places
-Growth +14%`,
+`Rank up 3 places\nGrowth +14%`,
         link: "https://interbrand.com/best-global-brands/prada/",
     },
     {
         name: "FedEx",
-        symbol: "FDX",
+        symbol: "",
         rank: 84,
         rank_color: '#f44336',
         extra_info:
-`Rank down 2 places
-Growth +3%`,
+`Rank down 2 places\nGrowth +3%`,
         link: "https://interbrand.com/best-global-brands/fedex/",
     },
     {
-        name: "Kellogg's",
-        symbol: "K",
+        name: "Kellogg’s",
+        symbol: "",
         rank: 85,
         rank_color: '#f44336',
         extra_info:
-`Rank down 6 places
-Growth -7%`,
+`Rank down 6 places\nGrowth -7%`,
         link: "https://interbrand.com/best-global-brands/kelloggs/",
     },
     {
         name: "Kia",
-        symbol: "HYMTF",
+        symbol: "",
         rank: 86,
-        rank_color: '#f44336',
+        rank_color: '#4caf50',
         extra_info:
-`Rank down 2 places
-Growth +15%`,
+`Rank up 2 places\nGrowth +15%`,
         link: "https://interbrand.com/best-global-brands/kia/",
     },
     {
         name: "Xiaomi",
-        symbol: "XIACY",
+        symbol: "",
         rank: 87,
         extra_info:
-`Rank unchanged
-Growth +10%`,
+`Rank unchanged\nGrowth +10%`,
         link: "https://interbrand.com/best-global-brands/xiaomi/",
     },
     {
         name: "DHL",
-        symbol: "DPW.DE",
+        symbol: "",
         rank: 88,
         rank_color: '#f44336',
         extra_info:
-`Rank down 4 places
-Growth -5%`,
+`Rank down 4 places\nGrowth -5%`,
         link: "https://interbrand.com/best-global-brands/dhl/",
     },
     {
         name: "Tiffany & Co.",
-        symbol: "LVMUY",
+        symbol: "",
         rank: 89,
         extra_info:
-`Rank unchanged
-Growth +4%`,
+`Rank unchanged\nGrowth +4%`,
         link: "https://interbrand.com/best-global-brands/tiffany-co/",
     },
     {
         name: "Sephora",
-        symbol: "LVMUY",
+        symbol: "",
         rank: 90,
-        rank_color: '#f44336',
+        rank_color: '#00e676',
         extra_info:
-`Rank down 7 places
-Growth +13%`,
+`Rank up 7 places\nGrowth +13%`,
         link: "https://interbrand.com/best-global-brands/sephora/",
     },
     {
         name: "Pandora",
-        symbol: "PNDORA",
+        symbol: "",
         rank: 91,
         rank_color: '#ffc107',
         extra_info:
-`Rank New
-Growth New`,
+`Rank New\nGrowth New`,
         link: "https://interbrand.com/best-global-brands/pandora/",
     },
     {
         name: "Hewlett Packard Enterprise",
-        symbol: "HPE",
+        symbol: "",
         rank: 92,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +3%`,
+`Rank down 1 place\nGrowth +3%`,
         link: "https://interbrand.com/best-global-brands/hewlett-packard-enterprise/",
     },
     {
         name: "Huawei",
-        symbol: "-",
+        symbol: "",
         rank: 93,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +4%`,
+`Rank down 1 place\nGrowth +4%`,
         link: "https://interbrand.com/best-global-brands/huawei/",
     },
     {
         name: "Nespresso",
-        symbol: "NSRGY",
+        symbol: "",
         rank: 94,
         rank_color: '#4CAF50',
         extra_info:
-`Rank up 4 places
-Growth +9%`,
+`Rank up 4 places\nGrowth +9%`,
         link: "https://interbrand.com/best-global-brands/nespresso/",
     },
     {
         name: "KFC",
-        symbol: "YUM",
+        symbol: "",
         rank: 95,
         extra_info:
-`Rank unchanged
-Growth +4%`,
+`Rank unchanged\nGrowth +4%`,
         link: "https://interbrand.com/best-global-brands/kfc/",
     },
     {
         name: "Range Rover",
-        symbol: "TTM",
+        symbol: "",
         rank: 96,
         rank_color: '#ffc107',
         extra_info:
-`Rank New
-Growth New`,
+`Rank New\nGrowth New`,
         link: "https://interbrand.com/best-global-brands/range-rover/",
     },
     {
         name: "LG Electronics",
-        symbol: "LPL",
+        symbol: "",
         rank: 97,
         rank_color: '#ffc107',
         extra_info:
-`Rank New
-Growth New`,
+`Rank New\nGrowth New`,
         link: "https://interbrand.com/best-global-brands/lg/",
     },
     {
         name: "Panasonic",
-        symbol: "PCRFY",
+        symbol: "",
         rank: 98,
         rank_color: '#f44336',
         extra_info:
-`Rank down 8 places
-Growth -4%`,
+`Rank down 8 places\nGrowth -4%`,
         link: "https://interbrand.com/best-global-brands/panasonic/",
     },
     {
         name: "Jordan",
-        symbol: "NKE",
+        symbol: "",
         rank: 99,
         rank_color: '#ffc107',
         extra_info:
-`Rank New
-Growth New`,
+`Rank New\nGrowth New`,
         link: "https://interbrand.com/best-global-brands/jordan/",
     },
     {
         name: "Heineken",
-        symbol: "HEINY",
+        symbol: "",
         rank: 100,
         rank_color: '#f44336',
         extra_info:
-`Rank down 1 place
-Growth +4%`,
+`Rank down 1 place\nGrowth +4%`,
         link: "https://interbrand.com/best-global-brands/heineken/",
     }
 ]
