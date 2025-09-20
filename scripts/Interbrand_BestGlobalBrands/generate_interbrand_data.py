@@ -102,9 +102,26 @@ class InterbrandScraper:
             item_text = item.get_text(strip=True)
             
             # Look for rank pattern at the beginning
+            # Special handling for cases like "793M" where we need rank 79, not 793
             rank_match = re.match(r'^(\d{1,3})', item_text)  # Allow up to 3 digits for rank 100
             if rank_match:
-                rank = int(rank_match.group(1))
+                potential_rank = int(rank_match.group(1))
+                
+                # If rank > 100, it might be concatenated with brand name (like 793M = rank 79, brand 3M)
+                if potential_rank > 100:
+                    # Try to extract the first 1-2 digits as the real rank
+                    rank_str = rank_match.group(1)
+                    if len(rank_str) >= 3:
+                        # Try first 2 digits
+                        rank = int(rank_str[:2])
+                        if rank > 100:
+                            # Try first digit only
+                            rank = int(rank_str[:1])
+                    else:
+                        rank = potential_rank
+                else:
+                    rank = potential_rank
+                    
                 if 1 <= rank <= 100:
                     # Check if this is already a link or find a link within
                     if item.name == 'a' and '/best-global-brands/' in item.get('href', ''):
@@ -124,23 +141,51 @@ class InterbrandScraper:
                         growth = None
                         
                         # Pattern 1: "01 Apple -3% 488.9 $B"
-                        match1 = re.match(r'^\d{1,3}\s+(.+?)\s+([-+]?\d+%)', link_text)
+                        match1 = re.match(r'^\d{1,3}\s*(.+?)\s+([-+]?\d+%)', link_text)
                         if match1:
                             name = match1.group(1).strip()
                             growth = match1.group(2)
                         
                         # Pattern 2: Handle "NEW" case like "36NvidiaNEW20.0 $B"
                         if not name:
-                            match2 = re.match(r'^\d{1,3}(.+?)NEW', link_text)
+                            match2 = re.match(r'^\d{1,3}\s*(.+?)NEW', link_text)
                             if match2:
                                 name = match2.group(1).strip()
                                 growth = "NEW"
                         
-                        # Pattern 3: Just extract everything after the number
+                        # Pattern 3: Handle special case like "793M-10%8.9 $B" where brand name starts with number
                         if not name:
-                            match3 = re.match(r'^\d{1,3}\s*(.+)', link_text)
+                            # Look for pattern where rank+brand name is concatenated like "793M"
+                            match3 = re.match(r'^(\d{1,3})([A-Za-z][A-Za-z0-9\s\-&\'\.]*?)\s*([-+]?\d+%|NEW)', link_text)
                             if match3:
-                                remaining = match3.group(1)
+                                # Verify the rank matches what we expect
+                                extracted_rank = int(match3.group(1))
+                                if extracted_rank == rank:
+                                    name = match3.group(2).strip()
+                                    growth = match3.group(3) if match3.group(3) else None
+                        
+                        # Pattern 4: Handle case where there's no space between rank and brand name
+                        if not name:
+                            # Pattern like "79[brand_name][growth]" where brand name can start with letter or number
+                            remaining_text = link_text[len(str(rank)):]  # Remove the rank number
+                            # Try to extract brand name and growth from remaining text
+                            match4 = re.match(r'^([A-Za-z0-9][A-Za-z0-9\s\-&\'\.]*?)\s*([-+]?\d+%|NEW)', remaining_text)
+                            if match4:
+                                name = match4.group(1).strip()
+                                growth = match4.group(2) if match4.group(2) else None
+                            # Special case for 3M: check if remaining text starts with "3M"
+                            elif remaining_text.startswith('3M'):
+                                # Extract 3M specifically
+                                match3m = re.match(r'^(3M)\s*([-+]?\d+%|NEW)', remaining_text)
+                                if match3m:
+                                    name = match3m.group(1).strip()
+                                    growth = match3m.group(2) if match3m.group(2) else None
+                        
+                        # Pattern 5: Just extract everything after the number
+                        if not name:
+                            match5 = re.match(r'^\d{1,3}\s*(.+)', link_text)
+                            if match5:
+                                remaining = match5.group(1)
                                 # Try to extract brand name before percentage or dollar amount
                                 name_match = re.match(r'^(.+?)\s*(?:[-+]?\d+%|NEW|[\d.]+\s*\$)', remaining)
                                 if name_match:
@@ -184,6 +229,8 @@ class InterbrandScraper:
                             name = "LG Electronics"
                         elif name.lower() == "hm":
                             name = "H&M"
+                        elif name.lower() == "3m" or name == "3M":
+                            name = "3M"
                         
                         link = urljoin(self.base_url, href)
                         
@@ -217,34 +264,43 @@ class InterbrandScraper:
         page_text = soup.get_text()
         
         # Look for the specific pattern we saw: "01 Apple -3% 488.9 $B02 Microsoft +11% 352.5 $B"
-        pattern = r'(\d{1,3})\s+([A-Za-z\-&\'\s\.]+?)\s+([-+]?\d+%|NEW)\s+[\d.]+\s*\$?[BMK]?'
-        matches = re.findall(pattern, page_text)
+        # Also handle cases like "793M-10%8.9 $B" where brand name starts with numbers or is concatenated with rank
+        pattern1 = r'(\d{1,3})\s+([A-Za-z][A-Za-z0-9\-&\'\s\.]*?)\s+([-+]?\d+%|NEW)\s+[\d.]+\s*\$?[BMK]?'
+        pattern2 = r'(\d{1,3})([A-Za-z0-9][A-Za-z0-9\-&\'\s\.]*?)\s*([-+]?\d+%|NEW)\s+[\d.]+\s*\$?[BMK]?'
         
-        for match in matches:
-            rank = int(match[0])
-            if 1 <= rank <= 100:
-                name = match[1].strip()
-                growth = match[2]
-                
-                # Clean up name (remove any trailing punctuation)
-                name = re.sub(r'[^\w\s\-&\']', '', name).strip()
-                
-                # Generate the brand URL
-                brand_slug = name.lower().replace(' ', '-').replace('&', '-').replace("'", '')
-                # Handle special cases
-                if brand_slug == 'coca-cola':
-                    brand_slug = 'coca-cola'
-                elif brand_slug == 'mercedes-benz':
-                    brand_slug = 'mercedes-benz'
-                
-                link = f"{self.base_url}/best-global-brands/{brand_slug}/"
-                
-                brands.append({
-                    'name': name,
-                    'rank': rank,
-                    'link': link,
-                    'growth': growth
-                })
+        # Try both patterns
+        for pattern in [pattern1, pattern2]:
+            matches = re.findall(pattern, page_text)
+            
+            for match in matches:
+                rank = int(match[0])
+                if 1 <= rank <= 100:
+                    name = match[1].strip()
+                    growth = match[2]
+                    
+                    # Clean up name (remove any trailing punctuation)
+                    name = re.sub(r'[^\w\s\-&\']', '', name).strip()
+                    
+                    # Check if we already have this rank
+                    if not any(b['rank'] == rank for b in brands):
+                        # Generate the brand URL
+                        brand_slug = name.lower().replace(' ', '-').replace('&', '-').replace("'", '')
+                        # Handle special cases
+                        if brand_slug == '3m':
+                            brand_slug = '3m'
+                        elif brand_slug == 'coca-cola':
+                            brand_slug = 'coca-cola'
+                        elif brand_slug == 'mercedes-benz':
+                            brand_slug = 'mercedes-benz'
+                        
+                        link = f"{self.base_url}/best-global-brands/{brand_slug}/"
+                        
+                        brands.append({
+                            'name': name,
+                            'rank': rank,
+                            'link': link,
+                            'growth': growth
+                        })
         
         if brands:
             print(f"Found {len(brands)} brands from direct text parsing")
