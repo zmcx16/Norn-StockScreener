@@ -5,7 +5,7 @@ import { interbrand_BestGlobalBrands2024 } from './data/interbrand_BestGlobalBra
 import { interbrand_BestGlobalBrands2023 } from './data/interbrand_BestGlobalBrands2023'
 import { interbrand_BestGlobalBrands2022 } from './data/interbrand_BestGlobalBrands2022'
 import { interbrand_BestGlobalBrands2021 } from './data/interbrand_BestGlobalBrands2021'
-import { Clarivate_GlobalInnovators2025 } from './data/Clarivate_GlobalInnovators2024'
+import { Clarivate_GlobalInnovators2025 } from './data/Clarivate_GlobalInnovators2025'
 import { Clarivate_GlobalInnovators2024 } from './data/Clarivate_GlobalInnovators2024'
 import { Clarivate_GlobalInnovators2023 } from './data/Clarivate_GlobalInnovators2023'
 import { Clarivate_GlobalInnovators2022 } from './data/Clarivate_GlobalInnovators2022'
