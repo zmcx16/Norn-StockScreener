@@ -1,0 +1,201 @@
+Innovator	Region/Country	Industry	Recognition
+AAC Technologies	China, Mainland	Electronics and computing equipment	
+3 x Winner
+ABB	Switzerland	Industrial systems	
+9 x Winner
+Airbus	France	Aerospace and defense	
+8 x Winner
+Alphabet	United States	Software, media, fintech	
+12 x Winner
+Ant Group	China, Mainland	Software, media, fintech	
+4 x Winner
+Applied Materials	United States	Semiconductors	
+4 x Winner
+ASML	Netherlands	Semiconductors	
+5 x Winner
+ASUS	Taiwan	Electronics and computing equipment	
+2 x Winner
+AUO	Taiwan	Electronics and computing equipment	
+4 x Winner
+BASF	Germany	Chemicals and materials	
+12 x Winner
+BOE Technology	China, Mainland	Electronics and computing equipment	
+4 x Winner
+Boeing	United States	Aerospace and defense	
+14 x Winner
+Bosch	Germany	Industrial conglomerate	
+5 x Winner
+Brother Industries	Japan	Electronics and computing equipment	
+8 x Winner
+Canon	Japan	Electronics and computing equipment	
+12 x Winner
+Caterpillar	United States	Industrial systems	
+1 x Winner
+CATL	China, Mainland	Automotive	
+1 x Winner
+CEA	France	Government and academic research	
+13 x Winner
+CNRS	France	Government and academic research	
+10 x Winner
+Coretronic	Taiwan	Electronics and computing equipment	
+2 x Winner
+Daikin Industries	Japan	Industrial systems	
+10 x Winner
+Deere & Company	United States	Industrial systems	
+5 x Winner
+Delta Electronics	Taiwan	Electronics and computing equipment	
+4 x Winner
+DENSO	Japan	Automotive	
+7 x Winner
+Dow	United States	Chemicals and materials	
+14 x Winner
+Emerson	United States	Industrial systems	
+13 x Winner
+Epson	Japan	Industrial conglomerate	
+12 x Winner
+Ericsson	Sweden	Telecommunications	
+14 x Winner
+Evonik	Germany	Chemicals and materials	
+4 x Winner
+Fanuc	Japan	Industrial systems	
+6 x Winner
+FORVIA	France	Automotive	
+1 x Winner
+Foxconn	Taiwan	Electronics and computing equipment	
+8 x Winner
+FUJIFILM	Japan	Industrial conglomerate	
+13 x Winner
+Fujitsu	Japan	Electronics and computing equipment	
+14 x Winner
+GE Aerospace	United States	Aerospace and defense	
+1 x Winner
+General Motors	United States	Automotive	
+4 x Winner
+Halliburton	United States	Energy and electrical	
+4 x Winner
+Hitachi	Japan	Industrial conglomerate	
+14 x Winner
+Honda	Japan	Automotive	
+14 x Winner
+Honeywell	United States	Industrial systems	
+14 x Winner
+Huawei	China, Mainland	Telecommunications	
+10 x Winner
+Hyundai Motor	South Korea	Automotive	
+4 x Winner
+Infineon Technologies	Germany	Semiconductors	
+5 x Winner
+ITRI	Taiwan	Government and academic research	
+9 x Winner
+Johnson & Johnson	United States	Pharmaceuticals	
+12 x Winner
+Kia	South Korea	Automotive	
+4 x Winner
+Kioxia	Japan	Semiconductors	
+4 x Winner
+Komatsu	Japan	Industrial systems	
+11 x Winner
+Kyocera	Japan	Electronics and computing equipment	
+9 x Winner
+LG Chem	South Korea	Chemicals and materials	
+4 x Winner
+LG Electronics	South Korea	Electronics and computing equipment	
+14 x Winner
+MediaTek	Taiwan	Semiconductors	
+7 x Winner
+MHI	Japan	Industrial systems	
+13 x Winner
+Michelin	France	Automotive	
+7 x Winner
+Micron Technology	United States	Semiconductors	
+9 x Winner
+Mitsubishi Electric	Japan	Industrial conglomerate	
+13 x Winner
+Murata Manufacturing	Japan	Electronics and computing equipment	
+5 x Winner
+Nanya Technology	Taiwan	Semiconductors	
+3 x Winner
+NEC	Japan	Electronics and computing equipment	
+14 x Winner
+Nidec	Japan	Energy and electrical	
+3 x Winner
+Nitto Denko	Japan	Chemicals and materials	
+12 x Winner
+Nokia	Finland	Telecommunications	
+6 x Winner
+NTT	Japan	Telecommunications	
+11 x Winner
+Omron	Japan	Electronics and computing equipment	
+10 x Winner
+Otis	United States	Industrial systems	
+3 x Winner
+Panasonic	Japan	Electronics and computing equipment	
+14 x Winner
+Philip Morris International	United States	Consumer goods and food	
+4 x Winner
+Philips	Netherlands	Medical and biotechnology	
+13 x Winner
+Qualcomm	United States	Telecommunications	
+14 x Winner
+Quanta Computer	Taiwan	Electronics and computing equipment	
+6 x Winner
+Realtek Semiconductor	Taiwan	Semiconductors	
+4 x Winner
+Ricoh	Japan	Electronics and computing equipment	
+6 x Winner
+RTX	United States	Aerospace and defense	
+9 x Winner
+Safran	France	Aerospace and defense	
+12 x Winner
+Samsung Electro-Mechanics	South Korea	Electronics and computing equipment	
+1 x Winner
+Samsung Electronics	South Korea	Electronics and computing equipment	
+14 x Winner
+Samsung SDI	South Korea	Electronics and computing equipment	
+4 x Winner
+SCREEN	Japan	Electronics and computing equipment	
+4 x Winner
+Shin-Etsu Chemical	Japan	Chemicals and materials	
+14 x Winner
+Siemens	Germany	Industrial conglomerate	
+9 x Winner
+Siemens Energy	Germany	Energy and electrical	
+1 x Winner
+SK hynix	South Korea	Electronics and computing equipment	
+4 x Winner
+Sony	Japan	Electronics and computing equipment	
+14 x Winner
+STMicroelectronics	Switzerland	Semiconductors	
+7 x Winner
+Sumitomo Chemical	Japan	Chemicals and materials	
+4 x Winner
+Sumitomo Electric	Japan	Energy and electrical	
+9 x Winner
+Swatch Group	Switzerland	Consumer goods and food	
+4 x Winner
+TDK	Japan	Electronics and computing equipment	
+11 x Winner
+TE Connectivity	United States	Electronics and computing equipment	
+12 x Winner
+Tencent	China, Mainland	Software, media, fintech	
+4 x Winner
+Thales	France	Aerospace and defense	
+12 x Winner
+Tokyo Electron	Japan	Semiconductors	
+5 x Winner
+Toshiba	Japan	Electronics and computing equipment	
+14 x Winner
+Toyota	Japan	Automotive	
+14 x Winner
+TSMC	Taiwan	Semiconductors	
+5 x Winner
+Volkswagen	Germany	Automotive	
+4 x Winner
+Winbond	Taiwan	Semiconductors	
+3 x Winner
+Wistron	Taiwan	Electronics and computing equipment	
+4 x Winner
+Yazaki	Japan	Automotive	
+7 x Winner
+ZEISS	Germany	Industrial systems	
+3 x Winner

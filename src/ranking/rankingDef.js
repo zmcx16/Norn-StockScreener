@@ -21,15 +21,6 @@ export const RankingDef = [
         symbol_detail: ''
     }, 
     {
-        name: 'interbrand_BestGlobalBrands2023',
-        display_name: 'Interbrand - Best Global Brands (2023)',
-        description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,
-        link: 'https://interbrand.com/best-global-brands/',
-        tags: {},
-        data: interbrand_BestGlobalBrands2023,
-        symbol_detail: ''
-    }, 
-    {
         name: 'Clarivate_GlobalInnovators2024',
         display_name: 'Clarivate - Top 100 Global Innovators (2024)',
         description: `Clarivate is a global leader in providing trusted insights and analytics to accelerate the pace of innovation. The vision is to improve the way the world creates, protects and advances innovation.`,
@@ -92,6 +83,15 @@ export const RankingDef = [
         data: "/norn-data/ranking/employees.json",
         symbol_detail: 'https://finviz.com/quote.ashx?t={symbol}'
     },
+    {
+        name: 'interbrand_BestGlobalBrands2023',
+        display_name: 'Interbrand - Best Global Brands (2023)',
+        description: `Interbrand has been the world’s leading brand consultancy, for over 40 years – having pioneered iconic work and forged many of the brand building tools that are now commonplace.`,
+        link: 'https://interbrand.com/best-global-brands/',
+        tags: {},
+        data: interbrand_BestGlobalBrands2023,
+        symbol_detail: ''
+    }, 
     {
         name: 'interbrand_BestGlobalBrands2022',
         display_name: 'Interbrand - Best Global Brands (2022)',
