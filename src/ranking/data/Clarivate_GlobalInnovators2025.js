@@ -3,7 +3,7 @@ import { NavZhEnUrl } from '../../common/utils'
 export const Clarivate_GlobalInnovators2025 = [
     {
         name: "AAC Technologies",
-        symbol: "",
+        symbol: "2018.HK",
         rank: 87,
         link: "",
         extra_info: 
@@ -11,7 +11,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "ABB",
-        symbol: "",
+        symbol: "ABBN.SW",
         rank: 39,
         link: "",
         extra_info: 
@@ -19,7 +19,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "ASML",
-        symbol: "",
+        symbol: "ASML.AS",
         rank: 58,
         link: "",
         extra_info: 
@@ -27,7 +27,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "ASUS",
-        symbol: "",
+        symbol: "2357.TW",
         rank: 93,
         link: "",
         extra_info: 
@@ -35,7 +35,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "AUO",
-        symbol: "",
+        symbol: "2409.TW",
         rank: 65,
         link: "",
         extra_info: 
@@ -43,7 +43,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Airbus",
-        symbol: "",
+        symbol: "AIR.PA",
         rank: 46,
         link: "",
         extra_info: 
@@ -51,7 +51,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Alphabet",
-        symbol: "",
+        symbol: "GOOGL",
         rank: 23,
         link: "",
         extra_info: 
@@ -59,7 +59,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Ant Group",
-        symbol: "",
+        symbol: "-",
         rank: 65,
         link: "",
         extra_info: 
@@ -67,7 +67,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Applied Materials",
-        symbol: "",
+        symbol: "AMAT",
         rank: 65,
         link: "",
         extra_info: 
@@ -75,7 +75,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "BASF",
-        symbol: "",
+        symbol: "BAS.DE",
         rank: 23,
         link: "",
         extra_info: 
@@ -83,7 +83,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "BOE Technology",
-        symbol: "",
+        symbol: "000725.SZ",
         rank: 65,
         link: "",
         extra_info: 
@@ -91,7 +91,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Boeing",
-        symbol: "",
+        symbol: "BA",
         rank: 1,
         link: "",
         extra_info: 
@@ -99,7 +99,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Bosch",
-        symbol: "",
+        symbol: "-",
         rank: 58,
         link: "",
         extra_info: 
@@ -107,7 +107,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Brother Industries",
-        symbol: "",
+        symbol: "6448.T",
         rank: 46,
         link: "",
         extra_info: 
@@ -115,7 +115,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "CATL",
-        symbol: "",
+        symbol: "300750.SZ",
         rank: 95,
         link: "",
         extra_info: 
@@ -123,7 +123,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "CEA",
-        symbol: "",
+        symbol: "-",
         rank: 17,
         link: "",
         extra_info: 
@@ -131,7 +131,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "CNRS",
-        symbol: "",
+        symbol: "-",
         rank: 35,
         link: "",
         extra_info: 
@@ -139,7 +139,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Canon",
-        symbol: "",
+        symbol: "7751.T",
         rank: 23,
         link: "",
         extra_info: 
@@ -147,7 +147,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Caterpillar",
-        symbol: "",
+        symbol: "CAT",
         rank: 95,
         link: "",
         extra_info: 
@@ -155,7 +155,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Coretronic",
-        symbol: "",
+        symbol: "5371.TW",
         rank: 93,
         link: "",
         extra_info: 
@@ -163,7 +163,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "DENSO",
-        symbol: "",
+        symbol: "6902.T",
         rank: 49,
         link: "",
         extra_info: 
@@ -171,7 +171,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Daikin Industries",
-        symbol: "",
+        symbol: "6367.T",
         rank: 35,
         link: "",
         extra_info: 
@@ -179,7 +179,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Deere & Company",
-        symbol: "",
+        symbol: "DE",
         rank: 58,
         link: "",
         extra_info: 
@@ -187,7 +187,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Delta Electronics",
-        symbol: "",
+        symbol: "2308.TW",
         rank: 65,
         link: "",
         extra_info: 
@@ -195,7 +195,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Dow",
-        symbol: "",
+        symbol: "DOW",
         rank: 1,
         link: "",
         extra_info: 
@@ -203,7 +203,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Emerson",
-        symbol: "",
+        symbol: "EMR",
         rank: 17,
         link: "",
         extra_info: 
@@ -211,7 +211,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Epson",
-        symbol: "",
+        symbol: "6724.T",
         rank: 23,
         link: "",
         extra_info: 
@@ -219,7 +219,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Ericsson",
-        symbol: "",
+        symbol: "ERIC",
         rank: 1,
         link: "",
         extra_info: 
@@ -227,7 +227,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Evonik",
-        symbol: "",
+        symbol: "EVK.DE",
         rank: 65,
         link: "",
         extra_info: 
@@ -235,7 +235,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "FORVIA",
-        symbol: "",
+        symbol: "FRVIA.PA",
         rank: 95,
         link: "",
         extra_info: 
@@ -243,7 +243,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "FUJIFILM",
-        symbol: "",
+        symbol: "4901.T",
         rank: 17,
         link: "",
         extra_info: 
@@ -251,7 +251,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Fanuc",
-        symbol: "",
+        symbol: "6954.T",
         rank: 54,
         link: "",
         extra_info: 
@@ -259,7 +259,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Foxconn",
-        symbol: "",
+        symbol: "2317.TW",
         rank: 46,
         link: "",
         extra_info: 
@@ -267,7 +267,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Fujitsu",
-        symbol: "",
+        symbol: "6702.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -275,7 +275,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "GE Aerospace",
-        symbol: "",
+        symbol: "GE",
         rank: 95,
         link: "",
         extra_info: 
@@ -283,7 +283,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "General Motors",
-        symbol: "",
+        symbol: "GM",
         rank: 65,
         link: "",
         extra_info: 
@@ -291,7 +291,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Halliburton",
-        symbol: "",
+        symbol: "HAL",
         rank: 65,
         link: "",
         extra_info: 
@@ -299,7 +299,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Hitachi",
-        symbol: "",
+        symbol: "6501.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -307,7 +307,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Honda",
-        symbol: "",
+        symbol: "7267.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -315,7 +315,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Honeywell",
-        symbol: "",
+        symbol: "HON",
         rank: 1,
         link: "",
         extra_info: 
@@ -323,7 +323,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Huawei",
-        symbol: "",
+        symbol: "-",
         rank: 35,
         link: "",
         extra_info: 
@@ -331,7 +331,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Hyundai Motor",
-        symbol: "",
+        symbol: "005380.KS",
         rank: 65,
         link: "",
         extra_info: 
@@ -339,7 +339,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "ITRI",
-        symbol: "",
+        symbol: "-",
         rank: 39,
         link: "",
         extra_info: 
@@ -347,7 +347,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Infineon Technologies",
-        symbol: "",
+        symbol: "IFX.DE",
         rank: 58,
         link: "",
         extra_info: 
@@ -355,7 +355,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Johnson & Johnson",
-        symbol: "",
+        symbol: "JNJ",
         rank: 23,
         link: "",
         extra_info: 
@@ -363,7 +363,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Kia",
-        symbol: "",
+        symbol: "000270.KS",
         rank: 65,
         link: "",
         extra_info: 
@@ -371,7 +371,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Kioxia",
-        symbol: "",
+        symbol: "-",
         rank: 65,
         link: "",
         extra_info: 
@@ -379,7 +379,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Komatsu",
-        symbol: "",
+        symbol: "6301.T",
         rank: 32,
         link: "",
         extra_info: 
@@ -387,7 +387,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Kyocera",
-        symbol: "",
+        symbol: "6971.T",
         rank: 39,
         link: "",
         extra_info: 
@@ -395,7 +395,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "LG Chem",
-        symbol: "",
+        symbol: "051910.KS",
         rank: 65,
         link: "",
         extra_info: 
@@ -403,7 +403,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "LG Electronics",
-        symbol: "",
+        symbol: "066570.KS",
         rank: 1,
         link: "",
         extra_info: 
@@ -411,7 +411,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "MHI",
-        symbol: "",
+        symbol: "7011.T",
         rank: 17,
         link: "",
         extra_info: 
@@ -419,7 +419,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "MediaTek",
-        symbol: "",
+        symbol: "2454.TW",
         rank: 49,
         link: "",
         extra_info: 
@@ -427,7 +427,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Michelin",
-        symbol: "",
+        symbol: "ML.PA",
         rank: 49,
         link: "",
         extra_info: 
@@ -435,7 +435,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Micron Technology",
-        symbol: "",
+        symbol: "MU",
         rank: 39,
         link: "",
         extra_info: 
@@ -443,7 +443,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Mitsubishi Electric",
-        symbol: "",
+        symbol: "6503.T",
         rank: 17,
         link: "",
         extra_info: 
@@ -451,7 +451,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Murata Manufacturing",
-        symbol: "",
+        symbol: "6981.T",
         rank: 58,
         link: "",
         extra_info: 
@@ -459,7 +459,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "NEC",
-        symbol: "",
+        symbol: "6701.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -467,7 +467,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "NTT",
-        symbol: "",
+        symbol: "9432.T",
         rank: 32,
         link: "",
         extra_info: 
@@ -475,7 +475,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Nanya Technology",
-        symbol: "",
+        symbol: "2408.TW",
         rank: 87,
         link: "",
         extra_info: 
@@ -483,7 +483,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Nidec",
-        symbol: "",
+        symbol: "6594.T",
         rank: 87,
         link: "",
         extra_info: 
@@ -491,7 +491,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Nitto Denko",
-        symbol: "",
+        symbol: "6988.T",
         rank: 23,
         link: "",
         extra_info: 
@@ -499,7 +499,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Nokia",
-        symbol: "",
+        symbol: "NOKIA.HE",
         rank: 54,
         link: "",
         extra_info: 
@@ -507,7 +507,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Omron",
-        symbol: "",
+        symbol: "6645.T",
         rank: 35,
         link: "",
         extra_info: 
@@ -515,7 +515,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Otis",
-        symbol: "",
+        symbol: "OTIS",
         rank: 87,
         link: "",
         extra_info: 
@@ -523,7 +523,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Panasonic",
-        symbol: "",
+        symbol: "6752.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -531,7 +531,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Philip Morris International",
-        symbol: "",
+        symbol: "PM",
         rank: 65,
         link: "",
         extra_info: 
@@ -539,7 +539,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Philips",
-        symbol: "",
+        symbol: "PHIA.AS",
         rank: 17,
         link: "",
         extra_info: 
@@ -547,7 +547,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Qualcomm",
-        symbol: "",
+        symbol: "QCOM",
         rank: 1,
         link: "",
         extra_info: 
@@ -555,7 +555,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Quanta Computer",
-        symbol: "",
+        symbol: "2382.TW",
         rank: 54,
         link: "",
         extra_info: 
@@ -563,7 +563,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "RTX",
-        symbol: "",
+        symbol: "RTX",
         rank: 39,
         link: "",
         extra_info: 
@@ -571,7 +571,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Realtek Semiconductor",
-        symbol: "",
+        symbol: "2379.TW",
         rank: 65,
         link: "",
         extra_info: 
@@ -579,7 +579,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Ricoh",
-        symbol: "",
+        symbol: "7752.T",
         rank: 54,
         link: "",
         extra_info: 
@@ -587,7 +587,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "SCREEN",
-        symbol: "",
+        symbol: "7735.T",
         rank: 65,
         link: "",
         extra_info: 
@@ -595,7 +595,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "SK hynix",
-        symbol: "",
+        symbol: "000660.KS",
         rank: 65,
         link: "",
         extra_info: 
@@ -603,7 +603,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "STMicroelectronics",
-        symbol: "",
+        symbol: "STMPA.PA",
         rank: 49,
         link: "",
         extra_info: 
@@ -611,7 +611,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Safran",
-        symbol: "",
+        symbol: "SAF.PA",
         rank: 23,
         link: "",
         extra_info: 
@@ -619,7 +619,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Samsung Electro-Mechanics",
-        symbol: "",
+        symbol: "009150.KS",
         rank: 95,
         link: "",
         extra_info: 
@@ -627,7 +627,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Samsung Electronics",
-        symbol: "",
+        symbol: "005930.KS",
         rank: 1,
         link: "",
         extra_info: 
@@ -635,7 +635,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Samsung SDI",
-        symbol: "",
+        symbol: "006400.KS",
         rank: 65,
         link: "",
         extra_info: 
@@ -643,7 +643,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Shin-Etsu Chemical",
-        symbol: "",
+        symbol: "4063.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -651,7 +651,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Siemens",
-        symbol: "",
+        symbol: "SIE.DE",
         rank: 39,
         link: "",
         extra_info: 
@@ -659,7 +659,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Siemens Energy",
-        symbol: "",
+        symbol: "ENR.DE",
         rank: 95,
         link: "",
         extra_info: 
@@ -667,7 +667,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Sony",
-        symbol: "",
+        symbol: "6758.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -675,7 +675,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Sumitomo Chemical",
-        symbol: "",
+        symbol: "4005.T",
         rank: 65,
         link: "",
         extra_info: 
@@ -683,7 +683,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Sumitomo Electric",
-        symbol: "",
+        symbol: "5802.T",
         rank: 39,
         link: "",
         extra_info: 
@@ -691,7 +691,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Swatch Group",
-        symbol: "",
+        symbol: "UHR.SW",
         rank: 65,
         link: "",
         extra_info: 
@@ -699,7 +699,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "TDK",
-        symbol: "",
+        symbol: "6762.T",
         rank: 32,
         link: "",
         extra_info: 
@@ -707,7 +707,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "TE Connectivity",
-        symbol: "",
+        symbol: "TEL",
         rank: 23,
         link: "",
         extra_info: 
@@ -715,7 +715,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "TSMC",
-        symbol: "",
+        symbol: "2330.TW",
         rank: 58,
         link: "",
         extra_info: 
@@ -723,7 +723,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Tencent",
-        symbol: "",
+        symbol: "0700.HK",
         rank: 65,
         link: "",
         extra_info: 
@@ -731,7 +731,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Thales",
-        symbol: "",
+        symbol: "HO.PA",
         rank: 23,
         link: "",
         extra_info: 
@@ -739,7 +739,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Tokyo Electron",
-        symbol: "",
+        symbol: "8035.T",
         rank: 58,
         link: "",
         extra_info: 
@@ -747,7 +747,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Toshiba",
-        symbol: "",
+        symbol: "6502.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -755,7 +755,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Toyota",
-        symbol: "",
+        symbol: "7203.T",
         rank: 1,
         link: "",
         extra_info: 
@@ -763,7 +763,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Volkswagen",
-        symbol: "",
+        symbol: "VOW3.DE",
         rank: 65,
         link: "",
         extra_info: 
@@ -771,7 +771,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Winbond",
-        symbol: "",
+        symbol: "2344.TW",
         rank: 87,
         link: "",
         extra_info: 
@@ -779,7 +779,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Wistron",
-        symbol: "",
+        symbol: "3231.TW",
         rank: 65,
         link: "",
         extra_info: 
@@ -787,7 +787,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "Yazaki",
-        symbol: "",
+        symbol: "-",
         rank: 49,
         link: "",
         extra_info: 
@@ -795,7 +795,7 @@ export const Clarivate_GlobalInnovators2025 = [
     },
     {
         name: "ZEISS",
-        symbol: "",
+        symbol: "-",
         rank: 87,
         link: "",
         extra_info: 
