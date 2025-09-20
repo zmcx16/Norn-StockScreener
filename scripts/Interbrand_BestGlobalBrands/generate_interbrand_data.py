@@ -64,8 +64,62 @@ class InterbrandScraper:
         soup = BeautifulSoup(html, 'html.parser')
         brands = []
         
-        # First try to find brands in the HTML structure
+        # First try to extract directly from the structured HTML elements
         print("Extracting brands from HTML structure...")
+        
+        # Look for the specific HTML structure with rank and title spans
+        brand_blocks = soup.find_all('span', class_='wp-block-interbrand-best-brand-block__position')
+        
+        for rank_span in brand_blocks:
+            try:
+                # Get rank from the position span
+                rank_text = rank_span.get_text(strip=True)
+                rank = int(rank_text)
+                
+                if 1 <= rank <= 100:
+                    # Find the corresponding title span (should be a sibling)
+                    title_span = rank_span.find_next_sibling('span', class_='wp-block-interbrand-best-brand-block__title')
+                    
+                    if title_span:
+                        name = title_span.get_text(strip=True)
+                        
+                        # Find the link - look for the nearest anchor tag
+                        link_element = rank_span.find_parent().find('a', href=re.compile(r'/best-global-brands/'))
+                        if not link_element:
+                            # Try to find it in a broader scope
+                            parent = rank_span.find_parent()
+                            while parent and not link_element:
+                                link_element = parent.find('a', href=re.compile(r'/best-global-brands/'))
+                                parent = parent.find_parent()
+                        
+                        if link_element:
+                            href = link_element.get('href')
+                            link = urljoin(self.base_url, href)
+                            
+                            # Try to extract growth from the link text if available
+                            link_text = link_element.get_text(strip=True)
+                            growth_match = re.search(r'([-+]?\d+%|NEW)', link_text)
+                            growth = growth_match.group(1) if growth_match else None
+                            
+                            brands.append({
+                                'name': name,
+                                'rank': rank,
+                                'link': link,
+                                'growth': growth
+                            })
+                            
+                            print(f"Extracted: rank={rank}, name='{name}', growth={growth}")
+                        
+            except (ValueError, AttributeError) as e:
+                continue
+                
+        if brands:
+            print(f"Found {len(brands)} brands from structured HTML")
+            brands.sort(key=lambda x: x['rank'])
+            return brands[:100]
+        
+        # Fallback to the existing link-based extraction
+        print("Fallback: Looking for brand links...")
         
         # Look for the table or list structure containing brands
         # Try multiple approaches to find the brand data
@@ -203,34 +257,6 @@ class InterbrandScraper:
                         name = re.sub(r'\s*[-+]?\d+%.*$', '', name).strip()
                         name = re.sub(r'\s*NEW.*$', '', name).strip()
                         name = re.sub(r'\s*[\d.]+\s*\$.*$', '', name).strip()
-                        
-                        # Handle special cases
-                        if name.lower() == "coca cola":
-                            name = "Coca-Cola"
-                        elif name.lower() == "mercedes benz":
-                            name = "Mercedes-Benz"
-                        elif name.lower() == "mcdonalds":
-                            name = "McDonald's"
-                        elif name.lower() == "loreal":
-                            name = "L'Oréal Paris"
-                        elif name.lower() == "j p morgan":
-                            name = "J.P. Morgan"
-                        elif name.lower() == "tiffany co":
-                            name = "Tiffany & Co."
-                        elif name.lower() == "kelloggs":
-                            name = "Kellogg's"
-                        elif name.lower() == "nestle":
-                            name = "Nestlé"
-                        elif name.lower() == "nescafe":
-                            name = "Nescafé"
-                        elif name.lower() == "hermes":
-                            name = "Hermès"
-                        elif name.lower() == "lg":
-                            name = "LG Electronics"
-                        elif name.lower() == "hm":
-                            name = "H&M"
-                        elif name.lower() == "3m" or name == "3M":
-                            name = "3M"
                         
                         link = urljoin(self.base_url, href)
                         
