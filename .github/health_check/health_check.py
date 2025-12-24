@@ -53,26 +53,30 @@ if __name__ == "__main__":
 
     # test last update time
     ret, resp = send_get_json(NORN_SCREENER_LAST_UPDATE_TIME_URL)
-    if ret == 0:
-        try:
-            time_threshold = time.time() - LAST_UPDATE_TIME_SEC_THRESHOLD
+    if ret != 0:
+        print(f"[Last Update Time] Request error: {resp}")
+        sys.exit(1)
 
-            pass_count = 0
-            max_sec = 0
-            for symbol in resp:
-                if time_threshold < resp[symbol]:
-                    pass_count += 1
+    try:
+        time_threshold = time.time() - LAST_UPDATE_TIME_SEC_THRESHOLD
 
-                max_sec = max(max_sec, resp[symbol])
+        pass_count = 0
+        max_sec = 0
+        for symbol in resp:
+            if time_threshold < resp[symbol]:
+                pass_count += 1
 
-            print(f"[Last Update Time] pass count: {pass_count}/{len(resp)}, max_sec: {max_sec}")
+            max_sec = max(max_sec, resp[symbol])
 
-            if pass_count < LAST_UPDATE_TIME_CNT_THRESHOLD or max_sec < LAST_UPDATE_TIME_SEC_THRESHOLD:
-                print(f"[Last Update Time] Failed, pass count: {pass_count} < {LAST_UPDATE_TIME_CNT_THRESHOLD} or max_sec: {max_sec} < {time_threshold}")
-                sys.exit(-2)
+        print(f"[Last Update Time] pass count: {pass_count}/{len(resp)}, max_sec: {max_sec}")
 
-        except Exception as ex:
-            print('Generated an exception: {ex}, try next target.'.format(ex=ex))
+        if pass_count < LAST_UPDATE_TIME_CNT_THRESHOLD or max_sec < LAST_UPDATE_TIME_SEC_THRESHOLD:
+            print(f"[Last Update Time] Failed, pass count: {pass_count} < {LAST_UPDATE_TIME_CNT_THRESHOLD} or max_sec: {max_sec} < {time_threshold}")
+            sys.exit(2)
+
+    except Exception as ex:
+        print('Generated an exception: {ex}, exiting.'.format(ex=ex))
+        sys.exit(2)
 
     # test do-norn-screen POST API
     do_screen_payload = {
@@ -114,16 +118,19 @@ if __name__ == "__main__":
     }
 
     ret, resp = send_post_json(NORN_SCREENER_DO_SCREEN_URL, do_screen_payload)
-    if ret == 0:
-        try:
-            if not isinstance(resp, dict) or "data" not in resp or len(resp["data"]) == 0:
-                print("[do-norn-screen] No results found.")
-                sys.exit(-4)
-            else:
-                print(f"[do-norn-screen] Received {len(resp['data'])} results.")
-        except Exception as ex:
-            print('Generated an exception: {ex}, try next target.'.format(ex=ex))
-            sys.exit(-5)
+    if ret != 0:
+        print(f"[do-norn-screen] Request error: {resp}")
+        sys.exit(3)
+
+    try:
+        if not isinstance(resp, dict) or "data" not in resp or len(resp["data"]) == 0:
+            print("[do-norn-screen] No results found.")
+            sys.exit(4)
+        else:
+            print(f"[do-norn-screen] Received {len(resp['data'])} results.")
+    except Exception as ex:
+        print('Generated an exception: {ex}, exiting.'.format(ex=ex))
+        sys.exit(5)
             
     # test report status by Azure Pipeline to reduce server memory loading
     """
