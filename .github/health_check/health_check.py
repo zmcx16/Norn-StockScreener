@@ -82,7 +82,7 @@ if __name__ == "__main__":
     do_screen_payload = {
         "data": {
             "baseArg": [{"name": name, "type": 0, "from": "", "end": ""} for name in [
-                "Market Cap", "Dividend %", "ROA", "ROE", "ROI", "P/E", "Forward P/E", "EPS this Y", "EPS next Y",
+                "Market Cap", "Dividend %", "ROA", "ROE", "ROI", "P/E", "Forward P/E", "EPS this Y", "EPS next Y_%",
                 "EPS next 5Y", "EPS past 5Y", "Sales past 5Y", "PEG", "P/S", "P/B", "P/C", "P/FCF", "Quick Ratio",
                 "Current Ratio", "Debt/Eq", "LT Debt/Eq", "Insider Own", "Insider Trans", "Inst Own", "Inst Trans",
                 "Gross Margin", "Oper. Margin", "Profit Margin", "Payout", "Short Float", "Short Ratio", "52W High",
@@ -116,6 +116,18 @@ if __name__ == "__main__":
             }
         }
     }
+
+    for arg in do_screen_payload["data"]["baseArg"]:
+        if arg["name"] == "Market Cap":
+            arg["from"] = "2000"
+        elif arg["name"] == "P/E":
+            arg["end"] = "15"
+        elif arg["name"] == "Debt/Eq":
+            arg["end"] = "0.6"
+        elif arg["name"] == "LT Debt/Eq":
+            arg["end"] = "0.6"
+        elif arg["name"] == "Beta":
+            arg["end"] = "2"
 
     ret, resp = send_post_json(NORN_SCREENER_DO_SCREEN_URL, do_screen_payload)
     if ret != 0:
