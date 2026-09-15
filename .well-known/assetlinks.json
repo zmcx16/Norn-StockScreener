@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "moe.zmcx16.norn_stockscreener",
+    "sha256_cert_fingerprints":
+    ["F1:BA:5F:12:E4:C5:2C:C4:85:01:FC:C3:5A:E4:C2:B2:8B:AD:E5:07:1E:07:B4:32:CC:34:74:61:D8:88:EF:6C", "E7:E1:AD:72:10:2B:8B:4F:DB:2B:63:E6:23:4F:23:DD:7B:51:5E:1B:FF:FC:76:75:59:A4:08:66:04:F7:1A:53"]
+  }
+}]
